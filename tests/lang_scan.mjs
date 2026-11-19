@@ -34,6 +34,17 @@ for (const tab of ["local", "vegan", "halal"]) {
   sus.slice(0, 12).forEach((l) => console.log("    ", l.slice(0, 130)));
 }
 
+// ---- KK: вкладка «Виза»
+await page.click('[data-view="visa"]'); await page.waitForTimeout(300);
+await page.$$eval("#view-visa details", (ds) => ds.forEach((d) => { d.open = true; }));
+{
+  const txt = await visibleText("#view-visa");
+  const sus = [...new Set(txt.split("\n").map((l) => l.trim()).filter((l) => /[а-яё]/i.test(l) && !KK.test(l) && RU.test(l)))];
+  console.log(`KK visa: suspicious Russian lines: ${sus.length}`);
+  sus.slice(0, 12).forEach((l) => console.log("    ", l.slice(0, 130)));
+}
+await page.click('[data-view="plan"]'); await page.click("#go"); await page.waitForTimeout(300);
+
 // ---- EN: кириллица в видимом тексте
 await page.click('[data-lang="en"]'); await page.waitForTimeout(300);
 await page.$$eval("details", (ds) => ds.forEach((d) => { d.open = true; }));
@@ -48,10 +59,12 @@ await page.click('[data-view="guide"]'); await page.waitForTimeout(300);
 await scanEn("guide", "#view-guide");
 await page.click("#guideCards .story-card [data-open-story]"); await page.waitForTimeout(300);
 await scanEn("story sheet", "#modalSheet");
-await page.screenshot({path: "en-sheet.png"});
 await page.keyboard.press("Escape");
 await page.click('[data-view="check"]'); await page.waitForTimeout(200);
 await scanEn("checklist", "#view-check");
+await page.click('[data-view="visa"]'); await page.waitForTimeout(200);
+await page.$$eval("#view-visa details", (ds) => ds.forEach((d) => { d.open = true; }));
+await scanEn("visa", "#view-visa");
 await page.click('[data-view="plan"]'); await page.waitForTimeout(200);
 await scanEn("planner", "#view-plan");
 

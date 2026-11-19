@@ -5,8 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <title>Qazir Travel — Europe travel planner &amp; city stories</title>
-<meta name="description" content="Qazir Travel: Еуропаға саяхат жоспарлаушысы — оптималды маршрут, қалалар тарихы, бағалар және Instagram Stories.">
+<meta name="description" content="Qazir Travel: Еуропаға саяхат жоспарлаушысы және Шенген визасы — оптималды маршрут, консулдық, құжаттар, қалалар тарихы және Instagram Stories.">
 <meta name="theme-color" content="#1BB3D1">
+<!-- установка на телефон (PWA): иконка на экране «Домой», офлайн через sw.js -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Qazir Travel">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- превью ссылки в WhatsApp, Telegram, Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Qazir Travel">
+<meta property="og:title" content="Qazir Travel — Еуропаға саяхат және Шенген визасы">
+<meta property="og:description" content="Маршрут, Шенген визасы және әдемі сторис. Маршрут, шенгенская виза и красивые сторис.">
+<meta property="og:url" content="https://bozgulbaikojykeldi-ship-it.github.io/qazir-travel-fixed/">
+<meta property="og:image" content="https://bozgulbaikojykeldi-ship-it.github.io/qazir-travel-fixed/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIiIGhlaWdodD0iMTEyIiB2aWV3Qm94PSIwIDAgMTEyIDExMiI+PHJlY3Qgd2lkdGg9IjExMiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiMwQjI1NDUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCAxNCkgc2NhbGUoMS4zMTI1KSI+PGNpcmNsZSBjeD0iMjgiIGN5PSIyOCIgcj0iMTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFCQjNEMSIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTM4IDM4IFE0NiA0NiA1NiA1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZDMjJFIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI4IiBjeT0iMjgiIHI9IjQuNSIgZmlsbD0iI0ZGQzIyRSIvPjwvZz48L3N2Zz4=" type="image/svg+xml">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -253,35 +270,87 @@ details[open] summary::after { content: "–"; }
 .modal-close { border: 0; background: var(--soft); width: 34px; height: 34px; border-radius: 50%; font-weight: 800; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; }
 .modal-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
 
-/* story studio */
-.story-mode-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--soft); padding: 4px; border-radius: 14px; }
-.story-mode-tabs button { border: 0; background: transparent; padding: 9px 6px; border-radius: 10px; font-size: 12.5px; font-weight: 800; color: var(--text); }
-.story-mode-tabs button[aria-pressed="true"] { background: var(--card); box-shadow: var(--shadow); }
-.preview-stage { width: 230px; height: 409px; margin: 0 auto; border-radius: 18px; overflow: hidden; border: 2px solid var(--line); position: relative;
-  background-color: #1e293b;
-  background-image: linear-gradient(45deg, #334155 25%, transparent 25%), linear-gradient(-45deg, #334155 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #334155 75%), linear-gradient(-45deg, transparent 75%, #334155 75%);
-  background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0; }
-.preview-stage img { width: 100%; height: 100%; object-fit: contain; display: block; -webkit-touch-callout: default; }
-.preview-stage img:not([src]) { visibility: hidden; }
-.preview-stage .spin { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 13px; }
-.share-text { background: var(--soft); border-radius: 14px; padding: 12px 14px; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; max-height: 180px; overflow: auto; }
-.story-guide-box { background: var(--soft); border-radius: 14px; padding: 12px 14px; font-size: 13px; line-height: 1.5; }
-.slide { border: 1px solid var(--line); border-radius: 18px; padding: 12px; background: var(--card); }
-.slide-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.slide-no { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; background: var(--ink); color: #fff; border-radius: 999px; padding: 4px 9px; white-space: nowrap; }
-:root[data-theme="dark"] .slide-no { background: var(--sky); color: #06243F; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slide-no { background: var(--sky); color: #06243F; } }
-.slide-lbl { font-size: 12.5px; font-weight: 800; color: var(--muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.copy-btn { border: 0; border-radius: 12px; background: var(--sun); color: #06243F; font-weight: 800; font-size: 13.5px; padding: 9px 14px; min-height: 40px; white-space: nowrap; flex: 0 0 auto; }
 .copy-btn.done, .btn.done { background: var(--ok-bg); color: var(--ok-ink); }
-.slide-text { white-space: pre-wrap; -webkit-user-select: text; user-select: text; font-size: 15.5px; line-height: 1.55; background: var(--soft); border-radius: 14px; padding: 12px 14px; overflow-wrap: anywhere; }
-.how { margin: 6px 0 0; padding-left: 20px; }
-.how li { margin: 4px 0; }
-.png-extra { border: 1px dashed var(--line); border-radius: 16px; padding: 0 12px; }
-.png-extra summary { font-size: 13.5px; }
-.png-body { padding-bottom: 12px; }
-.actions3 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.actions3 .wide { grid-column: 1 / -1; min-height: 52px; font-size: 15px; }
+
+/* visa */
+.v-banner { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 12px; padding: 12px 14px; border: 0; border-radius: 18px; background: var(--sun); color: #06243F; text-align: left; font-weight: 700; font-size: 14px; line-height: 1.35; }
+.v-banner > span { flex: 1; }
+.v-banner b { white-space: nowrap; font-size: 13px; }
+.v-dates { margin: 0 0 4px; font-weight: 800; }
+.v-main { background: var(--soft); border-radius: 16px; padding: 12px 14px; margin-top: 10px; }
+.v-main .k { font-size: 11.5px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.v-main .v { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; margin: 2px 0 4px; }
+.v-big { font-weight: 800; margin: 0 0 8px; }
+.v-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-wa { background: #25D366; color: #06243F; }
+.btn-tg { background: #2AABEE; color: #fff; }
+.cta-wa { display: flex; align-items: center; justify-content: center; text-decoration: none; background: #25D366; color: #06243F; }
+.v-fee { margin-top: 10px; background: var(--warn-bg); color: var(--warn-ink); border-radius: 14px; padding: 10px 12px; font-size: 13px; line-height: 1.45; }
+.v-steps { margin: 0; padding-left: 22px; } .v-steps li { margin: 6px 0; }
+.v-faq { margin: 0 0 12px; font-size: 14px; line-height: 1.55; }
+#vpResult > * { margin-top: 8px; }
+.card .ok, .card .warn { margin: 8px 0 0; }
+input[type=text] { width: 100%; height: 48px; border-radius: 14px; border: 2px solid var(--line); background: var(--card); color: var(--text); padding: 0 14px; font: inherit; }
+
+/* install */
+.install { display: flex; gap: 10px; align-items: center; margin-top: 12px; padding: 12px 12px 12px 14px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+.install-t { flex: 1; min-width: 0; }
+.install-t b { font-size: 14px; }
+.install-t p { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+.install .btn { flex: 0 0 auto; }
+.install-x { border: 0; background: transparent; color: var(--muted); font-size: 15px; padding: 6px; align-self: flex-start; }
+
+/* story editor */
+.modal-sheet.st-sheet { max-height: 95vh; }
+.st-body { gap: 10px; padding: 0 16px 18px; }
+.st-top { position: sticky; top: 63px; z-index: 4; background: var(--card); padding: 12px 16px 10px; margin: 0 -16px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line); }
+.st-stage { position: relative; height: min(42vh, 400px); aspect-ratio: 9 / 16; margin: 0 auto; border-radius: 18px; overflow: hidden; background: #0B2545; box-shadow: var(--shadow); flex: 0 0 auto; }
+.st-stage canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.st-load { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); background: rgba(11,37,69,.82); color: #fff; font-size: 11.5px; font-weight: 800; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+.st-shot { position: absolute; inset: 0; background: rgba(7,26,48,.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 10px; }
+.st-shot img { max-height: 84%; max-width: 100%; border-radius: 10px; -webkit-touch-callout: default; -webkit-user-select: auto; user-select: auto; }
+.st-shot p { color: #fff; font-size: 12.5px; text-align: center; margin: 0; }
+.st-shot .modal-close { position: absolute; right: 8px; top: 8px; }
+.st-actions { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 8px; }
+.st-actions .btn { min-height: 44px; padding: 8px 6px; }
+.st-hint { margin: 0; text-align: center; font-size: 12px; }
+.st-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+.st-tabs::-webkit-scrollbar { display: none; }
+.st-tabs button { flex: 0 0 auto; border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 999px; padding: 8px 12px; font-weight: 800; font-size: 13px; min-height: 38px; }
+.st-tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.st-panel { display: flex; flex-direction: column; gap: 10px; min-height: 150px; }
+.st-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.st-chips button { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 999px; padding: 8px 12px; font-weight: 700; font-size: 13px; min-height: 38px; }
+.st-chips button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
+.st-input { width: 100%; border-radius: 14px; border: 2px solid var(--line); background: var(--card); color: var(--text); padding: 10px 12px; font: inherit; font-size: 16px; }
+textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
+.st-range { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--muted); min-height: 40px; }
+.st-range input { width: 100%; accent-color: var(--sky); }
+.st-fonts { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.st-fonts::-webkit-scrollbar { display: none; }
+.st-font { flex: 0 0 auto; min-width: 86px; border: 2px solid transparent; background: #1B3556; color: #fff; border-radius: 14px; padding: 8px 6px; min-height: 66px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; overflow: hidden; }
+.st-font span { font-size: 26px; line-height: 1.15; white-space: nowrap; }
+.st-font small { font: 700 11px 'Manrope', sans-serif; opacity: .85; }
+.st-font.script span { font-size: 23px; }
+.st-font[aria-pressed="true"] { border-color: var(--sun); }
+.st-colors { display: flex; gap: 12px; flex-wrap: wrap; padding: 2px; }
+.st-color { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); }
+.st-color[aria-pressed="true"] { outline: 3px solid var(--sky); outline-offset: 2px; }
+.st-pills { display: flex; flex-wrap: wrap; gap: 8px; background: #3B536E; border-radius: 14px; padding: 10px; }
+.st-pills button { border: 2px solid transparent; border-radius: 10px; padding: 7px 12px; font-weight: 700; font-size: 13px; }
+.st-pills button[aria-pressed="true"] { border-color: #fff; }
+.st-switch { display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 14px; }
+.st-tog { width: 50px; height: 30px; border-radius: 999px; border: 0; background: var(--line); position: relative; flex: 0 0 auto; }
+.st-tog i { position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+.st-tog[aria-pressed="true"] { background: var(--sky); }
+.st-tog[aria-pressed="true"] i { transform: translateX(20px); }
+/* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tabs button[aria-selected="true"], :root:not([data-theme="light"]) .st-tabs button[aria-selected="true"],
+  :root:not([data-theme="light"]) .guide-toolbar button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
+}
+:root[data-theme="dark"] .tabs button[aria-selected="true"], :root[data-theme="dark"] .st-tabs button[aria-selected="true"],
+:root[data-theme="dark"] .guide-toolbar button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
 </style>
 </head>
 <body>
@@ -302,6 +371,8 @@ details[open] summary::after { content: "–"; }
 
   <div id="view-plan">
     <div class="hero"><h1 data-t="heroTitle"></h1><p data-t="heroText"></p></div>
+    <div id="install"></div>
+    <button class="v-banner" data-view="visa">🛂 <span data-t="visaBanner"></span><b><span data-t="visaBannerBtn"></span> →</b></button>
     <section class="step"><h2><span class="num">1</span><span data-t="s1"></span></h2><div class="grid" id="tiers"></div></section>
     <section class="step"><h2><span class="num">2</span><span data-t="sStyle"></span></h2><div class="grid g3" id="styles"></div></section>
     <section class="step"><h2><span class="num">3</span><span data-t="s2"></span></h2><div class="grid g3" id="cities"></div>
@@ -322,6 +393,7 @@ details[open] summary::after { content: "–"; }
 
   <div id="view-result" class="hidden">
     <button class="back" id="back" data-t="back"></button>
+    <div class="card v-result" id="visaCard"></div>
     <div class="card" id="routeCard"></div>
     <div class="card total" id="total"></div>
     <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
@@ -330,6 +402,8 @@ details[open] summary::after { content: "–"; }
     <div id="guides"></div>
     <div class="card" id="credits"></div>
   </div>
+
+  <div id="view-visa" class="hidden"></div>
 
   <div id="view-guide" class="hidden">
     <div class="hero"><h1 data-t="guideTitle"></h1><p data-t="guideIntro"></p></div>
@@ -359,7 +433,7 @@ details[open] summary::after { content: "–"; }
   </div>
 </main>
 
-<div class="bar" id="bar"><div class="wrap"><button class="cta" id="go"></button></div></div>
+<div class="bar" id="bar"><div class="wrap"><button class="cta" id="go"></button><a class="cta cta-wa hidden" id="barWa" href="#" target="_blank" rel="noopener" data-ext></a></div></div>
 <div class="toast hidden" id="toast" role="status"></div>
 <div class="modal-backdrop hidden" id="modalBackdrop" role="dialog" aria-modal="true">
   <div class="modal-sheet" id="modalSheet"></div>
@@ -2658,6 +2732,49 @@ const CHECKS = [
   {kk: "Құжаттардың көшірмелері телефонда", ru: "Копии документов в телефоне", en: "Document copies on your phone"},
   {kk: "Төтенше нөмір: 112", ru: "Экстренный номер: 112", en: "Emergency number: 112"}
 ];
+
+/* 8. КОНТАКТЫ для кнопок «Оформить визу». Номер и Telegram меняются только здесь. */
+const CONTACT = {
+  brand: "Qazir Travel",
+  whatsapp: "77719895607",            // для ссылки wa.me: только цифры, без «+» и пробелов
+  whatsappLabel: "+7 771 989 56 07",
+  telegram: "Kazhykeldi",             // имя пользователя Telegram без «@»
+  site: "https://bozgulbaikojykeldi-ship-it.github.io/qazir-travel-fixed/"
+};
+
+/* 9. ШЕНГЕНСКАЯ ВИЗА. Правила — Визовый кодекс ЕС (Регламент 810/2009) и страница Еврокомиссии.
+   Сверено 2026-11. ПРОВЕРЯТЬ раз в полгода (особенно сбор). Тексты docs и steps описывают
+   ваши услуги — поправьте их, если работаете иначе.
+   other — другие визы (Великобритания, США...): добавить сюда, когда начнёте их оформлять. */
+const VISA = {
+  checkedAt: "2026-11",
+  source: "https://home-affairs.ec.europa.eu/policies/schengen/visa-policy/applying-schengen-visa_en",
+  law: "https://eur-lex.europa.eu/eli/reg/2009/810/oj",
+  applyMaxMonths: 6,        // подать не раньше чем за 6 месяцев до поездки
+  applyMinDays: 15,         // и, как правило, не позже чем за 15 дней
+  passportMonthsAfter: 3,   // паспорт действует минимум 3 месяца после выезда из шенгена
+  passportMaxYears: 10,     // и выдан не больше 10 лет назад
+  processDays: 15, processMaxDays: 45,
+  fee: {adult: 90, child: 45}, // €: взрослые и дети от 12 лет / дети 6–11 лет; до 6 лет бесплатно
+  docs: [
+    V("Шетелдік төлқұжат: сапардан кейін кемінде 3 ай жарамды, соңғы 10 жылда берілген, 2 бос беті бар", "Загранпаспорт: действует минимум 3 месяца после поездки, выдан не больше 10 лет назад, есть 2 чистые страницы", "Passport: valid at least 3 months after the trip, issued within the last 10 years, 2 blank pages"),
+    V("Бұрынғы төлқұжаттар (визалары болса)", "Старые паспорта с визами (если есть)", "Old passports with visas (if any)"),
+    V("Виза анкетасы — біз толтырамыз", "Анкета на визу — заполним за вас", "Visa application form — we fill it in for you"),
+    V("Фото 35×45 мм, ашық фонда, жақында түсірілген", "Фото 35×45 мм на светлом фоне, сделанное недавно", "Recent 35×45 mm photo on a light background"),
+    V("Медициналық сақтандыру: кемінде 30 000 €, бүкіл сапарға, барлық Шенген елдерінде жарамды", "Медицинская страховка: от 30 000 €, на все дни поездки, действует во всех странах шенгена", "Travel medical insurance: at least €30,000, for the whole trip, valid in all Schengen countries"),
+    V("Барлық түнге тұрғын үй брондауы", "Бронь жилья на все ночи", "Accommodation booking for every night"),
+    V("Барып-қайту билеттерінің брондауы", "Бронь билетов туда и обратно", "Return ticket reservation"),
+    V("Жұмыс орнынан анықтама және банк шотынан үзінді", "Справка с работы и выписка с банковского счёта", "Employment letter and bank statement"),
+    V("Күн бойынша сапар жоспары — осы жерден жүктеп алыңыз", "План поездки по дням — скачайте здесь", "Day-by-day itinerary — download it here")
+  ],
+  steps: [
+    V("WhatsApp-қа жазыңыз: күндер мен елдер", "Напишите нам в WhatsApp: даты и страны", "Message us on WhatsApp: dates and countries"),
+    V("Сізге арналған құжаттар тізімін жібереміз", "Пришлём список документов под вашу ситуацию", "We send a document list for your situation"),
+    V("Анкетаны толтырып, тапсыруға жазылуға көмектесеміз", "Заполним анкету и поможем записаться на подачу", "We fill in the form and help you book an appointment"),
+    V("Визалық орталықта саусақ ізін тапсырып, визасы бар төлқұжатты аласыз", "Вы сдаёте отпечатки пальцев в визовом центре и получаете паспорт с визой", "You give fingerprints at the visa centre and get your passport with the visa")
+  ],
+  other: []
+};
 </script>
 <script>
 "use strict";
@@ -2709,20 +2826,15 @@ const T = {
     priceItems: {coffee: "Кофе", breakfast: "Таңғы ас", pizzaPasta: "Пицца / паста", lunchCheap: "Арзан мейрамханада түскі ас", dinnerMid: "Орташа мейрамханада кешкі ас", aperitivo: "Аперитив"},
     pricesNote: "{y} жылғы бағалар, шамамен (бағалау, сверка керек). ₸ — ағымдағы бағам бойынша.", pricesSrc: "Бағаларды тексеру", shopsSearch: "Google Maps-тан дүкен іздеу",
     cityStory: "Қала тарихы", factLabel: "Қызықты дерек", historyLabel: "Орын тарихы", visitorTipLabel: "Келушіге кеңес",
-    shareTitle: "Сапарыңмен бөліс", shareText: "Сторисқа дайын мәтін: маршрут, күндер, жолдағы уақыт және қызықты дерек. Бір басып көшіресің.", shareBtn: "📲 Маршрут туралы сторис",
-    guideTitle: "Орындардың тарихы", guideIntro: "Орынға барғанда қысқаша тарихы мен тексерілген деректерін оқы. «📲 Сторисқа» батырмасы Instagram сторисіне дайын, абзацтарға бөлінген мәтінді береді.",
+    shareTitle: "Сапарыңмен бөліс", shareText: "Маршрутың туралы әдемі сторис: фото, қаріптер және өз жазуың.", shareBtn: "📲 Маршрут туралы сторис",
+    guideTitle: "Орындардың тарихы", guideIntro: "Орынға барғанда қысқаша тарихы мен тексерілген деректерін оқы. «📲 Сторисқа» батырмасы фото мен әдемі қаріптері бар дайын сторис жасайды.",
     searchPlacesLabel: "Орынды іздеу...", allCities: "Барлық қалалар", noPlaces: "Бұл сүзгі бойынша орын табылмады.",
-    storyTextTitle: "Сторисқа салуға болатын ақпарат", storyTextIntro: "Әр абзац — жеке бір сторис. «Көшіру» бас та, Instagram-да өз фотоңның үстіне қой.",
-    copyAll: "Барлығын көшіру", copyShort: "Көшіру", copiedShort: "Көшірілді", copyManual: "Автоматты көшірілмеді: мәтін белгіленді, «Көшіру» (Copy) бас.",
-    slideNo: "{n}-сторис", slideIntro: "Таныстыру", slideRoute: "Маршрут", slideNumbers: "Сандар",
-    tripTitle: "Менің Еуропа сапарым", onRoadTotal: "жолда барлығы", savedLine: "Оңтайлы маршрут {h} үнемдеді",
-    howTitle: "Instagram-ға қалай салу керек", how1: "Instagram → жаңа Stories → өз фото немесе видеоңды таңда.", how2: "«Aa» батырмасын бас, экранды басып тұрып «Қою» (Вставить) таңда.", how3: "Мәтінді кішірейтіп, фотоға ыңғайлы жерге жылжыт. Келесі абзацты келесі сторисқа қой.",
-    pngExtra: "Қосымша: мөлдір стикер-сурет (Strava сияқты)",
-    stLblPlace: "Орын", stLblCity: "Қала", stLblFact: "Қызықты дерек", stLblHistory: "Тарихы", stLblCities: "Қалалар", stLblDays: "Күндер", stLblRoad: "Жолда",
-    stHowClear: "Strava сияқты мөлдір PNG: «Instagram / Бөлісу» бас немесе сақта. Instagram-да өз фото/видеоңды аш → стикер (🖼) → осы суретті қос. Мәтін сенің кадрыңның үстінде тұрады.",
-    shareIg: "📤 Instagram / Бөлісу", saveImg: "⬇️ Суретті сақтау", storyPreviewAlt: "Сторис алдын ала қарау", cityStoryBtn: "📲 Қала туралы сторис",
-    renderFail: "Суретті жасау мүмкін болмады. Бетті жаңартып көр.", longPressHint: "iPhone: суретті басып тұр → «Фотоға сақтау».",
-    copyText: "Мәтінді көшіру", copied: "Көшірілді ✓", downloadImg: "Суретті жүктеу", shareBtn2: "Бөлісу", rendering: "Дайындалуда…", storySavedToast: "Сурет сақталды ✓",
+    copiedShort: "Көшірілді", copyManual: "Автоматты көшірілмеді: мәтін белгіленді, «Көшіру» (Copy) бас.",
+    
+    
+    
+    cityStoryBtn: "📲 Қала туралы сторис",
+    copied: "Көшірілді ✓",
     photosCredits: "Фото және дереккөздер", photoBy: "Фото", noPhoto: "Фото жоқ",
     phTitle: "Сөйлесу кітапшасы", phText: "Айтылуы кириллицамен, екпін түсетін буын бас әріппен. Тыңдау үшін 🔊 бас.",
     noSound: "Дыбыс жүктелмеді.", openGT: "Google Translate-те ашу",
@@ -2733,6 +2845,38 @@ const T = {
     fareFrom: "бағасы", fareUnknown: "бағасы нақтыланбаған", fareUnknownN: "{n} жолдың бағасы нақтыланбаған, қосылмаған", fareTotal: "қалалар арасындағы жол, бір адамға", fareLine: "Қалалар арасындағы жол (барлығы)",
     fareNote: "Бағалар бір адамға, бір бағытқа; ашық дереккөздердегі ең төмен баға мен бағалау. Брондау алдында тексер.",
     knownTicketSubtotal: "Бағасы белгілі кіру билеттерінің жиыны", ticketsUnpriced: "Тағы {n} ақылы орынның билет бағасы расталмаған; ресми сайттан тексер.",
+    tVisa: "Виза",
+    visaHeroTitle: "Qazir Travel-мен Шенген визасы", visaHeroText: "Қай консулдыққа тапсыру керегін айтамыз, құжаттарды тексереміз және тапсыруға жазылуға көмектесеміз. Бәрі WhatsApp арқылы.",
+    visaTripTitle: "Сіздің сапарыңыз", visaNoPlan: "«Жоспар» бөлімінде қалаларды таңдаңыз — қай консулдыққа тапсыру керегін көрсетеміз.", visaToPlan: "Жоспар құру", visaEditPlan: "Жоспарды өзгерту",
+    visaConsulate: "Тапсыратын консулдық", visaWhyMost: "Сапардың ең көп күні осы елде.", visaWhyFirst: "Күндер тең: әдетте алғаш кіретін елге тапсырады. Өтінім кезінде нақтылаймыз.", visaRule: "ЕО Визалық кодексі, 5-бап",
+    visaWhenTitle: "Қашан тапсыру керек", visaWindow: "Тапсыру мерзімі: {a} – {b}", visaNowOk: "Қазір тапсыруға болады.", visaTooEarly: "{a} бастап тапсыруға болады.",
+    visaLate: "Сапарға 15 күннен аз қалды. Әдетте мұндай кеш құжат қабылданбайды — бізге жазыңыз, не істеуге болатынын айтамыз.",
+    visaAdvice: "Сапардан 1–2 ай бұрын тапсырған дұрыс: тапсыруға жазылу бос болмауы мүмкін.", visaProcess: "Қарау мерзімі әдетте {a} күнге дейін, жекелеген жағдайда {b} күнге дейін.",
+    visaPassTitle: "Төлқұжатты тексеру", visaIssued: "Берілген күні", visaExpires: "Жарамдылық мерзімі", visaPassHint: "Төлқұжаттағы күндерді енгізіңіз — бірден тексереміз. Деректер ешқайда жіберілмейді.",
+    visaPassOk1: "Мерзімі жарайды: төлқұжат кемінде {d} дейін жарамды болуы керек.", visaPassBad1: "Төлқұжат мерзімі тым ерте бітеді: ол кемінде {d} дейін жарамды болуы керек.",
+    visaPassOk2: "Төлқұжат 10 жылдан аз уақыт бұрын берілген.", visaPassBad2: "Төлқұжат 10 жылдан бұрын берілген — жаңасы керек.", visaPages: "Тағы 2 бос бет керек.",
+    visaDocsTitle: "Құжаттар", visaDocsNote: "Нақты тізім консулдыққа және жағдайыңызға (жұмыс, оқу, балалар) байланысты. Өтінімнен кейін өзіңізге арналған тізімді жібереміз.",
+    visaFee: "Консулдық алым: {a} € (ересектер және 12 жастан асқан балалар), {c} € (6–11 жастағы балалар), 6 жасқа дейін тегін. Оған визалық орталықтың алымы қосылады.",
+    visaChecked: "Ережелер Еурокомиссия сайты бойынша тексерілді: {d}.", visaSourceLbl: "Еурокомиссия",
+    visaItinTitle: "Консулдыққа арналған сапар жоспары", visaItinText: "Көп консулдық күн бойынша маршрут сұрайды. Оны жоспарыңыздан ағылшын тілінде жасаймыз.",
+    visaName: "Аты-жөні латынша (төлқұжаттағыдай)", visaPdf: "⬇️ PDF жүктеу", visaItinCopy: "📋 Мәтінді көшіру", visaPdfDone: "PDF дайын ✓", visaNeedPlan: "Алдымен «Жоспар» бөлімінде жоспар құрыңыз.",
+    visaCtaTitle: "Визаны біз рәсімдейміз", visaCtaText: "Бізге жазыңыз — сапар деректері хабарламаға өзі қосылады.", visaWa: "WhatsApp-қа жазу", visaTg: "Telegram",
+    visaTgCopied: "Мәтін көшірілді. Оны Telegram чатына қойыңыз.", visaStepsTitle: "Біз қалай жұмыс істейміз", visaBarBtn: "💬 Визаны рәсімдеу",
+    visaMsgHello: "Сәлеметсіз бе! Шенген визасын рәсімдегім келеді.", visaMsgTrip: "Сапар", visaMsgRoute: "Маршрут", visaMsgCons: "Консулдық (жоспар бойынша)", visaMsgPeople: "Адам саны",
+    visaMsgFrom: "Qazir Travel қосымшасынан", visaMsgNoPlan: "Неден бастау керегін айтып жібересіз бе?",
+    visaBanner: "Шенген визасы керек пе? Рәсімдеуге көмектесеміз", visaBannerBtn: "Толығырақ", visaResultTitle: "Осы сапарға виза", visaResultBtn: "💬 Визаны рәсімдеу", visaMore: "Толығырақ",
+    visaFaqTitle: "Жиі қойылатын сұрақтар",
+    visaFaq: [["Виза қанша тұрады?", "Консулдық алым: ересектерге {a} €, 6–11 жастағы балаларға {c} €, 6 жасқа дейін тегін. Визалық орталық өз сервистік алымын алады. Қызметіміздің бағасын WhatsApp-та сұраңыз."],
+      ["Қанша күту керек?", "Әдетте шешім {p} күнтізбелік күнде шығады. Қосымша құжат керек болса, мерзім {m} күнге дейін ұзаруы мүмкін."],
+      ["Саусақ ізін тапсыру керек пе?", "Иә, визалық орталықта құжат тапсырғанда. Соңғы 59 айда Шенген визасы үшін тапсырған болсаңыз, қайта алмауы мүмкін."],
+      ["Бас тартса не істеу керек?", "Бас тарту хатында себебі мен шағымдану тәртібі жазылады. Бізге жазыңыз — себебін талдап, әрі қарай не істеу керегін айтамыз."]],
+    stTitle: "Сторис", stShare: "📤 Бөлісу / Instagram", stSave: "⬇️ Сақтау", stCopy: "📋 Мәтін", stHint: "Мәтін мен жазуды саусақпен жылжытыңыз, фотоны да жылжытуға болады. «Бөлісу» → Instagram → Stories.",
+    stTabText: "Аа Мәтін", stTabFont: "🔤 Қаріп", stTabBg: "🖼 Фон", stTabPill: "📍 Орын", stTabScript: "✍️ Жазу",
+    stSrcFact: "💡 Факт", stSrcHistory: "📖 Тарихы", stSrcShort: "✨ Қысқаша", stSrcRoute: "🧭 Маршрут", stLower: "кіші әріп", stAlignL: "⬅ Солға", stAlignC: "↔ Ортаға",
+    stSize: "Өлшемі", stColor: "Түсі", stShow: "Көрсету", stBgPlace: "🏛 Орын фотосы", stBgOwn: "📷 Өз фотом", stBgDark: "🌙 Қараңғы", stDim: "Күңгірттеу",
+    stLoading: "Фото жүктелуде…", stSaved: "Сурет сақталды ✓", stLongPress: "Суретті басып тұрып, «Сақтау» таңдаңыз", stFail: "Сурет сақталмады. Қайталап көріңіз.",
+    stFonts: {modern: "Заманауи", light: "Жеңіл", elegant: "Сәнді", magazine: "Журнал", hand: "Қолжазба", bold: "Батыл", soft: "Жұмсақ"}, stTripWord: "Еуропа", stSample: "Аа",
+    instTitle: "Қосымша ретінде орнатыңыз", instIos: "Safari-де «Бөлісу» ⬆️ → «Басты экранға» басыңыз. Белгішеден ашылады, интернетсіз де жұмыс істейді.", instAndroid: "Телефонға орнатсаңыз, белгішеден ашылады және интернетсіз де жұмыс істейді.", instBtn: "Орнату", instHide: "Жасыру",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -2765,20 +2909,15 @@ const T = {
     priceItems: {coffee: "Кофе", breakfast: "Завтрак", pizzaPasta: "Пицца / паста", lunchCheap: "Обед в недорогом ресторане", dinnerMid: "Ужин в среднем ресторане", aperitivo: "Аперитив"},
     pricesNote: "Цены на {y}, примерные (оценка, требует сверки). ₸ по текущему курсу.", pricesSrc: "Сверить цены", shopsSearch: "Найти магазин в Google Maps",
     cityStory: "История города", factLabel: "Интересный факт", historyLabel: "История места", visitorTipLabel: "Совет путешественнику",
-    shareTitle: "Поделись поездкой", shareText: "Готовый текст для сторис: маршрут, дни, время в пути и интересный факт. Копируется одним нажатием.", shareBtn: "📲 Сторис о маршруте",
-    guideTitle: "Истории мест", guideIntro: "Читай историю и проверенные факты прямо во время прогулки. Кнопка «📲 В сторис» даёт готовый текст для Instagram, разбитый на абзацы.",
+    shareTitle: "Поделись поездкой", shareText: "Красивая сторис о маршруте: фото, шрифты и своя надпись.", shareBtn: "📲 Сторис о маршруте",
+    guideTitle: "Истории мест", guideIntro: "Читай историю и проверенные факты прямо во время прогулки. Кнопка «📲 В сторис» сделает красивую сторис: фото места, факт и стильные шрифты.",
     searchPlacesLabel: "Поиск по местам...", allCities: "Все города", noPlaces: "По этому фильтру места не найдены.",
-    storyTextTitle: "Текст для сторис", storyTextIntro: "Каждый абзац — отдельная сторис. Нажми «Копировать» и вставь текст поверх своего фото в Instagram.",
-    copyAll: "Скопировать всё", copyShort: "Копировать", copiedShort: "Скопировано", copyManual: "Не удалось скопировать автоматически: текст выделен, нажми «Скопировать».",
-    slideNo: "Сторис {n}", slideIntro: "Знакомство", slideRoute: "Маршрут", slideNumbers: "Цифры",
-    tripTitle: "Моё путешествие по Европе", onRoadTotal: "в дороге всего", savedLine: "Оптимальный маршрут сэкономил {h}",
-    howTitle: "Как выложить в Instagram", how1: "Instagram → новая история → выбери своё фото или видео.", how2: "Нажми «Aa», зажми экран и выбери «Вставить».", how3: "Уменьши текст и передвинь его на фото. Следующий абзац — в следующую сторис.",
-    pngExtra: "Дополнительно: прозрачная картинка-стикер (как в Strava)",
-    stLblPlace: "Место", stLblCity: "Город", stLblFact: "Интересный факт", stLblHistory: "История", stLblCities: "Города", stLblDays: "Дни", stLblRoad: "В дороге",
-    stHowClear: "Прозрачный PNG, как в Strava: нажми «Instagram / Поделиться» или сохрани. В Instagram открой своё фото или видео → стикер (🖼) → добавь эту картинку. Текст ляжет поверх твоего кадра.",
-    shareIg: "📤 Instagram / Поделиться", saveImg: "⬇️ Сохранить картинку", storyPreviewAlt: "Превью сторис", cityStoryBtn: "📲 Сторис о городе",
-    renderFail: "Не удалось нарисовать картинку. Обнови страницу.", longPressHint: "iPhone: зажми картинку → «Сохранить в Фото».",
-    copyText: "Скопировать текст", copied: "Скопировано ✓", downloadImg: "Скачать картинку", shareBtn2: "Поделиться", rendering: "Готовлю…", storySavedToast: "Картинка сохранена ✓",
+    copiedShort: "Скопировано", copyManual: "Не удалось скопировать автоматически: текст выделен, нажми «Скопировать».",
+    
+    
+    
+    cityStoryBtn: "📲 Сторис о городе",
+    copied: "Скопировано ✓",
     photosCredits: "Фото и источники", photoBy: "Фото", noPhoto: "Нет фото",
     phTitle: "Разговорник", phText: "Произношение кириллицей, ударный слог заглавной буквой. Нажми 🔊, чтобы послушать.",
     noSound: "Звук не загрузился.", openGT: "Открыть в Google Translate",
@@ -2789,6 +2928,38 @@ const T = {
     fareFrom: "цена", fareUnknown: "цена не уточнена", fareUnknownN: "для {n} перегонов цена не уточнена, не включена", fareTotal: "дорога между городами, на человека", fareLine: "Дорога между городами (всего)",
     fareNote: "Цены на человека в одну сторону: минимум из открытых источников и оценка. Перед покупкой проверь.",
     knownTicketSubtotal: "Подытог билетов с известной ценой", ticketsUnpriced: "Ещё для {n} платных мест цена билета не подтверждена; проверьте официальный сайт.",
+    tVisa: "Виза",
+    visaHeroTitle: "Шенгенская виза с Qazir Travel", visaHeroText: "Подскажем, в какое консульство подавать, проверим документы и поможем записаться на подачу. Всё через WhatsApp.",
+    visaTripTitle: "Ваша поездка", visaNoPlan: "Выберите города во вкладке «План» — покажем, в какое консульство подавать.", visaToPlan: "Составить план", visaEditPlan: "Изменить план",
+    visaConsulate: "Подавать в консульство", visaWhyMost: "Здесь больше всего дней поездки.", visaWhyFirst: "Дней поровну: обычно подают в страну первого въезда. Уточним при заявке.", visaRule: "Визовый кодекс ЕС, статья 5",
+    visaWhenTitle: "Когда подавать", visaWindow: "Срок подачи: {a} – {b}", visaNowOk: "Подавать можно уже сейчас.", visaTooEarly: "Подать можно будет с {a}.",
+    visaLate: "До поездки меньше 15 дней. Обычно так поздно документы не принимают — напишите нам, подскажем, что можно сделать.",
+    visaAdvice: "Лучше подавать за 1–2 месяца до поездки: свободных дат для записи бывает мало.", visaProcess: "Рассмотрение обычно до {a} дней, в отдельных случаях до {b}.",
+    visaPassTitle: "Проверка паспорта", visaIssued: "Дата выдачи", visaExpires: "Действителен до", visaPassHint: "Введите даты из паспорта — проверим сразу. Данные никуда не отправляются.",
+    visaPassOk1: "Срок подходит: паспорт должен действовать минимум до {d}.", visaPassBad1: "Паспорт заканчивается слишком рано: он должен действовать минимум до {d}.",
+    visaPassOk2: "Паспорт выдан меньше 10 лет назад.", visaPassBad2: "Паспорт выдан больше 10 лет назад — нужен новый.", visaPages: "Ещё нужны 2 чистые страницы.",
+    visaDocsTitle: "Документы", visaDocsNote: "Точный список зависит от консульства и вашей ситуации (работа, учёба, дети). После заявки пришлём список под вас.",
+    visaFee: "Консульский сбор: {a} € (взрослые и дети от 12 лет), {c} € (дети 6–11 лет), до 6 лет бесплатно. Плюс сбор визового центра.",
+    visaChecked: "Правила сверены по сайту Еврокомиссии: {d}.", visaSourceLbl: "Еврокомиссия",
+    visaItinTitle: "План поездки для консульства", visaItinText: "Многие консульства просят маршрут по дням. Соберём его на английском из вашего плана.",
+    visaName: "Имя и фамилия латиницей (как в паспорте)", visaPdf: "⬇️ Скачать PDF", visaItinCopy: "📋 Скопировать текст", visaPdfDone: "PDF готов ✓", visaNeedPlan: "Сначала составьте план во вкладке «План».",
+    visaCtaTitle: "Оформим визу за вас", visaCtaText: "Напишите нам — данные поездки подставятся в сообщение сами.", visaWa: "Написать в WhatsApp", visaTg: "Telegram",
+    visaTgCopied: "Текст скопирован. Вставьте его в чат Telegram.", visaStepsTitle: "Как мы работаем", visaBarBtn: "💬 Оформить визу",
+    visaMsgHello: "Здравствуйте! Хочу оформить шенгенскую визу.", visaMsgTrip: "Поездка", visaMsgRoute: "Маршрут", visaMsgCons: "Консульство (по плану)", visaMsgPeople: "Человек",
+    visaMsgFrom: "Из приложения Qazir Travel", visaMsgNoPlan: "Подскажите, пожалуйста, с чего начать.",
+    visaBanner: "Нужна шенгенская виза? Поможем оформить", visaBannerBtn: "Подробнее", visaResultTitle: "Виза для этой поездки", visaResultBtn: "💬 Оформить визу", visaMore: "Подробнее",
+    visaFaqTitle: "Частые вопросы",
+    visaFaq: [["Сколько стоит виза?", "Консульский сбор: {a} € для взрослых, {c} € для детей 6–11 лет, детям до 6 лет бесплатно. Визовый центр берёт свой сервисный сбор. Стоимость наших услуг уточните в WhatsApp."],
+      ["Сколько ждать?", "Обычно решение принимают за {p} календарных дней. Если нужны дополнительные документы, срок могут продлить до {m} дней."],
+      ["Нужно ли сдавать отпечатки пальцев?", "Да, при подаче документов в визовом центре. Если вы сдавали их для шенгенской визы за последние 59 месяцев, повторно их могут не брать."],
+      ["Что делать, если отказали?", "В письме об отказе указаны причина и порядок обжалования. Напишите нам — разберём причину и подскажем, что делать дальше."]],
+    stTitle: "Сторис", stShare: "📤 Поделиться / Instagram", stSave: "⬇️ Сохранить", stCopy: "📋 Текст", stHint: "Двигайте текст и надпись пальцем, фото тоже можно сдвинуть. «Поделиться» → Instagram → История.",
+    stTabText: "Аа Текст", stTabFont: "🔤 Шрифт", stTabBg: "🖼 Фон", stTabPill: "📍 Место", stTabScript: "✍️ Надпись",
+    stSrcFact: "💡 Факт", stSrcHistory: "📖 История", stSrcShort: "✨ Коротко", stSrcRoute: "🧭 Маршрут", stLower: "строчные", stAlignL: "⬅ Слева", stAlignC: "↔ По центру",
+    stSize: "Размер", stColor: "Цвет", stShow: "Показать", stBgPlace: "🏛 Фото места", stBgOwn: "📷 Своё фото", stBgDark: "🌙 Тёмный", stDim: "Затемнение",
+    stLoading: "Загружаю фото…", stSaved: "Картинка сохранена ✓", stLongPress: "Зажмите картинку и выберите «Сохранить»", stFail: "Не удалось сохранить. Попробуйте ещё раз.",
+    stFonts: {modern: "Современный", light: "Лёгкий", elegant: "Элегантный", magazine: "Журнал", hand: "Рукописный", bold: "Смелый", soft: "Мягкий"}, stTripWord: "Европа", stSample: "Аа",
+    instTitle: "Установите как приложение", instIos: "В Safari нажмите «Поделиться» ⬆️ → «На экран „Домой“». Откроется с иконки и работает без интернета.", instAndroid: "Установите на телефон: откроется с иконки и работает без интернета.", instBtn: "Установить", instHide: "Скрыть",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -2821,20 +2992,15 @@ const T = {
     priceItems: {coffee: "Coffee", breakfast: "Breakfast", pizzaPasta: "Pizza / pasta", lunchCheap: "Lunch at a cheap restaurant", dinnerMid: "Dinner at a mid-range restaurant", aperitivo: "Aperitivo"},
     pricesNote: "Prices for {y}, approximate (estimates, need checking). ₸ at the current rate.", pricesSrc: "Check prices", shopsSearch: "Find a store on Google Maps",
     cityStory: "City history", factLabel: "Interesting fact", historyLabel: "History", visitorTipLabel: "Visitor tip",
-    shareTitle: "Share your trip", shareText: "Ready text for Stories: route, days, time on the road and a fun fact. Copy it with one tap.", shareBtn: "📲 Route story",
-    guideTitle: "Place Stories", guideIntro: "Read the history and verified facts as you walk. The “📲 For Stories” button gives you ready text for Instagram, split into paragraphs.",
+    shareTitle: "Share your trip", shareText: "A beautiful story about your route: photo, fonts and your own title.", shareBtn: "📲 Route story",
+    guideTitle: "Place Stories", guideIntro: "Read the history and verified facts as you walk. The “📲 For Stories” button makes a beautiful story: place photo, fact and stylish fonts.",
     searchPlacesLabel: "Search places...", allCities: "All cities", noPlaces: "No places match this filter.",
-    storyTextTitle: "Text for your Stories", storyTextIntro: "Each paragraph is one story. Tap “Copy” and paste it over your own photo in Instagram.",
-    copyAll: "Copy all", copyShort: "Copy", copiedShort: "Copied", copyManual: "Could not copy automatically: the text is selected, tap “Copy”.",
-    slideNo: "Story {n}", slideIntro: "Intro", slideRoute: "Route", slideNumbers: "Numbers",
-    tripTitle: "My Europe trip", onRoadTotal: "on the road", savedLine: "The optimal route saved {h}",
-    howTitle: "How to post on Instagram", how1: "Instagram → new Story → pick your own photo or video.", how2: "Tap “Aa”, press and hold the screen, choose “Paste”.", how3: "Resize the text and move it onto your photo. Put the next paragraph into the next story.",
-    pngExtra: "Extra: transparent sticker image (Strava-style)",
-    stLblPlace: "Place", stLblCity: "City", stLblFact: "Fun fact", stLblHistory: "History", stLblCities: "Cities", stLblDays: "Days", stLblRoad: "On the road",
-    stHowClear: "Transparent PNG, like Strava: tap “Instagram / Share” or save it. In Instagram open your own photo or video → sticker (🖼) → add this image. The text sits on top of your shot.",
-    shareIg: "📤 Instagram / Share", saveImg: "⬇️ Save image", storyPreviewAlt: "Story preview", cityStoryBtn: "📲 City story",
-    renderFail: "Could not render the image. Reload the page.", longPressHint: "iPhone: press and hold the image → “Save to Photos”.",
-    copyText: "Copy text", copied: "Copied ✓", downloadImg: "Download image", shareBtn2: "Share", rendering: "Rendering…", storySavedToast: "Image saved ✓",
+    copiedShort: "Copied", copyManual: "Could not copy automatically: the text is selected, tap “Copy”.",
+    
+    
+    
+    cityStoryBtn: "📲 City story",
+    copied: "Copied ✓",
     photosCredits: "Photos and sources", photoBy: "Photo", noPhoto: "No photo",
     phTitle: "Phrasebook", phText: "Pronunciation in Latin letters, stressed syllable in capitals. Tap 🔊 to listen.",
     noSound: "Could not load the sound.", openGT: "Open in Google Translate",
@@ -2845,6 +3011,38 @@ const T = {
     fareFrom: "fare", fareUnknown: "fare not verified", fareUnknownN: "{n} legs have no verified fare and are not included", fareTotal: "travel between cities, per person", fareLine: "Travel between cities (total)",
     fareNote: "Fares are per person, one way: the lowest found in open sources plus an estimate. Check before you buy.",
     knownTicketSubtotal: "Subtotal for tickets with known prices", ticketsUnpriced: "Ticket prices for {n} additional paid places are unverified; check the official site.",
+    tVisa: "Visa",
+    visaHeroTitle: "Schengen visa with Qazir Travel", visaHeroText: "We tell you which consulate to apply to, check your documents and help you book an appointment. All on WhatsApp.",
+    visaTripTitle: "Your trip", visaNoPlan: "Pick cities on the Plan tab and we will show which consulate to apply to.", visaToPlan: "Make a plan", visaEditPlan: "Edit plan",
+    visaConsulate: "Apply to the consulate of", visaWhyMost: "Most days of the trip are here.", visaWhyFirst: "Equal days: you usually apply to the country of first entry. We confirm it with you.", visaRule: "EU Visa Code, Article 5",
+    visaWhenTitle: "When to apply", visaWindow: "Application window: {a} – {b}", visaNowOk: "You can apply now.", visaTooEarly: "You can apply from {a}.",
+    visaLate: "Less than 15 days before the trip. Applications this late are usually not accepted — message us and we will see what can be done.",
+    visaAdvice: "Apply 1–2 months before the trip: appointment slots can be scarce.", visaProcess: "A decision usually takes up to {a} days, in some cases up to {b}.",
+    visaPassTitle: "Passport check", visaIssued: "Date of issue", visaExpires: "Valid until", visaPassHint: "Enter the dates from your passport for an instant check. Nothing is sent anywhere.",
+    visaPassOk1: "Validity is fine: the passport must be valid until at least {d}.", visaPassBad1: "The passport expires too early: it must be valid until at least {d}.",
+    visaPassOk2: "Issued less than 10 years ago.", visaPassBad2: "Issued more than 10 years ago — you need a new passport.", visaPages: "You also need 2 blank pages.",
+    visaDocsTitle: "Documents", visaDocsNote: "The exact list depends on the consulate and your situation (job, studies, children). After you contact us we send a list for you.",
+    visaFee: "Consular fee: €{a} (adults and children 12+), €{c} (children 6–11), free under 6. The visa centre adds its own service fee.",
+    visaChecked: "Rules checked against the European Commission website: {d}.", visaSourceLbl: "European Commission",
+    visaItinTitle: "Itinerary for the consulate", visaItinText: "Many consulates ask for a day-by-day itinerary. We build it in English from your plan.",
+    visaName: "Full name in Latin letters (as in passport)", visaPdf: "⬇️ Download PDF", visaItinCopy: "📋 Copy text", visaPdfDone: "PDF ready ✓", visaNeedPlan: "Make a plan on the Plan tab first.",
+    visaCtaTitle: "We handle your visa", visaCtaText: "Message us — your trip details are added to the message automatically.", visaWa: "Message on WhatsApp", visaTg: "Telegram",
+    visaTgCopied: "Text copied. Paste it into the Telegram chat.", visaStepsTitle: "How we work", visaBarBtn: "💬 Get a visa",
+    visaMsgHello: "Hello! I would like to apply for a Schengen visa.", visaMsgTrip: "Trip", visaMsgRoute: "Route", visaMsgCons: "Consulate (from the plan)", visaMsgPeople: "Travellers",
+    visaMsgFrom: "Sent from the Qazir Travel app", visaMsgNoPlan: "Could you tell me where to start?",
+    visaBanner: "Need a Schengen visa? We can help", visaBannerBtn: "Learn more", visaResultTitle: "Visa for this trip", visaResultBtn: "💬 Get a visa", visaMore: "Learn more",
+    visaFaqTitle: "FAQ",
+    visaFaq: [["How much does the visa cost?", "Consular fee: €{a} for adults, €{c} for children aged 6–11, free under 6. The visa centre charges its own service fee. Ask us on WhatsApp for the price of our service."],
+      ["How long does it take?", "A decision usually takes {p} calendar days. If extra documents are needed, it can take up to {m} days."],
+      ["Do I give fingerprints?", "Yes, when you submit at the visa centre. If you gave them for a Schengen visa in the last 59 months, they may not be taken again."],
+      ["What if the visa is refused?", "The refusal letter states the reason and how to appeal. Message us — we will look at the reason and tell you what to do next."]],
+    stTitle: "Story", stShare: "📤 Share / Instagram", stSave: "⬇️ Save", stCopy: "📋 Text", stHint: "Drag the text and the title with your finger; you can move the photo too. Share → Instagram → Story.",
+    stTabText: "Aa Text", stTabFont: "🔤 Font", stTabBg: "🖼 Background", stTabPill: "📍 Place", stTabScript: "✍️ Title",
+    stSrcFact: "💡 Fact", stSrcHistory: "📖 History", stSrcShort: "✨ Short", stSrcRoute: "🧭 Route", stLower: "lowercase", stAlignL: "⬅ Left", stAlignC: "↔ Centre",
+    stSize: "Size", stColor: "Colour", stShow: "Show", stBgPlace: "🏛 Place photo", stBgOwn: "📷 My photo", stBgDark: "🌙 Dark", stDim: "Darken",
+    stLoading: "Loading photo…", stSaved: "Image saved ✓", stLongPress: "Press and hold the image, then choose Save", stFail: "Could not save. Please try again.",
+    stFonts: {modern: "Modern", light: "Light", elegant: "Elegant", magazine: "Magazine", hand: "Handwritten", bold: "Bold", soft: "Soft"}, stTripWord: "Europe", stSample: "Aa",
+    instTitle: "Install as an app", instIos: "In Safari tap Share ⬆️ → Add to Home Screen. It opens from the icon and works offline.", instAndroid: "Install it on your phone: it opens from the icon and works offline.", instBtn: "Install", instHide: "Hide",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -2888,7 +3086,8 @@ const S = {
   start: saved.start && saved.start > todayISO() ? saved.start : new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10),
   phLang: "de", eatTab: {}, checks: store.get("checks", {}),
   rate: null, route: null, guideCity: "all", guideQuery: "",
-  storySlides: [], storyTarget: null // storyTarget: {type:"trip"} | {type:"place", id} | {type:"city", id}
+  st: null, // открытый редактор сторис
+  passport: {issued: "", expires: ""}, vdocs: store.get("vdocs", {}), vname: "" // вкладка «Виза»; даты паспорта не сохраняются
 };
 const savePlan = () => store.set("plan", {tier: S.tier, style: S.style, cities: S.cities, startCity: S.startCity, endCity: S.endCity, autoEnd: S.autoEnd, days: S.days, people: S.people, start: S.start});
 function nextAvailableDays(required) { return DAY_OPTIONS.find((d) => d >= required) || DAY_OPTIONS[DAY_OPTIONS.length - 1]; }
@@ -3122,10 +3321,11 @@ function renderTexts() {
   document.querySelectorAll(".langs button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
 }
 function renderTabs() {
-  $("#tabs").innerHTML = [["plan", "tPlan"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"]].map(([v, k]) =>
+  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"]].map(([v, k]) =>
     `<button role="tab" aria-selected="${S.view === v || (v === "plan" && S.view === "result")}" data-view="${v}">${t(k)}</button>`).join("");
 }
 function renderPlanner() {
+  renderInstall();
   $("#tiers").innerHTML = t("tiers").map(([name, sub], i) =>
     `<button class="opt" aria-pressed="${S.tier === i}" data-tier="${i}"><span class="e">${TIER_EMOJI[i]}</span><span><b>${name}</b><small>${sub}</small></span></button>`).join("");
   $("#styles").innerHTML = t("styles").map(([e, name, sub], i) =>
@@ -3209,6 +3409,7 @@ function renderResult() {
   const route = currentRoute(); S.route = route;
   const per = allocateDays(route.order, S.days); S.per = per;
   renderRouteCard(route, per);
+  const vc = visaResultHTML(); $("#visaCard").innerHTML = vc; $("#visaCard").classList.toggle("hidden", !vc);
   const {parts, tot, travel} = calc(route, per);
   const r = rate(), d = S.days;
   const startDate = new Date(S.start + "T00:00:00");
@@ -3338,61 +3539,20 @@ function guideCardsHTML() {
 }
 
 /* ---------- Модалка ---------- */
-function openModal(html) { $("#modalSheet").innerHTML = html; $("#modalBackdrop").classList.remove("hidden"); document.body.classList.add("modal-open"); }
-function closeModal() { $("#modalBackdrop").classList.add("hidden"); $("#modalSheet").innerHTML = ""; document.body.classList.remove("modal-open"); }
+function openModal(html, cls) { const sh = $("#modalSheet"); sh.className = "modal-sheet" + (cls ? " " + cls : ""); sh.innerHTML = html; $("#modalBackdrop").classList.remove("hidden"); document.body.classList.add("modal-open"); }
+function closeModal() {
+  $("#modalBackdrop").classList.add("hidden"); $("#modalSheet").innerHTML = ""; document.body.classList.remove("modal-open");
+  if (S.st) { if (S.st.ownUrl) URL.revokeObjectURL(S.st.ownUrl); S.st = null; }
+}
 function openPlaceModal(sid) {
   const p = storyById(sid); if (!p) return;
   openModal(`<div class="modal-head"><b>${cityIcon(p.cityId)} ${esc(cityName(p.cityId))} · ${t("historyLabel")}</b><button class="modal-close" data-close-modal aria-label="Close">✕</button></div>
     <div class="modal-body" style="padding-top:12px">${storyCardHTML(p, true)}</div>`);
 }
 
-/* ---------- Сторис ----------
-   ГЛАВНЫЙ способ: готовый текст для сторис, разбитый на абзацы. Один абзац = одна сторис.
-   Кнопка «Көшіру» копирует абзац одним нажатием; пользователь вставляет его поверх СВОЕГО
-   фото в Instagram (кнопка «Aa» → «Вставить»). Работает в любом браузере и в Telegram.
-   ДОПОЛНИТЕЛЬНО (свёрнуто): прозрачная картинка-стикер 1080×1920 в стиле Strava, без фото. */
-const SW = 1080, SH = 1920;
-const SAFE_TOP = 260, SAFE_BOTTOM = 1620; // сюда не залезает интерфейс Instagram (шапка и поле ответа)
-const STC = {text: "#FFFFFF", label: "rgba(255,255,255,.86)", accent: "#FF6B4F", sun: "#FFC22E", sky: "#1BB3D1"};
-const countryLine = (id) => `${cityIcon(id)} ${cityName(id)}, ${L(CITIES[id].country)} ${CITIES[id].flag}`;
-
-/* Абзацы-сторис: [{label, text}] */
-function storySlides(target) {
-  let slides = [];
-  if (target.type === "trip") {
-    const r = S.route; if (!r) return [];
-    const per = S.per || allocateDays(r.order, S.days);
-    const modes = [...new Set(r.legs.map((l) => MODE_ICON[l.mode] || "🚆"))].join("") || "🚆";
-    let nums = `📅 ${S.days} ${t("days")} · ${r.order.length} ${plural(r.order.length, t("share").cityWord)}`;
-    if (r.legs.length) nums += `\n${modes} ${t("onRoadTotal")} ~${fmtHours(r.hours)}`;
-    if (r.saved > 0.05) nums += `\n✅ ${tf("savedLine", {h: fmtHours(r.saved)})}`;
-    nums += "\n\n" + r.order.map((id, i) => `${cityIcon(id)} ${cityName(id)} — ${per[i]} ${t("daysShort")}`).join("\n");
-    slides = [
-      {label: t("slideRoute"), text: `🧳 ${t("tripTitle")}\n\n${r.order.map(cityLabel).join(" → ")}`},
-      {label: t("slideNumbers"), text: nums},
-      {label: t("factLabel"), text: `💡 ${t("factLabel")} · ${cityName(r.end)}\n\n${L(CITIES[r.end].fact)}`}
-    ];
-  } else if (target.type === "city") {
-    const c = CITIES[target.id];
-    slides = [
-      {label: t("cityStory"), text: `${countryLine(target.id)}\n\n📜 ${L(c.history)}`},
-      {label: t("factLabel"), text: `💡 ${t("factLabel")}\n\n${L(c.fact)}`}
-    ];
-  } else {
-    const p = storyById(target.id); if (!p) return [];
-    slides = [
-      {label: t("slideIntro"), text: `📍 ${L(p.n)}\n${countryLine(p.cityId)}${L(p.tagline) ? "\n\n" + L(p.tagline) : ""}`},
-      {label: t("historyLabel"), text: `📜 ${t("historyLabel")}\n\n${L(p.history)}`},
-      {label: t("factLabel"), text: `💡 ${t("factLabel")}\n\n${L(p.fact)}`}
-    ];
-  }
-  if (BRAND.hashtag && slides.length) slides[slides.length - 1].text += "\n\n" + BRAND.hashtag;
-  return slides;
-}
-const allSlidesText = (slides) => slides.map((s) => s.text).join("\n\n");
-
-/* Копирование одним нажатием: сначала execCommand (работает в старых WebView и на iOS внутри жеста),
-   параллельно Clipboard API. Если не вышло — выделяем текст, чтобы скопировать вручную. */
+/* ---------- Копирование ----------
+   Сначала execCommand (работает в старых WebView и на iOS внутри жеста), параллельно Clipboard API.
+   Если не вышло — выделяем текст, чтобы скопировать вручную. */
 function copyText(text, btn, selectEl) {
   let ok = false;
   try {
@@ -3417,40 +3577,148 @@ function copyText(text, btn, selectEl) {
     navigator.clipboard.writeText(text).then(() => { if (!ok) done(); }, () => { if (!ok) fail(); });
   } else if (!ok) fail();
 }
-async function copyToClipboard(text) { copyText(text, null, null); }
-
-/* Окно «Текст для сторис» */
-function openStoryStudio(target) {
-  S.storyTarget = target;
-  const slides = storySlides(target); S.storySlides = slides;
-  const slideNo = (i) => t("slideNo").replace("{n}", i + 1);
-  openModal(`<div class="modal-head"><b>📲 ${t("storyTextTitle")}</b><button class="modal-close" data-close-modal aria-label="Close">✕</button></div>
-    <div class="modal-body">
-      <p class="small" style="margin:0;font-size:13.5px">${t("storyTextIntro")}</p>
-      ${slides.length > 1 ? `<button class="btn btn-primary" style="width:100%;min-height:50px;font-size:15px" data-copy-all>📋 ${t("copyAll")}</button>` : ""}
-      ${slides.map((s, i) => `<div class="slide">
-        <div class="slide-head"><span class="slide-no">${slideNo(i)}</span><span class="slide-lbl">${esc(s.label)}</span><button class="copy-btn" data-copy-slide="${i}">📋 ${t("copyShort")}</button></div>
-        <div class="slide-text" id="slideText${i}">${esc(s.text)}</div>
-      </div>`).join("")}
-      <div class="story-guide-box"><b>${t("howTitle")}</b><ol class="how">${["how1", "how2", "how3"].map((k) => `<li>${t(k)}</li>`).join("")}</ol></div>
-      <details class="png-extra"><summary>🖼️ ${t("pngExtra")}</summary>
-        <div class="png-body">
-          <p class="small" style="margin:0 0 10px">${t("stHowClear")}</p>
-          <div class="preview-stage"><img id="storyPreviewImg" alt="${esc(t("storyPreviewAlt"))}"><div class="spin" id="storySpin">${t("rendering")}</div></div>
-          <div class="actions3" style="margin-top:10px">
-            <button class="btn btn-primary" id="btnShareStory">${t("shareIg")}</button>
-            <button class="btn btn-soft" id="btnDownloadStory">${t("saveImg")}</button>
-          </div>
-          <p class="small" style="margin:8px 0 0">${t("longPressHint")}</p>
-        </div>
-      </details>
-    </div>`);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
+}
+// Telegram Mini App: внешние ссылки открываем через API Telegram, иначе WebView может их не открыть
+function openExternal(url) {
+  if (!tg) return false;
+  try {
+    if (/^https:\/\/t\.me\//.test(url) && tg.openTelegramLink) { tg.openTelegramLink(url); return true; }
+    if (tg.openLink) { tg.openLink(url); return true; }
+  } catch (e) {}
+  return false;
 }
 
-/* --- текст: перенос по словам и подбор размера шрифта --- */
+/* ---------- Сторис-редактор ----------
+   Картинка 1080×1920 в стиле travel-блогов: фото на весь экран, плашка «📍 Место», текст факта
+   и рукописная надпись. Меняется всё: текст, шрифт, размер, цвет, фон (фото места, своё фото
+   или тёмный). Текст, надпись и фото двигаются пальцем по превью.
+   Шрифты — только те, где есть казахские буквы ә ғ қ ң ө ұ ү һ і (проверено по файлам Google Fonts).
+   Фото места: photos/<slug>.webp рядом с index.html (скачивает tools/fetch_photos.py), иначе
+   Wikimedia, иначе встроенное превью. Автор и лицензия фото пишутся мелко внизу картинки (CC BY-SA).
+   «Поделиться» открывает меню телефона: Instagram → История или «Сохранить изображение». */
+const SW = 1080, SH = 1920;
+const ST_FONTS = {
+  modern: {fam: "Montserrat", w: 600, k: 1, lh: 1.3},
+  light: {fam: "Raleway", w: 500, k: 1.04, lh: 1.32},
+  elegant: {fam: "Cormorant Garamond", w: 600, it: true, k: 1.24, lh: 1.16},
+  magazine: {fam: "Yeseva One", w: 400, k: 1.02, lh: 1.26},
+  hand: {fam: "Caveat", w: 600, k: 1.32, lh: 1.1},
+  bold: {fam: "Oswald", w: 500, k: 1.1, lh: 1.22},
+  soft: {fam: "Comfortaa", w: 700, k: 0.96, lh: 1.36}
+};
+const ST_SCRIPTS = {
+  delicate: {fam: "Bad Script", w: 400, k: 1},
+  caveat: {fam: "Caveat", w: 700, k: 1.2},
+  lobster: {fam: "Lobster", w: 400, k: 0.92},
+  pacifico: {fam: "Pacifico", w: 400, k: 0.78}
+};
+const ST_COLORS = ["#FFFFFF", "#FFF1D0", "#FFC22E", "#FF6B4F", "#0B2545"];
+const ST_PILLS = {gold: ["rgba(214,160,46,.94)", "#FFFFFF"], cream: ["#F7E9C3", "#3A2A0A"], glass: ["rgba(255,255,255,.24)", "#FFFFFF"], ink: ["rgba(11,37,69,.82)", "#FFFFFF"]};
+const ST_FONT_CSS = "https://fonts.googleapis.com/css2?family=Bad+Script&family=Caveat:wght@600;700&family=Comfortaa:wght@700&family=Cormorant+Garamond:ital,wght@1,600&family=Lobster&family=Montserrat:wght@600&family=Oswald:wght@500&family=Pacifico&family=Raleway:wght@500&family=Yeseva+One&display=swap";
+const ST_PREF_KEYS = ["font", "size", "color", "align", "lower", "pillStyle", "scriptFont", "dim"];
+const ST_DEFAULT = {font: "modern", size: 1, color: "#FFFFFF", align: "left", lower: false, pillStyle: "gold", scriptFont: "delicate", dim: 0.18};
+const ST_TABS = [["text", "stTabText"], ["font", "stTabFont"], ["bg", "stTabBg"], ["pill", "stTabPill"], ["script", "stTabScript"]];
+const stFont = (f, px) => `${f.it ? "italic " : ""}${f.w} ${Math.round(px)}px '${f.fam}', 'Manrope', -apple-system, 'Segoe UI', sans-serif`;
+const PILL_FONT = (px) => `600 ${px}px 'Montserrat', 'Manrope', -apple-system, 'Segoe UI', sans-serif`;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+// имя файла фото — так же считает tools/fetch_photos.py
+const photoSlug = (key) => key.normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+let stFontsReady = null, stRaf = 0, stFontTimer = 0;
+function loadStoryFonts() {
+  if (stFontsReady) return stFontsReady;
+  stFontsReady = new Promise((res) => {
+    const l = document.createElement("link"); l.rel = "stylesheet"; l.href = ST_FONT_CSS;
+    l.onload = l.onerror = () => res(); document.head.appendChild(l); setTimeout(res, 3000);
+  });
+  return stFontsReady;
+}
+async function stEnsureFonts() {
+  await loadStoryFonts();
+  const st = S.st; if (!st || !document.fonts || !document.fonts.load) return;
+  const jobs = [document.fonts.load(stFont(ST_FONTS[st.font], 60), st.text || "Aa"), document.fonts.load(stFont(ST_SCRIPTS[st.scriptFont], 60), st.scriptText || "Aa"), document.fonts.load(PILL_FONT(34), st.pillText || "Aa")];
+  try { await Promise.race([Promise.all(jobs), new Promise((r) => setTimeout(r, 2500))]); } catch (e) {}
+  stDraw();
+}
+const stFontsSoon = () => { clearTimeout(stFontTimer); stFontTimer = setTimeout(stEnsureFonts, 400); };
+if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", () => { if (S.st) stDraw(); });
+
+/* что можно положить в сторис: тексты, плашка, надпись, фото */
+function storyInfo(target) {
+  if (target.type === "trip") {
+    const r = S.route || currentRoute(), per = S.per || allocateDays(r.order, S.days);
+    return {texts: {route: r.order.map((id, i) => `${cityName(id)} — ${per[i]} ${t("daysShort")}`).join("\n"), fact: L(CITIES[r.end].fact)}, def: "route",
+      pill: r.order.map((id) => CITIES[id].name.en).join(" → "), script: t("stTripWord"), photoKey: CITIES[r.order[0]].photoKey};
+  }
+  if (target.type === "city") {
+    const c = CITIES[target.id];
+    return {texts: {fact: L(c.fact), history: L(c.history)}, def: "fact", pill: `${c.name.en}, ${c.country.en}`, script: L(c.name), photoKey: c.photoKey};
+  }
+  const p = storyById(target.id); if (!p) return null;
+  const c = CITIES[p.cityId], texts = {fact: L(p.fact), history: L(p.history)};
+  if (p.tagline) texts.short = L(p.tagline);
+  return {texts, def: "fact", pill: `${p.n.en}, ${c.name.en}`, script: L(c.name), photoKey: p.w};
+}
+function openStoryStudio(target) {
+  const info = storyInfo(target); if (!info) return;
+  const pref = store.get("story_style", {}) || {}, base = {};
+  ST_PREF_KEYS.forEach((k) => { base[k] = pref[k] !== undefined ? pref[k] : ST_DEFAULT[k]; });
+  if (!ST_FONTS[base.font]) base.font = ST_DEFAULT.font;
+  if (!ST_SCRIPTS[base.scriptFont]) base.scriptFont = ST_DEFAULT.scriptFont;
+  if (!ST_PILLS[base.pillStyle]) base.pillStyle = ST_DEFAULT.pillStyle;
+  S.st = {target, info, ...base, src: info.def, text: info.texts[info.def], pill: true, pillText: info.pill, script: true, scriptText: info.script,
+    bg: info.photoKey ? "place" : "dark", img: null, own: null, ownUrl: null, panX: 0.5, panY: 0.5, gx: 96, gy: 520, sdx: 230, sdy: 22, tab: "text", boxes: {}};
+  openModal(stHTML(), "st-sheet");
+  stBindCanvas(); stRender($("#stCanvas")); stEnsureFonts(); stLoadBg();
+}
+function stHTML() {
+  return `<div class="modal-head"><b>📲 ${t("stTitle")}</b><button class="modal-close" data-close-modal aria-label="Close">✕</button></div>
+    <div class="modal-body st-body">
+      <div class="st-top"><div class="st-stage"><canvas id="stCanvas" width="${SW}" height="${SH}" role="img" aria-label="${esc(t("stTitle"))}"></canvas>
+        <div class="st-load hidden" id="stLoad">${t("stLoading")}</div><div class="st-shot hidden" id="stShot"></div></div>
+      <div class="st-actions"><button class="btn btn-primary" data-st="share">${t("stShare")}</button><button class="btn btn-soft" data-st="save">${t("stSave")}</button><button class="btn btn-soft" data-st="copy">${t("stCopy")}</button></div></div>
+      <p class="small st-hint">${t("stHint")}</p>
+      <div class="st-tabs" role="tablist">${ST_TABS.map(([k, lbl]) => `<button role="tab" data-st-tab="${k}" aria-selected="${S.st.tab === k}">${t(lbl)}</button>`).join("")}</div>
+      <div class="st-panel" id="stPanel">${stPanelHTML()}</div>
+      <input type="file" id="stFile" accept="image/*" class="hidden">
+    </div>`;
+}
+const stRange = (id, label, min, max, step, v) => `<label class="st-range"><span>${label}</span><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${v}"></label>`;
+const stToggle = (key, on) => `<div class="st-switch"><span>${t("stShow")}</span><button class="st-tog" data-st-toggle="${key}" aria-pressed="${on}" aria-label="${esc(t("stShow"))}"><i></i></button></div>`;
+function stPanelHTML() {
+  const st = S.st, pr = (v) => `aria-pressed="${v}"`;
+  if (st.tab === "font") return `<div class="st-fonts">${Object.entries(ST_FONTS).map(([k, f]) => `<button class="st-font" ${pr(st.font === k)} data-st-font="${k}" style="font-family:'${f.fam}',sans-serif;font-weight:${f.w}${f.it ? ";font-style:italic" : ""}"><span>${t("stSample")}</span><small>${esc(t("stFonts")[k])}</small></button>`).join("")}</div>
+      ${stRange("stSize", t("stSize"), 0.6, 1.6, 0.02, st.size)}
+      <div class="st-colors" aria-label="${esc(t("stColor"))}">${ST_COLORS.map((c) => `<button class="st-color" ${pr(st.color === c)} data-st-color="${c}" style="background:${c}" aria-label="${c}"></button>`).join("")}</div>`;
+  if (st.tab === "bg") return `<div class="st-chips">${st.info.photoKey ? `<button ${pr(st.bg === "place")} data-st-bg="place">${t("stBgPlace")}</button>` : ""}<button ${pr(st.bg === "own")} data-st-bg="own">${t("stBgOwn")}</button><button ${pr(st.bg === "dark")} data-st-bg="dark">${t("stBgDark")}</button></div>
+      ${stRange("stDim", t("stDim"), 0, 0.7, 0.01, st.dim)}`;
+  if (st.tab === "pill") return `${stToggle("pill", st.pill)}<input id="stPillText" class="st-input" type="text" maxlength="60" value="${esc(st.pillText)}">
+      <div class="st-pills">${Object.entries(ST_PILLS).map(([k, [bg, fg]]) => `<button ${pr(st.pillStyle === k)} data-st-pill="${k}" style="background:${bg};color:${fg}">📍 ${esc((st.pillText.split(",")[0] || "").slice(0, 14))}</button>`).join("")}</div>`;
+  if (st.tab === "script") return `${stToggle("script", st.script)}<input id="stScriptText" class="st-input" type="text" maxlength="30" value="${esc(st.scriptText)}">
+      <div class="st-fonts">${Object.entries(ST_SCRIPTS).map(([k, f]) => `<button class="st-font script" ${pr(st.scriptFont === k)} data-st-script="${k}" style="font-family:'${f.fam}',cursive;font-weight:${f.w}"><span>${esc((st.scriptText || "Aa").slice(0, 10))}</span></button>`).join("")}</div>`;
+  return `<div class="st-chips">${Object.keys(st.info.texts).map((k) => `<button ${pr(st.src === k)} data-st-src="${k}">${t("stSrc" + k[0].toUpperCase() + k.slice(1))}</button>`).join("")}</div>
+      <textarea id="stText" class="st-input" rows="5">${esc(st.text)}</textarea>
+      <div class="st-chips"><button ${pr(st.align === "left")} data-st-align="left">${t("stAlignL")}</button><button ${pr(st.align === "center")} data-st-align="center">${t("stAlignC")}</button><button ${pr(st.lower)} data-st-lower>${t("stLower")}</button></div>
+      ${stRange("stSize", t("stSize"), 0.6, 1.6, 0.02, st.size)}`;
+}
+const stPanel = () => { const p = $("#stPanel"); if (p && S.st) p.innerHTML = stPanelHTML(); };
+const stPrefs = () => { const o = {}; ST_PREF_KEYS.forEach((k) => { o[k] = S.st[k]; }); store.set("story_style", o); };
+const stDraw = () => { if (stRaf) return; stRaf = requestAnimationFrame(() => { stRaf = 0; stRender($("#stCanvas")); }); };
+const stShownText = () => (S.st.lower ? S.st.text.toLocaleLowerCase(S.lang) : S.st.text);
+const stBgImage = (st) => (st.bg === "own" ? st.own : st.bg === "place" ? st.img : null);
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+/* перенос по словам; пробел внутри чисел («2 500») не переносим */
 function wrapLines(ctx, text, maxW) {
-  // пробел внутри чисел («2 500», «1 441») не переносим
-  const words = String(text).replace(/(\d) (?=\d{3}\b)/g, "$1\u00A0").split(/[ \t\r\n]+/).filter(Boolean), lines = [];
+  const words = String(text).replace(/(\d) (?=\d{3}\b)/g, "$1 ").split(/[ \t\r\n]+/).filter(Boolean), lines = [];
   let line = "";
   for (const w of words) {
     const test = line ? line + " " + w : w;
@@ -3459,167 +3727,395 @@ function wrapLines(ctx, text, maxW) {
   if (line) lines.push(line);
   return lines;
 }
-function fitLines(ctx, text, maxW, font, sizes, maxLines) {
-  for (const px of sizes) { ctx.font = font(px); const lines = wrapLines(ctx, text, maxW); if (lines.length <= maxLines) return {px, lines}; }
-  const px = sizes[sizes.length - 1]; ctx.font = font(px);
-  const lines = wrapLines(ctx, text, maxW).slice(0, maxLines);
-  let last = lines[maxLines - 1];
-  while (ctx.measureText(last + "…").width > maxW && last.length > 1) last = last.slice(0, -1);
-  lines[maxLines - 1] = last.replace(/[\s,.;:—-]+$/, "") + "…";
-  return {px, lines};
+/* размер шрифта подбирается под длину текста, ползунок «Размер» умножает его */
+function stFit(ctx, text, f, maxW, scale) {
+  const paras = text.split("\n");
+  let base = 30;
+  for (const s of [72, 64, 58, 54, 50, 46, 43, 40, 37, 34, 32, 30]) {
+    ctx.font = stFont(f, s * f.k);
+    const n = paras.reduce((a, p) => a + Math.max(1, wrapLines(ctx, p, maxW).length), 0);
+    if (n * s * f.k * f.lh <= 560) { base = s; break; }
+  }
+  const px = base * f.k * scale; ctx.font = stFont(f, px);
+  const lines = text.trim() ? paras.flatMap((p) => (p.trim() ? wrapLines(ctx, p, maxW) : [""])) : [];
+  return {px, lh: px * f.lh, lines};
 }
-const FONT_H = (px) => `800 ${px}px 'Montserrat', 'Manrope', -apple-system, 'Segoe UI', sans-serif`;
-const FONT_B = (px, w) => `${w || 600} ${px}px 'Manrope', 'Montserrat', -apple-system, 'Segoe UI', sans-serif`;
-const EMOJI = (px) => `${px}px 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif`;
-
-/* --- блоки макета: {h, draw(y)}; всё центрируется по горизонтали --- */
-function blockLabel(ctx, txt) {
-  return {h: 46, draw(y) { ctx.font = FONT_B(34, 700); ctx.fillStyle = STC.label; ctx.fillText(txt.toUpperCase(), SW / 2, y + 23); }};
+function stPill(ctx, st, x, y, maxW) {
+  const [bg, fg] = ST_PILLS[st.pillStyle], icon = 30, pad = 26, gap = 14, h = 74;
+  let px = 34, label = st.pillText.trim(); ctx.font = PILL_FONT(px);
+  const need = () => ctx.measureText(label).width + icon + gap + pad * 2;
+  while (need() > maxW && px > 22) { px -= 2; ctx.font = PILL_FONT(px); }
+  while (need() > maxW && label.length > 4) label = label.slice(0, -2).trimEnd() + "…";
+  const w = Math.min(maxW, need()), left = st.align === "center" ? x + (maxW - w) / 2 : x;
+  ctx.save();
+  ctx.shadowColor = "rgba(0,0,0,.18)"; ctx.shadowBlur = 12; ctx.fillStyle = bg; roundRect(ctx, left, y, w, h, 18); ctx.fill();
+  ctx.shadowColor = "transparent"; ctx.strokeStyle = fg; ctx.lineWidth = 3.6;
+  const cx = left + pad + icon / 2, cy = y + h / 2; // значок «пин»
+  ctx.beginPath(); ctx.moveTo(cx, cy + 15); ctx.bezierCurveTo(cx - 15, cy + 1, cx - 13, cy - 16, cx, cy - 16); ctx.bezierCurveTo(cx + 13, cy - 16, cx + 15, cy + 1, cx, cy + 15); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy - 3, 5, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = fg; ctx.font = PILL_FONT(px); ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(label, left + pad + icon + gap, cy + 1);
+  ctx.restore();
+  return {left, w, h};
 }
-function blockText(ctx, txt, font, sizes, maxLines, color, lhK, maxW) {
-  const f = fitLines(ctx, txt, maxW || 920, font, sizes, maxLines), lh = Math.round(f.px * (lhK || 1.16));
-  return {h: f.lines.length * lh, draw(y) { ctx.font = font(f.px); ctx.fillStyle = color || STC.text; f.lines.forEach((ln, i) => ctx.fillText(ln, SW / 2, y + lh * i + lh / 2)); }};
-}
-function blockEmoji(ctx, em, px) { return {h: Math.round(px * 1.15), draw(y) { ctx.font = EMOJI(px); ctx.fillText(em, SW / 2, y + px * 0.6); }}; }
-function blockGap(h) { return {h, draw() {}}; }
-/* линия маршрута как в Strava: проекция центров городов в прямоугольник */
-function blockRoute(ctx, order, h) {
-  const w = 760, pts = order.map((id) => CITIES[id].center);
-  const lat0 = pts.reduce((s, p) => s + p[0], 0) / pts.length, kx = Math.cos((lat0 * Math.PI) / 180);
-  const xs = pts.map((p) => p[1] * kx), ys = pts.map((p) => -p[0]);
-  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
-  const span = Math.max(maxX - minX, maxY - minY, 0.4), sc = Math.min(w - 120, h - 120) / span;
-  return {h, draw(y) {
-    const ox = (SW - (maxX - minX) * sc) / 2, oy = y + (h - (maxY - minY) * sc) / 2;
-    const P = xs.map((x, i) => [ox + (x - minX) * sc, oy + (ys[i] - minY) * sc]);
-    // близкие города (Милан–Комо–Лугано) раздвигаем, чтобы точки не сливались; форма маршрута сохраняется
-    const MIN = 78;
-    for (let it = 0; it < 60; it++) {
-      let moved = false;
-      for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
-        let dx = P[j][0] - P[i][0], dy = P[j][1] - P[i][1], d = Math.hypot(dx, dy);
-        if (d >= MIN) continue;
-        if (d < 0.5) { dx = Math.cos(j * 2.4); dy = Math.sin(j * 2.4); d = 1; }
-        const push = (MIN - d) / 2, ux = dx / d, uy = dy / d;
-        P[i][0] -= ux * push; P[i][1] -= uy * push; P[j][0] += ux * push; P[j][1] += uy * push; moved = true;
-      }
-      if (!moved) break;
-    }
-    P.forEach((q) => { q[0] = Math.min(Math.max(q[0], 90), SW - 90); q[1] = Math.min(Math.max(q[1], y + 40), y + h - 40); });
-    ctx.save(); ctx.lineJoin = "round"; ctx.lineCap = "round";
-    ctx.strokeStyle = STC.accent; ctx.lineWidth = 14;
-    ctx.beginPath(); P.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
-    P.forEach((p, i) => {
-      const end = i === 0 || i === P.length - 1;
-      ctx.beginPath(); ctx.arc(p[0], p[1], end ? 20 : 14, 0, Math.PI * 2);
-      ctx.fillStyle = i === 0 ? STC.sun : end ? STC.accent : "#fff"; ctx.fill();
-      ctx.lineWidth = 6; ctx.strokeStyle = "#fff"; ctx.stroke();
-    });
-    // стикеры городов: сверху от точки, а если занято — снизу/сбоку
-    const placed = [];
-    ctx.font = EMOJI(54);
-    P.forEach((p, i) => {
-      const cands = [[0, -62], [0, 66], [-70, 0], [70, 0]];
-      let pos = cands[0];
-      for (const c of cands) { const q = [p[0] + c[0], p[1] + c[1]]; if (!placed.some((o) => Math.hypot(o[0] - q[0], o[1] - q[1]) < 66) && !P.some((o, j) => j !== i && Math.hypot(o[0] - q[0], o[1] - q[1]) < 44)) { pos = c; break; } }
-      const q = [p[0] + pos[0], p[1] + pos[1]]; placed.push(q);
-      ctx.fillText(cityIcon(order[i]), q[0], q[1]);
-    });
-    ctx.restore();
-  }};
-}
-function layout(ctx, blocks) {
-  const total = blocks.reduce((s, b) => s + b.h, 0);
-  let y = Math.max(SAFE_TOP, Math.round((SH - total) / 2));
-  if (y + total > SAFE_BOTTOM) y = Math.max(120, SAFE_BOTTOM - total);
-  blocks.forEach((b) => { b.draw(y); y += b.h; });
-}
-
-/* Собирает сторис и возвращает canvas */
-function renderStoryCanvas(target, bg, content) {
-  const canvas = document.createElement("canvas"); canvas.width = SW; canvas.height = SH;
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, SW, SH);
-  if (bg === "dark") {
+function stRender(cv) {
+  const st = S.st; if (!cv || !st) return;
+  const ctx = cv.getContext("2d");
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, SW, SH);
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+  // фон
+  const img = stBgImage(st);
+  if (img && img.naturalWidth) {
+    const sc = Math.max(SW / img.naturalWidth, SH / img.naturalHeight), dw = img.naturalWidth * sc, dh = img.naturalHeight * sc;
+    ctx.drawImage(img, (SW - dw) * st.panX, (SH - dh) * st.panY, dw, dh);
+  } else {
     const g = ctx.createLinearGradient(0, 0, SW, SH); g.addColorStop(0, "#0B2545"); g.addColorStop(0.6, "#0A3D63"); g.addColorStop(1, "#071A30");
     ctx.fillStyle = g; ctx.fillRect(0, 0, SW, SH);
-    ctx.save(); ctx.globalAlpha = 0.16; ctx.strokeStyle = STC.sky; ctx.lineWidth = 70; ctx.beginPath(); ctx.arc(SW + 30, -30, 300, 0, Math.PI * 2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(-60, SH + 60, 320, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
   }
-  ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  // тень, чтобы белый текст читался на светлом фото
-  ctx.shadowColor = bg === "clear" ? "rgba(0,0,0,.55)" : "rgba(0,0,0,.25)"; ctx.shadowBlur = bg === "clear" ? 18 : 8; ctx.shadowOffsetY = 2;
-  const B = [];
-  const factFont = (px) => FONT_B(px, 600);
-  if (target.type === "trip") {
-    const r = S.route;
-    B.push(blockLabel(ctx, t("stLblCities")), blockText(ctx, String(r.order.length), FONT_H, [120], 1), blockGap(34));
-    B.push(blockLabel(ctx, t("stLblDays")), blockText(ctx, String(S.days), FONT_H, [120], 1), blockGap(34));
-    if (r.legs.length) B.push(blockLabel(ctx, t("stLblRoad")), blockText(ctx, fmtHours(r.hours), FONT_H, [112, 96, 84], 1), blockGap(20));
-    B.push(blockRoute(ctx, r.order, r.order.length > 1 ? 400 : 200), blockGap(24));
-    B.push(blockLabel(ctx, `${t("stLblFact")} · ${cityName(r.end)}`), blockGap(10), blockText(ctx, L(CITIES[r.end].fact), factFont, [40, 36, 33], 5, STC.text, 1.28));
-  } else if (target.type === "city") {
-    const c = CITIES[target.id], txt = content === "history" ? L(c.history) : L(c.fact);
-    B.push(blockEmoji(ctx, c.icon, 150), blockGap(16));
-    B.push(blockLabel(ctx, t("stLblCity")), blockText(ctx, L(c.name), FONT_H, [130, 110, 92], 2, STC.text, 1.05), blockGap(8));
-    B.push(blockText(ctx, `${c.flag} ${L(c.country)}`, FONT_B, [38], 1, STC.label), blockGap(56));
-    B.push(blockLabel(ctx, t(content === "history" ? "stLblHistory" : "stLblFact")), blockGap(12), blockText(ctx, txt, factFont, [46, 42, 38, 34], 10, STC.text, 1.3));
-    B.push(blockGap(44), blockText(ctx, `📍 ${c.center[0].toFixed(4)}° N · ${c.center[1].toFixed(4)}° E`, (px) => FONT_B(px, 800), [32], 1, STC.sun));
-  } else {
-    const p = storyById(target.id), c = CITIES[p.cityId], txt = content === "history" ? L(p.history) : L(p.fact);
-    B.push(blockLabel(ctx, t("stLblPlace")), blockText(ctx, L(p.n), FONT_H, [96, 84, 72, 64], 3, STC.text, 1.08), blockGap(40));
-    B.push(blockLabel(ctx, t("stLblCity")), blockText(ctx, `${c.icon} ${L(c.name)}`, FONT_H, [80, 70], 1), blockGap(48));
-    B.push(blockLabel(ctx, t(content === "history" ? "stLblHistory" : "stLblFact")), blockGap(12), blockText(ctx, txt, factFont, [46, 42, 38, 34], 9, STC.text, 1.3));
-    B.push(blockGap(44), blockText(ctx, `📍 ${p.ll[0].toFixed(4)}° N · ${p.ll[1].toFixed(4)}° E`, (px) => FONT_B(px, 800), [32], 1, STC.sun));
+  if (st.dim > 0) { ctx.fillStyle = `rgba(0,0,0,${st.dim})`; ctx.fillRect(0, 0, SW, SH); }
+  // плашка + текст
+  const f = ST_FONTS[st.font], maxW = st.align === "center" ? 880 : 820, dark = st.color === "#0B2545";
+  let y = st.gy, boxL = st.align === "center" ? st.gx + maxW / 2 : st.gx, boxR = boxL;
+  if (st.pill && st.pillText.trim()) { const p = stPill(ctx, st, st.gx, y, maxW); boxL = Math.min(boxL, p.left); boxR = Math.max(boxR, p.left + p.w); y += p.h + 30; }
+  const fit = stFit(ctx, stShownText(), f, maxW, st.size), ax = st.align === "center" ? st.gx + maxW / 2 : st.gx;
+  ctx.save();
+  ctx.shadowColor = dark ? "rgba(255,255,255,.45)" : "rgba(0,0,0,.5)"; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2;
+  ctx.fillStyle = st.color; ctx.font = stFont(f, fit.px); ctx.textAlign = st.align === "center" ? "center" : "left"; ctx.textBaseline = "top";
+  fit.lines.forEach((ln, i) => {
+    ctx.fillText(ln, ax, y + fit.lh * i + (fit.lh - fit.px) / 2);
+    const w = ctx.measureText(ln).width; boxL = Math.min(boxL, st.align === "center" ? ax - w / 2 : ax); boxR = Math.max(boxR, st.align === "center" ? ax + w / 2 : ax + w);
+  });
+  ctx.restore();
+  y += fit.lines.length * fit.lh;
+  st.boxes.group = [boxL, st.gy, Math.max(boxR - boxL, 60), Math.max(y - st.gy, 60)];
+  // рукописная надпись
+  st.boxes.script = null;
+  if (st.script && st.scriptText.trim()) {
+    const sf = ST_SCRIPTS[st.scriptFont], spx = 168 * sf.k * (0.75 + 0.25 * st.size);
+    ctx.save(); ctx.font = stFont(sf, spx);
+    const w = ctx.measureText(st.scriptText).width;
+    const sx = clamp((st.align === "center" ? st.gx + maxW / 2 - w / 2 : st.gx) + st.sdx, -w / 2, SW - w / 2), sy = clamp(y + st.sdy, 0, SH - spx);
+    ctx.translate(sx, sy); ctx.rotate(-0.07);
+    ctx.shadowColor = dark ? "rgba(255,255,255,.4)" : "rgba(0,0,0,.35)"; ctx.shadowBlur = 14;
+    ctx.fillStyle = st.color; ctx.globalAlpha = 0.96; ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillText(st.scriptText, 0, 0);
+    ctx.restore();
+    st.boxes.script = [sx, sy, w, spx * 1.3];
   }
-  layout(ctx, B);
-  if (BRAND.watermark) { ctx.shadowBlur = 0; ctx.font = FONT_B(30, 800); ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.fillText(BRAND.watermark, SW / 2, SH - 220); }
-  return canvas;
+  // автор фото (лицензия CC BY-SA требует подписи) и водяной знак
+  ctx.save(); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.shadowColor = "rgba(0,0,0,.55)"; ctx.shadowBlur = 6;
+  const ph = st.bg === "place" && img && PHOTOS[st.info.photoKey];
+  if (ph) { ctx.font = "600 22px 'Manrope', -apple-system, sans-serif"; ctx.fillStyle = "rgba(255,255,255,.72)"; ctx.fillText(`${t("photoBy")}: ${ph.author} · ${ph.license} · Wikimedia Commons`, SW / 2, SH - 236); }
+  if (BRAND.watermark) { ctx.font = "800 30px 'Manrope', sans-serif"; ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.fillText(BRAND.watermark, SW / 2, SH - 280); }
+  ctx.restore();
+  ctx.restore();
 }
-
-
-/* --- дополнительная картинка-стикер: рисуется только по запросу (при раскрытии блока) --- */
-let currentStoryDataUrl = null, storyRenderSeq = 0;
-function dataUrlToBlob(dataUrl) {
-  const [head, b64] = dataUrl.split(","), bin = atob(b64), arr = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-  return new Blob([arr], {type: head.split(":")[1].split(";")[0]});
+/* пальцем: текст, надпись или фото (если нажали мимо текста) */
+function stBindCanvas() {
+  const cv = $("#stCanvas"); if (!cv) return;
+  let drag = null;
+  const pt = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * SW / r.width, (e.clientY - r.top) * SH / r.height]; };
+  const inBox = (b, p) => b && p[0] >= b[0] - 40 && p[0] <= b[0] + b[2] + 40 && p[1] >= b[1] - 40 && p[1] <= b[1] + b[3] + 40;
+  cv.addEventListener("pointerdown", (e) => {
+    const st = S.st; if (!st) return;
+    const p = pt(e), what = inBox(st.boxes.script, p) ? "script" : inBox(st.boxes.group, p) ? "group" : "bg";
+    drag = {what, p, gx: st.gx, gy: st.gy, sdx: st.sdx, sdy: st.sdy, panX: st.panX, panY: st.panY};
+    try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  cv.addEventListener("pointermove", (e) => {
+    const st = S.st; if (!drag || !st) return;
+    const p = pt(e), dx = p[0] - drag.p[0], dy = p[1] - drag.p[1];
+    if (drag.what === "group") { st.gx = clamp(drag.gx + dx, -500, SW - 160); st.gy = clamp(drag.gy + dy, 20, SH - 160); }
+    else if (drag.what === "script") { st.sdx = drag.sdx + dx; st.sdy = drag.sdy + dy; }
+    else {
+      const im = stBgImage(st); if (!im || !im.naturalWidth) return;
+      const sc = Math.max(SW / im.naturalWidth, SH / im.naturalHeight), ox = im.naturalWidth * sc - SW, oy = im.naturalHeight * sc - SH;
+      if (ox > 1) st.panX = clamp(drag.panX - dx / ox, 0, 1);
+      if (oy > 1) st.panY = clamp(drag.panY - dy / oy, 0, 1);
+    }
+    stDraw();
+  });
+  const end = () => { drag = null; };
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
 }
-async function refreshStoryPreview() {
-  const seq = ++storyRenderSeq, target = S.storyTarget; if (!target) return;
-  const spin = $("#storySpin"), img = $("#storyPreviewImg");
-  if (spin) { spin.textContent = t("rendering"); spin.classList.remove("hidden"); }
-  // шрифты ждём не дольше 1,5 с: в некоторых WebView fonts.ready не резолвится
-  if (document.fonts && document.fonts.ready) { try { await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]); } catch (e) {} }
-  if (seq !== storyRenderSeq) return;
-  try {
-    currentStoryDataUrl = renderStoryCanvas(target, "clear", "fact").toDataURL("image/png");
-    if (img) img.src = currentStoryDataUrl;
-    if (spin) spin.classList.add("hidden");
-  } catch (e) {
-    currentStoryDataUrl = null; console.warn("story render failed", e);
-    if (spin) spin.textContent = t("renderFail");
+const stImgCache = {};
+const loadImage = (src, cors) => new Promise((res, rej) => { const im = new Image(); if (cors) im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => rej(new Error("img")); im.src = src; });
+/* фото места: сначала встроенное превью (сразу), потом хорошее качество */
+async function stLoadBg() {
+  const st = S.st, key = st && st.info.photoKey; if (!key) return;
+  if (stImgCache[key]) { st.img = stImgCache[key]; stDraw(); return; }
+  const th = THUMB(key);
+  if (th) { try { const im = await loadImage(th); if (!st.img) { st.img = im; stDraw(); } } catch (e) {} }
+  const tries = [];
+  if (/^https?:$/.test(location.protocol)) tries.push([`photos/${photoSlug(key)}.webp`, false]);
+  [1920, 1280].forEach((w) => { const u = wmUrl(key, w); if (u && !tries.some((x) => x[0] === u)) tries.push([u, true]); });
+  const show = (on) => { const el = $("#stLoad"); if (el && S.st === st) el.classList.toggle("hidden", !on); };
+  show(true);
+  for (const [u, cors] of tries) {
+    try { const im = await loadImage(u, cors); stImgCache[key] = im; if (S.st === st) { st.img = im; stDraw(); } break; } catch (e) {}
   }
+  show(false);
 }
-const storyFileName = () => `story-${S.storyTarget.type === "trip" ? "route" : S.storyTarget.id}.png`;
-function triggerStoryDownload() {
-  if (!currentStoryDataUrl) return;
-  try {
-    const url = URL.createObjectURL(dataUrlToBlob(currentStoryDataUrl)), a = document.createElement("a");
-    a.href = url; a.download = storyFileName(); document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 4000);
-    toast(t("storySavedToast"));
-  } catch (e) { toast(t("longPressHint")); }
+function stOwnPhoto(file) {
+  if (!file || !S.st) return;
+  const url = URL.createObjectURL(file), st = S.st;
+  loadImage(url).then((im) => {
+    if (S.st !== st) { URL.revokeObjectURL(url); return; }
+    if (st.ownUrl) URL.revokeObjectURL(st.ownUrl);
+    st.own = im; st.ownUrl = url; st.bg = "own"; st.panX = st.panY = 0.5; stPanel(); stDraw();
+  }).catch(() => toast(t("stFail")));
 }
-async function triggerStoryShare() {
-  if (!currentStoryDataUrl) return;
-  let file = null;
-  try { file = new File([dataUrlToBlob(currentStoryDataUrl)], storyFileName(), {type: "image/png"}); } catch (e) { file = null; }
-  if (file && navigator.canShare && navigator.canShare({files: [file]})) {
+function stBlob() {
+  return new Promise((res) => {
+    const cv = document.createElement("canvas"); cv.width = SW; cv.height = SH; stRender(cv);
+    try { cv.toBlob((b) => res(b), "image/jpeg", 0.93); } catch (e) { res(null); }
+  });
+}
+/* iPhone: меню «Поделиться» (там Instagram и «Сохранить изображение»); компьютер: скачивание;
+   если ни то ни другое (Telegram) — показываем картинку, её можно сохранить долгим нажатием */
+async function stExport(mode) {
+  const blob = await stBlob(); if (!blob) { toast(t("stFail")); return; }
+  const name = `qazir-story-${Date.now()}.jpg`;
+  let file = null; try { file = new File([blob], name, {type: "image/jpeg"}); } catch (e) {}
+  if (file && (mode === "share" || isIOS) && navigator.canShare && navigator.canShare({files: [file]})) {
     try { await navigator.share({files: [file]}); return; } catch (e) { if (e && e.name === "AbortError") return; }
   }
-  triggerStoryDownload();
+  if (!tg && !isIOS && "download" in HTMLAnchorElement.prototype) { downloadBlob(blob, name); toast(t("stSaved")); return; }
+  const box = $("#stShot"); if (!box) return;
+  box.innerHTML = `<img src="${URL.createObjectURL(blob)}" alt=""><p>${t("stLongPress")}</p><button class="modal-close" data-st="shot-close" aria-label="Close">✕</button>`;
+  box.classList.remove("hidden");
 }
+function stClick(b) {
+  const st = S.st; if (!st || !b.closest("#modalSheet")) return false;
+  const d = b.dataset;
+  if (d.st === "share" || d.st === "save") { haptic(); stExport(d.st); return true; }
+  if (d.st === "copy") { copyText(stShownText(), b, null); return true; }
+  if (d.st === "shot-close") { const box = $("#stShot"); box.classList.add("hidden"); box.innerHTML = ""; return true; }
+  if (d.stTab) { st.tab = d.stTab; document.querySelectorAll("[data-st-tab]").forEach((x) => x.setAttribute("aria-selected", String(x.dataset.stTab === st.tab))); stPanel(); return true; }
+  if (d.stSrc) { st.src = d.stSrc; st.text = st.info.texts[d.stSrc]; }
+  else if (d.stFont) st.font = d.stFont;
+  else if (d.stColor) st.color = d.stColor;
+  else if (d.stAlign) st.align = d.stAlign;
+  else if (b.hasAttribute("data-st-lower")) st.lower = !st.lower;
+  else if (d.stPill) st.pillStyle = d.stPill;
+  else if (d.stScript) st.scriptFont = d.stScript;
+  else if (d.stToggle) st[d.stToggle] = !st[d.stToggle];
+  else if (d.stBg) {
+    if (d.stBg === "own" && (!st.own || st.bg === "own")) { $("#stFile").click(); return true; }
+    st.bg = d.stBg; st.panX = st.panY = 0.5;
+  } else return false;
+  haptic(); stPrefs(); stPanel(); stDraw(); stEnsureFonts();
+  return true;
+}
+function stInput(el) {
+  const st = S.st; if (!st) return false;
+  if (el.id === "stText") { st.text = el.value; stFontsSoon(); }
+  else if (el.id === "stPillText") { st.pillText = el.value; stFontsSoon(); }
+  else if (el.id === "stScriptText") { st.scriptText = el.value; stFontsSoon(); document.querySelectorAll(".st-font.script span").forEach((s) => { s.textContent = (el.value || "Aa").slice(0, 10); }); }
+  else if (el.id === "stSize") { st.size = +el.value; stPrefs(); }
+  else if (el.id === "stDim") { st.dim = +el.value; stPrefs(); }
+  else return false;
+  stDraw();
+  return true;
+}
+
+/* ---------- Виза ----------
+   Консульство: страна, где больше всего дней (Визовый кодекс ЕС, ст. 5). Если дней поровну —
+   страна первого въезда (первый город маршрута). Сроки и правила — в VISA (блок данных). */
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const addMonths = (d, n) => { const x = new Date(d), day = x.getDate(); x.setDate(1); x.setMonth(x.getMonth() + n); x.setDate(Math.min(day, new Date(x.getFullYear(), x.getMonth() + 1, 0).getDate())); return x; };
+const dayStart = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+const parseISO = (s) => (s ? new Date(s + "T00:00:00") : null);
+const fmtD = (d) => `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${d.getFullYear()}`;
+const waUrl = (text) => `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
+const tgUrl = () => `https://t.me/${CONTACT.telegram}`;
+function visaTrip() {
+  if (!S.cities.length) return null;
+  const route = currentRoute(), per = allocateDays(route.order, S.days), list = [];
+  route.order.forEach((id, i) => {
+    const c = CITIES[id]; let e = list.find((x) => x.key === c.country.en);
+    if (!e) { e = {key: c.country.en, country: c.country, flag: c.flag, days: 0, first: i}; list.push(e); }
+    e.days += per[i];
+  });
+  const max = Math.max(...list.map((e) => e.days)), top = list.filter((e) => e.days === max), tie = top.length > 1;
+  const start = parseISO(S.start), end = addDays(start, S.days - 1);
+  return {route, per, list: list.slice().sort((a, b) => b.days - a.days || a.first - b.first), main: tie ? list[0] : top[0], tie, start, end};
+}
+function visaMessage() {
+  const v = visaTrip(), out = [t("visaMsgHello")];
+  if (v) out.push(`${t("visaMsgTrip")}: ${fmtD(v.start)} – ${fmtD(v.end)} (${S.days} ${t("days")})`, `${t("visaMsgRoute")}: ${v.route.order.map(cityName).join(" → ")}`,
+    `${t("visaMsgCons")}: ${L(v.main.country)}`, `${t("visaMsgPeople")}: ${S.people}`);
+  else out.push(t("visaMsgNoPlan"));
+  out.push("", `— ${t("visaMsgFrom")}`);
+  return out.join("\n");
+}
+const visaMainHTML = (v) => `<div class="v-main"><div class="k">${t("visaConsulate")}</div><div class="v">${v.main.flag} ${esc(L(v.main.country))}</div>
+  <div class="small">${t(v.tie ? "visaWhyFirst" : "visaWhyMost")} <a href="${VISA.law}" target="_blank" rel="noopener">${t("visaRule")} ↗</a></div></div>`;
+const waBtn = (label) => `<a class="btn btn-wa" href="${esc(waUrl(visaMessage()))}" target="_blank" rel="noopener" data-ext>${label}</a>`;
+function passportResultHTML() {
+  const out = [], today = dayStart(new Date()), need = addMonths(addDays(parseISO(S.start), S.days - 1), VISA.passportMonthsAfter);
+  const ex = parseISO(S.passport.expires), is = parseISO(S.passport.issued);
+  if (ex) out.push(ex >= need ? `<div class="ok">✅ ${tf("visaPassOk1", {d: fmtD(need)})}</div>` : `<div class="warn">❌ ${tf("visaPassBad1", {d: fmtD(need)})}</div>`);
+  if (is) out.push(is >= addMonths(today, -12 * VISA.passportMaxYears) ? `<div class="ok">✅ ${t("visaPassOk2")}</div>` : `<div class="warn">❌ ${t("visaPassBad2")}</div>`);
+  if (out.length) out.push(`<p class="note">📄 ${t("visaPages")}</p>`);
+  return out.join("");
+}
+const visaDocsDone = () => VISA.docs.filter((_, i) => S.vdocs[i]).length;
+function renderVisa() {
+  const v = visaTrip();
+  let html = `<div class="hero"><h1>${t("visaHeroTitle")}</h1><p>${t("visaHeroText")}</p></div>`;
+  if (v) {
+    const today = dayStart(new Date()), early = addMonths(v.start, -VISA.applyMaxMonths), late = addDays(v.start, -VISA.applyMinDays);
+    const state = today > late ? `<div class="warn">⚠️ ${t("visaLate")}</div>` : today < early ? `<div class="ok">🗓 ${tf("visaTooEarly", {a: fmtD(early)})}</div>` : `<div class="ok">✅ ${t("visaNowOk")}</div>`;
+    html += `<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div>
+      <p class="v-dates">${fmtD(v.start)} – ${fmtD(v.end)} · ${S.days} ${t("days")} · ${S.people} 👤</p>
+      ${v.list.map((e) => `<div class="ln"><span>${e.flag} ${esc(L(e.country))}</span><b>${e.days} ${t("days")}</b></div>`).join("")}
+      ${visaMainHTML(v)}<button class="back" data-view="plan">${t("visaEditPlan")}</button></div>
+      <div class="card"><div class="h3">🗓 ${t("visaWhenTitle")}</div><p class="v-big">${tf("visaWindow", {a: fmtD(early), b: fmtD(late)})}</p>${state}
+      <p class="note">${t("visaAdvice")}</p><p class="note">${tf("visaProcess", {a: VISA.processDays, b: VISA.processMaxDays})}</p></div>`;
+  } else {
+    html += `<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div><p class="muted" style="margin:0 0 12px;font-size:14px">${t("visaNoPlan")}</p><button class="btn btn-primary" style="width:100%" data-view="plan">${t("visaToPlan")}</button></div>`;
+  }
+  html += `<div class="card v-cta"><div class="h3">🛂 ${t("visaCtaTitle")}</div><p class="small" style="margin:0 0 12px;font-size:13.5px">${t("visaCtaText")}</p>
+    <div class="v-btns">${waBtn("💬 " + t("visaWa"))}<button class="btn btn-tg" data-visa-tg>✈️ ${t("visaTg")}</button></div>
+    <p class="note">WhatsApp ${esc(CONTACT.whatsappLabel)} · Telegram @${esc(CONTACT.telegram)}</p></div>`;
+  html += `<div class="card"><div class="h3">🛂 ${t("visaPassTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13px">${t("visaPassHint")}</p>
+    <div class="grid g2"><label class="field"><span>${t("visaIssued")}</span><input type="date" id="vpIssued" value="${esc(S.passport.issued)}"></label><label class="field"><span>${t("visaExpires")}</span><input type="date" id="vpExpires" value="${esc(S.passport.expires)}"></label></div>
+    <div id="vpResult">${passportResultHTML()}</div></div>`;
+  html += `<div class="card"><div class="h3">📋 ${t("visaDocsTitle")} · <span id="vdocCount">${visaDocsDone()}/${VISA.docs.length}</span></div>
+    ${VISA.docs.map((d, i) => `<label class="chk"><input type="checkbox" data-vdoc="${i}" ${S.vdocs[i] ? "checked" : ""}><span>${esc(L(d))}</span></label>`).join("")}
+    <p class="note">${t("visaDocsNote")}</p><div class="v-fee">💶 ${tf("visaFee", {a: VISA.fee.adult, c: VISA.fee.child})}</div></div>`;
+  html += `<div class="card"><div class="h3">📄 ${t("visaItinTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13.5px">${t("visaItinText")}</p>
+    ${v ? `<label class="field"><span>${t("visaName")}</span><input type="text" id="vName" autocomplete="name" autocapitalize="characters" spellcheck="false" placeholder="SURNAME NAME" value="${esc(S.vname)}"></label>
+    <div class="v-btns" style="margin-top:10px"><button class="btn btn-primary" data-visa-pdf>${t("visaPdf")}</button><button class="btn btn-soft" data-visa-copy>${t("visaItinCopy")}</button></div>` : `<p class="note">${t("visaNeedPlan")}</p>`}</div>`;
+  html += `<div class="card"><div class="h3">🤝 ${t("visaStepsTitle")}</div><ol class="v-steps">${VISA.steps.map((s) => `<li>${esc(L(s))}</li>`).join("")}</ol></div>`;
+  const fill = (s) => s.replace("{a}", VISA.fee.adult).replace("{c}", VISA.fee.child).replace("{p}", VISA.processDays).replace("{m}", VISA.processMaxDays);
+  html += `<div class="card"><div class="h3">❓ ${t("visaFaqTitle")}</div>${t("visaFaq").map(([q, a]) => `<details><summary>${esc(q)}</summary><p class="v-faq">${esc(fill(a))}</p></details>`).join("")}
+    <p class="note">${tf("visaChecked", {d: VISA.checkedAt})} <a href="${VISA.source}" target="_blank" rel="noopener">${t("visaSourceLbl")} ↗</a></p></div>`;
+  $("#view-visa").innerHTML = html;
+}
+function visaResultHTML() {
+  const v = visaTrip(); if (!v) return "";
+  return `<div class="h3">🛂 ${t("visaResultTitle")}</div>${visaMainHTML(v)}
+    <p class="note">${tf("visaWindow", {a: fmtD(addMonths(v.start, -VISA.applyMaxMonths)), b: fmtD(addDays(v.start, -VISA.applyMinDays))})}</p>
+    <div class="v-btns" style="margin-top:10px">${waBtn(t("visaResultBtn"))}<button class="btn btn-soft" data-view="visa">${t("visaMore")}</button></div>`;
+}
+
+/* ---------- План поездки для консульства (английский, PDF без внешних библиотек) ---------- */
+const MODE_EN = {train: "by train", flight: "by plane", mixed: "by plane and train", bus: "by bus"};
+const enDate = (d) => d.toLocaleDateString("en-GB", {weekday: "short", day: "numeric", month: "short", year: "numeric"});
+const enOf = (o) => (typeof o === "string" ? o : (o && (o.en || o.ru)) || "");
+function itinerary() {
+  const v = visaTrip(); if (!v) return null;
+  const rows = []; let n = 0;
+  v.route.order.forEach((id, ci) => {
+    const c = CITIES[id];
+    buildCityDays(id, v.per[ci]).forEach((day, i) => {
+      const parts = [];
+      if (n === 0) parts.push(`Arrival in ${c.name.en} from Kazakhstan.`);
+      if (i === 0 && ci > 0) { const l = v.route.legs[ci - 1], prev = v.route.order[ci - 1]; parts.push(`Travel ${CITIES[prev].name.en} -> ${c.name.en} ${MODE_EN[l.mode] || ""}${l.via ? ` (${enOf(l.via)})` : ""}.`); }
+      if (day.spots) parts.push("Sightseeing: " + day.spots.map((s) => enOf(s.n)).join(", ") + ".");
+      else if (day.trip) parts.push("Day trip: " + enOf(day.trip.n) + ".");
+      else parts.push("Free day in the city.");
+      if (n === S.days - 1) parts.push("Departure to Kazakhstan.");
+      rows.push({day: n + 1, date: enDate(addDays(v.start, n)), city: `${c.name.en}, ${c.country.en}`, plan: parts.join(" ")});
+      n++;
+    });
+  });
+  const head = [
+    ["Applicant", (S.vname || "").trim().toUpperCase() || "________________________"],
+    ["Dates", `${enDate(v.start)} - ${enDate(v.end)} (${S.days} days)`],
+    ["Travellers", String(S.people)],
+    ["Main destination", `${v.main.country.en} (${v.tie ? "country of first entry" : `${v.main.days} of ${S.days} days`})`],
+    ["Route", v.route.order.map((id) => `${CITIES[id].name.en} (${CITIES[id].country.en})`).join(" -> ")]
+  ];
+  return {head, rows};
+}
+const ITIN_FOOT = "Accommodation and transport: see the attached booking confirmations.";
+function itineraryText() {
+  const it = itinerary(); if (!it) return "";
+  return ["TRAVEL ITINERARY", ...it.head.map(([k, v]) => `${k}: ${v}`), "", ...it.rows.map((r) => `Day ${r.day} | ${r.date} | ${r.city}\n${r.plan}\n`), ITIN_FOOT].join("\n");
+}
+// WinAnsi (стандартные шрифты PDF): латиница; буквы с диакритикой вне Latin-1 → без знака; эмодзи убираем
+const PDF_MAP = {"€": 128, "‚": 130, "ƒ": 131, "„": 132, "…": 133, "†": 134, "‡": 135, "ˆ": 136, "‰": 137, "Š": 138, "‹": 139, "Œ": 140, "Ž": 142, "‘": 145, "’": 146, "“": 147, "”": 148, "•": 149, "–": 150, "—": 151, "˜": 152, "™": 153, "š": 154, "›": 155, "œ": 156, "ž": 158, "Ÿ": 159, "→": "->", "←": "<-", "≈": "~", " ": " "};
+function pdfStr(s) {
+  let out = "";
+  for (const ch of String(s).normalize("NFC")) {
+    const m = PDF_MAP[ch], c = ch.codePointAt(0);
+    if (typeof m === "number") out += String.fromCharCode(m);
+    else if (typeof m === "string") out += m;
+    else if (c < 128 || (c >= 160 && c < 256)) out += ch;
+    else { const base = ch.normalize("NFD")[0]; if (base.codePointAt(0) < 128) out += base; }
+  }
+  return out;
+}
+const pdfEsc = (s) => s.replace(/[\\()]/g, "\\$&");
+const pdfW = (s, size, bold) => [...s].reduce((w, c) => w + (/[il.,:;'|!]/.test(c) ? 0.28 : /[ftjrI()\- ]/.test(c) ? 0.33 : /[mwMW]/.test(c) ? 0.86 : /[A-Z]/.test(c) ? 0.69 : /[0-9]/.test(c) ? 0.56 : 0.53), 0) * size * (bold ? 1.07 : 1);
+function pdfWrap(s, size, bold, maxW) {
+  const lines = []; let line = "";
+  for (const w of s.split(/\s+/).filter(Boolean)) { const tst = line ? line + " " + w : w; if (pdfW(tst, size, bold) > maxW && line) { lines.push(line); line = w; } else line = tst; }
+  if (line) lines.push(line);
+  return lines;
+}
+function makeItineraryPdf() {
+  const it = itinerary(); if (!it) return null;
+  const M = 50, W = 495, INK = "0.043 0.145 0.271", GREY = "0.34 0.44 0.54", pages = [[]];
+  let y = 0;
+  const ops = () => pages[pages.length - 1];
+  const newPage = () => { pages.push([]); y = 800; };
+  // text() получает уже перекодированную строку (pdfStr), повторно не перекодируем
+  const text = (s, x, size, bold, color) => ops().push(`BT ${color || INK} rg /${bold ? "F2" : "F1"} ${size} Tf ${x.toFixed(1)} ${y.toFixed(1)} Td (${pdfEsc(s)}) Tj ET`);
+  const para = (s, x, size, bold, w, lh, color) => pdfWrap(pdfStr(s), size, bold, w).forEach((ln) => { if (y < 60) newPage(); text(ln, x, size, bold, color); y -= lh; });
+  ops().push("0.106 0.702 0.82 rg 0 830 595 12 re f");
+  y = 792; text("TRAVEL ITINERARY", M, 20, true); y -= 26;
+  it.head.forEach(([k, v]) => { const kw = 112; if (y < 60) newPage(); text(pdfStr(k + ":"), M, 10.5, true, GREY); const lines = pdfWrap(pdfStr(v), 10.5, false, W - kw); lines.forEach((ln, i) => { if (i) { y -= 14; if (y < 60) newPage(); } text(ln, M + kw, 10.5, false); }); y -= 17; });
+  y -= 4; ops().push(`0.86 0.91 0.93 RG 1 w ${M} ${y + 6} m ${M + W} ${y + 6} l S`); y -= 16;
+  it.rows.forEach((r) => {
+    const planLines = pdfWrap(pdfStr(r.plan), 10, false, W - 16);
+    if (y - 18 - planLines.length * 13.5 < 60) newPage();
+    text(pdfStr(`Day ${r.day}  |  ${r.date}  |  ${r.city}`), M, 11, true); y -= 15;
+    planLines.forEach((ln) => { text(ln, M + 16, 10, false); y -= 13.5; });
+    y -= 8;
+  });
+  y -= 6; para(ITIN_FOOT, M, 9.5, false, W, 12, GREY);
+  y -= 4; para(`Prepared with ${CONTACT.brand}: ${CONTACT.site}`, M, 8.5, false, W, 11, GREY);
+  const objs = [];
+  objs[1] = "<< /Type /Catalog /Pages 2 0 R >>";
+  objs[3] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+  objs[4] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>";
+  const kids = [];
+  pages.forEach((p, i) => {
+    const pid = 5 + i * 2, stream = p.join("\n"); kids.push(pid + " 0 R");
+    objs[pid] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${pid + 1} 0 R >>`;
+    objs[pid + 1] = `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`;
+  });
+  objs[2] = `<< /Type /Pages /Kids [${kids.join(" ")}] /Count ${pages.length} >>`;
+  let pdf = "%PDF-1.4\n%âãÏÓ\n";
+  const off = [];
+  for (let i = 1; i < objs.length; i++) { off[i] = pdf.length; pdf += `${i} 0 obj\n${objs[i]}\nendobj\n`; }
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objs.length}\n0000000000 65535 f \n${off.slice(1).map((o) => String(o).padStart(10, "0") + " 00000 n \n").join("")}trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  return new Blob([Uint8Array.from(pdf, (ch) => ch.charCodeAt(0))], {type: "application/pdf"});
+}
+async function visaPdf() {
+  const blob = makeItineraryPdf(); if (!blob) { toast(t("visaNeedPlan")); return; }
+  const name = `itinerary-${S.start}.pdf`;
+  let file = null; try { file = new File([blob], name, {type: "application/pdf"}); } catch (e) {}
+  if (file && (isIOS || tg) && navigator.canShare && navigator.canShare({files: [file]})) {
+    try { await navigator.share({files: [file]}); return; } catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  downloadBlob(blob, name); toast(t("visaPdfDone"));
+}
+
+/* ---------- Установка на телефон (PWA) ---------- */
+let installEvt = null;
+const isStandalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installEvt = e; renderInstall(); });
+function installHTML() {
+  if (tg || isStandalone() || store.get("instHidden", false) || !/^https?:$/.test(location.protocol) || (!installEvt && !isIOS)) return "";
+  return `<div class="install"><div class="install-t"><b>📲 ${t("instTitle")}</b><p>${t(isIOS ? "instIos" : "instAndroid")}</p></div>
+    ${installEvt ? `<button class="btn btn-primary" data-install>${t("instBtn")}</button>` : ""}<button class="install-x" data-install-hide aria-label="${esc(t("instHide"))}">✕</button></div>`;
+}
+function renderInstall() { const el = $("#install"); if (el) el.innerHTML = installHTML(); }
 
 /* ---------- Разговорник и чек-лист ---------- */
 /* Кириллическая подсказка произношения → латиница (для английского интерфейса); ЗАГЛАВНАЯ = ударение */
@@ -3647,14 +4143,18 @@ function renderChecks() {
   $("#checks").innerHTML = CHECKS.map((c, i) => `<label class="chk"><input type="checkbox" data-chk="${i}" ${S.checks[i] ? "checked" : ""}><span>${esc(L(c))}</span></label>`).join("");
 }
 function renderBar() {
-  $("#bar").classList.toggle("hidden", S.view !== "plan");
+  $("#bar").classList.toggle("hidden", S.view !== "plan" && S.view !== "visa");
+  $("#go").classList.toggle("hidden", S.view !== "plan");
+  const wa = $("#barWa"); wa.classList.toggle("hidden", S.view !== "visa");
+  if (S.view === "visa") { wa.href = waUrl(visaMessage()); wa.textContent = t("visaBarBtn"); }
   const ok = S.tier !== null && S.style && S.cities.length > 0;
   $("#go").disabled = !ok; $("#go").textContent = ok ? t("go") : t("pick");
 }
 function render() {
   renderTexts(); renderTabs();
-  ["plan", "result", "guide", "phrases", "check"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
+  ["plan", "result", "visa", "guide", "phrases", "check"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
   if (S.view === "plan") renderPlanner();
+  if (S.view === "visa") renderVisa();
   if (S.view === "result") renderResult();
   if (S.view === "guide") renderGuide();
   if (S.view === "phrases") renderPhrases();
@@ -3680,11 +4180,14 @@ document.addEventListener("click", (e) => {
   const openStory = e.target.closest("[data-open-story]"); if (openStory) { haptic(); openStoryStudio({type: "place", id: openStory.dataset.openStory}); return; }
   if (e.target.closest("[data-open-trip-story]")) { haptic(); openStoryStudio({type: "trip"}); return; }
   const openCity = e.target.closest("[data-open-city-story]"); if (openCity) { haptic(); openStoryStudio({type: "city", id: openCity.dataset.openCityStory}); return; }
+  const ext = e.target.closest("a[data-ext]"); if (ext) { if (openExternal(ext.href)) e.preventDefault(); return; }
   const b = e.target.closest("button"); if (!b) return;
-  if (b.dataset.copySlide !== undefined) { const i = +b.dataset.copySlide; copyText(S.storySlides[i].text, b, document.getElementById("slideText" + i)); return; }
-  if (b.hasAttribute("data-copy-all")) { copyText(allSlidesText(S.storySlides), b, null); return; }
-  if (b.id === "btnDownloadStory") { triggerStoryDownload(); return; }
-  if (b.id === "btnShareStory") { triggerStoryShare(); return; }
+  if (S.st && stClick(b)) return;
+  if (b.hasAttribute("data-visa-tg")) { copyText(visaMessage(), null, null); toast(t("visaTgCopied")); if (!openExternal(tgUrl())) window.open(tgUrl(), "_blank", "noopener"); return; }
+  if (b.hasAttribute("data-visa-pdf")) { visaPdf(); return; }
+  if (b.hasAttribute("data-visa-copy")) { copyText(itineraryText(), b, null); return; }
+  if (b.hasAttribute("data-install")) { if (installEvt) { installEvt.prompt(); installEvt = null; } renderInstall(); return; }
+  if (b.hasAttribute("data-install-hide")) { store.set("instHidden", true); renderInstall(); return; }
   if (b.dataset.lang) { S.lang = b.dataset.lang; store.set("lang", S.lang); render(); return; }
   if (b.dataset.view) { S.view = b.dataset.view; haptic(); render(); window.scrollTo(0, 0); return; }
   if (b.dataset.guideCity !== undefined) { S.guideCity = b.dataset.guideCity; renderGuide(); return; }
@@ -3706,14 +4209,20 @@ document.addEventListener("click", (e) => {
   else return;
   haptic(); savePlan(); render();
 });
-// картинка-стикер рисуется только когда пользователь раскрыл дополнительный блок
-document.addEventListener("toggle", (e) => { if (e.target.classList && e.target.classList.contains("png-extra") && e.target.open) refreshStoryPreview(); }, true);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#modalBackdrop").classList.contains("hidden")) closeModal(); });
-document.addEventListener("input", (e) => { if (e.target.id === "guideSearch") { S.guideQuery = e.target.value; $("#guideCards").innerHTML = guideCardsHTML(); } });
+document.addEventListener("input", (e) => {
+  if (e.target.id === "guideSearch") { S.guideQuery = e.target.value; $("#guideCards").innerHTML = guideCardsHTML(); return; }
+  if (stInput(e.target)) return;
+  if (e.target.id === "vName") { S.vname = e.target.value; return; }
+  if (e.target.id === "vpIssued" || e.target.id === "vpExpires") { S.passport[e.target.id === "vpIssued" ? "issued" : "expires"] = e.target.value; $("#vpResult").innerHTML = passportResultHTML(); }
+});
 document.addEventListener("change", (e) => {
   if (e.target.id === "start") { S.start = e.target.value || S.start; savePlan(); }
   if (e.target.id === "people") { S.people = Math.max(1, Math.min(10, +e.target.value || 1)); savePlan(); }
   if (e.target.dataset.chk !== undefined) { S.checks[e.target.dataset.chk] = e.target.checked; store.set("checks", S.checks); renderChecks(); }
+  if (e.target.dataset.vdoc !== undefined) { S.vdocs[e.target.dataset.vdoc] = e.target.checked; store.set("vdocs", S.vdocs); $("#vdocCount").textContent = `${visaDocsDone()}/${VISA.docs.length}`; }
+  if (e.target.id === "vpIssued" || e.target.id === "vpExpires") { S.passport[e.target.id === "vpIssued" ? "issued" : "expires"] = e.target.value; $("#vpResult").innerHTML = passportResultHTML(); }
+  if (e.target.id === "stFile") { stOwnPhoto(e.target.files && e.target.files[0]); e.target.value = ""; }
 });
 
 /* ---------- Курс валют (живой; при ошибке — FX из блока qz-data) ---------- */
@@ -3730,8 +4239,10 @@ async function loadRate() {
 }
 
 // для тестов и отладки (console): window.QZ.optimizeRoute(["vienna","rome"], "vienna", null)
-window.QZ = {optimizeRoute, allocateDays, pathHours, S, render};
+window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
+// офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
 // первый рендер — когда весь файл прочитан: к этому моменту блок встроенных превью THUMBS уже загружен
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render); else render();
 loadRate();
