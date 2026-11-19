@@ -594,8 +594,8 @@ const RETURN_FLIGHTS = {
     venice: {airport: "VCE", toAirportMin: 35, returnHours: 12,   via: ["IST", "FRA"],        direct: false},
     como:   {airport: "MXP", toAirportMin: 75, returnHours: 13,   via: ["IST", "FRA"],        direct: false, note: V("Мальпенсаға пойыз/автобуспен ~1 сағ 15 мин", "до Мальпенсы ~1 ч 15 мин поездом/автобусом", "~1 h 15 min to Malpensa by train/bus")},
     lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")},
-    budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("2026 жылы Қазақстанға тікелей рейс расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "прямой рейс в Казахстан в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "a direct flight to Kazakhstan is not confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
-    prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT Прага → Астана тікелей рейсі аптасына 2–4 рет (маусымға байланысты)", "прямой рейс SCAT Прага → Астана 2–4 раза в неделю (зависит от сезона)", "SCAT flies Prague → Astana direct 2–4 times a week (seasonal)")}
+    budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("Тікелей рейс 2026 жылы расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "Прямой рейс в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "No direct flight confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
+    prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT, Прага → Астана, аптасына 2–4 рет (маусымға байланысты)", "SCAT, Прага → Астана, 2–4 раза в неделю (зависит от сезона)", "SCAT, Prague → Astana, 2–4 times a week (seasonal)")}
   }
 };
 
@@ -4255,7 +4255,7 @@ function priceTag(s, cityId) {
   if (s.p === "paid") return `<span class="tag paid">${t("paid")}</span>`;
   const sym = CUR_SYM[CITIES[cityId].currency || "EUR"];
   const n = (v) => (v >= 1000 ? fmt(v) : num(v)); // форинты и кроны — с разделителем тысяч
-  return `<span class="tag paid">${Array.isArray(s.p) ? `${n(s.p[0])}–${n(s.p[1])} ${sym}` : `~${n(s.p)} ${sym}`}</span>`;
+  return `<span class="tag paid">${Array.isArray(s.p) ? (s.p[0] === s.p[1] ? `${n(s.p[0])} ${sym}` : `${n(s.p[0])}–${n(s.p[1])} ${sym}`) : `~${n(s.p)} ${sym}`}</span>`;
 }
 const usedPhotos = new Set();
 function spotRow(s, cityId, date) {
