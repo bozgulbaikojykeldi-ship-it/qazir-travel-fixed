@@ -511,6 +511,8 @@ const FX = {
   EUR_KZT: 600,               // 1 EUR = ... ₸  (резерв; живой курс перекрывает)
   EUR_USD: 1.10,              // 1 EUR = ... $
   CHF_EUR: 1.07,              // 1 CHF = ... €  (Лугано считается в CHF)
+  EUR_HUF: 365,               // 1 EUR = ... Ft (Будапешт считается в форинтах; ЕЦБ, ноябрь 2026)
+  EUR_CZK: 24.3,              // 1 EUR = ... Kč (Прага считается в кронах; ноябрь 2026)
   pricesYear: "2026"          // подпись «цены на 2026, примерные»
 };
 
@@ -553,7 +555,23 @@ const TRAVEL = {
   "milan|lugano":  {h: 1.25, mode: "train", p: [15, 25],  via: V("EuroCity ~1 сағ 10 мин", "EuroCity ~1 ч 10 мин", "EuroCity ~1 h 10 min")},
   "venice|como":   {h: 3.75, mode: "train", p: [26, 51],  via: V("Frecciarossa Миланға + Trenord", "Frecciarossa до Милана + Trenord", "Frecciarossa to Milan + Trenord")},
   "venice|lugano": {h: 4.25, mode: "train", p: [36, 70],  via: V("Frecciarossa Миланға + EuroCity", "Frecciarossa до Милана + EuroCity", "Frecciarossa to Milan + EuroCity")},
-  "como|lugano":   {h: 0.75, mode: "train", p: [13, 24],  via: V("TILO / EuroCity ~35 мин", "TILO / EuroCity ~35 мин", "TILO / EuroCity ~35 min")}
+  "como|lugano":   {h: 0.75, mode: "train", p: [13, 24],  via: V("TILO / EuroCity ~35 мин", "TILO / EuroCity ~35 мин", "TILO / EuroCity ~35 min")},
+  // Будапешт и Прага (ноябрь 2026): поезда — ÖBB/RegioJet/MÁV, перелёты — лоукостеры, «от» по агрегаторам, «типично» — оценка
+  "vienna|budapest": {h: 2.75, mode: "train", p: [9, 40], via: V("Railjet / EuroCity ~2 сағ 40 мин, Wien Hbf → Budapest-Keleti", "Railjet / EuroCity ~2 ч 40 мин, Wien Hbf → Budapest-Keleti", "Railjet / EuroCity ~2 h 40 min, Wien Hbf → Budapest-Keleti")},
+  "vienna|prague": {h: 4.0, mode: "train", p: [15, 45], via: V("Railjet / RegioJet ~4 сағ, Wien Hbf → Praha hl.n.", "Railjet / RegioJet ~4 ч, Wien Hbf → Praha hl.n.", "Railjet / RegioJet ~4 h, Wien Hbf → Praha hl.n.")},
+  "budapest|prague": {h: 6.75, mode: "train", p: [16, 40], via: V("EuroCity / RegioJet, тікелей пойыз ~6,5–7 сағ", "EuroCity / RegioJet, прямой поезд ~6,5–7 ч", "EuroCity / RegioJet direct train ~6.5–7 h")},
+  "budapest|rome": {h: 4.5, mode: "flight", p: [18, 100], via: V("BUD → FCO/CIA ~1 сағ 45 мин", "BUD → FCO/CIA ~1 ч 45 мин", "BUD → FCO/CIA ~1 h 45 min")},
+  "budapest|paris": {h: 5.0, mode: "flight", p: [22, 110], via: V("BUD → ORY/CDG ~2 сағ 20 мин", "BUD → ORY/CDG ~2 ч 20 мин", "BUD → ORY/CDG ~2 h 20 min")},
+  "budapest|milan": {h: 4.0, mode: "flight", p: [20, 90], via: V("BUD → MXP/BGY ~1 сағ 35 мин", "BUD → MXP/BGY ~1 ч 35 мин", "BUD → MXP/BGY ~1 h 35 min")},
+  "budapest|venice": {h: 4.25, mode: "flight", p: [17, 90], via: V("BUD → TSF/VCE ~1 сағ 15 мин", "BUD → TSF/VCE ~1 ч 15 мин", "BUD → TSF/VCE ~1 h 15 min")},
+  "budapest|como": {h: 5.5, mode: "mixed", p: [25, 95], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  "budapest|lugano": {h: 6.0, mode: "mixed", p: [35, 115], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
+  "prague|rome": {h: 4.75, mode: "flight", p: [35, 110], via: V("PRG → FCO/CIA ~1 сағ 55 мин", "PRG → FCO/CIA ~1 ч 55 мин", "PRG → FCO/CIA ~1 h 55 min")},
+  "prague|paris": {h: 4.75, mode: "flight", p: null, via: V("PRG → CDG/BVA ~1 сағ 50 мин", "PRG → CDG/BVA ~1 ч 50 мин", "PRG → CDG/BVA ~1 h 50 min")},
+  "prague|milan": {h: 4.5, mode: "flight", p: [23, 90], via: V("PRG → BGY/MXP ~1 сағ 25 мин", "PRG → BGY/MXP ~1 ч 25 мин", "PRG → BGY/MXP ~1 h 25 min")},
+  "prague|venice": {h: 4.5, mode: "flight", p: [27, 90], via: V("PRG → TSF/VCE ~1 сағ 20 мин", "PRG → TSF/VCE ~1 ч 20 мин", "PRG → TSF/VCE ~1 h 20 min")},
+  "prague|como": {h: 5.75, mode: "mixed", p: [28, 95], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  "prague|lugano": {h: 6.25, mode: "mixed", p: [38, 115], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")}
 };
 
 /* 4. ОБРАТНЫЙ ВЫЛЕТ В КАЗАХСТАН.
@@ -575,7 +593,9 @@ const RETURN_FLIGHTS = {
     milan:  {airport: "MXP", toAirportMin: 55, returnHours: 11.5, via: ["IST", "FRA", "WAW"], direct: false},
     venice: {airport: "VCE", toAirportMin: 35, returnHours: 12,   via: ["IST", "FRA"],        direct: false},
     como:   {airport: "MXP", toAirportMin: 75, returnHours: 13,   via: ["IST", "FRA"],        direct: false, note: V("Мальпенсаға пойыз/автобуспен ~1 сағ 15 мин", "до Мальпенсы ~1 ч 15 мин поездом/автобусом", "~1 h 15 min to Malpensa by train/bus")},
-    lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")}
+    lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")},
+    budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("2026 жылы Қазақстанға тікелей рейс расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "прямой рейс в Казахстан в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "a direct flight to Kazakhstan is not confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
+    prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT Прага → Астана тікелей рейсі аптасына 2–4 рет (маусымға байланысты)", "прямой рейс SCAT Прага → Астана 2–4 раза в неделю (зависит от сезона)", "SCAT flies Prague → Astana direct 2–4 times a week (seasonal)")}
   }
 };
 
@@ -2339,6 +2359,507 @@ const CITIES = {
       halal: {kk: "Бұл қалада мұндай формат аз. Балама: вокзал жанындағы кәуап, гроттодағы грильдегі балық. Google Maps-тан «halal near Lugano» деп ізде.", ru: "В этом городе такого формата мало. Альтернатива: кебаб у вокзала, рыба на гриле в гротто. Проверь в Google Maps по запросу «halal near Lugano».", en: "This format is rare here. Alternative: kebab near the station, grilled fish at a grotto. Search Google Maps for 'halal near Lugano'."}
     },
     eatSources: ["https://guide.michelin.com/en/ticino/massagno/restaurant/grotto-della-salute", "https://www.luganoregion.com/en/restaurants"]
+  },
+  budapest: {
+    icon: "♨️",
+    flag: "🇭🇺",
+    country: {kk: "Венгрия", ru: "Венгрия", en: "Hungary"},
+    lang: "hu",
+    currency: "HUF",
+    weight: 2.2,
+    name: {kk: "Будапешт", ru: "Будапешт", en: "Budapest"},
+    center: [47.4979, 19.0402],
+    airport: "BUD",
+    photoKey: "Budapest",
+    history: {kk: "Будапешт 1873 жылы үш қала — Дунайдың оң жағалауындағы Буда мен Обуда және сол жағалаудағы Пешт — бірігуінен пайда болды. Буда XIII ғасырдан бері корольдік астана еді. 150 жылға жуық осман билігінен (1541–1686) кейін қала Габсбургтер империясының құрамына кірді, ал 1867 жылы Аустрия-Венгрияның екінші астанасы болды.", ru: "Будапешт появился в 1873 году, когда объединили три города: Буду и Обуду на правом берегу Дуная и Пешт на левом. Буда с XIII века была королевской столицей. После почти 150 лет османского правления (1541–1686) город вошёл в империю Габсбургов, а в 1867 году стал второй столицей Австро-Венгрии.", en: "Budapest was created in 1873 by merging three towns: Buda and Óbuda on the right bank of the Danube and Pest on the left. Buda had been a royal capital since the 13th century. After almost 150 years of Ottoman rule (1541–1686) the city passed to the Habsburgs, and in 1867 it became the second capital of Austria-Hungary."},
+    fact: {kk: "Будапешттегі M1 метро желісі 1896 жылы ашылған — бұл Еуропа құрлығындағы ең көне метро. Ол Андраши даңғылымен бірге ЮНЕСКО тізіміне енген.", ru: "Линия метро M1 в Будапеште открылась в 1896 году — это старейшее метро континентальной Европы. Вместе с проспектом Андраши она входит в список ЮНЕСКО.", en: "Budapest's M1 metro line opened in 1896, making it the oldest underground railway in continental Europe. Together with Andrássy Avenue it is a UNESCO World Heritage site."},
+    historySource: "https://whc.unesco.org/en/list/400",
+    stay: [[5500, 9000], [13000, 20000], [22000, 36000], [44000, 73000], [91000, 182000]],
+    food: [[3600, 6500], [6500, 11000], [13000, 20000], [22000, 36000], [44000, 91000]],
+    day: [2500, 2750],
+    activity: [[0, 3000], [3000, 7000], [7000, 14000], [14000, 28000], [28000, 70000]],
+    transport: {kk: "Бір рет жүру шамамен 500 Ft (BudapestGO қосымшасында арзанырақ), 24 сағаттық билет шамамен 2 750 Ft. Метрода қағаз билетті түсер алдында компостерлеңіз. Әуежайдан орталыққа баратын 100E автобусына бөлек билет керек. Бағалар 2026 жылы өсті — bkk.hu сайтынан тексеріңіз.", ru: "Разовый билет около 500 Ft (дешевле — в приложении BudapestGO), 24 часа — около 2 750 Ft. В метро бумажный билет нужно прокомпостировать до спуска. На автобус 100E из аэропорта в центр нужен отдельный билет. Цены выросли в 2026 году — сверьте на bkk.hu.", en: "A single ticket is about 500 Ft (cheaper in the BudapestGO app), a 24-hour pass about 2,750 Ft. In the metro, validate a paper ticket before going down. The 100E airport bus to the centre needs a separate ticket. Fares rose in 2026 — check bkk.hu."},
+    source: "https://bkk.hu/en/tickets-and-passes/prices/",
+    prices: {
+      currency: "HUF",
+      checked: "2026-11",
+      confidence: "estimate",
+      items: {coffee: [800, 1200], breakfast: [2500, 4500], pizzaPasta: [3500, 5500], lunchCheap: [3000, 4500], dinnerMid: [8000, 14000], aperitivo: [800, 1500]},
+      notes: {
+        lunchCheap: {kk: "Napi menü — жұмыс күндеріндегі түскі ас мәзірі", ru: "Napi menü: комплексный обед в будни", en: "Napi menü: weekday set lunch"},
+        aperitivo: {kk: "Аперитив орнына — фрёч (шарап пен газдалған су) барда", ru: "Вместо аперитива — фрёч (вино с содовой) в баре", en: "Instead of an aperitivo: a fröccs (wine with soda) in a bar"}
+      },
+      source: "https://www.numbeo.com/cost-of-living/in/Budapest"
+    },
+    shops: ["Spar", "Lidl", "Aldi", "Tesco", "CBA"],
+    spots: [
+      {
+        w: "Hungarian Parliament Building",
+        n: {kk: "Венгрия парламенті", ru: "Здание парламента", en: "Hungarian Parliament Building"},
+        h: 1.5,
+        p: [14000, 14000],
+        tag: "c",
+        ll: [47.5071, 19.0456],
+        note: {kk: "ЕО-дан тыс азаматтарға билет, алдын ала онлайн алыңыз", ru: "Билет для граждан не из ЕС; покупайте онлайн заранее", en: "Non-EU ticket price; book online in advance"},
+        storyId: "budapest-parliament",
+        tagline: {kk: "Дунай жағасындағы Венгрияның ең үлкен ғимараты", ru: "Самое большое здание Венгрии на берегу Дуная", en: "Hungary's largest building, on the bank of the Danube"},
+        history: {kk: "Ғимаратты халықаралық байқауда жеңген сәулетші Имре Штейндль жобалаған. Құрылыс 1885 жылы басталып, ғасыр басында аяқталды. Неоготикалық сарайда 691 бөлме бар, ал күмбезінің биіктігі 96 метр — бұл венгрлер мемлекетінің құрылған 896 жылына ишара.", ru: "Здание спроектировал архитектор Имре Штейндль, победивший в международном конкурсе. Строительство началось в 1885 году и завершилось в начале XX века. В неоготическом дворце 691 помещение, а высота купола — 96 метров: это отсылка к 896 году, когда венгры пришли на эти земли.", en: "The building was designed by Imre Steindl, who won an international competition. Construction began in 1885 and was completed in the early 20th century. The neo-Gothic palace has 691 rooms, and its dome is 96 metres high — a nod to the year 896, when the Hungarians settled the land."},
+        fact: {kk: "2000 жылдан бері парламенттің орталық залында Әулие Иштванның қасиетті тәжі — Венгрияның басты мемлекеттік рәмізі сақталады.", ru: "С 2000 года в центральном зале парламента хранится Святая корона Иштвана — главная государственная реликвия Венгрии.", en: "Since 2000 the Holy Crown of St Stephen, Hungary's most important state relic, has been displayed in the Parliament's central hall."},
+        tip: {kk: "Ғимаратты сырттан ең әдемі көретін жер — Дунайдың арғы жағындағы Батьяни алаңы, әсіресе кешке шам жанғанда.", ru: "Лучший вид на здание — с другого берега Дуная, с площади Баттьяни, особенно вечером с подсветкой.", en: "The best view of the building is from across the Danube at Batthyány tér, especially at night when it is lit up."},
+        source: "https://www.parlament.hu/web/visitors/ticket-prices"
+      },
+      {
+        w: "Buda Castle",
+        n: {kk: "Буда қамалы", ru: "Будайская крепость", en: "Buda Castle"},
+        h: 2,
+        p: 0,
+        tag: "c",
+        ll: [47.4962, 19.0396],
+        note: {kk: "Аумағы тегін, мұражайлар ақылы", ru: "Территория бесплатно, музеи платно", en: "Grounds free, museums paid"},
+        storyId: "budapest-buda-castle",
+        tagline: {kk: "Венгрия корольдерінің төбедегі сарайы", ru: "Королевский дворец на холме над Дунаем", en: "The royal palace on the hill above the Danube"},
+        history: {kk: "1241–1242 жылдардағы моңғол шапқыншылығынан кейін король Бела IV Қамал төбесінде алғашқы бекіністі салдырды. Кейін бұл жер корольдердің резиденциясына айналды. Сарай соғыстарда бірнеше рет қиратылып, қайта салынды, ал 1987 жылы Буда қамалы кварталы ЮНЕСКО тізіміне енді.", ru: "После монгольского нашествия 1241–1242 годов король Бела IV построил на Замковом холме первую крепость. Позже здесь была резиденция венгерских королей. Дворец не раз разрушали в войнах и отстраивали заново, а в 1987 году Будайский замковый квартал внесли в список ЮНЕСКО.", en: "After the Mongol invasion of 1241–1242, King Béla IV built the first fortress on Castle Hill, which later became the residence of Hungary's kings. The palace was destroyed in wars several times and rebuilt, and in 1987 the Buda Castle Quarter was added to the UNESCO World Heritage list."},
+        fact: {kk: "Қазір сарайда Венгрия ұлттық галереясы, Будапешт тарихы мұражайы және Ұлттық Сечени кітапханасы орналасқан.", ru: "Сегодня во дворце работают Венгерская национальная галерея, Музей истории Будапешта и Национальная библиотека имени Сечени.", en: "Today the palace houses the Hungarian National Gallery, the Budapest History Museum and the National Széchényi Library."},
+        tip: {kk: "Төбеге фуникулёрмен көтерілуге болады, бірақ Кларк Адам алаңынан жаяу жол да бар — ол тегін әрі көрінісі әдемі.", ru: "На холм можно подняться на фуникулёре, но от площади Кларка Адама есть и пешая дорога — бесплатно и с красивыми видами.", en: "You can ride the funicular up the hill, but there is also a footpath from Clark Ádám tér — free and with great views."},
+        source: "https://whc.unesco.org/en/list/400"
+      },
+      {
+        w: "Fisherman's Bastion",
+        n: {kk: "Балықшылар қорғаны", ru: "Рыбацкий бастион", en: "Fisherman's Bastion"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [47.5022, 19.0347],
+        note: {kk: "Төменгі террасалар тегін, жоғарғы мұнаралар ақылы", ru: "Нижние террасы бесплатно, верхние башни платно", en: "Lower terraces free, upper towers paid"},
+        storyId: "budapest-fishermans-bastion",
+        tagline: {kk: "Жеті мұнаралы ертегідей ақ террасалар", ru: "Белые сказочные террасы с семью башнями", en: "Fairy-tale white terraces with seven towers"},
+        history: {kk: "Қорғанды 1895–1902 жылдары сәулетші Фридьеш Шулек Матьяш шіркеуін қалпына келтіру жобасының бір бөлігі ретінде салды. Ол ескі қамал қабырғасының орнына неороман стилінде тұрғызылды. Атауы бір нұсқа бойынша ортағасырда осы қабырғаны қорғаған балықшылар гильдиясына байланысты.", ru: "Бастион построил в 1895–1902 годах архитектор Фридьеш Шулек в рамках реставрации соседней церкви Матьяша. Его возвели в неороманском стиле на месте старой крепостной стены. По одной из версий, название связано с гильдией рыбаков, которая в Средние века защищала этот участок стены.", en: "The bastion was built in 1895–1902 by architect Frigyes Schulek as part of the restoration of the neighbouring Matthias Church. It stands on a stretch of the old castle wall, in neo-Romanesque style. One theory says the name comes from the fishermen's guild that defended this part of the wall in the Middle Ages."},
+        fact: {kk: "Қорғанның жеті мұнарасы Карпат бассейніне келген жеті мажар тайпасын бейнелейді.", ru: "Семь башен бастиона символизируют семь венгерских племён, пришедших в Карпатский бассейн.", en: "The bastion's seven towers stand for the seven Magyar tribes that settled in the Carpathian Basin."},
+        tip: {kk: "Таңертең ертемен келіңіз: террасалар бос, ал Дунай мен парламентке қарсы күн шығады.", ru: "Приходите рано утром: террасы пустые, а солнце встаёт над Дунаем и парламентом.", en: "Come early in the morning: the terraces are empty and the sun rises over the Danube and the Parliament."},
+        source: "https://en.wikipedia.org/wiki/Fisherman%27s_Bastion"
+      },
+      {
+        w: "Matthias Church",
+        n: {kk: "Матьяш шіркеуі", ru: "Церковь Матьяша", en: "Matthias Church"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [47.5019, 19.0342]
+      },
+      {
+        w: "Széchenyi thermal bath",
+        n: {kk: "Сечени шипалы моншасы", ru: "Купальня Сечени", en: "Széchenyi Thermal Bath"},
+        h: 3,
+        p: [13200, 14800],
+        tag: "b",
+        ll: [47.5186, 19.0815],
+        note: {kk: "Жұмыс күндері арзанырақ", ru: "В будни дешевле, чем в выходные", en: "Cheaper on weekdays"},
+        storyId: "budapest-szechenyi",
+        tagline: {kk: "Ашық аспан астындағы ыстық бассейндер — қыста да", ru: "Горячие бассейны под открытым небом — даже зимой", en: "Hot open-air pools — even in winter"},
+        history: {kk: "Монша 1913 жылы ашылып, граф Иштван Сеченидің құрметіне аталды. Нео-барокко ғимаратын сәулетші Дьёзё Циглер жобалаған. Кешенде 18 бассейн бар: 3 үлкен ашық бассейн және 15 жабық.", ru: "Купальня открылась в 1913 году и названа в честь графа Иштвана Сечени. Здание в стиле необарокко спроектировал архитектор Дьёзё Циглер. В комплексе 18 бассейнов: 3 больших открытых и 15 крытых.", en: "The bath opened in 1913 and was named after Count István Széchenyi. The neo-Baroque building was designed by Győző Czigler. The complex has 18 pools: 3 large outdoor pools and 15 indoor ones."},
+        fact: {kk: "Монша суы шамамен 1 240 метр тереңдіктегі ұңғымадан 77 °C ыстық күйінде шығады.", ru: "Вода для купальни поднимается из скважины глубиной около 1 240 метров и выходит на поверхность с температурой 77 °C.", en: "The water comes from a well about 1,240 metres deep and reaches the surface at 77 °C."},
+        tip: {kk: "Тәпішке мен сүлгіні өзіңізбен алыңыз — жалдау бөлек төленеді. Жүзу бассейніне бас киім керек.", ru: "Возьмите шлёпанцы и полотенце — прокат стоит отдельно. Для плавательного бассейна нужна шапочка.", en: "Bring flip-flops and a towel — renting them costs extra. A swimming cap is required in the lap pool."},
+        source: "https://visithungary.com/articles/interesting-facts-that-few-people-know-about-budapests-iconic-thermal-bath"
+      },
+      {
+        w: "Széchenyi Chain Bridge",
+        n: {kk: "Шынжырлы көпір", ru: "Цепной мост Сечени", en: "Széchenyi Chain Bridge"},
+        h: 0.5,
+        p: 0,
+        tag: "c",
+        ll: [47.4989, 19.0436],
+        storyId: "budapest-chain-bridge",
+        tagline: {kk: "Буда мен Пештті алғаш байланыстырған көпір", ru: "Первый постоянный мост между Будой и Пештом", en: "The first permanent bridge between Buda and Pest"},
+        history: {kk: "Көпірді граф Иштван Сеченидің бастамасымен ағылшын инженері Уильям Тирни Кларк жобалап, шотланд инженері Адам Кларк салды. 1849 жылы ашылған ол Дунайдағы алғашқы тұрақты көпір болды. 1945 жылы соғыста жарылып, 1949 жылы қалпына келтірілді.", ru: "Мост построили по инициативе графа Иштвана Сечени: проект — английский инженер Уильям Тирни Кларк, строительство — шотландский инженер Адам Кларк. Открытый в 1849 году, он стал первым постоянным мостом через Дунай в городе. В 1945 году его взорвали в войну, а в 1949-м восстановили.", en: "The bridge was built on the initiative of Count István Széchenyi, designed by English engineer William Tierney Clark and built by Scottish engineer Adam Clark. Opened in 1849, it was the city's first permanent bridge across the Danube. Blown up in 1945, it was rebuilt in 1949."},
+        fact: {kk: "Екі инженер — Уильям мен Адам Кларк — тегі бірдей болғанымен туыс емес.", ru: "Оба инженера — Уильям и Адам Кларки — однофамильцы, но не родственники.", en: "The two engineers, William and Adam Clark, shared a surname but were not related."},
+        tip: {kk: "Кешке көпірден жаяу өтіңіз: бір жағынан парламент, екінші жағынан шам жанған Буда қамалы көрінеді.", ru: "Пройдите по мосту вечером: с одной стороны — подсвеченный парламент, с другой — Будайская крепость.", en: "Walk across in the evening: the lit-up Parliament on one side, Buda Castle on the other."},
+        source: "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_Chain_Bridge"
+      },
+      {
+        w: "St. Stephen's Basilica",
+        n: {kk: "Әулие Иштван базиликасы", ru: "Базилика Святого Иштвана", en: "St Stephen's Basilica"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [47.5009, 19.0539]
+      },
+      {
+        w: "Shoes on the Danube Bank",
+        n: {kk: "Дунай жағасындағы аяқ киімдер", ru: "Туфли на набережной Дуная", en: "Shoes on the Danube Bank"},
+        h: 0.5,
+        p: 0,
+        tag: "c",
+        ll: [47.5044, 19.0451],
+        storyId: "budapest-shoes",
+        tagline: {kk: "Холокост құрбандарына арналған үнсіз ескерткіш", ru: "Тихий памятник жертвам Холокоста", en: "A quiet memorial to victims of the Holocaust"},
+        history: {kk: "Ескерткіш 2005 жылы ашылды, оны кинорежиссер Джан Тогай мен мүсінші Дьюла Пауэр жасаған. Ол 1944–1945 жылдары «Жебелі кресттер» фашистік жасақтары Дунай жағасында атып өлтірген адамдарды, негізінен будапешттік еврейлерді еске алады.", ru: "Памятник открыли в 2005 году, его создали кинорежиссёр Джан Тогай и скульптор Дьюла Пауэр. Он посвящён людям, в основном будапештским евреям, которых в 1944–1945 годах расстреливали на берегу Дуная боевики фашистской партии «Скрещённые стрелы».", en: "The memorial was unveiled in 2005, created by film director Can Togay and sculptor Gyula Pauer. It honours people, mostly Budapest Jews, who were shot on the Danube bank by fascist Arrow Cross militiamen in 1944–1945."},
+        fact: {kk: "Ескерткіш темірден құйылған 60 жұп аяқ киімнен тұрады: құрбандарды оқ атпас бұрын аяқ киімдерін шешуге мәжбүрлеген.", ru: "Памятник — это 60 пар обуви, отлитых из железа: перед расстрелом людей заставляли разуваться.", en: "The memorial consists of 60 pairs of shoes cast in iron: victims were forced to take off their shoes before being shot."},
+        tip: {kk: "Бұл — еске алу орны: суретке түсерде сабырлы болыңыз. Ол парламенттен 300 метрдей жерде.", ru: "Это место памяти: фотографируйте сдержанно. Оно в 300 метрах от парламента.", en: "This is a place of remembrance, so be respectful when taking photos. It is about 300 m from the Parliament."},
+        source: "https://welovebudapest.com/en/venue/shoes-on-the-danube-bank"
+      },
+      {
+        w: "Heroes' Square, Budapest",
+        n: {kk: "Батырлар алаңы", ru: "Площадь Героев", en: "Heroes' Square"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [47.5149, 19.0779]
+      },
+      {
+        w: "Dohány Street Synagogue",
+        n: {kk: "Дохань көшесіндегі синагога", ru: "Синагога на улице Дохань", en: "Dohány Street Synagogue"},
+        h: 1.5,
+        p: "paid",
+        tag: "c",
+        ll: [47.4959, 19.0606],
+        note: {kk: "Сенбіде жабық", ru: "По субботам закрыто", en: "Closed on Saturdays"}
+      },
+      {
+        w: "Great Market Hall, Budapest",
+        n: {kk: "Орталық базар", ru: "Центральный рынок", en: "Great Market Hall"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [47.487, 19.0582],
+        note: {kk: "Жексенбіде жабық; екінші қабатта лангош", ru: "По воскресеньям закрыт; на втором этаже — лангош", en: "Closed on Sundays; lángos upstairs"}
+      },
+      {
+        w: "Gellért Hill",
+        n: {kk: "Геллерт төбесі", ru: "Гора Геллерт", en: "Gellért Hill"},
+        h: 1.5,
+        p: 0,
+        tag: "b",
+        ll: [47.4866, 19.0469]
+      },
+      {
+        w: "Margaret Island",
+        n: {kk: "Маргит аралы", ru: "Остров Маргит", en: "Margaret Island"},
+        h: 2,
+        p: 0,
+        tag: "b",
+        ll: [47.5265, 19.0477]
+      },
+      {
+        w: "Szimpla Kert",
+        n: {kk: "Симпла Керт — «қираған бар»", ru: "Симпла Керт — «руин-бар»", en: "Szimpla Kert ruin bar"},
+        h: 1.5,
+        p: 0,
+        tag: "m",
+        ll: [47.497, 19.0633]
+      },
+      {
+        w: "Hungarian State Opera",
+        n: {kk: "Венгрия мемлекеттік операсы", ru: "Венгерская опера", en: "Hungarian State Opera"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [47.5026, 19.0583]
+      },
+      {
+        w: "Vajdahunyad Castle",
+        n: {kk: "Вайдахуньяд қамалы", ru: "Замок Вайдахуньяд", en: "Vajdahunyad Castle"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [47.5153, 19.0823]
+      },
+      {
+        w: "Müpa Budapest",
+        n: {kk: "Müpa — өнер сарайы (заманауи сәулет)", ru: "Müpa — Дворец искусств (современная архитектура)", en: "Müpa Palace of Arts (modern architecture)"},
+        h: 1,
+        p: "paid",
+        tag: "m",
+        ll: [47.4683, 19.0705]
+      }
+    ],
+    trips: [
+      {
+        w: "Szentendre",
+        n: {kk: "Сентендре — суретшілер қалашығы (HÉV пойызымен ~40 мин)", ru: "Сентендре — городок художников (~40 мин на электричке HÉV)", en: "Szentendre, the artists' town (~40 min by HÉV train)"}
+      },
+      {
+        w: "Esztergom",
+        n: {kk: "Эстергом: Венгриядағы ең үлкен шіркеу (пойызбен ~1,5 сағ)", ru: "Эстергом: самая большая церковь Венгрии (~1,5 ч на поезде)", en: "Esztergom: Hungary's largest church (~1.5 h by train)"}
+      }
+    ],
+    hacks: [
+      ["💧", {kk: "Құбыр суын ішуге болады. Бөтелкеңізді ала жүріңіз.", ru: "Воду из-под крана можно пить. Носите с собой бутылку.", en: "Tap water is safe to drink. Carry a bottle."}],
+      ["🎫", {kk: "Билетті BudapestGO қосымшасынан алыңыз. Метрода қағаз билетті түсер алдында компостерлеңіз — бақылаушылар бірден айыппұл салады.", ru: "Билеты покупайте в приложении BudapestGO. Бумажный билет в метро компостируйте до спуска — контролёры штрафуют на месте.", en: "Buy tickets in the BudapestGO app. Validate a paper metro ticket before going down — inspectors fine on the spot."}],
+      ["♨️", {kk: "Моншаға тәпішке мен сүлгі алыңыз — жалдау бөлек. Жұмыс күндері билет демалыс күнінен арзан.", ru: "В купальню берите шлёпанцы и полотенце — прокат отдельно. В будни билет дешевле, чем в выходные.", en: "Bring flip-flops and a towel to the baths — rental costs extra. Weekday tickets are cheaper than weekend ones."}],
+      ["💳", {kk: "Картамен форинтпен төлеңіз. Терминал «теңгемен» немесе «еуромен» төлеуді ұсынса — бас тартыңыз: бағамы нашар.", ru: "Платите картой в форинтах. Если терминал предлагает списать «в тенге» или «в евро» — отказывайтесь: курс хуже.", en: "Pay by card in forints. If the terminal offers to charge you in tenge or euro, decline — the rate is worse."}],
+      ["🚋", {kk: "№2 трамвай Дунай жағасымен парламенттің жанынан өтеді — кәдімгі билетпен әдемі саяхат.", ru: "Трамвай №2 идёт вдоль Дуная мимо парламента — красивая поездка по обычному билету.", en: "Tram 2 runs along the Danube past the Parliament — a scenic ride on a normal ticket."}],
+      ["🍲", {kk: "Жұмыс күндері түсте «napi menü» іздеңіз — кешенді ас мәзірден арзан.", ru: "В будни в обед ищите «napi menü» — комплексный обед дешевле, чем по меню.", en: "On weekdays at lunch look for a 'napi menü' — a set lunch cheaper than à la carte."}],
+      ["🏛️", {kk: "Парламентке ЕО-дан тыс азаматтарға билет — 14 000 Ft. Онлайн алдын ала алыңыз: жазда кезек ұзақ.", ru: "Билет в парламент для граждан не из ЕС — 14 000 Ft. Покупайте онлайн заранее: летом очереди.", en: "Parliament tickets for non-EU citizens cost 14,000 Ft. Book online in advance — queues are long in summer."}]
+    ],
+    eat: {
+      local: [
+        ["Café Gerbeaud", {kk: "1858 жылдан бергі тарихи кондитерлік", ru: "Историческая кондитерская с 1858 года", en: "Historic patisserie since 1858"}, "€€€"],
+        ["New York Café", {kk: "Әлемдегі ең әдемі кафелердің бірі", ru: "Одно из самых красивых кафе мира", en: "One of the world's most beautiful cafés"}, "€€€"],
+        ["Kéhli Vendéglő", {kk: "Обудадағы дәстүрлі венгр асханасы", ru: "Традиционная венгерская кухня в Обуде", en: "Traditional Hungarian cooking in Óbuda"}, "€€"],
+        ["Frici Papa Kifőzdéje", {kk: "Арзан венгр тағамдары", ru: "Недорогая венгерская еда", en: "Cheap Hungarian home cooking"}, "€"]
+      ],
+      vegan: [
+        ["Napfényes Étterem", {kk: "Ең ескі вегандық мейрамханалардың бірі", ru: "Один из старейших веганских ресторанов", en: "One of the oldest vegan restaurants"}, "€€"],
+        ["Vegan Garden", {kk: "Вегандық фуд-корт", ru: "Веганский фуд-корт", en: "Vegan food court"}, "€"],
+        ["Las Vegan's", {kk: "Вегандық бургерлер", ru: "Веганские бургеры", en: "Vegan burgers"}, "€"]
+      ],
+      halal: [
+        ["Leila's Authentic Lebanese Cuisine", {kk: "Ливан асханасы", ru: "Ливанская кухня", en: "Lebanese cuisine"}, "€€"],
+        ["Al-Amir", {kk: "Сирия асханасы", ru: "Сирийская кухня", en: "Syrian cuisine"}, "€€"],
+        ["Mughal Shahi", {kk: "Үнді асханасы", ru: "Индийская кухня", en: "Indian cuisine"}, "€€"]
+      ]
+    },
+    eatSources: ["https://spinach.guide/cities/budapest/fully-vegan/", "https://www.zabihah.com/restaurants/cb9488ac-7767-11ef-95ae-6045bdeb9f57/leilas-authentic-lebanese-cuisine-budapest-hungary"]
+  },
+  prague: {
+    icon: "🏰",
+    flag: "🇨🇿",
+    country: {kk: "Чехия", ru: "Чехия", en: "Czechia"},
+    lang: "cs",
+    currency: "CZK",
+    weight: 2.3,
+    name: {kk: "Прага", ru: "Прага", en: "Prague"},
+    center: [50.0875, 14.4213],
+    airport: "PRG",
+    photoKey: "Prague",
+    history: {kk: "Прага IX ғасырда негізі қаланған Прага қамалының маңында өсті. XIV ғасырда Карл IV тұсында ол Қасиетті Рим империясының астанасы болды: сол кезде Карл университеті (1348) мен Жаңа қала салынды. 1918 жылы Прага Чехословакияның, ал 1993 жылдан бастап Чехияның астанасы болды.", ru: "Прага выросла вокруг Пражского града, основанного в IX веке. В XIV веке при Карле IV она стала столицей Священной Римской империи: тогда основали Карлов университет (1348) и Новое Место. В 1918 году Прага стала столицей Чехословакии, а с 1993 года — Чехии.", en: "Prague grew up around Prague Castle, founded in the 9th century. In the 14th century, under Charles IV, it became the capital of the Holy Roman Empire, when Charles University (1348) and the New Town were founded. In 1918 Prague became the capital of Czechoslovakia, and since 1993 of Czechia."},
+    fact: {kk: "1348 жылы ашылған Карл университеті — Орталық Еуропадағы ең көне университет.", ru: "Карлов университет, основанный в 1348 году, — старейший университет Центральной Европы.", en: "Charles University, founded in 1348, is the oldest university in Central Europe."},
+    historySource: "https://whc.unesco.org/en/list/616",
+    stay: [[440, 680], [970, 1460], [1700, 2670], [3160, 5350], [6800, 13400]],
+    food: [[290, 490], [490, 800], [920, 1460], [1580, 2670], [3160, 6320]],
+    day: [140, 150],
+    activity: [[0, 150], [150, 350], [350, 700], [700, 1400], [1400, 3500]],
+    transport: {kk: "30 минуттық билет PID Lítačka қосымшасында 36 Kč (қағаз — 39 Kč), 90 минуттық — 46/50 Kč, 24 сағаттық — шамамен 140–150 Kč. Әуежайдан: 59 немесе 119 автобус + метро, 46–50 Kč; AE экспресі — шамамен 200 Kč.", ru: "Билет на 30 минут — 36 Kč в приложении PID Lítačka (бумажный 39 Kč), на 90 минут — 46/50 Kč, на 24 часа — около 140–150 Kč. Из аэропорта: автобус 59 или 119 + метро за 46–50 Kč; экспресс AE — около 200 Kč.", en: "A 30-minute ticket is 36 Kč in the PID Lítačka app (39 Kč on paper), 90 minutes 46/50 Kč, 24 hours about 140–150 Kč. From the airport: bus 59 or 119 plus metro for 46–50 Kč; the AE express is about 200 Kč."},
+    source: "https://pid.cz/en/new-pid-tariff-from-1-january-2026-dont-pay-more-than-you-have-to/",
+    prices: {
+      currency: "CZK",
+      checked: "2026-11",
+      confidence: "estimate",
+      items: {coffee: [70, 100], breakfast: [180, 300], pizzaPasta: [220, 350], lunchCheap: [160, 250], dinnerMid: [450, 800], aperitivo: [60, 90]},
+      notes: {
+        lunchCheap: {kk: "Polední menu — жұмыс күндеріндегі түскі ас мәзірі", ru: "Polední menu: обеденное меню в будни", en: "Polední menu: weekday lunch menu"},
+        aperitivo: {kk: "Аперитив орнына — сыраханада бір саптыаяқ сыра (0,5 л)", ru: "Вместо аперитива — кружка пива (0,5 л) в пивной", en: "Instead of an aperitivo: a half-litre of beer in a pub"}
+      },
+      source: "https://www.numbeo.com/cost-of-living/in/Prague"
+    },
+    shops: ["Albert", "Billa", "Lidl", "Kaufland", "Tesco"],
+    spots: [
+      {
+        w: "Prague Castle",
+        n: {kk: "Прага қамалы", ru: "Пражский град", en: "Prague Castle"},
+        h: 3,
+        p: [450, 450],
+        tag: "c",
+        ll: [50.0909, 14.4005],
+        note: {kk: "Аулалар тегін; билет сарайлар мен соборға", ru: "Дворы бесплатно; билет — во дворцы и собор", en: "Courtyards free; ticket for palaces and cathedral"},
+        storyId: "prague-castle",
+        tagline: {kk: "Әлемдегі ең үлкен көне қамал кешені", ru: "Крупнейший древний замковый комплекс мира", en: "The largest ancient castle complex in the world"},
+        history: {kk: "Қамалдың негізін IX ғасырда, шамамен 880 жылы, Пржемыслидтер әулетінен шыққан князь Боривой қалаған. Мың жылдан астам уақыт бойы бұл жерде чех князьдері, корольдері мен императорлар тұрды, ал бүгін — Чехия президентінің резиденциясы.", ru: "Град основал в IX веке, около 880 года, князь Борживой из династии Пржемысловичей. Больше тысячи лет здесь жили чешские князья, короли и императоры, а сегодня это резиденция президента Чехии.", en: "The castle was founded in the 9th century, around 880, by Prince Bořivoj of the Přemyslid dynasty. For over a thousand years it was home to Czech princes, kings and emperors, and today it is the seat of the Czech president."},
+        fact: {kk: "Гиннесс рекордтар кітабы Прага қамалын әлемдегі ең үлкен көне қамал кешені деп атайды — оның ауданы шамамен 70 000 м².", ru: "Книга рекордов Гиннесса называет Пражский град крупнейшим древним замковым комплексом в мире — его площадь около 70 000 м².", en: "Guinness World Records lists Prague Castle as the largest ancient castle complex in the world, covering about 70,000 m²."},
+        tip: {kk: "Сағат 12:00-де басты қақпада күзетті ауыстыру рәсімі өтеді — ертерек келіп, орын алыңыз.", ru: "В 12:00 у главных ворот проходит смена караула — приходите заранее, чтобы занять место.", en: "The changing of the guard at the main gate takes place at noon — arrive early for a good spot."},
+        source: "https://www.hrad.cz/en/prague-castle-for-visitors"
+      },
+      {
+        w: "Charles Bridge",
+        n: {kk: "Карл көпірі", ru: "Карлов мост", en: "Charles Bridge"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [50.0865, 14.4114],
+        storyId: "prague-charles-bridge",
+        tagline: {kk: "Мүсіндері бар 600 жылдық тас көпір", ru: "Каменный мост со статуями, которому больше 600 лет", en: "A 600-year-old stone bridge lined with statues"},
+        history: {kk: "Көпірдің құрылысы 1357 жылы император Карл IV тұсында басталып, XV ғасырдың басында аяқталды. Ұзындығы шамамен 516 метр. Ғасырлар бойы ол Влтава арқылы Ескі қала мен Кіші қаланы жалғайтын жалғыз көпір болды. Карл IV есімі оған 1870 жылы берілді.", ru: "Строительство моста началось в 1357 году при императоре Карле IV и завершилось в начале XV века. Его длина около 516 метров. Столетиями это был единственный мост через Влтаву между Старым Местом и Малой Страной. Имя Карла IV ему дали только в 1870 году.", en: "Construction began in 1357 under Emperor Charles IV and was completed in the early 15th century. The bridge is about 516 metres long. For centuries it was the only bridge across the Vltava between the Old Town and the Lesser Town. It was named after Charles IV only in 1870."},
+        fact: {kk: "Көпірдегі 30-ға жуық мүсін негізінен 1700 жылдар шамасында орнатылған. Бүгінгі мүсіндер — көшірмелер, түпнұсқалары Ұлттық мұражайда сақталады.", ru: "Около 30 статуй на мосту поставили в основном около 1700 года. Сегодня на мосту копии, а оригиналы хранятся в Национальном музее.", en: "Most of the bridge's roughly 30 statues were put up around 1700. The ones there today are copies; the originals are kept in the National Museum."},
+        tip: {kk: "Таңғы 8-ге дейін келіңіз — көпірде адам аз, суретке түсуге ыңғайлы.", ru: "Приходите до 8 утра — на мосту почти никого, удобно фотографировать.", en: "Come before 8 am — the bridge is almost empty and great for photos."},
+        source: "https://en.wikipedia.org/wiki/Charles_Bridge"
+      },
+      {
+        w: "Prague astronomical clock",
+        n: {kk: "Прага курантары (Орлой)", ru: "Пражские куранты (Орлой)", en: "Prague Astronomical Clock"},
+        h: 0.5,
+        p: 0,
+        tag: "c",
+        ll: [50.087, 14.4208],
+        note: {kk: "Ратуша мұнарасына көтерілу ақылы", ru: "Подъём на башню ратуши платно", en: "The Town Hall tower is paid"},
+        storyId: "prague-orloj",
+        tagline: {kk: "Әлі жұмыс істеп тұрған ең көне астрономиялық сағат", ru: "Старейшие астрономические часы, которые всё ещё идут", en: "The oldest astronomical clock still in operation"},
+        history: {kk: "Сағатты 1410 жылы шебер Микулаш Каданьский мен Карл университетінің астрономы Ян Шиндель жасаған. Ол әлемдегі үшінші ең көне астрономиялық сағат және әлі де жұмыс істеп тұрғандардың ішіндегі ең көнесі.", ru: "Часы создали в 1410 году часовщик Микулаш из Кадани и астроном Карлова университета Ян Шиндель. Это третьи старейшие астрономические часы в мире и старейшие из тех, что работают до сих пор.", en: "The clock was made in 1410 by clockmaker Mikuláš of Kadaň and Charles University astronomer Jan Šindel. It is the third-oldest astronomical clock in the world and the oldest one still operating."},
+        fact: {kk: "Күндіз әр сағат сайын жоғарғы терезелерде 12 апостолдың мүсіндері көрінеді. Апостолдар сағатқа кейінірек қосылған.", ru: "Днём каждый час в верхних окошках появляются фигуры 12 апостолов. Их добавили к часам позже, уже после постройки.", en: "During the day, on every hour, figures of the 12 Apostles appear in the windows above the dial. They were added to the clock later on."},
+        tip: {kk: "Сағатты алаңның ортасынан емес, бүйірінен қараңыз — кезек пен топтан аулақ боласыз.", ru: "Смотрите на часы не из центра толпы, а сбоку площади — так меньше давки.", en: "Watch from the side of the square rather than the middle of the crowd — it's far less crowded."},
+        source: "https://en.wikipedia.org/wiki/Prague_astronomical_clock"
+      },
+      {
+        w: "Old Town Square, Prague",
+        n: {kk: "Ескі қала алаңы", ru: "Староместская площадь", en: "Old Town Square"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [50.0875, 14.4213]
+      },
+      {
+        w: "St. Vitus Cathedral",
+        n: {kk: "Әулие Вит соборы", ru: "Собор Святого Вита", en: "St Vitus Cathedral"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [50.0908, 14.4004],
+        note: {kk: "Прага қамалының билетіне кіреді", ru: "Входит в билет Пражского града", en: "Included in the Prague Castle ticket"}
+      },
+      {
+        w: "Josefov",
+        n: {kk: "Еврей кварталы (Йозефов)", ru: "Еврейский квартал (Йозефов)", en: "Jewish Quarter (Josefov)"},
+        h: 2.5,
+        p: [600, 600],
+        tag: "c",
+        ll: [50.0899, 14.4185],
+        note: {kk: "Сенбіде және еврей мерекелерінде жабық", ru: "Закрыто по субботам и в еврейские праздники", en: "Closed on Saturdays and Jewish holidays"},
+        storyId: "prague-josefov",
+        tagline: {kk: "Еуропадағы ең көне жұмыс істеп тұрған синагога", ru: "Старейшая действующая синагога Европы", en: "Europe's oldest active synagogue"},
+        history: {kk: "Ескі-Жаңа синагога шамамен 1270 жылы салынған. Бастапқыда ол «Жаңа» деп аталған, ал XVI ғасырда кейінірек салынған синагогалардан кейін «Ескі-Жаңа» атанды. Ол Еуропадағы ең көне жұмыс істеп тұрған синагога.", ru: "Староновая синагога построена около 1270 года. Сначала её называли Новой, а в XVI веке, когда появились более поздние синагоги, — Староновой. Это старейшая действующая синагога Европы.", en: "The Old-New Synagogue was built around 1270. It was first called the New Synagogue and was renamed in the 16th century, after newer synagogues were built. It is Europe's oldest active synagogue."},
+        fact: {kk: "Ескі еврей зиратындағы ең көне құлпытас 1439 жылға жатады.", ru: "Самое старое надгробие на Старом еврейском кладбище датировано 1439 годом.", en: "The oldest gravestone in the Old Jewish Cemetery dates from 1439."},
+        tip: {kk: "Еврей мұражайының бір билеті синагогалар мен зиратқа кіреді және 3 жұмыс күніне жарамды. Ескі-Жаңа синагогаға билет бөлек.", ru: "Один билет Еврейского музея включает синагоги и кладбище и действует 3 дня работы музея. В Староновую синагогу билет отдельный.", en: "One Jewish Museum ticket covers the synagogues and the cemetery and is valid for 3 opening days. The Old-New Synagogue needs a separate ticket."},
+        source: "https://www.jewishmuseum.cz/en/explore/sites/old-new-synagogue/"
+      },
+      {
+        w: "Dancing House",
+        n: {kk: "Билеп тұрған үй", ru: "Танцующий дом", en: "Dancing House"},
+        h: 0.5,
+        p: 0,
+        tag: "m",
+        ll: [50.0755, 14.4141],
+        storyId: "prague-dancing-house",
+        tagline: {kk: "Би билеп тұрған жұп сияқты үй", ru: "Дом, похожий на танцующую пару", en: "A building that looks like a dancing couple"},
+        history: {kk: "Үйді сәулетшілер Фрэнк Гери мен Владо Милунич жобалап, 1996 жылы аяқтады. Ол Екінші дүниежүзілік соғыста бомба тиген ғимараттың орнына салынды. Алғашында прагалықтар оны ұнатпады, кейін ол қаланың символдарының біріне айналды.", ru: "Дом спроектировали архитекторы Фрэнк Гери и Владо Милунич, его достроили в 1996 году. Он стоит на месте здания, разрушенного бомбой во Вторую мировую войну. Поначалу пражане его не приняли, а потом он стал одним из символов города.", en: "Designed by architects Frank Gehry and Vlado Milunić and completed in 1996, the building stands on a plot where a house was destroyed by a bomb in World War II. Prague residents disliked it at first; later it became one of the city's symbols."},
+        fact: {kk: "Гери үйді алғашында әйгілі бишілер Фред Астер мен Джинджер Роджерстің құрметіне «Фред пен Джинджер» деп атаған.", ru: "Сначала Гери назвал дом «Фред и Джинджер» — в честь знаменитых танцоров Фреда Астера и Джинджер Роджерс.", en: "Gehry first nicknamed it 'Fred and Ginger', after the famous dancers Fred Astaire and Ginger Rogers."},
+        tip: {kk: "Ең жақсы көрініс — Влтаваның қарсы жағалауынан немесе Ирасек көпірінен.", ru: "Лучший вид — с противоположного берега Влтавы или с моста Ирасека.", en: "The best view is from the opposite bank of the Vltava or from Jirásek Bridge."},
+        source: "https://en.wikipedia.org/wiki/Dancing_House"
+      },
+      {
+        w: "Vyšehrad",
+        n: {kk: "Вышеград", ru: "Вышеград", en: "Vyšehrad"},
+        h: 2,
+        p: 0,
+        tag: "b",
+        ll: [50.0645, 14.418],
+        storyId: "prague-vysehrad",
+        tagline: {kk: "Аңыздар бекінісі және ұлы чехтердің зираты", ru: "Крепость легенд и кладбище великих чехов", en: "A fortress of legends and the resting place of great Czechs"},
+        history: {kk: "Аңыз бойынша, Вышеград жартасынан ханшайым Либуше Праганың болашақ даңқын болжап, жыртушы Пржемыслге тұрмысқа шыққан — Пржемыслидтер әулеті осылай басталған. 1869 жылы мұнда ұлттық зират ашылды, ал 1889–1893 жылдары Славин пантеоны салынды.", ru: "По легенде, со скалы Вышеграда княжна Либуше предсказала славу Праги и вышла замуж за пахаря Пржемысла — так началась династия Пржемысловичей. В 1869 году здесь открыли национальное кладбище, а в 1889–1893 годах построили пантеон Славин.", en: "Legend says that from the Vyšehrad cliff Princess Libuše foretold Prague's glory and married the ploughman Přemysl, founding the Přemyslid dynasty. A national cemetery was opened here in 1869, and the Slavín pantheon was built in 1889–1893."},
+        fact: {kk: "Зиратта чех мәдениетінің 600-ден астам тұлғасы жерленген, олардың ішінде композиторлар Дворжак пен Сметана, суретші Альфонс Муха бар.", ru: "На кладбище похоронены более 600 деятелей чешской культуры, среди них композиторы Дворжак и Сметана и художник Альфонс Муха.", en: "More than 600 figures of Czech culture are buried here, including the composers Dvořák and Smetana and the artist Alphonse Mucha."},
+        tip: {kk: "Бекініске кіру тегін. Қабырғалардан Влтава мен Прага қамалына әдемі көрініс ашылады.", ru: "Вход на территорию крепости бесплатный. Со стен открывается вид на Влтаву и Пражский град.", en: "Entry to the fortress grounds is free, and the walls offer views of the Vltava and Prague Castle."},
+        source: "https://www.prague.eu/en/object/places/148/vysehrad-cemetery-and-slavin-vysehradsky-hrbitov-a-slavin"
+      },
+      {
+        w: "Petřín",
+        n: {kk: "Петршин төбесі және мұнарасы", ru: "Петршин: холм и смотровая башня", en: "Petřín Hill and Lookout Tower"},
+        h: 2,
+        p: "paid",
+        tag: "b",
+        ll: [50.0835, 14.3952],
+        note: {kk: "Саябақ тегін, мұнара ақылы", ru: "Парк бесплатно, башня платно", en: "Park free, tower paid"}
+      },
+      {
+        w: "Strahov Monastery",
+        n: {kk: "Страгов монастырі және кітапханасы", ru: "Страговский монастырь и библиотека", en: "Strahov Monastery and Library"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [50.0863, 14.3893]
+      },
+      {
+        w: "Lennon Wall",
+        n: {kk: "Леннон қабырғасы", ru: "Стена Леннона", en: "Lennon Wall"},
+        h: 0.5,
+        p: 0,
+        tag: "m",
+        ll: [50.0862, 14.4069]
+      },
+      {
+        w: "Malá Strana",
+        n: {kk: "Кіші қала (Мала Страна)", ru: "Мала Страна", en: "Lesser Town (Malá Strana)"},
+        h: 2,
+        p: 0,
+        tag: "c",
+        ll: [50.088, 14.404]
+      },
+      {
+        w: "Wenceslas Square",
+        n: {kk: "Вацлав алаңы", ru: "Вацлавская площадь", en: "Wenceslas Square"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [50.0813, 14.428]
+      },
+      {
+        w: "Letná Park",
+        n: {kk: "Летна саябағы", ru: "Парк Летна", en: "Letná Park"},
+        h: 1.5,
+        p: 0,
+        tag: "b",
+        ll: [50.096, 14.422]
+      },
+      {
+        w: "Žižkov Television Tower",
+        n: {kk: "Жижков телемұнарасы", ru: "Жижковская телебашня", en: "Žižkov Television Tower"},
+        h: 1,
+        p: "paid",
+        tag: "m",
+        ll: [50.0809, 14.4513]
+      },
+      {
+        w: "Museum Kampa",
+        n: {kk: "Кампа мұражайы (заманауи өнер)", ru: "Музей Кампа (современное искусство)", en: "Museum Kampa (modern art)"},
+        h: 1.5,
+        p: "paid",
+        tag: "m",
+        ll: [50.0849, 14.4086]
+      },
+      {
+        w: "Holešovice",
+        n: {kk: "Голешовице — заманауи өнер ауданы", ru: "Голешовице — район современного искусства", en: "Holešovice: the contemporary art district"},
+        h: 2,
+        p: 0,
+        tag: "m",
+        ll: [50.103, 14.44]
+      }
+    ],
+    trips: [
+      {
+        w: "Kutná Hora",
+        n: {kk: "Кутна-Гора: Седлец сүйек шіркеуі (пойызбен ~1 сағ)", ru: "Кутна-Гора: костница Седлец (~1 ч на поезде)", en: "Kutná Hora: the Sedlec Ossuary (~1 h by train)"}
+      },
+      {
+        w: "Karlštejn",
+        n: {kk: "Карлштейн қамалы (пойызбен ~40 мин)", ru: "Замок Карлштейн (~40 мин на поезде)", en: "Karlštejn Castle (~40 min by train)"}
+      }
+    ],
+    hacks: [
+      ["💧", {kk: "Құбыр суын ішуге болады. Бөтелкеңізді ала жүріңіз.", ru: "Воду из-под крана можно пить. Носите с собой бутылку.", en: "Tap water is safe to drink. Carry a bottle."}],
+      ["🎫", {kk: "PID Lítačka қосымшасында билет арзанырақ. Қағаз билетті метроға кірерде немесе трамвайда компостерлеңіз.", ru: "В приложении PID Lítačka билеты дешевле. Бумажный билет компостируйте при входе в метро или в трамвае.", en: "Tickets are cheaper in the PID Lítačka app. Validate a paper ticket when entering the metro or on the tram."}],
+      ["💱", {kk: "Кронамен төлеңіз. Орталықтағы «0 % комиссия» жазылған айырбастау орындары мен Euronet банкоматтарынан аулақ болыңыз — бағамы тиімсіз.", ru: "Платите в кронах. Обходите обменники с надписью «0 % комиссии» в центре и банкоматы Euronet — курс там невыгодный.", en: "Pay in koruna. Avoid '0% commission' exchange offices in the centre and Euronet ATMs — their rates are poor."}],
+      ["🌅", {kk: "Карл көпіріне таңғы 8-ге дейін келіңіз — адам аз.", ru: "На Карлов мост приходите до 8 утра — людей почти нет.", en: "Visit Charles Bridge before 8 am — it's almost empty."}],
+      ["🏰", {kk: "Прага қамалының аулалары мен бақтары тегін; билет тек сарайлар мен соборға керек.", ru: "Дворы и сады Пражского града бесплатные; билет нужен только во дворцы и собор.", en: "Prague Castle's courtyards and gardens are free; you only need a ticket for the palaces and cathedral."}],
+      ["🍲", {kk: "Жұмыс күндері түсте «polední menu» іздеңіз — түскі мәзір арзанырақ.", ru: "В будни в обед ищите «polední menu» — обеденное меню дешевле.", en: "On weekdays at lunch look for a 'polední menu' — it's cheaper."}],
+      ["🕰️", {kk: "Курантта апостолдар күндіз әр сағат сайын шығады — 9:00-ден 21:00-ге дейін.", ru: "Апостолы на курантах появляются каждый час с 9:00 до 21:00.", en: "The clock's Apostles appear every hour from 9 am to 9 pm."}]
+    ],
+    eat: {
+      local: [
+        ["Lokál Dlouhááá", {kk: "Чех сыраханасы, танк сырасы", ru: "Чешская пивная, танковое пиво", en: "Czech pub with tank beer"}, "€€"],
+        ["U Fleků", {kk: "1499 жылдан бергі сыра қайнататын мейрамхана", ru: "Пивоварня-ресторан с 1499 года", en: "Brewery restaurant brewing since 1499"}, "€€"],
+        ["Café Louvre", {kk: "Тарихи кофехана", ru: "Историческое кафе", en: "Historic café"}, "€€"],
+        ["U Pinkasů", {kk: "Дәстүрлі чех асханасы", ru: "Традиционная чешская кухня", en: "Traditional Czech cooking"}, "€€"]
+      ],
+      vegan: [
+        ["Eaternia Vegan", {kk: "Вегандық чех тағамдары", ru: "Веганские чешские блюда", en: "Vegan Czech classics"}, "€"],
+        ["Chlebíček Store", {kk: "Вегандық ашық сэндвичтер", ru: "Веганские открытые бутерброды", en: "Vegan open sandwiches"}, "€"],
+        ["Kuchařky bez domova", {kk: "Вегандық асхана", ru: "Веганская кухня", en: "Vegan kitchen"}, "€€"]
+      ],
+      halal: [
+        ["Caspian", {kk: "Әзірбайжан асханасы", ru: "Азербайджанская кухня", en: "Azerbaijani cuisine"}, "€€"],
+        ["Hanedan", {kk: "Түрік асханасы", ru: "Турецкая кухня", en: "Turkish cuisine"}, "€"],
+        ["Tandoor", {kk: "Үнді асханасы", ru: "Индийская кухня", en: "Indian cuisine"}, "€€"]
+      ]
+    },
+    eatSources: ["https://spinach.guide/cities/prague/fully-vegan/", "https://www.zabihah.com/restaurants/ca4eb7b4-7767-11ef-95ae-6045bdeb9f57/hanedan-prague-hlavn-msto-praha"]
   }
 };
 
@@ -2446,7 +2967,48 @@ const PHOTOS = {
   "Piazza della Riforma": {file: "Piazza Riforma, Lugano 7.jpg", p: "commons/f/f6", w: 5554, h: 2655, author: "böhringer friedrich", license: "CC BY-SA 2.5"},
   "Monte San Salvatore": {file: "Monte San Salvatore LCD.jpg", p: "commons/7/79", w: 5184, h: 3456, author: "Murdockcrc", license: "CC BY 3.0"},
   "LAC Lugano Arte e Cultura": {file: "LAC Lugano 06.jpg", p: "commons/d/d2", w: 3888, h: 2592, author: "Dario Crespi", license: "CC BY-SA 4.0"},
-  "Gandria": {file: "Gandria and the Lake.jpg", p: "commons/3/30", w: 5152, h: 3864, author: "Ruben Holthuijsen", license: "CC BY 2.0"}
+  "Gandria": {file: "Gandria and the Lake.jpg", p: "commons/3/30", w: 5152, h: 3864, author: "Ruben Holthuijsen", license: "CC BY 2.0"},
+  // Будапешт и Прага: главное фото статьи Википедии, автор и лицензия — через API en.wikipedia.org (2026-11)
+  "Budapest": {file: "View from Gellért Hill to the Danube, Hungary - Budapest (28493220635).jpg", p: "commons/5/53", w: 2500, h: 1293, author: "Visions of Domino", license: "CC BY 2.0"},
+  "Hungarian Parliament Building": {file: "Hungarian Parliament Building from across the Danube, 2025-01-11.jpg", p: "commons/9/99", w: 4731, h: 2649, author: "Kilyann Le Hen", license: "CC BY 4.0"},
+  "Buda Castle": {file: "Budavári Palota, ABCDEF épület.jpg", p: "commons/5/5c", w: 3568, h: 2408, author: "Varius", license: "CC BY-SA 3.0"},
+  "Fisherman's Bastion": {file: "Halászbástya 2017.jpg", p: "commons/6/6a", w: 3456, h: 4608, author: "Brian Adamson", license: "CC BY 2.0"},
+  "Matthias Church": {file: "MatyasTemplomFotoThalerTamas20162.JPG", p: "commons/d/d9", w: 2432, h: 1989, author: "Thaler Tamas", license: "CC BY-SA 4.0"},
+  "Széchenyi thermal bath": {file: "Budapest Széchenyi Baths R02.jpg", p: "commons/f/fa", w: 3216, h: 2136, author: "Marc Ryckaert (MJJR)", license: "CC BY 3.0"},
+  "Széchenyi Chain Bridge": {file: "Széchenyi Chain Bridge in Budapest at night.jpg", p: "commons/f/fd", w: 3580, h: 2000, author: "Wilfredor", license: "CC0"},
+  "St. Stephen's Basilica": {file: "Budapest Szent Istvan Bazilika R01.jpg", p: "commons/e/ed", w: 2240, h: 1752, author: "Marc Ryckaert (MJJR)", license: "CC BY 3.0"},
+  "Shoes on the Danube Bank": {file: "Shoes Danube Promenade IMGP1297.jpg", p: "commons/1/11", w: 2360, h: 3411, author: "Nikodem Nijaki", license: "CC BY-SA 3.0"},
+  "Heroes' Square, Budapest": {file: "HUN-2015-Budapest-Heroes’ Square.jpg", p: "commons/2/21", w: 7776, h: 4374, author: "Godot13", license: "Attribution"},
+  "Dohány Street Synagogue": {file: "Synagogue-Budapest.jpg", p: "commons/6/6a", w: 857, h: 775, author: "OsvátA (Hungarian Wikipedia)", license: "CC BY-SA 3.0"},
+  "Great Market Hall, Budapest": {file: "VasarcsarnokFotoThalerTamas.JPG", p: "commons/a/a7", w: 2548, h: 1433, author: "Thaler Tamas", license: "CC BY-SA 4.0"},
+  "Margaret Island": {file: "Budapest Donauinsel 2.jpg", p: "commons/a/ab", w: 718, h: 1024, author: "Darkone", license: "CC BY-SA 2.0"},
+  "Szimpla Kert": {file: "Szimpla Kert Trabant.jpg", p: "commons/6/62", w: 6000, h: 4000, author: "JoshuaCrawford", license: "CC BY-SA 4.0"},
+  "Szentendre": {file: "Szentendre montage1.jpg", p: "commons/c/cd", w: 2160, h: 2880, author: "SNRTZ", license: "CC BY-SA 4.0"},
+  "Esztergom": {file: "Basilica in Esztergom, Hungary 01.jpg", p: "commons/1/12", w: 3195, h: 2211, author: "Pudelek", license: "CC BY-SA 4.0"},
+  "Prague": {file: "Prague (6365119737).jpg", p: "commons/a/a7", w: 3840, h: 2284, author: "Moyan Brenn from Italy", license: "CC BY 2.0"},
+  "Prague Castle": {file: "Karlův most Praha, Staré Město 20170810 007.jpg", p: "commons/5/5e", w: 6016, h: 4016, author: "Tilman2007", license: "CC BY-SA 4.0"},
+  "Charles Bridge": {file: "Prague 07-2016 view from Lesser Town Tower of Charles Bridge img3.jpg", p: "commons/2/22", w: 4555, h: 3037, author: "A.Savin", license: "FAL"},
+  "Prague astronomical clock": {file: "Astronomical Clock (8341899828).jpg", p: "commons/3/37", w: 1068, h: 1600, author: "Steve Collis from Melbourne, Australia", license: "CC BY 2.0"},
+  "Old Town Square, Prague": {file: "Prague 07-2016 View from Old Town Hall Tower img3.jpg", p: "commons/4/44", w: 4433, h: 2771, author: "A.Savin", license: "FAL"},
+  "St. Vitus Cathedral": {file: "PragueCathedral03.jpg", p: "commons/f/f4", w: 2116, h: 1575, author: "MathKnight and Zachi Evenor", license: "CC BY 2.5"},
+  "Josefov": {file: "Prague Praha 2014 Holmstad Den gammelnye synagogen.JPG", p: "commons/0/01", w: 4978, h: 3456, author: "Øyvind Holmstad", license: "CC BY-SA 3.0"},
+  "Dancing House": {file: "Tanzendes Haus 2023.jpg", p: "commons/9/97", w: 3000, h: 3000, author: "Danny Alexander Lettkemann, Architekt", license: "CC BY-SA 4.0"},
+  "Vyšehrad": {file: "Parník Vyšehrad pod Vyšehradem.jpg", p: "commons/f/f1", w: 2000, h: 1430, author: "Stanislav Jelen", license: "CC BY-SA 3.0"},
+  "Petřín": {file: "Petřínská rozhledna, Prague.jpg", p: "commons/e/e8", w: 2500, h: 3750, author: "Ivan Korostelev", license: "CC BY-SA 4.0"},
+  "Strahov Monastery": {file: "Praha, Hradcany - Strahovsky klaster (pohled z ulice Uvoz).jpg", p: "commons/2/26", w: 2400, h: 1600, author: "Matěj Baťha", license: "CC BY-SA 2.0"},
+  "Lennon Wall": {file: "Lennon Wall, August 2014.jpg", p: "commons/a/a5", w: 960, h: 720, author: "Spaul57", license: "CC BY-SA 4.0"},
+  "Malá Strana": {file: "19.7.16 Prague Castle 12 (28395711206).jpg", p: "commons/0/0a", w: 5756, h: 3828, author: "donald judge", license: "CC BY 2.0"},
+  "Wenceslas Square": {file: "Prague Praha 2014 Holmstad Vaclavplassen i nybyen Nove Mesto flott.jpg", p: "commons/2/21", w: 5184, h: 3456, author: "Øyvind Holmstad", license: "CC BY-SA 3.0"},
+  "Letná Park": {file: "Praha, Letná, sad.jpg", p: "commons/e/e2", w: 2160, h: 1440, author: "User:Aktron", license: "CC BY-SA 3.0"},
+  "Žižkov Television Tower": {file: "Prague NZ7 0367 (44311730795).jpg", p: "commons/9/96", w: 2931, h: 4396, author: "Bengt Nyman from Vaxholm, Sweden", license: "CC BY 2.0"},
+  "Kutná Hora": {file: "Kostnice Sedlec.JPG", p: "commons/a/ab", w: 1944, h: 2592, author: "Pudelek (Marcin Szala)", license: "CC BY-SA 4.0"},
+  "Karlštejn": {file: "Burg Karlstein - Karlštejn - panoramio.jpg", p: "commons/c/c9", w: 3456, h: 2592, author: "Jürgen Regel (Panoramio)", license: "CC BY 3.0"},
+  "Gellért Hill": {file: "Budapest Gellért socha svobody 1.jpg", p: "commons/d/d9", w: 1600, h: 2400, author: "Karelj", license: "Public domain"},
+  "Hungarian State Opera": {file: "Interior, Hungarian State Opera House.jpg", p: "commons/4/48", w: 2816, h: 2112, author: "Chad K", license: "CC BY 2.0"},
+  "Vajdahunyad Castle": {file: "Vajdahunyad vára Budapest September 2013.jpg", p: "commons/2/22", w: 3800, h: 2308, author: "Felix König", license: "CC BY 3.0"},
+  "Müpa Budapest": {file: "Muveszetek-palotaja-P5120705.jpg", p: "commons/6/64", w: 1000, h: 454, author: "Misibacsi (Hungarian Wikipedia)", license: "CC BY-SA 3.0"},
+  "Museum Kampa": {file: "Hlavní budova Musea Kampa z terasy.jpg", p: "commons/2/2c", w: 1280, h: 1024, author: "NoJin", license: "CC BY 4.0"},
+  "Holešovice": {file: "Tramway in the city, Prague - 8836.jpg", p: "commons/8/84", w: 4368, h: 2912, author: "Jorge Royan", license: "CC BY-SA 3.0"}
 };
 
 /* 7. РАЗГОВОРНИК: [категория, фраза, произношение кириллицей (ударение — ЗАГЛАВНЫМИ), перевод] */
@@ -2756,6 +3318,50 @@ const PHRASES = {
         {kk: "Полиция шақырыңыз!", ru: "Вызовите полицию!", en: "Call the police!"}
       ]
     ]
+  },
+  hu: {
+    name: V("Венгр", "Венгерский", "Hungarian"),
+    tl: "hu",
+    list: [
+      ["greet", "Szia!", "сИя", {"kk": "Сәлем!", "ru": "Привет!", "en": "Hello!"}],
+      ["greet", "Köszönöm szépen!", "кЁсёнём сЕпэн", {"kk": "Көп рахмет!", "ru": "Большое спасибо!", "en": "Thank you very much!"}],
+      ["greet", "Elnézést", "Элнэзэшт", {"kk": "Кешіріңіз", "ru": "Извините", "en": "Excuse me"}],
+      ["greet", "Nem, köszönöm", "нЭм, кЁсёнём", {"kk": "Жоқ, рахмет", "ru": "Нет, спасибо", "en": "No, thank you"}],
+      ["greet", "Beszél angolul?", "бЭсэл Онголул", {"kk": "Ағылшынша сөйлейсіз бе?", "ru": "Вы говорите по-английски?", "en": "Do you speak English?"}],
+      ["trans", "Hol van a metró?", "хОл вон о мЕтро", {"kk": "Метро қайда?", "ru": "Где метро?", "en": "Where is the metro?"}],
+      ["trans", "Egy jegyet kérek", "Эдь йЕдьет кЕрэк", {"kk": "Бір билет беріңізші", "ru": "Один билет, пожалуйста", "en": "One ticket, please"}],
+      ["trans", "Hol van a mosdó?", "хОл вон о мОждо", {"kk": "Дәретхана қайда?", "ru": "Где туалет?", "en": "Where is the toilet?"}],
+      ["shop", "Mennyibe kerül?", "мЕньибэ кэрюль", {"kk": "Бұл қанша тұрады?", "ru": "Сколько это стоит?", "en": "How much is it?"}],
+      ["shop", "Fizethetek kártyával?", "фИзэтхэтэк кАртьяваль", {"kk": "Картамен төлеуге бола ма?", "ru": "Можно оплатить картой?", "en": "Can I pay by card?"}],
+      ["food", "A számlát, kérem", "о сАмлат, кЕрэм", {"kk": "Есепшотты беріңізші", "ru": "Счёт, пожалуйста", "en": "The bill, please"}],
+      ["food", "Csapvizet kérek", "чАпвизэт кЕрэк", {"kk": "Кран суын беріңізші", "ru": "Воду из-под крана, пожалуйста", "en": "Tap water, please"}],
+      ["sos", "Segítség!", "шЕгитшег", {"kk": "Көмектесіңдер!", "ru": "Помогите!", "en": "Help!"}],
+      ["sos", "Hol van a patika?", "хОл вон о пОтика", {"kk": "Дәріхана қайда?", "ru": "Где аптека?", "en": "Where is the pharmacy?"}],
+      ["sos", "Hagyjon békén!", "хОдьйон бЕкэн", {"kk": "Мені мазаламаңыз!", "ru": "Оставьте меня в покое!", "en": "Leave me alone!"}],
+      ["sos", "Hívja a rendőrséget!", "хИвйо о рЭндёршэгэт", {"kk": "Полиция шақырыңыз!", "ru": "Вызовите полицию!", "en": "Call the police!"}]
+    ]
+  },
+  cs: {
+    name: V("Чех", "Чешский", "Czech"),
+    tl: "cs",
+    list: [
+      ["greet", "Ahoj!", "Агой", {"kk": "Сәлем!", "ru": "Привет!", "en": "Hello!"}],
+      ["greet", "Děkuji moc!", "дьЕкуйи моц", {"kk": "Көп рахмет!", "ru": "Большое спасибо!", "en": "Thank you very much!"}],
+      ["greet", "Promiňte", "прОминьте", {"kk": "Кешіріңіз", "ru": "Извините", "en": "Excuse me"}],
+      ["greet", "Ne, děkuji", "нЕ, дьЕкуйи", {"kk": "Жоқ, рахмет", "ru": "Нет, спасибо", "en": "No, thank you"}],
+      ["greet", "Mluvíte anglicky?", "млУвите Англицки", {"kk": "Ағылшынша сөйлейсіз бе?", "ru": "Вы говорите по-английски?", "en": "Do you speak English?"}],
+      ["trans", "Kde je metro?", "гдЕ йе мЕтро", {"kk": "Метро қайда?", "ru": "Где метро?", "en": "Where is the metro?"}],
+      ["trans", "Jednu jízdenku, prosím", "йЕдну йИзденку, прОсим", {"kk": "Бір билет беріңізші", "ru": "Один билет, пожалуйста", "en": "One ticket, please"}],
+      ["trans", "Kde je toaleta?", "гдЕ йе тОалета", {"kk": "Дәретхана қайда?", "ru": "Где туалет?", "en": "Where is the toilet?"}],
+      ["shop", "Kolik to stojí?", "кОлик то стОйи", {"kk": "Бұл қанша тұрады?", "ru": "Сколько это стоит?", "en": "How much is it?"}],
+      ["shop", "Můžu platit kartou?", "мУжу плАтит кАртоу", {"kk": "Картамен төлеуге бола ма?", "ru": "Можно оплатить картой?", "en": "Can I pay by card?"}],
+      ["food", "Zaplatím, prosím", "зАплатим, прОсим", {"kk": "Есепшотты беріңізші", "ru": "Счёт, пожалуйста", "en": "The bill, please"}],
+      ["food", "Vodu z kohoutku, prosím", "вОду с кОгоутку, прОсим", {"kk": "Кран суын беріңізші", "ru": "Воду из-под крана, пожалуйста", "en": "Tap water, please"}],
+      ["sos", "Pomoc!", "пОмоц", {"kk": "Көмектесіңдер!", "ru": "Помогите!", "en": "Help!"}],
+      ["sos", "Kde je lékárna?", "гдЕ йе лЕкарна", {"kk": "Дәріхана қайда?", "ru": "Где аптека?", "en": "Where is the pharmacy?"}],
+      ["sos", "Nechte mě být!", "нЕхте мне бит", {"kk": "Мені мазаламаңыз!", "ru": "Оставьте меня в покое!", "en": "Leave me alone!"}],
+      ["sos", "Zavolejte policii!", "зАволейте пОлицийи", {"kk": "Полиция шақырыңыз!", "ru": "Вызовите полицию!", "en": "Call the police!"}]
+    ]
   }
 };
 
@@ -2825,6 +3431,14 @@ const VISA = {
    phones: [тип, номер, добавочный] — тип: main (посольство) | consular (консульский отдел) | emergency (только экстренно). */
 const EMBASSIES_CHECKED = "2026-11";
 const EMBASSIES = [
+  {country: "Hungary", flag: "🇭🇺", name: V("Венгриядағы ҚР елшілігі (Будапешт)", "Посольство Казахстана в Венгрии (Будапешт)", "Embassy of Kazakhstan in Hungary (Budapest)"),
+    covers: V("Будапешт", "Будапешт", "Budapest"), address: "Kapi utca 59, 1025 Budapest",
+    phones: [["main", "+36 1 275 1301"]],
+    src: "https://www.gov.kz/memleket/entities/mfa-budapest"},
+  {country: "Czechia", flag: "🇨🇿", name: V("Чехиядағы ҚР елшілігі (Прага)", "Посольство Казахстана в Чехии (Прага)", "Embassy of Kazakhstan in Czechia (Prague)"),
+    covers: V("Прага", "Прага", "Prague"), address: "Pod Hradbami 662/9, 160 00 Praha 6",
+    phones: [["consular", "+420 233 375 643"]],
+    email: "prague@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-prague"},
   {country: "Austria", flag: "🇦🇹", name: V("Аустриядағы ҚР елшілігі", "Посольство Казахстана в Австрии", "Embassy of Kazakhstan in Austria"),
     covers: V("Вена", "Вена", "Vienna"), address: "Prinz-Eugen-Straße 32, 1040 Wien",
     phones: [["main", "+43 1 890 8008"], ["consular", "+43 1 890 8008", "14"], ["emergency", "+43 676 644 2635"]],
@@ -2857,6 +3471,11 @@ const EMBASSIES = [
    Где источники противоречат друг другу (Остия-Антика), правило не ставим: не выдумываем. */
 const DATES_CHECKED = "2026-11";
 const CLOSURES = {
+  // Будапешт и Прага
+  "Dohány Street Synagogue": {wd: [6], src: "https://zsinagoga.jegy.hu/", note: V("еврей мерекелерінде де жабық", "также в еврейские праздники", "also on Jewish holidays")},
+  "Great Market Hall, Budapest": {wd: [0]},
+  "Josefov": {wd: [6], src: "https://www.jewishmuseum.cz/en/visit/opening-hours/", note: V("еврей мерекелерінде де жабық", "также в еврейские праздники", "also on Jewish holidays")},
+  "Karlštejn": {level: "check", wd: [1], src: "https://www.hrad-karlstejn.cz/en"},
   // Париж
   "Louvre": {wd: [2], dates: ["01-01", "05-01", "12-25"], src: "https://www.louvre.fr/en/hours-admission-directions"},
   "Musée d'Orsay": {wd: [1], dates: ["05-01", "12-25"], src: "https://www.musee-orsay.fr/en/visit"},
@@ -2918,9 +3537,15 @@ const HD = {
   corp: V("Корпус Кристи", "Праздник Тела Христова", "Corpus Christi"), ass: V("Успение", "Успение", "Assumption Day"),
   saints: V("Барлық әулиелер күні", "День всех святых", "All Saints' Day"), imm: V("Пәк ұрықтану мерекесі", "Непорочное зачатие", "Immaculate Conception"),
   xmas: V("Рождество", "Рождество", "Christmas Day"), steph: V("Әулие Стефан күні", "День святого Стефана", "St Stephen's Day"),
-  joseph: V("Әулие Иосиф күні", "День святого Иосифа", "St Joseph's Day"), pp: V("Әулие Петр мен Павел күні", "День святых Петра и Павла", "Saints Peter and Paul")
+  joseph: V("Әулие Иосиф күні", "День святого Иосифа", "St Joseph's Day"), gf: V("Қасиетті жұма", "Страстная пятница", "Good Friday"), pp: V("Әулие Петр мен Павел күні", "День святых Петра и Павла", "Saints Peter and Paul")
 };
 const HOLIDAYS = {
+  Hungary: {src: "https://en.wikipedia.org/wiki/Public_holidays_in_Hungary",
+    fixed: {"01-01": HD.ny, "03-15": V("1848 жылғы революция күні", "День революции 1848 года", "1848 Revolution Day"), "05-01": HD.lab, "08-20": V("Әулие Иштван күні — мемлекет құрылған күн", "День святого Иштвана — день основания государства", "St Stephen's Day — State Foundation Day"), "10-23": V("1956 жылғы революция күні", "День революции 1956 года", "1956 Revolution Day"), "11-01": HD.saints, "12-25": HD.xmas, "12-26": V("Рождествоның екінші күні", "Второй день Рождества", "Second day of Christmas")},
+    easter: {"-2": HD.gf, 1: HD.eMon, 50: HD.whit}},
+  Czechia: {src: "https://en.wikipedia.org/wiki/Public_holidays_in_the_Czech_Republic",
+    fixed: {"01-01": V("Жаңа жыл және Чех мемлекетінің қалпына келген күні", "Новый год и День восстановления чешского государства", "New Year's Day and Restoration Day of the Czech State"), "05-01": HD.lab, "05-08": V("Азат ету күні (1945)", "День освобождения (1945)", "Liberation Day (1945)"), "07-05": V("Кирилл мен Мефодий күні", "День Кирилла и Мефодия", "Saints Cyril and Methodius Day"), "07-06": V("Ян Гус күні", "День Яна Гуса", "Jan Hus Day"), "09-28": V("Чех мемлекеттілігі күні (Әулие Вацлав)", "День чешской государственности (святой Вацлав)", "Czech Statehood Day (St Wenceslas)"), "10-28": V("Тәуелсіз Чехословакия мемлекетінің құрылған күні", "День образования Чехословакии", "Independent Czechoslovak State Day"), "11-17": V("Бостандық пен демократия үшін күрес күні", "День борьбы за свободу и демократию", "Struggle for Freedom and Democracy Day"), "12-24": V("Рождество қарсаңы", "Сочельник", "Christmas Eve"), "12-25": HD.xmas, "12-26": HD.steph},
+    easter: {"-2": HD.gf, 1: HD.eMon}},
   Austria: {src: "https://www.oesterreich.gv.at/",
     fixed: {"01-01": HD.ny, "01-06": HD.epi, "05-01": HD.lab, "08-15": HD.ass, "10-26": V("Аустрияның ұлттық күні", "Национальный день Австрии", "Austrian National Day"), "11-01": HD.saints, "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
     easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}},
@@ -2948,6 +3573,16 @@ const LOCAL_HOLIDAYS = {
    wd / months / dates ("ММ-ДД") / range ["ММ-ДД","ММ-ДД"] / easterRange [от, до] (дней от Пасхи) /
    known: {год: "ММ-ДД,…"} — точный календарь на год; в другие годы в months показываем maybe. */
 const CITY_DATES = {
+  budapest: [
+    {dates: ["08-20"], icon: "🎆", text: V("Кешке Дунай үстінде үлкен салют болады, жағалаулар адамға толы", "Вечером большой салют над Дунаем, набережные переполнены", "Big fireworks over the Danube in the evening; the embankments get packed")},
+    {range: ["11-15", "12-31"], icon: "🎄", text: V("Рождестволық жәрмеңкелер (Вёрёшмарти алаңы, Базилика алды). Күндері жыл сайын сәл өзгереді", "Рождественские ярмарки (площадь Вёрёшмарти, у Базилики). Даты каждый год немного меняются", "Christmas markets (Vörösmarty tér, St Stephen's Basilica). Dates shift slightly every year")}
+  ],
+  prague: [
+    {range: ["11-29", "01-06"], icon: "🎄", text: V("Рождестволық жәрмеңкелер (Ескі қала және Вацлав алаңдары). Күндері жыл сайын сәл өзгереді", "Рождественские ярмарки (Староместская и Вацлавская площади). Даты каждый год немного меняются", "Christmas markets (Old Town and Wenceslas squares). Dates shift slightly every year")},
+    {dates: ["01-01", "05-08", "09-28", "10-28", "12-25", "12-26"], icon: "🛒", text: V("Ірі дүкендер заң бойынша жабық — азық-түлікті алдын ала алыңыз", "Крупные магазины по закону закрыты — купите продукты заранее", "Large shops are closed by law — buy groceries in advance"), src: "https://www.mpo.gov.cz/"},
+    {easterRange: [1, 1], icon: "🛒", text: V("Ірі дүкендер заң бойынша жабық — азық-түлікті алдын ала алыңыз", "Крупные магазины по закону закрыты — купите продукты заранее", "Large shops are closed by law — buy groceries in advance"), src: "https://www.mpo.gov.cz/"},
+    {dates: ["12-24"], icon: "🛒", text: V("Ірі дүкендер заң бойынша тек 12:00-ге дейін ашық", "Крупные магазины по закону работают только до 12:00", "Large shops are open only until noon by law"), src: "https://www.mpo.gov.cz/"}
+  ],
   vienna: [
     {wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық, азық-түлікті ірі вокзалдардан алуға болады", "Воскресенье: большинство магазинов закрыто, продукты можно купить на крупных вокзалах", "Sunday: most shops are closed; groceries are sold at the main railway stations")},
     {range: ["11-14", "12-23"], icon: "🎄", text: V("Рождестволық жәрмеңкелер (Rathausplatz және басқалары). Күндері жыл сайын сәл өзгереді", "Рождественские ярмарки (Rathausplatz и другие). Даты каждый год немного меняются", "Christmas markets (Rathausplatz and others). Dates shift slightly every year"),
@@ -3313,6 +3948,8 @@ const STYLE_IDS = ["classic", "modern", "mix"];
 const CITY_EN = Object.fromEntries(Object.entries(CITIES).map(([id, c]) => [id, c.name.en]));
 // Более точные запросы для Google Maps там, где название статьи Wikipedia слишком общее
 const MAPQ = {
+  "Petřín": "Petřín Lookout Tower, Prague", "Kutná Hora": "Sedlec Ossuary, Kutná Hora", "Karlštejn": "Karlštejn Castle", "Szentendre": "Szentendre, Hungary",
+  "Esztergom": "Esztergom Basilica", "Josefov": "Old New Synagogue, Prague", "Szimpla Kert": "Szimpla Kert, Budapest",
   "Prater": "Wiener Riesenrad, Vienna", "Donaukanal": "Donaukanal Schwedenplatz, Vienna", "Donauinsel": "Donauinsel, Vienna",
   "Vienna University of Economics and Business": "WU Campus, Vienna", "Vienna Gasometers": "Gasometer, Vienna",
   "Trastevere": "Piazza di Santa Maria in Trastevere, Rome", "Testaccio": "Mercato di Testaccio, Rome", "Ostiense": "Via del Porto Fluviale, Rome",
@@ -3350,7 +3987,7 @@ const S = {
   rate: null, route: null, guideCity: "all", guideQuery: "",
   st: null, // открытый редактор сторис
   passport: {issued: "", expires: ""}, vdocs: store.get("vdocs", {}), vname: "", // вкладка «Виза»; даты паспорта не сохраняются
-  cv: {cur: ["EUR", "CHF", "USD", "KZT"].includes(store.get("cvCur", "EUR")) ? store.get("cvCur", "EUR") : "EUR", amount: "25"} // перевод цены в тенге
+  cv: {cur: ["EUR", "CHF", "HUF", "CZK", "USD", "KZT"].includes(store.get("cvCur", "EUR")) ? store.get("cvCur", "EUR") : "EUR", amount: "25"} // перевод цены в тенге
 };
 const savePlan = () => store.set("plan", {tier: S.tier, style: S.style, cities: S.cities, startCity: S.startCity, endCity: S.endCity, autoEnd: S.autoEnd, days: S.days, people: S.people, start: S.start});
 function nextAvailableDays(required) { return DAY_OPTIONS.find((d) => d >= required) || DAY_OPTIONS[DAY_OPTIONS.length - 1]; }
@@ -3395,8 +4032,10 @@ function toast(html) {
   clearTimeout(toast.tm); toast.tm = setTimeout(() => el.classList.add("hidden"), 3500);
 }
 // курс: живой (open.er-api.com) или резервный из FX
-const rate = () => S.rate || {KZT: FX.EUR_KZT, USD: FX.EUR_USD, CHF: 1 / FX.CHF_EUR, date: FX.date, fallback: true};
-const toEur = (v, cur) => (cur === "CHF" ? v / rate().CHF : v);
+// курсы: сколько единиц валюты за 1 евро
+const rate = () => S.rate || {KZT: FX.EUR_KZT, USD: FX.EUR_USD, CHF: 1 / FX.CHF_EUR, HUF: FX.EUR_HUF, CZK: FX.EUR_CZK, date: FX.date, fallback: true};
+const toEur = (v, cur) => (!cur || cur === "EUR" ? v : v / rate()[cur]);
+const CUR_SYM = {EUR: "€", CHF: "CHF", HUF: "Ft", CZK: "Kč"};
 
 /* ---------- Фото (Wikimedia Commons, проверенные файлы из PHOTOS) ---------- */
 const PH_SVG = (icon) => "data:image/svg+xml;utf8," + encodeURIComponent(
@@ -3614,8 +4253,9 @@ function renderPlanner() {
 function priceTag(s, cityId) {
   if (s.p === 0) return `<span class="tag">${t("free")}</span>`;
   if (s.p === "paid") return `<span class="tag paid">${t("paid")}</span>`;
-  const sym = (CITIES[cityId].currency === "CHF") ? "CHF" : "€";
-  return `<span class="tag paid">${Array.isArray(s.p) ? `${num(s.p[0])}–${num(s.p[1])} ${sym}` : `~${num(s.p)} ${sym}`}</span>`;
+  const sym = CUR_SYM[CITIES[cityId].currency || "EUR"];
+  const n = (v) => (v >= 1000 ? fmt(v) : num(v)); // форинты и кроны — с разделителем тысяч
+  return `<span class="tag paid">${Array.isArray(s.p) ? `${n(s.p[0])}–${n(s.p[1])} ${sym}` : `~${n(s.p)} ${sym}`}</span>`;
 }
 const usedPhotos = new Set();
 function spotRow(s, cityId, date) {
@@ -3736,8 +4376,8 @@ function pricesHTML(c) {
   const rows = PRICE_KEYS.map((k) => {
     const v = p.items[k]; if (!v) return "";
     const eurA = toEur(v[0], cur), eurB = toEur(v[1], cur);
-    const main = cur === "CHF" ? `${num(v[0])}–${num(v[1])} CHF` : `${num(v[0])}–${num(v[1])} €`;
-    const sub = (cur === "CHF" ? `≈ ${money(eurA, eurB, "€")} · ` : "") + `≈ ${money(eurA * r.KZT, eurB * r.KZT, "₸")}`;
+    const main = `${cur === "EUR" || cur === "CHF" ? `${num(v[0])}–${num(v[1])}` : money(v[0], v[1], "").trim()} ${CUR_SYM[cur]}`;
+    const sub = (cur !== "EUR" ? `≈ ${money(eurA, eurB, "€")} · ` : "") + `≈ ${money(eurA * r.KZT, eurB * r.KZT, "₸")}`;
     const note = p.notes && p.notes[k] ? `<div class="pnote">${esc(L(p.notes[k]))}</div>` : "";
     return `<div class="price-row"><span class="pn">${t("priceItems")[k]}</span><span class="pv">${main}</span><span class="pk">${sub}</span>${note}</div>`;
   }).join("");
@@ -4351,7 +4991,7 @@ function datesCardHTML(plan) {
 /* ---------- В поездке: перевод цены в тенге и «если что-то случилось» ----------
    Курс — тот же, что в бюджете: живой (open.er-api.com), без сети — сохранённый или резервный FX.
    Посольства — EMBASSIES в блоке данных; страны маршрута клиента показываются первыми. */
-const CV_CURS = [["EUR", "€"], ["CHF", "CHF"], ["USD", "$"], ["KZT", "₸"]];
+const CV_CURS = [["EUR", "€"], ["CHF", "CHF"], ["HUF", "Ft"], ["CZK", "Kč"], ["USD", "$"], ["KZT", "₸"]];
 const perEur = (cur) => (cur === "EUR" ? 1 : rate()[cur]);
 const cvParse = (v) => { const n = parseFloat(String(v).replace(/[\s ]/g, "").replace(",", ".")); return Number.isFinite(n) && n > 0 ? n : 0; };
 function cvFmt(n, cur) {
@@ -4368,7 +5008,7 @@ const telHref = (n) => "tel:" + n.replace(/[^\d+]/g, "");
 function renderTrip() {
   const r = rate(), v = visaTrip(), onTrip = v ? v.list.map((e) => e.key) : [];
   const embs = EMBASSIES.slice().sort((a, b) => (onTrip.includes(b.country) ? 1 : 0) - (onTrip.includes(a.country) ? 1 : 0));
-  const quick = S.cv.cur === "KZT" ? [1000, 5000, 10000, 50000] : [5, 10, 20, 50, 100, 500];
+  const quick = S.cv.cur === "KZT" ? [1000, 5000, 10000, 50000] : S.cv.cur === "HUF" ? [500, 1000, 5000, 10000, 20000] : S.cv.cur === "CZK" ? [50, 100, 500, 1000, 2000] : [5, 10, 20, 50, 100, 500];
   let html = `<div class="card sos"><a class="sos-112" href="tel:112"><b>112</b><span><b>🆘 ${t("sos112")}</b><br>${t("sos112Text")}</span></a></div>`;
   html += `<div class="card cv"><div class="h3">💱 ${t("cvTitle")}</div>
     <div class="st-chips cv-curs">${CV_CURS.map(([c, sym]) => `<button aria-pressed="${S.cv.cur === c}" data-cv-cur="${c}">${sym === c ? c : `${sym} ${c}`}</button>`).join("")}</div>
@@ -4705,11 +5345,11 @@ document.addEventListener("change", (e) => {
 /* ---------- Курс валют (живой; при ошибке — FX из блока qz-data) ---------- */
 async function loadRate() {
   const cached = store.get("rate", null);
-  if (cached && Number.isFinite(cached.CHF) && Date.now() - cached.ts < 864e5) { S.rate = cached; if (S.view === "result") render(); return; }
+  if (cached && Number.isFinite(cached.CHF) && Number.isFinite(cached.HUF) && Date.now() - cached.ts < 864e5) { S.rate = cached; if (S.view === "result") render(); return; }
   try {
     const j = await (await fetch("https://open.er-api.com/v6/latest/EUR")).json();
     if (j.result !== "success") throw new Error("rate");
-    S.rate = {KZT: j.rates.KZT, USD: j.rates.USD, CHF: j.rates.CHF, date: new Date(j.time_last_update_unix * 1000).toISOString().slice(0, 10).split("-").reverse().join("."), ts: Date.now()};
+    S.rate = {KZT: j.rates.KZT, USD: j.rates.USD, CHF: j.rates.CHF, HUF: j.rates.HUF, CZK: j.rates.CZK, date: new Date(j.time_last_update_unix * 1000).toISOString().slice(0, 10).split("-").reverse().join("."), ts: Date.now()};
     store.set("rate", S.rate);
   } catch (e) { S.rate = cached || null; }
   if (S.view === "result" || S.view === "trip") render();

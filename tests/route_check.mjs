@@ -11,6 +11,7 @@ const res = await page.evaluate(() => {
     ["Vienna start + 4", ["vienna", "rome", "paris", "milan", "venice"], "vienna", null],
     ["Milan start, auto end", ["milan", "como", "lugano", "venice", "rome"], "milan", null],
     ["7 cities, Paris start", ["paris", "vienna", "rome", "milan", "venice", "como", "lugano"], "paris", null],
+    ["9 cities, Budapest start", ["budapest", "vienna", "prague", "rome", "paris", "milan", "venice", "como", "lugano"], "budapest", null],
     ["7 cities, Vienna→Paris fixed", ["vienna", "rome", "paris", "milan", "venice", "como", "lugano"], "vienna", "paris"]
   ];
   const perms = (a) => a.length <= 1 ? [a] : a.flatMap((x, i) => perms(a.filter((_, j) => j !== i)).map((p) => [x, ...p]));

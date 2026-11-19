@@ -42,7 +42,7 @@ const sos = await page.evaluate(() => ({
   wa: [...document.querySelectorAll("#view-trip a.btn-wa")].map((a) => a.href)
 }));
 check("кнопка 112", sos.call112);
-check("4 посольства, все телефоны — ссылки tel: в международном формате", sos.embs === 4 && sos.tels.length >= 9 && sos.tels.every((h) => /^tel:\+\d{9,14}$/.test(h)), sos.tels.join(" "));
+check("6 посольств, все телефоны — ссылки tel: в международном формате", sos.embs === 6 && sos.tels.length >= 11 && sos.tels.every((h) => /^tel:\+\d{9,14}$/.test(h)), sos.tels.join(" "));
 check("шаги при потере паспорта и WhatsApp", sos.steps === 5 && sos.wa.some((h) => h.startsWith("https://wa.me/77719895607")));
 
 // страны маршрута — первыми
