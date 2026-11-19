@@ -13,6 +13,7 @@
 - `photos/` — фото мест в хорошем качестве (до 1920 px, WebP) для сторис. Качает `python3 tools/fetch_photos.py` (только недостающие; `--all` перекачать все). Wikimedia иногда отвечает «429»: скрипт ждёт и пробует снова, можно просто запустить ещё раз.
 - `manifest.webmanifest`, `sw.js`, `icons/` — установка на телефон и офлайн-режим.
 - `og.png` — картинка превью ссылки в WhatsApp/Telegram. Иконки и `og.png` рисует `node tools/make_assets.mjs`.
+- `qr.png` — QR-код со ссылкой на сайт (для офиса, визиток, WhatsApp).
 - `tests/` — проверки на Playwright (`npm i playwright`, затем из папки проекта `node tests/<файл>.mjs`):
   `route_check.mjs` маршрут, `fare_test.mjs` цены перегонов, `lang_scan.mjs` языки, `visa_story_test.mjs` виза, PDF и сторис.
 - `stories-kk.md` — готовые тексты для сторис по 7 городам и 36 местам на казахском.
