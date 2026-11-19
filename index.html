@@ -344,6 +344,21 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .st-tog i { position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
 .st-tog[aria-pressed="true"] { background: var(--sky); }
 .st-tog[aria-pressed="true"] i { transform: translateX(20px); }
+/* даты: выходные дни, праздники, события */
+:root { --bad-bg: #FDE8E4; --bad-ink: #8A2414; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bad-bg: #4A1E17; --bad-ink: #FFB8A8; } }
+:root[data-theme="dark"] { --bad-bg: #4A1E17; --bad-ink: #FFB8A8; }
+.dlist { display: flex; flex-direction: column; gap: 8px; }
+.dl { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 13.5px; line-height: 1.45; padding: 9px 11px; border-radius: 12px; background: var(--soft); }
+.dl b { font-weight: 800; }
+.dl.closed { background: var(--bad-bg); color: var(--bad-ink); }
+.dl.moved { background: var(--ok-bg); color: var(--ok-ink); }
+.dl.holiday, .dl.check, .dl.partial { background: var(--warn-bg); color: var(--warn-ink); }
+.spot-flag { margin-top: 7px; font-size: 12.5px; font-weight: 700; line-height: 1.4; padding: 6px 10px; border-radius: 10px; background: var(--warn-bg); color: var(--warn-ink); }
+.spot-flag.closed { background: var(--bad-bg); color: var(--bad-ink); }
+.spot-flag a, .dl a { color: inherit; }
+.day-flag { font-size: 12.5px; font-weight: 700; line-height: 1.4; padding: 7px 10px; border-radius: 10px; margin: 0 0 6px; background: var(--soft); }
+.day-flag.holiday { background: var(--warn-bg); color: var(--warn-ink); }
 /* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .tabs button[aria-selected="true"], :root:not([data-theme="light"]) .st-tabs button[aria-selected="true"],
@@ -388,6 +403,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
         <label class="field"><span data-t="people"></span><input type="number" id="people" min="1" max="10" value="1" inputmode="numeric"></label>
       </div>
       <div class="days" id="days" style="margin-top:12px"></div>
+      <p class="muted" style="font-size:13px;margin:10px 0 0" data-t="datesHint"></p>
     </section>
   </div>
 
@@ -395,6 +411,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
     <button class="back" id="back" data-t="back"></button>
     <div class="card v-result" id="visaCard"></div>
     <div class="card" id="routeCard"></div>
+    <div class="card" id="datesCard"></div>
     <div class="card total" id="total"></div>
     <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
     <div class="card" id="shareCard"></div>
@@ -2775,6 +2792,132 @@ const VISA = {
   ],
   other: []
 };
+
+/* 10. ДАТЫ: выходные дни мест, праздники, события в городах.
+   Предупреждения показываются только на даты поездки клиента; план сам переставляет дни,
+   чтобы место не попало на выходной. Правила не привязаны к году — работают на любой год.
+   Правило места (ключ = w места или поездки за город):
+     wd: [дни недели 0=вс … 6=сб]   dates: ["ММ-ДД"]   easter: [дней от Пасхи, 1 = понедельник после Пасхи]
+     months: [1…12] — правило действует только в эти месяцы   season: ["ММ-ДД","ММ-ДД"] — открыто только в этот период
+     lastSundayOpen — по воскресеньям закрыто, кроме последнего воскресенья месяца (Ватикан)
+     level: "check" — данные расходятся, пишем «может не работать — проверьте» (по умолчанию "closed")
+     partial: {wd/dates/months, text} — открыто, но с ограничением (только после обеда и т. п.)
+     why — своя формулировка причины, note — добавка к тексту, src — официальный источник.
+   Сверено по официальным сайтам 2026-11 (DATES_CHECKED). Графики меняются — сверять раз в сезон.
+   Где источники противоречат друг другу (Остия-Антика), правило не ставим: не выдумываем. */
+const DATES_CHECKED = "2026-11";
+const CLOSURES = {
+  // Париж
+  "Louvre": {wd: [2], dates: ["01-01", "05-01", "12-25"], src: "https://www.louvre.fr/en/hours-admission-directions"},
+  "Musée d'Orsay": {wd: [1], dates: ["05-01", "12-25"], src: "https://www.musee-orsay.fr/en/visit"},
+  "Arc de Triomphe": {dates: ["01-01", "05-01", "12-25"], src: "https://www.paris-arc-de-triomphe.fr/en",
+    partial: {dates: ["05-08", "07-14", "11-11"], text: V("Таңертең жабық (ресми рәсім)", "Утром закрыто (официальная церемония)", "Closed in the morning (official ceremony)")}},
+  "Sainte-Chapelle": {dates: ["01-01", "05-01", "12-25"], src: "https://www.sainte-chapelle.fr/en"},
+  "Bourse de commerce (Paris)": {wd: [2], src: "https://www.pinaultcollection.com/en/boursedecommerce"},
+  "Louis Vuitton Foundation": {wd: [2], src: "https://www.fondationlouisvuitton.fr/en"},
+  "Palace of Versailles": {wd: [1], dates: ["01-01", "05-01", "12-25"], src: "https://en.chateauversailles.fr/plan-your-visit/practical-information",
+    note: V("Саябақтар дүйсенбіде де ашық", "Сады открыты и по понедельникам", "The gardens are open on Mondays too")},
+  "Giverny": {season: ["04-01", "11-01"], src: "https://claudemonetgiverny.fr/en/useful-information/"},
+  // Рим
+  "Colosseum": {dates: ["01-01", "12-25"], src: "https://colosseo.it/en/"},
+  "Pantheon, Rome": {dates: ["01-01", "12-25"], src: "https://direzionemuseiroma.cultura.gov.it/en/pantheon/"},
+  "Vatican Museums": {wd: [0], lastSundayOpen: true, dates: ["01-01", "01-06", "02-11", "03-19", "06-29", "08-15", "11-01", "12-08", "12-25", "12-26"], easter: [1],
+    why: V("жексенбі күндері жабық (айдың соңғы жексенбісінен басқа)", "закрыто по воскресеньям, кроме последнего воскресенья месяца", "closed on Sundays except the last Sunday of the month"),
+    note: V("Жабылу күнтізбесі жыл сайын өзгереді — музей сайтынан тексеріңіз", "Календарь закрытий меняется каждый год — сверьте на сайте музеев", "The closure calendar changes every year — check the museums' website"),
+    src: "https://www.museivaticani.va/content/museivaticani/en/visita-i-musei/orari-e-biglietti.html"},
+  "MAXXI": {wd: [1], dates: ["05-01", "12-25"], src: "https://www.maxxi.art/en/orari-e-biglietteria/"},
+  "Tivoli, Lazio": {dates: ["01-01", "12-25"], src: "https://villae.cultura.gov.it/en/opening-time-and-tickets",
+    partial: {wd: [1], text: V("Вилла д’Эсте дүйсенбіде тек 14:00-ден ашылады", "Вилла д’Эсте по понедельникам открывается только в 14:00", "Villa d'Este opens only at 2 pm on Mondays")}},
+  // Милан
+  "Santa Maria delle Grazie": {wd: [1], dates: ["01-01", "05-01", "12-25"], src: "https://cenacolovinciano.org/en/info/"},
+  "Pinacoteca di Brera": {wd: [1], dates: ["05-01", "12-25"], src: "https://cultura.gov.it/luogo/pinacoteca-di-brera-1"},
+  "Sforza Castle": {wd: [1], dates: ["01-01", "05-01", "12-25"], src: "https://www.milanocastello.it/en",
+    note: V("мұражайлар жабық, ал қамал аулалары тегін ашық", "закрыты музеи, а дворы замка открыты бесплатно", "the museums are closed, the castle courtyards are open and free")},
+  "Fondazione Prada": {wd: [2], src: "https://www.fondazioneprada.org/visit/"},
+  // Венеция и поездки
+  "St Mark's Basilica": {src: "https://www.basilicasanmarco.it/",
+    partial: {wd: [0], text: V("Жексенбіде туристер тек түстен кейін (шамамен 14:00-ден) кіре алады", "По воскресеньям туристов пускают только после обеда (примерно с 14:00)", "On Sundays visitors are admitted only in the afternoon (from about 2 pm)")}},
+  "Gallerie dell'Accademia": {dates: ["01-01", "12-25"], src: "https://www.gallerieaccademia.it/en/plan-your-visit",
+    partial: {wd: [1], text: V("Дүйсенбіде тек 14:00-ге дейін ашық", "По понедельникам работает только до 14:00", "Open only until 2 pm on Mondays")}},
+  "Peggy Guggenheim Collection": {wd: [2], dates: ["12-25"], src: "https://www.guggenheim-venice.it/en/visit/"},
+  "Padua": {level: "check", dates: ["01-01", "12-25", "12-26"], src: "https://www.cappelladegliscrovegni.it/index.php/en/informazioni/aperture-e-orari-2",
+    why: V("Скровеньи капелласы бұл мерекеде жабық болуы мүмкін", "капелла Скровеньи в этот праздник может не работать", "the Scrovegni Chapel may be closed on this holiday")},
+  "Verona": {src: "https://cultura.gov.it/luogo/anfiteatro-arena",
+    partial: {wd: [1], months: [10, 11, 12, 1, 2, 3, 4, 5], text: V("Қазаннан мамырға дейін Арена дүйсенбіде жабық", "С октября по май Арена по понедельникам закрыта", "From October to May the Arena is closed on Mondays")}},
+  // Вена
+  "Naschmarkt": {wd: [0], src: "https://www.wien.info/en/shopping-wining-dining/markets/naschmarkt-349474"},
+  "Kunsthistorisches Museum": {level: "check", wd: [1], months: [9, 10, 11, 12, 1, 2, 3, 4, 5], src: "https://www.khm.at/en/visit"},
+  "Vienna State Opera": {src: "https://www.wiener-staatsoper.at/en/magazin/detail/summer-at-vienna-state-opera",
+    partial: {months: [7, 8], text: V("Шілде мен тамызда спектакль жоқ (жазғы үзіліс), ғимаратқа экскурсиялар өтеді", "В июле и августе спектаклей нет (летний перерыв), экскурсии по зданию проходят", "No performances in July and August (summer break); building tours still run")}},
+  "Melk Abbey": {src: "https://www.stiftmelk.at/en/",
+    partial: {wd: [1, 2, 3, 4, 5], months: [11, 12, 1, 2, 3], text: V("Қарашадан наурызға дейін жұмыс күндері тек экскурсиямен: 11:00, 13:30, 15:00", "С ноября по март в будни — только с экскурсией в 11:00, 13:30 и 15:00", "November to March on weekdays: guided tours only, at 11:00, 13:30 and 15:00")}},
+  // Комо и Лугано
+  "Tempio Voltiano": {wd: [1], src: "https://www.comune.como.it/vivere-il-comune/luoghi/Tempio-Voltiano/"},
+  "LAC Lugano Arte e Cultura": {wd: [1], src: "https://www.masilugano.ch/en/",
+    note: V("MASI мұражайы жабық", "закрыт музей MASI", "the MASI museum is closed")},
+  "Monte San Salvatore": {season: ["03-13", "11-08"], src: "https://www.montesansalvatore.ch/en/timetable-and-fares",
+    note: V("маусым күндері жыл сайын сәл өзгереді", "даты сезона каждый год немного меняются", "season dates shift slightly every year")}
+};
+
+/* Государственные праздники (в Лугано — праздники кантона Тичино). Ключ — country.en города.
+   fixed: "ММ-ДД" → название (или {n, from: год, с которого действует}); easter: дней от Пасхи → название. */
+const HD = {
+  ny: V("Жаңа жыл", "Новый год", "New Year's Day"), epi: V("Эпифания", "Крещение (Эпифания)", "Epiphany"),
+  eMon: V("Пасхадан кейінгі дүйсенбі", "Пасхальный понедельник", "Easter Monday"), lab: V("Еңбек күні", "День труда", "Labour Day"),
+  asc: V("Вознесение", "Вознесение", "Ascension Day"), whit: V("Духов күні", "Духов день", "Whit Monday"),
+  corp: V("Корпус Кристи", "Праздник Тела Христова", "Corpus Christi"), ass: V("Успение", "Успение", "Assumption Day"),
+  saints: V("Барлық әулиелер күні", "День всех святых", "All Saints' Day"), imm: V("Пәк ұрықтану мерекесі", "Непорочное зачатие", "Immaculate Conception"),
+  xmas: V("Рождество", "Рождество", "Christmas Day"), steph: V("Әулие Стефан күні", "День святого Стефана", "St Stephen's Day"),
+  joseph: V("Әулие Иосиф күні", "День святого Иосифа", "St Joseph's Day"), pp: V("Әулие Петр мен Павел күні", "День святых Петра и Павла", "Saints Peter and Paul")
+};
+const HOLIDAYS = {
+  Austria: {src: "https://www.oesterreich.gv.at/",
+    fixed: {"01-01": HD.ny, "01-06": HD.epi, "05-01": HD.lab, "08-15": HD.ass, "10-26": V("Аустрияның ұлттық күні", "Национальный день Австрии", "Austrian National Day"), "11-01": HD.saints, "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
+    easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}},
+  Italy: {src: "https://www.governo.it/",
+    fixed: {"01-01": HD.ny, "01-06": HD.epi, "04-25": V("Азаттық күні", "День освобождения", "Liberation Day"), "05-01": HD.lab, "06-02": V("Республика күні", "День Республики", "Republic Day"),
+      "08-15": V("Феррагосто", "Феррагосто (Успение)", "Ferragosto"), "10-04": {n: V("Әулие Франциск күні", "День святого Франциска", "St Francis Day"), from: 2026},
+      "11-01": HD.saints, "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
+    easter: {1: HD.eMon}},
+  France: {src: "https://www.service-public.fr/particuliers/vosdroits/F2405",
+    fixed: {"01-01": HD.ny, "05-01": HD.lab, "05-08": V("Жеңіс күні (1945)", "День Победы (1945)", "Victory in Europe Day"), "07-14": V("Францияның ұлттық мерекесі", "День взятия Бастилии", "Bastille Day"),
+      "08-15": HD.ass, "11-01": HD.saints, "11-11": V("Бітімгершілік күні (1918)", "День перемирия (1918)", "Armistice Day"), "12-25": HD.xmas},
+    easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit}},
+  Switzerland: {src: "https://m3.ti.ch/CAN/RLeggi/public/index.php/raccolta-leggi/pdfatto/atto/568",
+    fixed: {"01-01": HD.ny, "01-06": HD.epi, "03-19": HD.joseph, "05-01": HD.lab, "06-29": HD.pp, "08-01": V("Швейцарияның ұлттық күні", "Национальный день Швейцарии", "Swiss National Day"),
+      "08-15": HD.ass, "11-01": HD.saints, "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
+    easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}}
+};
+// праздники одного города (покровитель города)
+const LOCAL_HOLIDAYS = {
+  rome: {"06-29": V("Әулие Петр мен Павел күні — Рим мерекесі", "День святых Петра и Павла — праздник Рима", "Saints Peter and Paul — Rome's holiday")},
+  milan: {"12-07": V("Әулие Амвросий күні — Милан мерекесі", "День святого Амвросия — праздник Милана", "St Ambrose Day — Milan's holiday")}
+};
+
+/* События и особенности городов на определённые даты.
+   wd / months / dates ("ММ-ДД") / range ["ММ-ДД","ММ-ДД"] / easterRange [от, до] (дней от Пасхи) /
+   known: {год: "ММ-ДД,…"} — точный календарь на год; в другие годы в months показываем maybe. */
+const CITY_DATES = {
+  vienna: [
+    {wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық, азық-түлікті ірі вокзалдардан алуға болады", "Воскресенье: большинство магазинов закрыто, продукты можно купить на крупных вокзалах", "Sunday: most shops are closed; groceries are sold at the main railway stations")},
+    {range: ["11-14", "12-23"], icon: "🎄", text: V("Рождестволық жәрмеңкелер (Rathausplatz және басқалары). Күндері жыл сайын сәл өзгереді", "Рождественские ярмарки (Rathausplatz и другие). Даты каждый год немного меняются", "Christmas markets (Rathausplatz and others). Dates shift slightly every year"),
+      src: "https://www.wien.info/en/now-on/events/viennese-christmas-market-1001488"}
+  ],
+  venice: [
+    {months: [4, 5, 6, 7], icon: "🎟️", src: "https://cda.ve.it/en",
+      known: {2026: "04-03,04-04,04-05,04-06,04-10,04-11,04-12,04-17,04-18,04-19,04-24,04-25,04-26,04-27,04-28,04-29,04-30,05-01,05-02,05-03,05-08,05-09,05-10,05-15,05-16,05-17,05-22,05-23,05-24,05-29,05-30,05-31,06-01,06-02,06-03,06-04,06-05,06-06,06-07,06-12,06-13,06-14,06-19,06-20,06-21,06-26,06-27,06-28,07-03,07-04,07-05,07-10,07-11,07-12,07-17,07-18,07-19,07-24,07-25,07-26"},
+      text: V("Венецияға бір күндік туристерге ақылы кіру күні (8:30–16:00). Венецияда түнесеңіз, төлемейсіз, бірақ cda.ve.it сайтында босатуды рәсімдеңіз", "День платного входа в Венецию для однодневных туристов (8:30–16:00). Если ночуете в Венеции — платить не нужно, но оформите освобождение на cda.ve.it", "Paid entry day for day-trippers to Venice (8:30–16:00). If you stay overnight in Venice you don't pay, but register the exemption at cda.ve.it"),
+      maybe: V("Сәуірден шілдеге дейін кейбір күндері Венецияға бір күндік туристерге кіру ақылы. Осы жылдың күнтізбесі — cda.ve.it", "С апреля по июль в некоторые дни вход в Венецию для однодневных туристов платный. Календарь на этот год — на cda.ve.it", "From April to July, entry to Venice is paid for day-trippers on some days. This year's calendar is at cda.ve.it")},
+    {easterRange: [-57, -47], icon: "🎭", src: "https://www.carnevale.venezia.it/en/",
+      text: V("Венеция карнавалы (нақты күндері — карнавал сайтында): адам көп, тұрғын үй қымбаттайды, ертерек брондаңыз", "Карнавал в Венеции (точные даты — на сайте карнавала): много людей, жильё дороже — бронируйте заранее", "Venice Carnival (exact dates on the Carnival website): big crowds and higher prices — book early")},
+    {months: [10, 11, 12, 1], icon: "🌊", src: "https://www.comune.venezia.it/it/content/centro-previsioni-e-segnalazioni-maree",
+      text: V("Жоғары су маусымы (acqua alta): Сан-Марко алаңын су басуы мүмкін. Болжамды қала сайтынан қараңыз", "Сезон высокой воды (acqua alta): площадь Сан-Марко может подтопить. Прогноз — на сайте города", "High-water season (acqua alta): St Mark's Square may flood. Check the city's tide forecast")}
+  ],
+  milan: [{months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}],
+  rome: [{months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}],
+  paris: [{dates: ["07-14"], icon: "🎆", text: V("Таңертең Елисей алаңдарында әскери шеру (орталық жабық), кешке Эйфель мұнарасында салют", "Утром военный парад на Елисейских Полях (центр перекрыт), вечером салют у Эйфелевой башни", "Military parade on the Champs-Élysées in the morning (centre closed), fireworks at the Eiffel Tower in the evening")}],
+  lugano: [{wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық", "Воскресенье: большинство магазинов закрыто", "Sunday: most shops are closed")}]
+};
 </script>
 <script>
 "use strict";
@@ -2877,6 +3020,13 @@ const T = {
     stLoading: "Фото жүктелуде…", stSaved: "Сурет сақталды ✓", stLongPress: "Суретті басып тұрып, «Сақтау» таңдаңыз", stFail: "Сурет сақталмады. Қайталап көріңіз.",
     stFonts: {modern: "Заманауи", light: "Жеңіл", elegant: "Сәнді", magazine: "Журнал", hand: "Қолжазба", bold: "Батыл", soft: "Жұмсақ"}, stTripWord: "Еуропа", stSample: "Аа",
     instTitle: "Қосымша ретінде орнатыңыз", instIos: "Safari-де «Бөлісу» ⬆️ → «Басты экранға» басыңыз. Белгішеден ашылады, интернетсіз де жұмыс істейді.", instAndroid: "Телефонға орнатсаңыз, белгішеден ашылады және интернетсіз де жұмыс істейді.", instBtn: "Орнату", instHide: "Жасыру",
+    dTitle: "Сапар күндері: маңызды", dNone: "Сапар күндеріне мереке де, жабылу да табылмады.", dMoved: "{from}: {why} → {date} күніне ауыстырдық", dReplaced: "{from}: {why} → орнына «{other}» қойдық",
+    dNoOther: "Осы қалада басқа қолайлы күн табылмады — орынды ауыстырыңыз немесе күндерді жылжытыңыз", dWeekday: "{d} сайын жабық", dWeekdayMaybe: "{d} сайын жабық болуы мүмкін",
+    wdPl: ["жексенбі", "дүйсенбі", "сейсенбі", "сәрсенбі", "бейсенбі", "жұма", "сенбі"], dDate: "бұл күні жабық", dDateMaybe: "бұл күні жабық болуы мүмкін",
+    dSeason: "тек {a} – {b} аралығында ашық", dCheck: "сайттан тексеріңіз", dSrc: "дереккөз",
+    dHoliday: "Мереке: {name}. Кейбір дүкендер мен мұражайлар жабық болуы мүмкін, көлік мерекелік кестемен жүреді",
+    dChecked: "Кестелер ресми сайттар бойынша тексерілді ({d}). Олар өзгеруі мүмкін — сапар алдында тексеріңіз.",
+    datesHint: "📅 Мұражайлардың демалыс күндері мен мерекелерді ескереміз: жабық орындарды басқа күнге қоямыз.",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -2960,6 +3110,13 @@ const T = {
     stLoading: "Загружаю фото…", stSaved: "Картинка сохранена ✓", stLongPress: "Зажмите картинку и выберите «Сохранить»", stFail: "Не удалось сохранить. Попробуйте ещё раз.",
     stFonts: {modern: "Современный", light: "Лёгкий", elegant: "Элегантный", magazine: "Журнал", hand: "Рукописный", bold: "Смелый", soft: "Мягкий"}, stTripWord: "Европа", stSample: "Аа",
     instTitle: "Установите как приложение", instIos: "В Safari нажмите «Поделиться» ⬆️ → «На экран „Домой“». Откроется с иконки и работает без интернета.", instAndroid: "Установите на телефон: откроется с иконки и работает без интернета.", instBtn: "Установить", instHide: "Скрыть",
+    dTitle: "Ваши даты: важное", dNone: "На ваши даты праздников и закрытий не нашли.", dMoved: "{from}: {why} → поставили на {date}", dReplaced: "{from}: {why} → вместо него поставили «{other}»",
+    dNoOther: "Другого подходящего дня в этом городе нет — замените место или сдвиньте даты", dWeekday: "закрыто по {d}", dWeekdayMaybe: "по {d} может быть закрыто",
+    wdPl: ["воскресеньям", "понедельникам", "вторникам", "средам", "четвергам", "пятницам", "субботам"], dDate: "в этот день закрыто", dDateMaybe: "в этот день может быть закрыто",
+    dSeason: "работает только с {a} по {b}", dCheck: "проверьте на сайте", dSrc: "источник",
+    dHoliday: "Праздник: {name}. Часть магазинов и музеев может не работать, транспорт — по праздничному расписанию",
+    dChecked: "Графики сверены по официальным сайтам ({d}). Они меняются — перед поездкой проверьте.",
+    datesHint: "📅 Учтём выходные дни музеев и праздники: закрытые места поставим на другой день.",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -3043,6 +3200,13 @@ const T = {
     stLoading: "Loading photo…", stSaved: "Image saved ✓", stLongPress: "Press and hold the image, then choose Save", stFail: "Could not save. Please try again.",
     stFonts: {modern: "Modern", light: "Light", elegant: "Elegant", magazine: "Magazine", hand: "Handwritten", bold: "Bold", soft: "Soft"}, stTripWord: "Europe", stSample: "Aa",
     instTitle: "Install as an app", instIos: "In Safari tap Share ⬆️ → Add to Home Screen. It opens from the icon and works offline.", instAndroid: "Install it on your phone: it opens from the icon and works offline.", instBtn: "Install", instHide: "Hide",
+    dTitle: "Your dates: heads-up", dNone: "No holidays or closures on your dates.", dMoved: "{from}: {why} → moved to {date}", dReplaced: "{from}: {why} → replaced with “{other}”",
+    dNoOther: "No other suitable day in this city — swap the place or shift your dates", dWeekday: "closed on {d}", dWeekdayMaybe: "may be closed on {d}",
+    wdPl: ["Sundays", "Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays"], dDate: "closed on this day", dDateMaybe: "may be closed on this day",
+    dSeason: "open only from {a} to {b}", dCheck: "check the website", dSrc: "source",
+    dHoliday: "Public holiday: {name}. Some shops and museums may be closed; transport runs a holiday timetable",
+    dChecked: "Opening days checked against official websites ({d}). They change — check before you go.",
+    datesHint: "📅 We take museum closing days and public holidays into account and move closed places to another day.",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -3355,7 +3519,7 @@ function priceTag(s, cityId) {
   return `<span class="tag paid">${Array.isArray(s.p) ? `${num(s.p[0])}–${num(s.p[1])} ${sym}` : `~${num(s.p)} ${sym}`}</span>`;
 }
 const usedPhotos = new Set();
-function spotRow(s, cityId) {
+function spotRow(s, cityId, date) {
   usedPhotos.add(s.w);
   const mapUrl = mapsSearch(mapQ(s.w, cityId));
   const hasStory = !!s.history;
@@ -3368,6 +3532,7 @@ function spotRow(s, cityId) {
         ${s.note ? `<div class="small" style="margin-top:3px">${esc(L(s.note))}</div>` : ""}
       </div>
     </div>
+    ${date ? spotFlagHTML(s.w, date) : ""}
     ${hasStory ? `<details class="story-inline"><summary>📖 ${t("historyLabel")} · 💡 ${t("factLabel")}</summary><div class="sb">
       <p>${esc(L(s.history))}</p><div class="fx">💡 ${esc(L(s.fact))}</div>${s.tip ? `<p class="small" style="margin:8px 0 0">💬 ${esc(L(s.tip))}</p>` : ""}
       <p class="small" style="margin:6px 0 0">${photoCredit(s.w)} · <a href="${esc(s.source)}" target="_blank" rel="noopener">${esc(hostOf(s.source))} ↗</a></p></div></details>` : ""}
@@ -3414,23 +3579,25 @@ function renderResult() {
   const r = rate(), d = S.days;
   const startDate = new Date(S.start + "T00:00:00");
   let html = "", dayNo = 0, tickets = 0, unpriced = 0;
+  const plan = planTrip(route, per, startDate); S.plan = plan;
+  $("#datesCard").innerHTML = datesCardHTML(plan);
   route.order.forEach((id, ci) => {
     const c = CITIES[id];
-    buildCityDays(id, per[ci]).forEach((day, i) => {
-      const date = fmtDate(new Date(startDate.getTime() + dayNo * 864e5));
+    plan.days.filter((x) => x.ci === ci).map((x) => x.day).forEach((day, i) => {
+      const dDate = day.date, date = fmtDate(dDate);
       const head = `<div class="dayhead"><b>${S.lang === "kk" ? `${dayNo + 1}-${t("day")}` : `${t("day")} ${dayNo + 1}`} · ${c.icon} ${esc(L(c.name))}</b><span>${date}</span></div>`;
-      let body = "";
+      let body = dayNotesHTML(dayNotes(id, dDate));
       if (i === 0 && ci > 0) {
         const l = route.legs[ci - 1], prev = route.order[ci - 1];
         const transitUrl = "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(CITIES[prev].name.en) + "&destination=" + encodeURIComponent(c.name.en) + "&travelmode=transit";
-        body = `<div class="move">${MODE_ICON[l.mode] || "🚆"} ${t("moveTo")}: ${esc(cityName(prev))} → ${esc(L(c.name))} · ${fmtHours(l.h)}${l.via ? `<span class="small">${esc(L(l.via))}${l.alt ? ` · ${t("legOr")} ${MODE_ICON[l.alt.mode]} ${fmtHours(l.alt.h)}` : ""}</span>` : ""}${l.h >= 4 ? `<span class="small">⏳ ${tf("arriveNote", {h: fmtHours(l.h)})}</span>` : ""}<a href="${transitUrl}" target="_blank" rel="noopener" class="small">${t("route")} ↗</a></div>`;
+        body += `<div class="move">${MODE_ICON[l.mode] || "🚆"} ${t("moveTo")}: ${esc(cityName(prev))} → ${esc(L(c.name))} · ${fmtHours(l.h)}${l.via ? `<span class="small">${esc(L(l.via))}${l.alt ? ` · ${t("legOr")} ${MODE_ICON[l.alt.mode]} ${fmtHours(l.alt.h)}` : ""}</span>` : ""}${l.h >= 4 ? `<span class="small">⏳ ${tf("arriveNote", {h: fmtHours(l.h)})}</span>` : ""}<a href="${transitUrl}" target="_blank" rel="noopener" class="small">${t("route")} ↗</a></div>`;
       }
       if (day.spots) {
         day.spots.forEach((s) => { if (typeof s.p === "number") tickets += toEur(s.p, c.currency); else if (Array.isArray(s.p)) tickets += toEur(s.p[1], c.currency); else if (s.p === "paid") unpriced++; });
-        body += day.spots.map((s) => spotRow(s, id)).join("");
+        body += day.spots.map((s) => spotRow(s, id, dDate)).join("");
         if (day.spots.length > 1) body += `<a class="route" href="${routeUrl(id, day.spots)}" target="_blank" rel="noopener">🗺️ ${t("route")}</a>`;
       } else if (day.trip) {
-        body += `<div class="small" style="margin:2px 0 0">${t("tripDay")}</div>` + spotRow({w: day.trip.w, n: day.trip.n}, id);
+        body += `<div class="small" style="margin:2px 0 0">${t("tripDay")}</div>` + spotRow({w: day.trip.w, n: day.trip.n}, id, dDate);
       } else body += `<p class="muted" style="margin:6px 0 0">${t("freeDay")}</p>`;
       html += `<div class="card">${head}${body}</div>`;
       dayNo++;
@@ -3918,6 +4085,170 @@ function stInput(el) {
   return true;
 }
 
+/* ---------- Даты поездки: выходные дни мест, праздники, события ----------
+   Данные — в блоке qz-data (CLOSURES, HOLIDAYS, LOCAL_HOLIDAYS, CITY_DATES).
+   planCity раскладывает места по дням и переставляет дни (а если надо — отдельные места),
+   чтобы место не попало на свой выходной. Что переставить не вышло — помечаем ⛔. */
+const pad2 = (n) => String(n).padStart(2, "0");
+const mmdd = (d) => `${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const fmtMD = (s) => s.split("-").reverse().join(".");
+const easterCache = {};
+function easterDate(y) { // григорианская Пасха (алгоритм Гаусса — Мичера)
+  if (easterCache[y]) return easterCache[y];
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+  return (easterCache[y] = new Date(y, month - 1, day));
+}
+const easterOffset = (d) => Math.round((dayStart(d) - easterDate(d.getFullYear())) / 864e5);
+const inRange = (m, [a, b]) => (a <= b ? m >= a && m <= b : m >= a || m <= b);
+// совпадает ли дата с правилом: "wd" (день недели) | "date" | "month" | false
+function ruleHit(r, d) {
+  if (r.months && !r.months.includes(d.getMonth() + 1)) return false;
+  if (r.wd && r.wd.includes(d.getDay())) return "wd";
+  if (r.dates && r.dates.includes(mmdd(d))) return "date";
+  if (r.easter && r.easter.includes(easterOffset(d))) return "date";
+  if (r.months && !r.wd && !r.dates && !r.easter) return "month";
+  return false;
+}
+// {level: "closed" | "check" | "partial", text} или null
+function closureOn(key, d) {
+  const r = CLOSURES[key]; if (!r) return null;
+  const level = r.level || "closed", maybe = level === "check", note = r.note ? ` (${L(r.note)})` : "";
+  const fin = (why) => ({level, text: why + note + (maybe ? ` — ${t("dCheck")}` : ""), src: r.src});
+  if (r.season && !inRange(mmdd(d), r.season)) return fin(tf("dSeason", {a: fmtMD(r.season[0]), b: fmtMD(r.season[1])}));
+  let hit = r.wd || r.dates || r.easter ? ruleHit({wd: r.wd, dates: r.dates, easter: r.easter, months: r.months}, d) : false;
+  if (hit === "wd" && r.lastSundayOpen && d.getDay() === 0 && addDays(d, 7).getMonth() !== d.getMonth() && !(r.dates || []).includes(mmdd(d))) hit = false;
+  if (hit === "wd") return fin(r.why ? L(r.why) : tf(maybe ? "dWeekdayMaybe" : "dWeekday", {d: t("wdPl")[d.getDay()]}));
+  if (hit) return fin(r.why ? L(r.why) : t(maybe ? "dDateMaybe" : "dDate"));
+  if (r.partial && ruleHit(r.partial, d)) return {level: "partial", text: L(r.partial.text), src: r.src};
+  return null;
+}
+function holidayOn(cityId, d) {
+  const H = HOLIDAYS[CITIES[cityId].country.en], k = mmdd(d), local = LOCAL_HOLIDAYS[cityId] && LOCAL_HOLIDAYS[cityId][k];
+  if (local) return local;
+  if (!H) return null;
+  const f = H.fixed[k];
+  if (f) { if (f.from && d.getFullYear() < f.from) return null; return f.n || f; }
+  return (H.easter && H.easter[easterOffset(d)]) || null;
+}
+// заметки дня: праздник и события города
+function dayNotes(cityId, d) {
+  const out = [], h = holidayOn(cityId, d);
+  if (h) out.push({kind: "holiday", icon: "📅", text: tf("dHoliday", {name: L(h)}), src: HOLIDAYS[CITIES[cityId].country.en] && HOLIDAYS[CITIES[cityId].country.en].src});
+  (CITY_DATES[cityId] || []).forEach((ev) => {
+    let text = null;
+    if (ev.known) {
+      if (!ev.months || ev.months.includes(d.getMonth() + 1)) {
+        const list = ev.known[d.getFullYear()];
+        if (list) { if (list.split(",").includes(mmdd(d))) text = L(ev.text); } else text = L(ev.maybe);
+      }
+    } else if (ev.range ? inRange(mmdd(d), ev.range) : ev.easterRange ? (() => { const o = easterOffset(d); return o >= ev.easterRange[0] && o <= ev.easterRange[1]; })() : ruleHit(ev, d)) text = L(ev.text);
+    if (text) out.push({kind: "event", icon: ev.icon || "ℹ️", text, src: ev.src});
+  });
+  return out;
+}
+const dayItems = (day) => (day.spots ? day.spots.map((s) => s.w) : day.trip ? [day.trip.w] : []);
+const itemCost = (key, d) => { const c = closureOn(key, d); return !c ? 0 : c.level === "closed" ? 10 : c.level === "check" ? 2 : 0; };
+const dayCost = (day, d) => dayItems(day).reduce((a, k) => a + itemCost(k, d), 0);
+function bestOrder(days, dates) { // перебор порядка дней (до 7 дней в городе), иначе — попарные обмены
+  const n = days.length, cost = (p) => p.reduce((a, di, i) => a + dayCost(days[di], dates[i]), 0), shift = (p) => p.reduce((a, di, i) => a + Math.abs(di - i), 0);
+  let best = days.map((_, i) => i), bestC = cost(best), bestS = 0;
+  if (!bestC) return best;
+  if (n <= 7) {
+    const perm = (arr, l) => {
+      if (l === arr.length) { const c = cost(arr); if (c < bestC || (c === bestC && shift(arr) < bestS)) { best = arr.slice(); bestC = c; bestS = shift(arr); } return; }
+      for (let i = l; i < arr.length; i++) { [arr[l], arr[i]] = [arr[i], arr[l]]; perm(arr, l + 1); [arr[l], arr[i]] = [arr[i], arr[l]]; }
+    };
+    perm(days.map((_, i) => i), 0);
+  } else {
+    let improved = true;
+    while (improved) {
+      improved = false;
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { const p = best.slice(); [p[i], p[j]] = [p[j], p[i]]; const c = cost(p); if (c < bestC) { best = p; bestC = c; improved = true; } }
+    }
+  }
+  return best;
+}
+function planCity(cityId, nDays, firstDate) {
+  const base = buildCityDays(cityId, nDays), dates = base.map((_, i) => addDays(firstDate, i));
+  const days = bestOrder(base, dates).map((i) => ({...base[i], spots: base[i].spots ? base[i].spots.slice() : undefined}));
+  // если день целиком переставить не помогло — меняем местами отдельные места между днями
+  days.forEach((day, i) => {
+    if (!day.spots) return;
+    day.spots.forEach((s, si) => {
+      if (itemCost(s.w, dates[i]) < 10) return;
+      for (let j = 0; j < days.length; j++) {
+        if (j === i || !days[j].spots || itemCost(s.w, dates[j])) continue;
+        const ti = days[j].spots.findIndex((x) => !itemCost(x.w, dates[i]));
+        if (ti >= 0) { const tmp = days[j].spots[ti]; days[j].spots[ti] = s; day.spots[si] = tmp; return; }
+        if (days[j].spots.length < 3) { days[j].spots.push(s); day.spots.splice(si, 1); return; }
+      }
+    });
+  });
+  // перенести некуда (например, в городе один день) — заменяем открытым местом из того же города, которого нет в плане
+  const moved = [], c = CITIES[cityId], used = new Set(days.flatMap(dayItems));
+  const pool = c.spots.filter((x) => (S.style === "classic" ? x.tag !== "m" : S.style === "modern" ? x.tag !== "c" : true));
+  days.forEach((day, i) => {
+    if (!day.spots) return;
+    day.spots.forEach((s, si) => {
+      const cl = closureOn(s.w, dates[i]); if (!cl || cl.level !== "closed") return;
+      const alt = pool.find((x) => !used.has(x.w) && !itemCost(x.w, dates[i]));
+      if (!alt) return;
+      used.add(alt.w); day.spots[si] = alt;
+      moved.push({key: s.w, why: cl.text, from: dates[i], to: alt.w});
+    });
+  });
+  // что перенесли: место было бы закрыто в исходный день, а теперь открыто
+  base.forEach((day, i) => dayItems(day).forEach((k) => {
+    const c = closureOn(k, dates[i]); if (!c || c.level === "partial") return;
+    const j = days.findIndex((x) => dayItems(x).includes(k));
+    if (j >= 0 && j !== i && !itemCost(k, dates[j])) moved.push({key: k, why: c.text, from: dates[i], date: dates[j]});
+  }));
+  return {days: days.map((day, i) => ({...day, date: dates[i]})), moved};
+}
+// весь маршрут: [{cityId, ci, i, date, day}] + список переносов
+function planTrip(route, per, start) {
+  const out = [], moved = [];
+  let n = 0;
+  route.order.forEach((id, ci) => {
+    const p = planCity(id, per[ci], addDays(start, n));
+    p.moved.forEach((m) => moved.push({...m, cityId: id}));
+    p.days.forEach((day, i) => { out.push({cityId: id, ci, i, date: day.date, day}); n++; });
+  });
+  return {days: out, moved};
+}
+const itemName = (cityId, key) => { const c = CITIES[cityId], s = c.spots.find((x) => x.w === key) || c.trips.find((x) => x.w === key); return s ? L(s.n) : key; };
+const DL_ICON = {closed: "⛔", check: "⚠️", partial: "⏰", moved: "✅"};
+function spotFlagHTML(key, d) {
+  const c = closureOn(key, d); if (!c) return "";
+  return `<div class="spot-flag ${c.level}">${DL_ICON[c.level]} ${esc(c.text)}${c.src ? ` · <a href="${esc(c.src)}" target="_blank" rel="noopener">${t("dSrc")} ↗</a>` : ""}</div>`;
+}
+const dayNotesHTML = (notes) => notes.map((n) => `<div class="day-flag ${n.kind}">${n.icon} ${esc(n.text)}</div>`).join("");
+/* карточка «Ваши даты»: переносы, закрытия, праздники, события; одинаковые заметки по нескольким дням объединяем */
+function datesCardHTML(plan) {
+  const rows = [], groups = new Map();
+  plan.moved.forEach((m) => rows.push({d: m.from, kind: "moved", icon: DL_ICON.moved, head: esc(itemName(m.cityId, m.key)),
+    text: m.to ? tf("dReplaced", {from: fmtDate(m.from), why: m.why, other: itemName(m.cityId, m.to)}) : tf("dMoved", {from: fmtDate(m.from), why: m.why, date: fmtDate(m.date)})}));
+  plan.days.forEach(({cityId, date, day}) => {
+    dayItems(day).forEach((k) => { const c = closureOn(k, date); if (c) rows.push({d: date, kind: c.level, icon: DL_ICON[c.level], head: `${fmtDate(date)} · ${esc(itemName(cityId, k))}`, text: c.level === "closed" ? `${c.text}. ${t("dNoOther")}` : c.text}); });
+    dayNotes(cityId, date).forEach((n) => {
+      const key = cityId + "|" + n.text;
+      if (!groups.has(key)) groups.set(key, {cityId, n, dates: []});
+      groups.get(key).dates.push(date);
+    });
+  });
+  groups.forEach(({cityId, n, dates}) => {
+    const a = dates[0], b = dates[dates.length - 1];
+    const when = dates.length === 1 ? fmtDate(a) : dates.length === Math.round((b - a) / 864e5) + 1 ? `${fmtDate(a)} – ${fmtDate(b)}` : dates.map(fmtDate).join(", ");
+    rows.push({d: a, kind: n.kind, icon: n.icon, head: `${when} · ${cityIcon(cityId)} ${esc(cityName(cityId))}`, text: n.text});
+  });
+  rows.sort((x, y) => x.d - y.d);
+  const body = rows.length ? `<div class="dlist">${rows.map((r) => `<div class="dl ${r.kind}"><span>${r.icon}</span><div><b>${r.head}</b><br>${esc(r.text)}</div></div>`).join("")}</div>`
+    : `<p class="muted" style="margin:0;font-size:14px">${t("dNone")}</p>`;
+  return `<div class="h3">📅 ${t("dTitle")}</div>${body}<p class="note">${tf("dChecked", {d: DATES_CHECKED})}</p>`;
+}
+
 /* ---------- Виза ----------
    Консульство: страна, где больше всего дней (Визовый кодекс ЕС, ст. 5). Если дней поровну —
    страна первого въезда (первый город маршрута). Сроки и правила — в VISA (блок данных). */
@@ -4007,9 +4338,10 @@ const enOf = (o) => (typeof o === "string" ? o : (o && (o.en || o.ru)) || "");
 function itinerary() {
   const v = visaTrip(); if (!v) return null;
   const rows = []; let n = 0;
+  const plan = planTrip(v.route, v.per, v.start);
   v.route.order.forEach((id, ci) => {
     const c = CITIES[id];
-    buildCityDays(id, v.per[ci]).forEach((day, i) => {
+    plan.days.filter((x) => x.ci === ci).map((x) => x.day).forEach((day, i) => {
       const parts = [];
       if (n === 0) parts.push(`Arrival in ${c.name.en} from Kazakhstan.`);
       if (i === 0 && ci > 0) { const l = v.route.legs[ci - 1], prev = v.route.order[ci - 1]; parts.push(`Travel ${CITIES[prev].name.en} -> ${c.name.en} ${MODE_EN[l.mode] || ""}${l.via ? ` (${enOf(l.via)})` : ""}.`); }
@@ -4240,7 +4572,8 @@ async function loadRate() {
 }
 
 // для тестов и отладки (console): window.QZ.optimizeRoute(["vienna","rome"], "vienna", null)
-window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob};
+window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob,
+  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
 // офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
