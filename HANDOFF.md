@@ -15,6 +15,7 @@
 - `manifest.webmanifest`, `sw.js`, `icons/` — установка на телефон и офлайн-режим.
 - `og.png` — картинка превью ссылки в WhatsApp/Telegram. Иконки и `og.png` рисует `node tools/make_assets.mjs`.
 - `qr.png` — QR-код со ссылкой на сайт (для офиса, визиток, WhatsApp).
+- `marketing/` — фирменный QR (точки, «глаза» в цветах бренда, логотип в центре) и готовые макеты с ним: `qr-card-print.png` (открытка A6 для печати, 300 dpi), `qr-post.png` (пост Instagram 4:5), `qr-story.png` (сторис 9:16), `qr-brand.png` / `qr-brand-white.png` (сам код, без фона и на белом). Код рисует `python3 tools/make_qr.py` и сам проверяет, что его читают сканеры (zxing-cpp, OpenCV); макеты — `node tools/make_marketing.mjs`. После смены ссылки (свой домен) — запустить оба заново.
 - `tests/` — проверки на Playwright (`npm i playwright`, затем из папки проекта `node tests/<файл>.mjs`):
   `route_check.mjs` маршрут, `fare_test.mjs` цены перегонов, `lang_scan.mjs` языки, `visa_story_test.mjs` виза, PDF и сторис,
   `dates_test.mjs` выходные дни, праздники, события и перестановка дней (включая прогон на каждый день 2027 года),
