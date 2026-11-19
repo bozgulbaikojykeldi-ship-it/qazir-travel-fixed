@@ -3629,7 +3629,7 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 // имя файла фото — так же считает tools/fetch_photos.py
 const photoSlug = (key) => key.normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-let stFontsReady = null, stRaf = 0, stFontTimer = 0;
+let stFontsReady = null, stRaf = 0, stFontTimer = 0, stDragEnd = 0; // stDragEnd: окно не закрываем, если палец отпустили за краем после перетаскивания
 function loadStoryFonts() {
   if (stFontsReady) return stFontsReady;
   stFontsReady = new Promise((res) => {
@@ -3834,7 +3834,7 @@ function stBindCanvas() {
     }
     stDraw();
   });
-  const end = () => { drag = null; };
+  const end = () => { if (drag) stDragEnd = Date.now(); drag = null; };
   cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
 }
 const stImgCache = {};
@@ -4175,6 +4175,7 @@ function speak(text, tl, btn) {
 
 /* ---------- События ---------- */
 document.addEventListener("click", (e) => {
+  if (e.target.id === "modalBackdrop" && Date.now() - stDragEnd < 400) return;
   if (e.target.id === "modalBackdrop" || e.target.closest("[data-close-modal]")) { closeModal(); return; }
   const openPlace = e.target.closest("[data-open-place]"); if (openPlace) { haptic(); openPlaceModal(openPlace.dataset.openPlace); return; }
   const openStory = e.target.closest("[data-open-story]"); if (openStory) { haptic(); openStoryStudio({type: "place", id: openStory.dataset.openStory}); return; }
