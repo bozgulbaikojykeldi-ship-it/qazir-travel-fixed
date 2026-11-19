@@ -1,0 +1,5 @@
+# временные файлы тестов и скриптов
+__pycache__/
+node_modules/
+fare-route*.png
+en-sheet.png
