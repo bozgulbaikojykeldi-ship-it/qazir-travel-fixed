@@ -3672,7 +3672,7 @@ function openStoryStudio(target) {
   if (!ST_SCRIPTS[base.scriptFont]) base.scriptFont = ST_DEFAULT.scriptFont;
   if (!ST_PILLS[base.pillStyle]) base.pillStyle = ST_DEFAULT.pillStyle;
   S.st = {target, info, ...base, src: info.def, text: info.texts[info.def], pill: true, pillText: info.pill, script: true, scriptText: info.script,
-    bg: info.photoKey ? "place" : "dark", img: null, own: null, ownUrl: null, panX: 0.5, panY: 0.5, gx: 96, gy: 520, sdx: 230, sdy: 22, tab: "text", boxes: {}};
+    bg: info.photoKey ? "place" : "dark", img: null, own: null, ownUrl: null, panX: 0.5, panY: 0.5, gx: 96, gy: 520, sdx: 230, sdy: 44, tab: "text", boxes: {}};
   openModal(stHTML(), "st-sheet");
   stBindCanvas(); stRender($("#stCanvas")); stEnsureFonts(); stLoadBg();
 }
