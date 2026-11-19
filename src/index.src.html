@@ -359,6 +359,30 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .spot-flag a, .dl a { color: inherit; }
 .day-flag { font-size: 12.5px; font-weight: 700; line-height: 1.4; padding: 7px 10px; border-radius: 10px; margin: 0 0 6px; background: var(--soft); }
 .day-flag.holiday { background: var(--warn-bg); color: var(--warn-ink); }
+/* в поездке: перевод цены и SOS */
+.cv .field input { height: 56px; font-size: 24px; font-weight: 800; }
+.cv-curs, .cv-quick { margin: 10px 0; }
+.cv-out { background: var(--ink); color: #fff; border-radius: 16px; padding: 14px 16px; margin-top: 10px; }
+.cv-main { font: 800 30px/1.15 'Montserrat', 'Manrope', sans-serif; letter-spacing: -.01em; }
+.cv-sub { opacity: .8; font-weight: 700; font-size: 14px; margin-top: 4px; }
+:root[data-theme="dark"] .cv-out { background: #071A30; border: 1px solid var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cv-out { background: #071A30; border: 1px solid var(--line); } }
+.sos { padding: 0; overflow: hidden; }
+.sos-112 { display: flex; gap: 14px; align-items: center; background: var(--coral); color: #06243F; padding: 14px 16px; text-decoration: none; font-size: 13.5px; line-height: 1.4; }
+.sos-112 > b { font: 800 36px 'Montserrat', sans-serif; flex: 0 0 auto; }
+.emb { border-top: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 6px; }
+.emb:first-of-type { border-top: 0; padding-top: 2px; }
+.emb-h { display: flex; gap: 8px; align-items: flex-start; font-size: 14.5px; line-height: 1.35; }
+.emb-h b { flex: 1; }
+.emb-c { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.emb-c .rtag { margin-left: auto; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: var(--ok-bg); color: var(--ok-ink); }
+.emb-addr { font-size: 13.5px; font-weight: 700; color: var(--sky-deep); text-decoration: none; }
+.emb-ph { display: flex; justify-content: space-between; gap: 10px; align-items: center; background: var(--soft); border-radius: 12px; padding: 10px 12px; text-decoration: none; color: var(--text); font-size: 13px; min-height: 44px; }
+.emb-ph b { white-space: nowrap; color: var(--sky-deep); font-size: 13.5px; }
+.emb-ph.em { background: var(--bad-bg); color: var(--bad-ink); }
+.emb-ph.em b { color: var(--bad-ink); }
+.emb .small a { color: var(--muted); }
+.sos-tip { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
 /* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .tabs button[aria-selected="true"], :root:not([data-theme="light"]) .st-tabs button[aria-selected="true"],
@@ -421,6 +445,8 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
   </div>
 
   <div id="view-visa" class="hidden"></div>
+
+  <div id="view-trip" class="hidden"></div>
 
   <div id="view-guide" class="hidden">
     <div class="hero"><h1 data-t="guideTitle"></h1><p data-t="guideIntro"></p></div>
@@ -2793,6 +2819,30 @@ const VISA = {
   other: []
 };
 
+/* 11. ЕСЛИ ЧТО-ТО СЛУЧИЛОСЬ: посольства Казахстана. Сверено по сайту МИД РК gov.kz 2026-11.
+   Экстренные мобильные номера указаны только там, где их публикует само посольство (Вена, Берн).
+   Почётное консульство в Милане закрыто — по Италии обращаться в посольство в Риме.
+   phones: [тип, номер, добавочный] — тип: main (посольство) | consular (консульский отдел) | emergency (только экстренно). */
+const EMBASSIES_CHECKED = "2026-11";
+const EMBASSIES = [
+  {country: "Austria", flag: "🇦🇹", name: V("Аустриядағы ҚР елшілігі", "Посольство Казахстана в Австрии", "Embassy of Kazakhstan in Austria"),
+    covers: V("Вена", "Вена", "Vienna"), address: "Prinz-Eugen-Straße 32, 1040 Wien",
+    phones: [["main", "+43 1 890 8008"], ["consular", "+43 1 890 8008", "14"], ["emergency", "+43 676 644 2635"]],
+    email: "consul.vienna@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-vienna"},
+  {country: "Italy", flag: "🇮🇹", name: V("Италиядағы ҚР елшілігі (Рим)", "Посольство Казахстана в Италии (Рим)", "Embassy of Kazakhstan in Italy (Rome)"),
+    covers: V("Рим, Милан, Венеция, Комо", "Рим, Милан, Венеция, Комо", "Rome, Milan, Venice, Como"), address: "Via Cassia 471, 00189 Roma",
+    phones: [["main", "+39 06 3630 1130"], ["consular", "+39 06 3630 8476"]],
+    email: "consul.roma@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-roma"},
+  {country: "France", flag: "🇫🇷", name: V("Франциядағы ҚР елшілігі (Париж)", "Посольство Казахстана во Франции (Париж)", "Embassy of Kazakhstan in France (Paris)"),
+    covers: V("Париж", "Париж", "Paris"), address: "59 rue Pierre Charron, 75008 Paris", addressNote: "consular",
+    phones: [["main", "+33 1 45 61 52 00"], ["consular", "+33 1 45 61 52 02"]],
+    email: "paris@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-paris"},
+  {country: "Switzerland", flag: "🇨🇭", name: V("Швейцариядағы ҚР елшілігі (Берн)", "Посольство Казахстана в Швейцарии (Берн)", "Embassy of Kazakhstan in Switzerland (Bern)"),
+    covers: V("Лугано", "Лугано", "Lugano"), address: "Tavelweg 2, 3074 Muri bei Bern",
+    phones: [["main", "+41 31 310 14 70"], ["emergency", "+41 79 435 80 97"]],
+    src: "https://www.gov.kz/mfa-bern"}
+];
+
 /* 10. ДАТЫ: выходные дни мест, праздники, события в городах.
    Предупреждения показываются только на даты поездки клиента; план сам переставляет дни,
    чтобы место не попало на выходной. Правила не привязаны к году — работают на любой год.
@@ -3027,6 +3077,22 @@ const T = {
     dHoliday: "Мереке: {name}. Кейбір дүкендер мен мұражайлар жабық болуы мүмкін, көлік мерекелік кестемен жүреді",
     dChecked: "Кестелер ресми сайттар бойынша тексерілді ({d}). Олар өзгеруі мүмкін — сапар алдында тексеріңіз.",
     datesHint: "📅 Мұражайлардың демалыс күндері мен мерекелерді ескереміз: жабық орындарды басқа күнге қоямыз.",
+    tTrip: "Сапарда",
+    cvTitle: "Бағаны теңгеге аудару", cvHint: "Бағаны енгізіңіз — сомасы бірден теңгемен шығады", cvAmount: "Сома",
+    sosTitle: "Бірдеңе болса", sos112: "Жедел қызметтер — 112", sos112Text: "Полиция, жедел жәрдем, өрт сөндірушілер. Барлық ЕО елдерінде және Швейцарияда тегін, кез келген телефоннан.",
+    sosCall: "Қоңырау шалу", sosEmbTitle: "Қазақстан елшіліктері", sosForTrip: "Сіздің сапарыңыз үшін", sosCovers: "Қалалар",
+    sosPhone: {main: "Елшілік", consular: "Консулдық бөлім", emergency: "Тек жедел жағдайда"}, sosExt: "қосымша", sosConsularAddr: "консулдық бөлім",
+    sosChecked: "Байланыс деректері ҚР СІМ сайты gov.kz бойынша тексерілді ({d}). Барар алдында сайттан қайта қараңыз.",
+    sosPassTitle: "Төлқұжат жоғалса",
+    sosPassSteps: ["Полицияға хабарлаңыз және жоғалту немесе ұрлық туралы анықтама алыңыз — оны елшілікте сұрайды.",
+      "Қазақстан елшілігіне хабарласыңыз. Онда Қазақстанға оралу куәлігін береді — үйге бір рет кіруге арналған құжат.",
+      "Өзіңізбен алыңыз: полиция анықтамасы, төлқұжат пен жеке куәліктің көшірмесі немесе фотосы (бар болса), үйге билет. Фото мен алымды елшіліктен нақтылаңыз.",
+      "Оралу куәлігі үйге қайту үшін керек, сапарды жалғастыру үшін емес. Жаңа төлқұжатты Қазақстанда ХҚКО арқылы аласыз.",
+      "Жаңа виза керек болса — бізге жазыңыз, көмектесеміз."],
+    sosTipsTitle: "Тағы не пайдалы",
+    sosTips: ["💳 Карта жоғалса — банк қосымшасында бірден бұғаттаңыз.", "🏥 Ауырып қалсаңыз — алдымен сақтандыру полисіндегі нөмірге қоңырау шалыңыз.",
+      "📱 Төлқұжаттың, визаның және сақтандырудың фотосын телефонда және бұлтта сақтаңыз."],
+    sosWrite: "💬 Бізге WhatsApp-қа жазу",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -3117,6 +3183,22 @@ const T = {
     dHoliday: "Праздник: {name}. Часть магазинов и музеев может не работать, транспорт — по праздничному расписанию",
     dChecked: "Графики сверены по официальным сайтам ({d}). Они меняются — перед поездкой проверьте.",
     datesHint: "📅 Учтём выходные дни музеев и праздники: закрытые места поставим на другой день.",
+    tTrip: "В поездке",
+    cvTitle: "Перевести цену в тенге", cvHint: "Введите цену — сразу увидите сумму в тенге", cvAmount: "Сумма",
+    sosTitle: "Если что-то случилось", sos112: "Экстренные службы — 112", sos112Text: "Полиция, скорая, пожарные. Бесплатно во всех странах ЕС и в Швейцарии, с любого телефона.",
+    sosCall: "Позвонить", sosEmbTitle: "Посольства Казахстана", sosForTrip: "Для вашей поездки", sosCovers: "Города",
+    sosPhone: {main: "Посольство", consular: "Консульский отдел", emergency: "Только в экстренных случаях"}, sosExt: "доб.", sosConsularAddr: "консульский отдел",
+    sosChecked: "Контакты сверены по сайту МИД Казахстана gov.kz ({d}). Перед визитом проверьте на сайте.",
+    sosPassTitle: "Если потеряли паспорт",
+    sosPassSteps: ["Сообщите в полицию и возьмите справку об утере или краже — её попросят в посольстве.",
+      "Свяжитесь с посольством Казахстана. Там оформят свидетельство на возвращение — документ для однократного въезда домой.",
+      "Возьмите с собой: справку из полиции, копию или фото паспорта и удостоверения личности (если есть), билет домой. Фото и сбор уточните в посольстве.",
+      "Свидетельство нужно, чтобы вернуться домой, а не продолжить поездку. Новый паспорт оформите в Казахстане через ЦОН.",
+      "Понадобится новая виза — напишите нам, поможем."],
+    sosTipsTitle: "Что ещё полезно",
+    sosTips: ["💳 Потеряли карту — сразу заблокируйте её в приложении банка.", "🏥 Заболели — сначала позвоните в страховую по номеру из полиса.",
+      "📱 Храните фото паспорта, визы и страховки в телефоне и в облаке."],
+    sosWrite: "💬 Написать нам в WhatsApp",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -3207,6 +3289,22 @@ const T = {
     dHoliday: "Public holiday: {name}. Some shops and museums may be closed; transport runs a holiday timetable",
     dChecked: "Opening days checked against official websites ({d}). They change — check before you go.",
     datesHint: "📅 We take museum closing days and public holidays into account and move closed places to another day.",
+    tTrip: "On the trip",
+    cvTitle: "Convert a price to tenge", cvHint: "Type a price to see it in tenge instantly", cvAmount: "Amount",
+    sosTitle: "If something happens", sos112: "Emergency services — 112", sos112Text: "Police, ambulance, fire. Free in every EU country and in Switzerland, from any phone.",
+    sosCall: "Call", sosEmbTitle: "Embassies of Kazakhstan", sosForTrip: "For your trip", sosCovers: "Cities",
+    sosPhone: {main: "Embassy", consular: "Consular section", emergency: "Emergencies only"}, sosExt: "ext.", sosConsularAddr: "consular section",
+    sosChecked: "Contacts checked against the Kazakh Foreign Ministry website gov.kz ({d}). Check again before you go.",
+    sosPassTitle: "If you lose your passport",
+    sosPassSteps: ["Report it to the police and get a loss or theft report — the embassy will ask for it.",
+      "Contact the Embassy of Kazakhstan. They issue a certificate of return — a document for a single entry back home.",
+      "Bring: the police report, a copy or photo of your passport and ID card (if you have them), your ticket home. Ask the embassy about photos and the fee.",
+      "The certificate is for going home, not for continuing the trip. You get a new passport in Kazakhstan at a Public Service Centre (TsON).",
+      "Need a new visa? Message us and we will help."],
+    sosTipsTitle: "Also useful",
+    sosTips: ["💳 Lost a card? Block it right away in your bank's app.", "🏥 Feeling ill? Call your insurer first, using the number on your policy.",
+      "📱 Keep photos of your passport, visa and insurance on your phone and in the cloud."],
+    sosWrite: "💬 Message us on WhatsApp",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -3251,7 +3349,8 @@ const S = {
   phLang: "de", eatTab: {}, checks: store.get("checks", {}),
   rate: null, route: null, guideCity: "all", guideQuery: "",
   st: null, // открытый редактор сторис
-  passport: {issued: "", expires: ""}, vdocs: store.get("vdocs", {}), vname: "" // вкладка «Виза»; даты паспорта не сохраняются
+  passport: {issued: "", expires: ""}, vdocs: store.get("vdocs", {}), vname: "", // вкладка «Виза»; даты паспорта не сохраняются
+  cv: {cur: ["EUR", "CHF", "USD", "KZT"].includes(store.get("cvCur", "EUR")) ? store.get("cvCur", "EUR") : "EUR", amount: "25"} // перевод цены в тенге
 };
 const savePlan = () => store.set("plan", {tier: S.tier, style: S.style, cities: S.cities, startCity: S.startCity, endCity: S.endCity, autoEnd: S.autoEnd, days: S.days, people: S.people, start: S.start});
 function nextAvailableDays(required) { return DAY_OPTIONS.find((d) => d >= required) || DAY_OPTIONS[DAY_OPTIONS.length - 1]; }
@@ -3485,7 +3584,7 @@ function renderTexts() {
   document.querySelectorAll(".langs button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
 }
 function renderTabs() {
-  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"]].map(([v, k]) =>
+  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["trip", "tTrip"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"]].map(([v, k]) =>
     `<button role="tab" aria-selected="${S.view === v || (v === "plan" && S.view === "result")}" data-view="${v}">${t(k)}</button>`).join("");
 }
 function renderPlanner() {
@@ -4249,6 +4348,47 @@ function datesCardHTML(plan) {
   return `<div class="h3">📅 ${t("dTitle")}</div>${body}<p class="note">${tf("dChecked", {d: DATES_CHECKED})}</p>`;
 }
 
+/* ---------- В поездке: перевод цены в тенге и «если что-то случилось» ----------
+   Курс — тот же, что в бюджете: живой (open.er-api.com), без сети — сохранённый или резервный FX.
+   Посольства — EMBASSIES в блоке данных; страны маршрута клиента показываются первыми. */
+const CV_CURS = [["EUR", "€"], ["CHF", "CHF"], ["USD", "$"], ["KZT", "₸"]];
+const perEur = (cur) => (cur === "EUR" ? 1 : rate()[cur]);
+const cvParse = (v) => { const n = parseFloat(String(v).replace(/[\s ]/g, "").replace(",", ".")); return Number.isFinite(n) && n > 0 ? n : 0; };
+function cvFmt(n, cur) {
+  const sym = CV_CURS.find((c) => c[0] === cur)[1];
+  if (cur === "KZT" || n >= 100) return `${fmt(n)} ${sym}`;
+  return `${(Math.round(n * 100) / 100).toLocaleString(S.lang === "en" ? "en-US" : "ru-RU", {maximumFractionDigits: 2})} ${sym}`;
+}
+function cvOutHTML() {
+  const eur = cvParse(S.cv.amount) / perEur(S.cv.cur), main = S.cv.cur === "KZT" ? "EUR" : "KZT";
+  const others = CV_CURS.map((c) => c[0]).filter((c) => c !== S.cv.cur && c !== main);
+  return `<div class="cv-main">${cvFmt(eur * perEur(main), main)}</div><div class="cv-sub">${others.map((c) => cvFmt(eur * perEur(c), c)).join(" · ")}</div>`;
+}
+const telHref = (n) => "tel:" + n.replace(/[^\d+]/g, "");
+function renderTrip() {
+  const r = rate(), v = visaTrip(), onTrip = v ? v.list.map((e) => e.key) : [];
+  const embs = EMBASSIES.slice().sort((a, b) => (onTrip.includes(b.country) ? 1 : 0) - (onTrip.includes(a.country) ? 1 : 0));
+  const quick = S.cv.cur === "KZT" ? [1000, 5000, 10000, 50000] : [5, 10, 20, 50, 100, 500];
+  let html = `<div class="card sos"><a class="sos-112" href="tel:112"><b>112</b><span><b>🆘 ${t("sos112")}</b><br>${t("sos112Text")}</span></a></div>`;
+  html += `<div class="card cv"><div class="h3">💱 ${t("cvTitle")}</div>
+    <div class="st-chips cv-curs">${CV_CURS.map(([c, sym]) => `<button aria-pressed="${S.cv.cur === c}" data-cv-cur="${c}">${sym === c ? c : `${sym} ${c}`}</button>`).join("")}</div>
+    <label class="field"><span>${t("cvAmount")}</span><input id="cvAmount" type="text" inputmode="decimal" autocomplete="off" value="${esc(S.cv.amount)}"></label>
+    <div class="cv-out" id="cvOut" aria-live="polite">${cvOutHTML()}</div>
+    <div class="st-chips cv-quick">${quick.map((n) => `<button data-cv-n="${n}">${fmt(n)}</button>`).join("")}</div>
+    <p class="note">${t("cvHint")}. ${r.fallback ? tf("rateFallback", {d: r.date}) : tf("rateNote", {d: r.date})}</p></div>`;
+  html += `<div class="card"><div class="h3">🇰🇿 ${t("sosEmbTitle")}</div>${embs.map((e) => `<div class="emb">
+      <div class="emb-h"><span>${e.flag}</span><b>${esc(L(e.name))}</b></div>
+      <div class="small emb-c">${t("sosCovers")}: ${esc(L(e.covers))}${onTrip.includes(e.country) ? `<span class="rtag">✓ ${t("sosForTrip")}</span>` : ""}</div>
+      <a class="emb-addr" href="${esc(mapsSearch(e.address))}" target="_blank" rel="noopener" data-ext>📍 ${esc(e.address)}${e.addressNote ? ` (${t("sosConsularAddr")})` : ""}</a>
+      ${e.phones.map(([k, num, ext]) => `<a class="emb-ph${k === "emergency" ? " em" : ""}" href="${telHref(num)}"><span>${t("sosPhone")[k]}</span><b>📞 ${esc(num)}${ext ? ` (${t("sosExt")} ${ext})` : ""}</b></a>`).join("")}
+      <div class="small">${e.email ? `<a href="mailto:${esc(e.email)}">✉️ ${esc(e.email)}</a> · ` : ""}<a href="${esc(e.src)}" target="_blank" rel="noopener" data-ext>gov.kz ↗</a></div>
+    </div>`).join("")}<p class="note">${tf("sosChecked", {d: EMBASSIES_CHECKED})}</p></div>`;
+  html += `<div class="card"><div class="h3">🛂 ${t("sosPassTitle")}</div><ol class="v-steps">${t("sosPassSteps").map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>`;
+  html += `<div class="card"><div class="h3">💡 ${t("sosTipsTitle")}</div>${t("sosTips").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
+    <a class="btn btn-wa" style="width:100%;margin-top:4px" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener" data-ext>${t("sosWrite")}</a></div>`;
+  $("#view-trip").innerHTML = html;
+}
+
 /* ---------- Виза ----------
    Консульство: страна, где больше всего дней (Визовый кодекс ЕС, ст. 5). Если дней поровну —
    страна первого въезда (первый город маршрута). Сроки и правила — в VISA (блок данных). */
@@ -4484,9 +4624,10 @@ function renderBar() {
 }
 function render() {
   renderTexts(); renderTabs();
-  ["plan", "result", "visa", "guide", "phrases", "check"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
+  ["plan", "result", "visa", "trip", "guide", "phrases", "check"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
   if (S.view === "plan") renderPlanner();
   if (S.view === "visa") renderVisa();
+  if (S.view === "trip") renderTrip();
   if (S.view === "result") renderResult();
   if (S.view === "guide") renderGuide();
   if (S.view === "phrases") renderPhrases();
@@ -4521,6 +4662,8 @@ document.addEventListener("click", (e) => {
   if (b.hasAttribute("data-visa-copy")) { copyText(itineraryText(), b, null); return; }
   if (b.hasAttribute("data-install")) { if (installEvt) { installEvt.prompt(); installEvt = null; } renderInstall(); return; }
   if (b.hasAttribute("data-install-hide")) { store.set("instHidden", true); renderInstall(); return; }
+  if (b.dataset.cvCur) { S.cv.cur = b.dataset.cvCur; store.set("cvCur", S.cv.cur); haptic(); renderTrip(); return; }
+  if (b.dataset.cvN) { S.cv.amount = b.dataset.cvN; const inp = $("#cvAmount"); if (inp) inp.value = S.cv.amount; $("#cvOut").innerHTML = cvOutHTML(); haptic(); return; }
   if (b.dataset.lang) { S.lang = b.dataset.lang; store.set("lang", S.lang); render(); return; }
   if (b.dataset.view) { S.view = b.dataset.view; haptic(); render(); window.scrollTo(0, 0); return; }
   if (b.dataset.guideCity !== undefined) { S.guideCity = b.dataset.guideCity; renderGuide(); return; }
@@ -4547,6 +4690,7 @@ document.addEventListener("input", (e) => {
   if (e.target.id === "guideSearch") { S.guideQuery = e.target.value; $("#guideCards").innerHTML = guideCardsHTML(); return; }
   if (stInput(e.target)) return;
   if (e.target.id === "vName") { S.vname = e.target.value; return; }
+  if (e.target.id === "cvAmount") { S.cv.amount = e.target.value; $("#cvOut").innerHTML = cvOutHTML(); return; }
   if (e.target.id === "vpIssued" || e.target.id === "vpExpires") { S.passport[e.target.id === "vpIssued" ? "issued" : "expires"] = e.target.value; $("#vpResult").innerHTML = passportResultHTML(); }
 });
 document.addEventListener("change", (e) => {
@@ -4568,12 +4712,12 @@ async function loadRate() {
     S.rate = {KZT: j.rates.KZT, USD: j.rates.USD, CHF: j.rates.CHF, date: new Date(j.time_last_update_unix * 1000).toISOString().slice(0, 10).split("-").reverse().join("."), ts: Date.now()};
     store.set("rate", S.rate);
   } catch (e) { S.rate = cached || null; }
-  if (S.view === "result") render();
+  if (S.view === "result" || S.view === "trip") render();
 }
 
 // для тестов и отладки (console): window.QZ.optimizeRoute(["vienna","rome"], "vienna", null)
 window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob,
-  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip};
+  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
 // офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
