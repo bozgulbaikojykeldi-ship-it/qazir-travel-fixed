@@ -390,6 +390,91 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 }
 :root[data-theme="dark"] .tabs button[aria-selected="true"], :root[data-theme="dark"] .st-tabs button[aria-selected="true"],
 :root[data-theme="dark"] .guide-toolbar button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
+/* колонки карточек (виза, в поездке): на телефоне одна колонка в исходном порядке */
+.cols { display: flex; flex-direction: column; }
+.col { display: contents; }
+
+/* ===== Ноутбук и широкий экран ===== */
+@media (min-width: 960px) {
+  body { font-size: 15.5px; }
+  .wrap { max-width: 1180px; padding: 0 32px; }
+  .top .wrap { height: 64px; }
+  .logo { font-size: 19px; }
+  .logo svg { width: 34px; height: 34px; }
+  .langs button { font-size: 13px; padding: 8px 12px; }
+  /* вкладки всегда на виду, прилипают под шапкой */
+  .tabs#tabs { position: sticky; top: 64px; z-index: 9; overflow: visible; flex-wrap: wrap; padding: 12px 0; }
+  .tabs#tabs::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); right: calc(50% - 50vw); z-index: -1; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .tabs button { font-size: 15px; padding: 10px 18px; }
+  .tabs button:hover { border-color: var(--sky); }
+  .opt:hover:not(:disabled), .chips button:hover, .guide-toolbar button:hover, .st-chips button:hover { border-color: var(--sky); }
+  .hero { padding: 34px 40px; border-radius: 30px; margin-top: 8px; }
+  .hero::before { right: -90px; top: -90px; width: 220px; height: 220px; border-width: 46px; }
+  .hero::after { right: 34px; top: 34px; width: 30px; height: 30px; }
+  .hero h1 { font-size: 34px; max-width: 30ch; }
+  .hero p { font-size: 16.5px; max-width: 60ch; }
+  .install, .v-banner { max-width: none; }
+  .v-banner { padding: 14px 20px; font-size: 15px; }
+  .card:not(.sos) { padding: 20px 22px; }
+  .h3 { font-size: 16px; }
+
+  /* планировщик: шаги шире, 4 и 5 рядом */
+  #view-plan:not(.hidden) { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; align-items: start; }
+  #view-plan > * { grid-column: 1 / -1; }
+  #view-plan > #stepRoute { grid-column: 1; }
+  #view-plan > #stepDates { grid-column: 2; }
+  #view-plan > #stepRoute.hidden + #stepDates { grid-column: 1 / -1; }
+  section.step { margin-top: 28px; }
+  .step h2 { font-size: 17px; }
+  #tiers { grid-template-columns: repeat(5, 1fr); }
+  #tiers .opt { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; }
+  #cities { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .opt { padding: 14px; }
+  .bar { padding-top: 12px; }
+  .bar .wrap { display: flex; justify-content: center; }
+  .bar .cta { max-width: 520px; }
+
+  /* результат: слева дни, справа сводка (виза, маршрут, даты, бюджет) */
+  .res-grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; column-gap: 28px; align-items: start; }
+  .res-side { grid-column: 2; grid-row: 1; }
+  .res-main { grid-column: 1; grid-row: 1; }
+  .city-cover { height: 220px; }
+
+  /* виза и «в поездке»: две колонки карточек */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; align-items: start; }
+  .col { display: block; }
+
+  /* истории мест: сетка карточек */
+  .story-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; align-items: start; }
+  .guide-toolbar { flex-wrap: wrap; overflow: visible; }
+  .guide-search { max-width: 520px; }
+
+  /* разговорник и чек-лист: в две колонки */
+  #phrases { columns: 2; column-gap: 48px; }
+  #phrases .ph { break-inside: avoid; }
+  #phrases .cat { break-after: avoid; }
+  #phrases .cat:first-child { margin-top: 0; }
+  #checks { columns: 2; column-gap: 48px; }
+  #checks .chk { break-inside: avoid; }
+  #phLangs { flex-wrap: wrap; overflow: visible; }
+
+  /* окна */
+  .modal-sheet { max-width: 640px; }
+  .toast { bottom: 104px; }
+
+  /* редактор сторис: картинка слева, настройки справа */
+  .modal-sheet.st-sheet { max-width: 1000px; }
+  .st-body { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 28px; row-gap: 12px; padding: 18px 24px 24px; align-items: start; }
+  .st-top { grid-column: 1; grid-row: 1 / span 3; position: static; margin: 0; padding: 0; border: 0; }
+  .st-stage { height: min(68vh, 640px); }
+  .st-body > .st-hint { grid-column: 2; grid-row: 1; text-align: left; }
+  .st-body > .st-tabs { grid-column: 2; grid-row: 2; flex-wrap: wrap; overflow: visible; }
+  .st-body > .st-panel { grid-column: 2; grid-row: 3; }
+  .st-fonts { flex-wrap: wrap; overflow: visible; }
+}
+@media (min-width: 1280px) {
+  .wrap { max-width: 1240px; }
+}
 </style>
 </head>
 <body>
@@ -421,7 +506,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
       <div class="sub" data-t="endCity"></div><div class="chips" id="endChips"></div>
       <p class="muted" style="font-size:13px;margin:4px 0 0" data-t="routeHint"></p>
     </section>
-    <section class="step"><h2><span class="num">5</span><span data-t="s3"></span></h2>
+    <section class="step" id="stepDates"><h2><span class="num">5</span><span data-t="s3"></span></h2>
       <div class="grid g2">
         <label class="field"><span data-t="start"></span><input type="date" id="start"></label>
         <label class="field"><span data-t="people"></span><input type="number" id="people" min="1" max="10" value="1" inputmode="numeric"></label>
@@ -433,15 +518,21 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 
   <div id="view-result" class="hidden">
     <button class="back" id="back" data-t="back"></button>
-    <div class="card v-result" id="visaCard"></div>
-    <div class="card" id="routeCard"></div>
-    <div class="card" id="datesCard"></div>
-    <div class="card total" id="total"></div>
-    <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
-    <div class="card" id="shareCard"></div>
-    <div id="plan"></div>
-    <div id="guides"></div>
-    <div class="card" id="credits"></div>
+    <div class="res-grid">
+      <div class="res-side">
+        <div class="card v-result" id="visaCard"></div>
+        <div class="card" id="routeCard"></div>
+        <div class="card" id="datesCard"></div>
+        <div class="card total" id="total"></div>
+        <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
+        <div class="card" id="shareCard"></div>
+      </div>
+      <div class="res-main">
+        <div id="plan"></div>
+        <div id="guides"></div>
+        <div class="card" id="credits"></div>
+      </div>
+    </div>
   </div>
 
   <div id="view-visa" class="hidden"></div>
@@ -5005,28 +5096,34 @@ function cvOutHTML() {
   return `<div class="cv-main">${cvFmt(eur * perEur(main), main)}</div><div class="cv-sub">${others.map((c) => cvFmt(eur * perEur(c), c)).join(" · ")}</div>`;
 }
 const telHref = (n) => "tel:" + n.replace(/[^\d+]/g, "");
+// Карточки в две колонки на широком экране. cells: [[html, 0|1], ...] в порядке для телефона;
+// на телефоне колонки «растворяются» (display: contents), и карточки идут по order — как раньше.
+function cols2(cells) {
+  return `<div class="cols">${[0, 1].map((side) => `<div class="col">${cells.map(([html, sd], i) => sd === side ? `<div class="cell" style="order:${i}">${html}</div>` : "").join("")}</div>`).join("")}</div>`;
+}
 function renderTrip() {
   const r = rate(), v = visaTrip(), onTrip = v ? v.list.map((e) => e.key) : [];
   const embs = EMBASSIES.slice().sort((a, b) => (onTrip.includes(b.country) ? 1 : 0) - (onTrip.includes(a.country) ? 1 : 0));
   const quick = S.cv.cur === "KZT" ? [1000, 5000, 10000, 50000] : S.cv.cur === "HUF" ? [500, 1000, 5000, 10000, 20000] : S.cv.cur === "CZK" ? [50, 100, 500, 1000, 2000] : [5, 10, 20, 50, 100, 500];
-  let html = `<div class="card sos"><a class="sos-112" href="tel:112"><b>112</b><span><b>🆘 ${t("sos112")}</b><br>${t("sos112Text")}</span></a></div>`;
-  html += `<div class="card cv"><div class="h3">💱 ${t("cvTitle")}</div>
+  const cells = [];
+  cells.push([`<div class="card sos"><a class="sos-112" href="tel:112"><b>112</b><span><b>🆘 ${t("sos112")}</b><br>${t("sos112Text")}</span></a></div>`, 0]);
+  cells.push([`<div class="card cv"><div class="h3">💱 ${t("cvTitle")}</div>
     <div class="st-chips cv-curs">${CV_CURS.map(([c, sym]) => `<button aria-pressed="${S.cv.cur === c}" data-cv-cur="${c}">${sym === c ? c : `${sym} ${c}`}</button>`).join("")}</div>
     <label class="field"><span>${t("cvAmount")}</span><input id="cvAmount" type="text" inputmode="decimal" autocomplete="off" value="${esc(S.cv.amount)}"></label>
     <div class="cv-out" id="cvOut" aria-live="polite">${cvOutHTML()}</div>
     <div class="st-chips cv-quick">${quick.map((n) => `<button data-cv-n="${n}">${fmt(n)}</button>`).join("")}</div>
-    <p class="note">${t("cvHint")}. ${r.fallback ? tf("rateFallback", {d: r.date}) : tf("rateNote", {d: r.date})}</p></div>`;
-  html += `<div class="card"><div class="h3">🇰🇿 ${t("sosEmbTitle")}</div>${embs.map((e) => `<div class="emb">
+    <p class="note">${t("cvHint")}. ${r.fallback ? tf("rateFallback", {d: r.date}) : tf("rateNote", {d: r.date})}</p></div>`, 0]);
+  cells.push([`<div class="card"><div class="h3">🇰🇿 ${t("sosEmbTitle")}</div>${embs.map((e) => `<div class="emb">
       <div class="emb-h"><span>${e.flag}</span><b>${esc(L(e.name))}</b></div>
       <div class="small emb-c">${t("sosCovers")}: ${esc(L(e.covers))}${onTrip.includes(e.country) ? `<span class="rtag">✓ ${t("sosForTrip")}</span>` : ""}</div>
       <a class="emb-addr" href="${esc(mapsSearch(e.address))}" target="_blank" rel="noopener" data-ext>📍 ${esc(e.address)}${e.addressNote ? ` (${t("sosConsularAddr")})` : ""}</a>
       ${e.phones.map(([k, num, ext]) => `<a class="emb-ph${k === "emergency" ? " em" : ""}" href="${telHref(num)}"><span>${t("sosPhone")[k]}</span><b>📞 ${esc(num)}${ext ? ` (${t("sosExt")} ${ext})` : ""}</b></a>`).join("")}
       <div class="small">${e.email ? `<a href="mailto:${esc(e.email)}">✉️ ${esc(e.email)}</a> · ` : ""}<a href="${esc(e.src)}" target="_blank" rel="noopener" data-ext>gov.kz ↗</a></div>
-    </div>`).join("")}<p class="note">${tf("sosChecked", {d: EMBASSIES_CHECKED})}</p></div>`;
-  html += `<div class="card"><div class="h3">🛂 ${t("sosPassTitle")}</div><ol class="v-steps">${t("sosPassSteps").map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>`;
-  html += `<div class="card"><div class="h3">💡 ${t("sosTipsTitle")}</div>${t("sosTips").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
-    <a class="btn btn-wa" style="width:100%;margin-top:4px" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener" data-ext>${t("sosWrite")}</a></div>`;
-  $("#view-trip").innerHTML = html;
+    </div>`).join("")}<p class="note">${tf("sosChecked", {d: EMBASSIES_CHECKED})}</p></div>`, 1]);
+  cells.push([`<div class="card"><div class="h3">🛂 ${t("sosPassTitle")}</div><ol class="v-steps">${t("sosPassSteps").map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>`, 0]);
+  cells.push([`<div class="card"><div class="h3">💡 ${t("sosTipsTitle")}</div>${t("sosTips").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
+    <a class="btn btn-wa" style="width:100%;margin-top:4px" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener" data-ext>${t("sosWrite")}</a></div>`, 0]);
+  $("#view-trip").innerHTML = cols2(cells);
 }
 
 /* ---------- Виза ----------
@@ -5073,36 +5170,36 @@ function passportResultHTML() {
 const visaDocsDone = () => VISA.docs.filter((_, i) => S.vdocs[i]).length;
 function renderVisa() {
   const v = visaTrip();
-  let html = `<div class="hero"><h1>${t("visaHeroTitle")}</h1><p>${t("visaHeroText")}</p></div>`;
+  const hero = `<div class="hero"><h1>${t("visaHeroTitle")}</h1><p>${t("visaHeroText")}</p></div>`, cells = [];
   if (v) {
     const today = dayStart(new Date()), early = addMonths(v.start, -VISA.applyMaxMonths), late = addDays(v.start, -VISA.applyMinDays);
     const state = today > late ? `<div class="warn">⚠️ ${t("visaLate")}</div>` : today < early ? `<div class="ok">🗓 ${tf("visaTooEarly", {a: fmtD(early)})}</div>` : `<div class="ok">✅ ${t("visaNowOk")}</div>`;
-    html += `<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div>
+    cells.push([`<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div>
       <p class="v-dates">${fmtD(v.start)} – ${fmtD(v.end)} · ${S.days} ${t("days")} · ${S.people} 👤</p>
       ${v.list.map((e) => `<div class="ln"><span>${e.flag} ${esc(L(e.country))}</span><b>${e.days} ${t("days")}</b></div>`).join("")}
-      ${visaMainHTML(v)}<button class="back" data-view="plan">${t("visaEditPlan")}</button></div>
-      <div class="card"><div class="h3">🗓 ${t("visaWhenTitle")}</div><p class="v-big">${tf("visaWindow", {a: fmtD(early), b: fmtD(late)})}</p>${state}
-      <p class="note">${t("visaAdvice")}</p><p class="note">${tf("visaProcess", {a: VISA.processDays, b: VISA.processMaxDays})}</p></div>`;
+      ${visaMainHTML(v)}<button class="back" data-view="plan">${t("visaEditPlan")}</button></div>`, 0]);
+    cells.push([`<div class="card"><div class="h3">🗓 ${t("visaWhenTitle")}</div><p class="v-big">${tf("visaWindow", {a: fmtD(early), b: fmtD(late)})}</p>${state}
+      <p class="note">${t("visaAdvice")}</p><p class="note">${tf("visaProcess", {a: VISA.processDays, b: VISA.processMaxDays})}</p></div>`, 0]);
   } else {
-    html += `<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div><p class="muted" style="margin:0 0 12px;font-size:14px">${t("visaNoPlan")}</p><button class="btn btn-primary" style="width:100%" data-view="plan">${t("visaToPlan")}</button></div>`;
+    cells.push([`<div class="card"><div class="h3">🧳 ${t("visaTripTitle")}</div><p class="muted" style="margin:0 0 12px;font-size:14px">${t("visaNoPlan")}</p><button class="btn btn-primary" style="width:100%" data-view="plan">${t("visaToPlan")}</button></div>`, 0]);
   }
-  html += `<div class="card v-cta"><div class="h3">🛂 ${t("visaCtaTitle")}</div><p class="small" style="margin:0 0 12px;font-size:13.5px">${t("visaCtaText")}</p>
+  cells.push([`<div class="card v-cta"><div class="h3">🛂 ${t("visaCtaTitle")}</div><p class="small" style="margin:0 0 12px;font-size:13.5px">${t("visaCtaText")}</p>
     <div class="v-btns">${waBtn("💬 " + t("visaWa"))}<button class="btn btn-tg" data-visa-tg>✈️ ${t("visaTg")}</button></div>
-    <p class="note">WhatsApp ${esc(CONTACT.whatsappLabel)} · Telegram @${esc(CONTACT.telegram)}</p></div>`;
-  html += `<div class="card"><div class="h3">🛂 ${t("visaPassTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13px">${t("visaPassHint")}</p>
+    <p class="note">WhatsApp ${esc(CONTACT.whatsappLabel)} · Telegram @${esc(CONTACT.telegram)}</p></div>`, 1]);
+  cells.push([`<div class="card"><div class="h3">🛂 ${t("visaPassTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13px">${t("visaPassHint")}</p>
     <div class="grid g2"><label class="field"><span>${t("visaIssued")}</span><input type="date" id="vpIssued" value="${esc(S.passport.issued)}"></label><label class="field"><span>${t("visaExpires")}</span><input type="date" id="vpExpires" value="${esc(S.passport.expires)}"></label></div>
-    <div id="vpResult">${passportResultHTML()}</div></div>`;
-  html += `<div class="card"><div class="h3">📋 ${t("visaDocsTitle")} · <span id="vdocCount">${visaDocsDone()}/${VISA.docs.length}</span></div>
+    <div id="vpResult">${passportResultHTML()}</div></div>`, 0]);
+  cells.push([`<div class="card"><div class="h3">📋 ${t("visaDocsTitle")} · <span id="vdocCount">${visaDocsDone()}/${VISA.docs.length}</span></div>
     ${VISA.docs.map((d, i) => `<label class="chk"><input type="checkbox" data-vdoc="${i}" ${S.vdocs[i] ? "checked" : ""}><span>${esc(L(d))}</span></label>`).join("")}
-    <p class="note">${t("visaDocsNote")}</p><div class="v-fee">💶 ${tf("visaFee", {a: VISA.fee.adult, c: VISA.fee.child})}</div></div>`;
-  html += `<div class="card"><div class="h3">📄 ${t("visaItinTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13.5px">${t("visaItinText")}</p>
+    <p class="note">${t("visaDocsNote")}</p><div class="v-fee">💶 ${tf("visaFee", {a: VISA.fee.adult, c: VISA.fee.child})}</div></div>`, 1]);
+  cells.push([`<div class="card"><div class="h3">📄 ${t("visaItinTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13.5px">${t("visaItinText")}</p>
     ${v ? `<label class="field"><span>${t("visaName")}</span><input type="text" id="vName" autocomplete="name" autocapitalize="characters" spellcheck="false" placeholder="SURNAME NAME" value="${esc(S.vname)}"></label>
-    <div class="v-btns" style="margin-top:10px"><button class="btn btn-primary" data-visa-pdf>${t("visaPdf")}</button><button class="btn btn-soft" data-visa-copy>${t("visaItinCopy")}</button></div>` : `<p class="note">${t("visaNeedPlan")}</p>`}</div>`;
-  html += `<div class="card"><div class="h3">🤝 ${t("visaStepsTitle")}</div><ol class="v-steps">${VISA.steps.map((s) => `<li>${esc(L(s))}</li>`).join("")}</ol></div>`;
+    <div class="v-btns" style="margin-top:10px"><button class="btn btn-primary" data-visa-pdf>${t("visaPdf")}</button><button class="btn btn-soft" data-visa-copy>${t("visaItinCopy")}</button></div>` : `<p class="note">${t("visaNeedPlan")}</p>`}</div>`, 0]);
+  cells.push([`<div class="card"><div class="h3">🤝 ${t("visaStepsTitle")}</div><ol class="v-steps">${VISA.steps.map((s) => `<li>${esc(L(s))}</li>`).join("")}</ol></div>`, 1]);
   const fill = (s) => s.replace("{a}", VISA.fee.adult).replace("{c}", VISA.fee.child).replace("{p}", VISA.processDays).replace("{m}", VISA.processMaxDays);
-  html += `<div class="card"><div class="h3">❓ ${t("visaFaqTitle")}</div>${t("visaFaq").map(([q, a]) => `<details><summary>${esc(q)}</summary><p class="v-faq">${esc(fill(a))}</p></details>`).join("")}
-    <p class="note">${tf("visaChecked", {d: VISA.checkedAt})} <a href="${VISA.source}" target="_blank" rel="noopener">${t("visaSourceLbl")} ↗</a></p></div>`;
-  $("#view-visa").innerHTML = html;
+  cells.push([`<div class="card"><div class="h3">❓ ${t("visaFaqTitle")}</div>${t("visaFaq").map(([q, a]) => `<details><summary>${esc(q)}</summary><p class="v-faq">${esc(fill(a))}</p></details>`).join("")}
+    <p class="note">${tf("visaChecked", {d: VISA.checkedAt})} <a href="${VISA.source}" target="_blank" rel="noopener">${t("visaSourceLbl")} ↗</a></p></div>`, 1]);
+  $("#view-visa").innerHTML = hero + cols2(cells);
 }
 function visaResultHTML() {
   const v = visaTrip(); if (!v) return "";
