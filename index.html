@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <title>Qazir Travel — Europe travel planner &amp; city stories</title>
 <meta name="description" content="Qazir Travel: Еуропаға саяхат жоспарлаушысы және Шенген визасы — оптималды маршрут, консулдық, құжаттар, қалалар тарихы және Instagram Stories.">
-<meta name="theme-color" content="#1BB3D1">
+<meta name="theme-color" content="#F4EFE7">
 <!-- установка на телефон (PWA): иконка на экране «Домой», офлайн через sw.js -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -26,28 +26,44 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIiIGhlaWdodD0iMTEyIiB2aWV3Qm94PSIwIDAgMTEyIDExMiI+PHJlY3Qgd2lkdGg9IjExMiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiMwQjI1NDUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCAxNCkgc2NhbGUoMS4zMTI1KSI+PGNpcmNsZSBjeD0iMjgiIGN5PSIyOCIgcj0iMTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFCQjNEMSIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTM4IDM4IFE0NiA0NiA1NiA1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZDMjJFIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI4IiBjeT0iMjgiIHI9IjQuNSIgZmlsbD0iI0ZGQzIyRSIvPjwvZz48L3N2Zz4=" type="image/svg+xml">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+/* тема до первой отрисовки (без мигания): сохранённый выбор → тема Telegram → настройка телефона */
+(function () {
+  var t = null;
+  try { t = JSON.parse(localStorage.getItem("qz_theme")); } catch (e) {}
+  if (t !== "light" && t !== "dark") {
+    var w = window.Telegram && window.Telegram.WebApp;
+    t = w && w.initData && (w.colorScheme === "dark" || w.colorScheme === "light") ? w.colorScheme
+      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://commons.wikimedia.org">
 <link rel="preconnect" href="https://upload.wikimedia.org">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Manrope:wght@400;500;600;700;800&subset=cyrillic,cyrillic-ext,latin&display=swap" rel="stylesheet">
 <style>
+/* Темы. Светлая — тёплый «песок и море»: фон слоновой кости вместо чисто белого (меньше слепит), карточки чуть светлее фона.
+   Тёмная — ночной синий. Тему выбирает скрипт в <head> (сохранённый выбор → Telegram → настройка телефона) и ставит
+   <html data-theme="light|dark">, поэтому все тёмные правила ниже — только через [data-theme="dark"]. */
 :root {
-  --ink: #0B2545; --sky: #1BB3D1; --sky-deep: #0B7F97; --sun: #FFC22E; --coral: #FF6B4F; --mist: #EEF5F8;
-  --bg: var(--mist); --card: #FFFFFF; --text: var(--ink); --muted: #56708A; --line: #DCE8EE; --soft: #E3F5F9;
-  --warn-bg: #FFF4D2; --warn-ink: #6B4E00; --ok-bg: #E3F8EC; --ok-ink: #0F6B3A; --ph: #D9E6EC;
-  --shadow: 0 1px 2px rgba(11,37,69,.06), 0 10px 26px rgba(11,37,69,.08);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #071A30; --card: #0F2A4D; --text: #EAF4F8; --muted: #9FB6C9; --line: #1D3D66; --soft: #12385A; --sky-deep: #5FD3EA;
-    --warn-bg: #3D3210; --warn-ink: #FFDD85; --ok-bg: #0F3B2A; --ok-ink: #8FE3B4; --ph: #17385F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 26px rgba(0,0,0,.35);
-  }
+  color-scheme: light;
+  --ink: #0B2545; --sky: #1BB3D1; --sky-deep: #0B7F97; --sun: #FFC22E; --coral: #FF6B4F; --mist: #F4EFE7;
+  --bg: var(--mist); --card: #FFFDF8; --text: var(--ink); --muted: #5A6677; --line: #E6DED1; --soft: #E5F2F1;
+  --warn-bg: #FFF0C9; --warn-ink: #6B4E00; --ok-bg: #E1F3E6; --ok-ink: #0F6B3A; --ph: #E8E1D5;
+  --bad-bg: #FDE6E0; --bad-ink: #8A2414;
+  --shadow: 0 1px 2px rgba(64,44,14,.05), 0 10px 26px rgba(64,44,14,.07);
 }
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --bg: #071A30; --card: #0F2A4D; --text: #EAF4F8; --muted: #9FB6C9; --line: #1D3D66; --soft: #12385A; --sky-deep: #5FD3EA;
-  --warn-bg: #3D3210; --warn-ink: #FFDD85; --ok-bg: #0F3B2A; --ok-ink: #8FE3B4; --ph: #17385F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 26px rgba(0,0,0,.35);
+  --warn-bg: #3D3210; --warn-ink: #FFDD85; --ok-bg: #0F3B2A; --ok-ink: #8FE3B4; --ph: #17385F;
+  --bad-bg: #4A1E17; --bad-ink: #FFB8A8;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 26px rgba(0,0,0,.35);
 }
+body { transition: background-color .25s, color .25s; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
@@ -75,6 +91,15 @@ img { max-width: 100%; }
 .langs { display: flex; background: var(--soft); border-radius: 999px; padding: 3px; }
 .langs button { border: 0; background: transparent; padding: 7px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; min-width: 40px; }
 .langs button[aria-pressed="true"] { background: var(--card); box-shadow: var(--shadow); }
+.top-r { display: flex; align-items: center; gap: 8px; }
+.theme-btn { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--soft); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; transition: transform .2s; }
+.theme-btn:active { transform: rotate(-20deg) scale(.92); }
+.theme-btn svg { width: 19px; height: 19px; }
+.theme-btn .i-sun { display: none; }
+:root[data-theme="dark"] .theme-btn { color: var(--sun); }
+:root[data-theme="dark"] .theme-btn .i-sun { display: block; }
+:root[data-theme="dark"] .theme-btn .i-moon { display: none; }
+@media (max-width: 359px) { .langs button { min-width: 34px; padding: 7px 7px; } .logo { font-size: 15px; } }
 
 /* tabs */
 .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0 2px; scrollbar-width: none; }
@@ -254,7 +279,6 @@ details[open] summary::after { content: "–"; }
 .story-actions button, .story-actions a, .btn { border: 0; border-radius: 13px; padding: 12px 10px; font-size: 13px; font-weight: 800; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; }
 .btn-soft { background: var(--soft); color: var(--ink); }
 :root[data-theme="dark"] .btn-soft { color: var(--text); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-soft { color: var(--text); } }
 .btn-primary { background: var(--sky); color: #06243F; }
 .btn-sun { background: var(--sun); color: #06243F; }
 .story-footer-meta { font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
@@ -345,9 +369,6 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .st-tog[aria-pressed="true"] { background: var(--sky); }
 .st-tog[aria-pressed="true"] i { transform: translateX(20px); }
 /* даты: выходные дни, праздники, события */
-:root { --bad-bg: #FDE8E4; --bad-ink: #8A2414; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bad-bg: #4A1E17; --bad-ink: #FFB8A8; } }
-:root[data-theme="dark"] { --bad-bg: #4A1E17; --bad-ink: #FFB8A8; }
 .dlist { display: flex; flex-direction: column; gap: 8px; }
 .dl { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 13.5px; line-height: 1.45; padding: 9px 11px; border-radius: 12px; background: var(--soft); }
 .dl b { font-weight: 800; }
@@ -366,7 +387,6 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .cv-main { font: 800 30px/1.15 'Montserrat', 'Manrope', sans-serif; letter-spacing: -.01em; }
 .cv-sub { opacity: .8; font-weight: 700; font-size: 14px; margin-top: 4px; }
 :root[data-theme="dark"] .cv-out { background: #071A30; border: 1px solid var(--line); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cv-out { background: #071A30; border: 1px solid var(--line); } }
 .sos { padding: 0; overflow: hidden; }
 .sos-112 { display: flex; gap: 14px; align-items: center; background: var(--coral); color: #06243F; padding: 14px 16px; text-decoration: none; font-size: 13.5px; line-height: 1.4; }
 .sos-112 > b { font: 800 36px 'Montserrat', sans-serif; flex: 0 0 auto; }
@@ -401,11 +421,11 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .pr-line.pr-mat { background: var(--soft); border-radius: 12px; padding: 8px 10px; }
 .pr-chips { margin-bottom: 10px; }
 .sos-tip { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
+/* тёмная тема: тёмно-синие плашки (заголовок, итог, конвертер) отделяем от фона мягким градиентом и тонкой рамкой */
+:root[data-theme="dark"] .hero, :root[data-theme="dark"] .total { background: linear-gradient(135deg, #133D6B 0%, #0B2545 72%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+:root[data-theme="dark"] .pill-btn.accent { background: var(--sky); border-color: var(--sky); color: #06243F; }
+:root[data-theme="dark"] .cta:disabled { background: var(--soft); }
 /* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .tabs button[aria-selected="true"], :root:not([data-theme="light"]) .st-tabs button[aria-selected="true"],
-  :root:not([data-theme="light"]) .guide-toolbar button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
-}
 :root[data-theme="dark"] .tabs button[aria-selected="true"], :root[data-theme="dark"] .st-tabs button[aria-selected="true"],
 :root[data-theme="dark"] .guide-toolbar button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #06243F; }
 /* колонки карточек (виза, в поездке): на телефоне одна колонка в исходном порядке */
@@ -493,6 +513,17 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 @media (min-width: 1280px) {
   .wrap { max-width: 1240px; }
 }
+/* планшет и узкий ноутбук (700–959 px): телефонная раскладка, но шире и крупнее, чтобы не было «полоски» посередине */
+@media (min-width: 700px) and (max-width: 959px) {
+  .wrap { max-width: 720px; padding: 0 24px; }
+  .hero { padding: 28px 30px; }
+  .hero h1 { font-size: 28px; max-width: 24ch; }
+  .hero p { font-size: 15.5px; max-width: 52ch; }
+  #tiers { grid-template-columns: repeat(3, 1fr); }
+  #cities { grid-template-columns: repeat(4, 1fr); }
+  .story-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .bar .wrap { max-width: 520px; }
+}
 </style>
 </head>
 <body>
@@ -502,8 +533,14 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
       <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="17" fill="none" stroke="#1BB3D1" stroke-width="8"/><path d="M38 38 Q46 46 56 50" fill="none" stroke="#FFC22E" stroke-width="8" stroke-linecap="round"/><circle cx="28" cy="28" r="4.5" fill="#FFC22E"/></svg>
       <span>qazir<span style="color:var(--sky)">.travel</span></span>
     </div>
-    <div class="langs" role="group" aria-label="Language">
-      <button data-lang="kk">ҚАЗ</button><button data-lang="ru">РУС</button><button data-lang="en">ENG</button>
+    <div class="top-r">
+      <div class="langs" role="group" aria-label="Language">
+        <button data-lang="kk">ҚАЗ</button><button data-lang="ru">РУС</button><button data-lang="en">ENG</button>
+      </div>
+      <button class="theme-btn" id="themeBtn" data-theme-toggle type="button">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z" fill="currentColor"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 1.8v2.6M12 19.6v2.6M1.8 12h2.6M19.6 12h2.6M4.8 4.8l1.8 1.8M17.4 17.4l1.8 1.8M4.8 19.2l1.8-1.8M17.4 6.6l1.8-1.8"/></g></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -4865,7 +4902,7 @@ const T = {
     prNone: "Тексерілген дерек таппадық. Жақын үлкен қаланың мешітін немесе әуежайдағы бөлмені қолданыңыз.",
     prTip: "Намаз уақыты мен құбыла бағыты — Mawaqit немесе Muslim Pro қосымшасында. Әуежай бөлмелері барлық дін өкілдеріне ортақ.",
     prChecked: "Ашық дереккөздер бойынша тексерілді ({d}). Мешіттердің мекенжайы мен уақыты өзгеруі мүмкін.",
-    tPrayer: "Намаз",
+    tPrayer: "Намаз", themeToLight: "Ақ режимге ауысу", themeToDark: "Қараңғы режимге ауысу",
     prHeroText: "Сапар күндеріндегі намаз уақыттары, құбыла бағыты, жоспарыңыздағы орындарға ең жақын намазхана және дәрет алуға қатысты сыпайы кеңестер.",
     prDaysTitle: "Сапар күндеріндегі намаз уақыттары", prTodayTitle: "Бүгінгі намаз уақыттары",
     prNoPlan: "Маршрут жасасаңыз, әр күнге намаз уақыты мен жақын намазхана осы жерде шығады. Әзірге — таңдалған қаланың бүгінгі уақыты:",
@@ -5003,7 +5040,7 @@ const T = {
     prNone: "Проверенных данных не нашли. Используйте мечеть ближайшего крупного города или комнату в аэропорту.",
     prTip: "Время намаза и направление киблы — в приложении Mawaqit или Muslim Pro. Комнаты в аэропортах общие для всех религий.",
     prChecked: "Сверено по открытым источникам ({d}). Адреса и часы мечетей могут меняться.",
-    tPrayer: "Намаз",
+    tPrayer: "Намаз", themeToLight: "Светлая тема", themeToDark: "Тёмная тема",
     prHeroText: "Время намаза в дни поездки, направление киблы, ближайшее место для молитвы к местам из вашего плана и деликатные советы по омовению.",
     prDaysTitle: "Время намаза в дни поездки", prTodayTitle: "Время намаза сегодня",
     prNoPlan: "Составьте маршрут — и здесь появятся время намаза и ближайшее место для молитвы на каждый день. Пока — сегодняшнее время в выбранном городе:",
@@ -5141,7 +5178,7 @@ const T = {
     prNone: "We found no verified data. Use a mosque in the nearest big city or an airport prayer room.",
     prTip: "Prayer times and qibla direction: the Mawaqit or Muslim Pro app. Airport prayer rooms are shared by all faiths.",
     prChecked: "Checked against public sources ({d}). Mosque addresses and hours may change.",
-    tPrayer: "Prayer",
+    tPrayer: "Prayer", themeToLight: "Switch to light mode", themeToDark: "Switch to dark mode",
     prHeroText: "Prayer times for each day of your trip, the qibla direction, the nearest place to pray to your planned sights, and considerate tips for wudu.",
     prDaysTitle: "Prayer times for your trip", prTodayTitle: "Today's prayer times",
     prNoPlan: "Build a route and this tab will show prayer times and the nearest place to pray for each day. For now, today's times in the chosen city:",
@@ -5450,14 +5487,38 @@ function calc(route, per) {
 }
 
 /* ---------- Рендер ---------- */
+/* ---------- Тема: светлая / тёмная ----------
+   Выбор сохраняется (qz_theme); пока клиент не выбирал — следуем Telegram или настройке телефона и меняемся вместе с ней. */
+const THEME_BG = {light: "#F4EFE7", dark: "#071A30"};
+const curTheme = () => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+function setTheme(th, save) {
+  document.documentElement.setAttribute("data-theme", th);
+  if (save) store.set("theme", th);
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", THEME_BG[th]);
+  if (tg && tg.initData) { try { tg.setHeaderColor(THEME_BG[th]); tg.setBackgroundColor(THEME_BG[th]); } catch (e) {} }
+  renderThemeBtn();
+}
+function renderThemeBtn() {
+  const b = $("#themeBtn"); if (!b) return;
+  const label = t(curTheme() === "dark" ? "themeToLight" : "themeToDark");
+  b.setAttribute("aria-label", label); b.title = label;
+}
 function renderTexts() {
   document.documentElement.lang = S.lang;
   document.querySelectorAll("[data-t]").forEach((el) => { el.textContent = t(el.dataset.t); });
   document.querySelectorAll(".langs button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
+  renderThemeBtn();
 }
 function renderTabs() {
-  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["trip", "tTrip"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"], ["prayer", "tPrayer"]].map(([v, k]) =>
+  const tb = $("#tabs");
+  tb.innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["trip", "tTrip"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"], ["prayer", "tPrayer"]].map(([v, k]) =>
     `<button role="tab" aria-selected="${S.view === v || (v === "plan" && S.view === "result")}" data-view="${v}">${t(k)}</button>`).join("");
+  // на телефоне вкладки прокручиваются вбок: выбранную держим на виду (только по горизонтали, страницу не дёргаем)
+  const sel = tb.querySelector('[aria-selected="true"]');
+  if (sel && tb.scrollWidth > tb.clientWidth) {
+    const r = sel.getBoundingClientRect(), R = tb.getBoundingClientRect();
+    if (r.left < R.left) tb.scrollLeft -= R.left - r.left + 16; else if (r.right > R.right) tb.scrollLeft += r.right - R.right + 16;
+  }
 }
 function renderPlanner() {
   renderInstall();
@@ -6648,6 +6709,7 @@ document.addEventListener("click", (e) => {
   const openCity = e.target.closest("[data-open-city-story]"); if (openCity) { haptic(); openStoryStudio({type: "city", id: openCity.dataset.openCityStory}); return; }
   const ext = e.target.closest("a[data-ext]"); if (ext) { if (openExternal(ext.href)) e.preventDefault(); return; }
   const b = e.target.closest("button"); if (!b) return;
+  if (b.hasAttribute("data-theme-toggle")) { haptic(); setTheme(curTheme() === "dark" ? "light" : "dark", true); return; }
   if (S.st && stClick(b)) return;
   if (b.hasAttribute("data-visa-tg")) { copyText(visaMessage(), null, null); toast(t("visaTgCopied")); if (!openExternal(tgUrl())) window.open(tgUrl(), "_blank", "noopener"); return; }
   if (b.hasAttribute("data-visa-pdf")) { visaPdf(); return; }
@@ -6712,6 +6774,13 @@ async function loadRate() {
 window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob,
   easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip, prayerTimes, qiblaDeg, prayerNear, renderPrayer};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
+// тема: синхронизируем цвет шапки браузера/Telegram; пока клиент сам не выбрал — следуем за телефоном и Telegram
+setTheme(curTheme(), false);
+try {
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener("change", (e) => { if (store.get("theme", null) === null && !(tg && tg.initData)) setTheme(e.matches ? "dark" : "light", false); });
+} catch (e) {}
+if (tg && tg.initData) { try { tg.onEvent("themeChanged", () => { if (store.get("theme", null) === null) setTheme(tg.colorScheme === "dark" ? "dark" : "light", false); }); } catch (e) {} }
 // офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
 // первый рендер — когда весь файл прочитан: к этому моменту блок встроенных превью THUMBS уже загружен
