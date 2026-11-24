@@ -382,6 +382,11 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .emb-ph.em { background: var(--bad-bg); color: var(--bad-ink); }
 .emb-ph.em b { color: var(--bad-ink); }
 .emb .small a { color: var(--muted); }
+.emb-h .rtag { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: var(--ok-bg); color: var(--ok-ink); white-space: nowrap; }
+.pr-item { background: var(--soft); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.pr-item .emb-addr .small { font-weight: 400; color: var(--muted); }
+.pr-more { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 2px; }
+.pr-more summary { cursor: pointer; font-weight: 800; font-size: 14px; color: var(--sky-deep); min-height: 32px; }
 .sos-tip { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
 /* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
 @media (prefers-color-scheme: dark) {
@@ -662,7 +667,18 @@ const TRAVEL = {
   "prague|milan": {h: 4.5, mode: "flight", p: [23, 90], via: V("PRG → BGY/MXP ~1 сағ 25 мин", "PRG → BGY/MXP ~1 ч 25 мин", "PRG → BGY/MXP ~1 h 25 min")},
   "prague|venice": {h: 4.5, mode: "flight", p: [27, 90], via: V("PRG → TSF/VCE ~1 сағ 20 мин", "PRG → TSF/VCE ~1 ч 20 мин", "PRG → TSF/VCE ~1 h 20 min")},
   "prague|como": {h: 5.75, mode: "mixed", p: [28, 95], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
-  "prague|lugano": {h: 6.25, mode: "mixed", p: [38, 115], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")}
+  "prague|lugano": {h: 6.25, mode: "mixed", p: [38, 115], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
+  // Флоренция (ноябрь 2026): поезда Trenitalia/Italo, «от» — агрегаторы (Virail, Trip.com, Skyscanner, Kupi); «типично» — оценка.
+  // Флоренция–Комо/Лугано — сумма частей через Милан. Где цену не нашли — null (не выдумываем).
+  "florence|rome": {h: 1.75, mode: "train", p: [11, 40], via: V("Frecciarossa / Italo ~1 сағ 30 мин, SMN → Termini", "Frecciarossa / Italo ~1 ч 30 мин, SMN → Termini", "Frecciarossa / Italo ~1 h 30 min, SMN → Termini")},
+  "florence|milan": {h: 2.25, mode: "train", p: [13, 45], via: V("Frecciarossa / Italo ~1 сағ 55 мин, SMN → Centrale", "Frecciarossa / Italo ~1 ч 55 мин, SMN → Centrale", "Frecciarossa / Italo ~1 h 55 min, SMN → Centrale")},
+  "florence|venice": {h: 2.5, mode: "train", p: null, via: V("Frecciarossa / Italo ~2 сағ 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 ч 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 h 10 min, SMN → Santa Lucia")},
+  "florence|como": {h: 3.25, mode: "train", p: [18, 51], via: V("Frecciarossa Миланға + Trenord Комоға", "Frecciarossa до Милана + Trenord до Комо", "Frecciarossa to Milan + Trenord to Como")},
+  "florence|lugano": {h: 3.75, mode: "train", p: [28, 70], via: V("Frecciarossa Миланға + EuroCity Луганоға", "Frecciarossa до Милана + EuroCity до Лугано", "Frecciarossa to Milan + EuroCity to Lugano")},
+  "florence|vienna": {h: 4.5, mode: "flight", p: null, via: V("FLR → VIE ~1 сағ 30 мин (Austrian) — кестені тексеріңіз", "FLR → VIE ~1 ч 30 мин (Austrian) — проверьте расписание", "FLR → VIE ~1 h 30 min (Austrian) — check the schedule")},
+  "florence|paris": {h: 4.75, mode: "flight", p: [30, 130], via: V("FLR/PSA → CDG/ORY ~1 сағ 50 мин", "FLR/PSA → CDG/ORY ~1 ч 50 мин", "FLR/PSA → CDG/ORY ~1 h 50 min")},
+  "florence|budapest": {h: 5.5, mode: "flight", p: null, via: V("Тікелей рейс расталмады — Пиза (PSA) немесе Болонья (BLQ) арқылы", "Прямой рейс не подтверждён — через Пизу (PSA) или Болонью (BLQ)", "No confirmed direct flight — via Pisa (PSA) or Bologna (BLQ)")},
+  "florence|prague": {h: 4.75, mode: "flight", p: [63, 130], via: V("FLR/PSA → PRG ~1 сағ 40 мин (Smartwings, Volotea — кестені тексеріңіз)", "FLR/PSA → PRG ~1 ч 40 мин (Smartwings, Volotea — проверьте расписание)", "FLR/PSA → PRG ~1 h 40 min (Smartwings, Volotea — check the schedule)")}
 };
 
 /* 4. ОБРАТНЫЙ ВЫЛЕТ В КАЗАХСТАН.
@@ -683,6 +699,7 @@ const RETURN_FLIGHTS = {
     rome:   {airport: "FCO", toAirportMin: 40, returnHours: 11.5, via: ["IST", "FRA", "WAW"], direct: false},
     milan:  {airport: "MXP", toAirportMin: 55, returnHours: 11.5, via: ["IST", "FRA", "WAW"], direct: false},
     venice: {airport: "VCE", toAirportMin: 35, returnHours: 12,   via: ["IST", "FRA"],        direct: false},
+    florence: {airport: "FLR", toAirportMin: 25, returnHours: 12, via: ["FRA", "AMS"],        direct: false, note: V("Әуежайға T2 трамвайы ~20 мин. Рейс аз болса — Пиза (PSA) немесе Римге/Миланға пойыз", "До аэропорта трамвай T2 ~20 мин. Если рейсов мало — Пиза (PSA) или поезд в Рим/Милан", "Tram T2 to the airport ~20 min. If flights are scarce — Pisa (PSA) or a train to Rome/Milan")},
     como:   {airport: "MXP", toAirportMin: 75, returnHours: 13,   via: ["IST", "FRA"],        direct: false, note: V("Мальпенсаға пойыз/автобуспен ~1 сағ 15 мин", "до Мальпенсы ~1 ч 15 мин поездом/автобусом", "~1 h 15 min to Malpensa by train/bus")},
     lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")},
     budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("Тікелей рейс 2026 жылы расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "Прямой рейс в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "No direct flight confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
@@ -2141,6 +2158,299 @@ const CITIES = {
     },
     eatSources: ["https://www.happycow.net/reviews/la-tecia-vegana-venice-83010", "https://www.zabihah.com/", "https://tablejourney.com/italy/venice/dietary/halal/"]
   },
+  // Флоренция (добавлена 2026-11). Цены билетов — официальные сайты музеев, повышение с 01.02.2026; средний чек — оценка.
+  florence: {
+    icon: "🎨",
+    flag: "🇮🇹",
+    country: {kk: "Италия", ru: "Италия", en: "Italy"},
+    lang: "it",
+    currency: "EUR",
+    weight: 2,
+    name: {kk: "Флоренция", ru: "Флоренция", en: "Florence"},
+    center: [43.7696, 11.2558],
+    airport: "FLR",
+    photoKey: "Florence",
+    history: {kk: "Флоренцияны б.з.д. 59 жылы римдіктер Florentia деген атпен салған. XV ғасырда Медичи әулетінің тұсында қала Қайта өрлеу дәуірінің бесігіне айналды: мұнда Брунеллески, Леонардо, Микеланджело, Боттичелли жұмыс істеді. 1865–1871 жылдары Флоренция біртұтас Италияның астанасы болды, ал тарихи орталығы 1982 жылдан ЮНЕСКО тізімінде.", ru: "Флоренцию основали римляне в 59 году до н. э. под именем Florentia. В XV веке при Медичи город стал колыбелью Возрождения: здесь работали Брунеллески, Леонардо, Микеланджело, Боттичелли. В 1865–1871 годах Флоренция была столицей объединённой Италии, а её исторический центр с 1982 года — в списке ЮНЕСКО.", en: "The Romans founded Florence as Florentia in 59 BC. Under the Medici in the 15th century it became the cradle of the Renaissance, home to Brunelleschi, Leonardo, Michelangelo and Botticelli. From 1865 to 1871 Florence was the capital of united Italy, and its historic centre has been a UNESCO World Heritage Site since 1982."},
+    fact: {kk: "Флоренция 1252 жылы соққан алтын флорин ғасырлар бойы Еуропадағы ең сенімді монеталардың бірі болды — оны саудагерлер бүкіл континентте қабылдады.", ru: "Золотой флорин, который Флоренция чеканила с 1252 года, веками был одной из самых надёжных монет Европы — его принимали купцы по всему континенту.", en: "The gold florin, minted by Florence from 1252, was for centuries one of Europe's most trusted coins, accepted by merchants across the continent."},
+    historySource: "https://whc.unesco.org/en/list/174",
+    stay: [[30, 45], [55, 90], [100, 160], [190, 320], [400, 800]],
+    food: [[15, 25], [25, 40], [40, 65], [75, 120], [150, 300]],
+    day: [2, 4],
+    activity: [[0, 10], [15, 25], [25, 50], [50, 90], [90, 200]],
+    transport: {kk: "Тарихи орталық шағын, барлығына жаяу жетесіз. Автобус пен трамвай билеті 2 € (90 минут, 2026 жылдың тамызынан), жүргізушіден 3 €. Әуежайдан қала орталығына T2 трамвайы ~20 мин жүреді, билеті сол.", ru: "Исторический центр компактный, всё обходится пешком. Билет на автобус и трамвай 2 € (90 минут, с августа 2026), у водителя 3 €. Из аэропорта в центр — трамвай T2, ~20 минут, тот же билет.", en: "The historic centre is compact and walkable. Bus and tram tickets cost €2 (90 minutes, since August 2026), €3 from the driver. Tram T2 runs from the airport to the centre in ~20 minutes on the same ticket."},
+    source: "https://www.feelflorence.it/en/dalle-redazioni/bus-and-tram-florence",
+    prices: {
+      currency: "EUR",
+      checked: "2026-11",
+      confidence: "estimate",
+      items: {coffee: [1.2, 1.8], breakfast: [3, 6], pizzaPasta: [10, 16], lunchCheap: [7, 12], dinnerMid: [35, 55], aperitivo: [8, 12]},
+      notes: {
+        lunchCheap: {kk: "Скьяччата — флоренциялық үлкен сэндвич, 7–10 €", ru: "Скьяччата — флорентийский большой сэндвич, 7–10 €", en: "Schiacciata, Florence's big sandwich, €7–10"},
+        dinnerMid: {kk: "Тратторияда; бистекка алла фиорентина килограммен сатылады — бағасын алдын ала сұраңыз", ru: "В траттории; бистекка алла фьорентина продаётся на вес — уточняйте цену заранее", en: "At a trattoria; bistecca alla fiorentina is priced by weight — ask before ordering"}
+      },
+      source: "https://www.numbeo.com/cost-of-living/in/Florence"
+    },
+    shops: ["Coop", "Conad", "Carrefour Express", "Pam"],
+    spots: [
+      {
+        w: "Florence Cathedral",
+        n: {kk: "Санта-Мария-дель-Фьоре соборы (Дуомо)", ru: "Собор Санта-Мария-дель-Фьоре (Дуомо)", en: "Florence Cathedral (Duomo)"},
+        h: 2,
+        p: 0,
+        tag: "c",
+        ll: [43.7731, 11.256],
+        note: {kk: "Соборға кіру тегін; күмбезге — Brunelleschi Pass 30 €, уақытын алдын ала брондау міндетті", ru: "Вход в собор бесплатный; на купол — Brunelleschi Pass 30 €, время нужно забронировать заранее", en: "Cathedral entry is free; the dome needs the Brunelleschi Pass (€30) with a pre-booked slot"},
+        storyId: "florence-duomo",
+        tagline: {kk: "Брунеллескидің әйгілі кірпіш күмбезі", ru: "Знаменитый кирпичный купол Брунеллески", en: "Brunelleschi's famous brick dome"},
+        history: {kk: "Собор 1296 жылы салына бастады. Оның алып күмбезін Филиппо Брунеллески 1420–1436 жылдары тұрғызды: сол заманда мұндай аралықты жабуды ешкім білмеген, ал ол ағаш қалыпсыз, кірпішті «шырша» өрнегімен қалау әдісін ойлап тапты.", ru: "Собор начали строить в 1296 году. Его огромный купол Филиппо Брунеллески возвёл в 1420–1436 годах: перекрыть такой пролёт тогда не умел никто, и он придумал класть кирпич «ёлочкой» без деревянной опалубки.", en: "Construction began in 1296. Filippo Brunelleschi raised its huge dome in 1420–1436: no one then knew how to span such a gap, and he devised a herringbone brick pattern that needed no wooden centring."},
+        fact: {kk: "Күмбездің ең басындағы фонарьға 463 баспалдақ апарады — лифт жоқ, жол тар әрі тік.", ru: "К фонарю на вершине купола ведут 463 ступени — лифта нет, проход узкий и крутой.", en: "463 steps lead to the lantern at the top of the dome — there is no lift and the passage is narrow and steep."},
+        tip: {kk: "Иық пен тізе жабық болуы керек, әйтпесе кіргізбейді. Күмбезге шығуды күннің бірінші жартысына брондаңыз — кезек аз.", ru: "Плечи и колени должны быть закрыты, иначе не пустят. Подъём на купол бронируйте на утро — меньше людей.", en: "Shoulders and knees must be covered or you will be turned away. Book the dome climb for the morning when it is quieter."},
+        source: "https://duomo.firenze.it/en/"
+      },
+      {
+        w: "Uffizi",
+        n: {kk: "Уффици галереясы", ru: "Галерея Уффици", en: "Uffizi Gallery"},
+        h: 3,
+        p: 25,
+        tag: "c",
+        ll: [43.7678, 11.2553],
+        note: {kk: "16:00-ден кейін кірсеңіз 16 €; дүйсенбіде жабық", ru: "После 16:00 — 16 €; по понедельникам закрыто", en: "€16 if you enter after 4 pm; closed on Mondays"},
+        storyId: "florence-uffizi",
+        tagline: {kk: "Боттичелли мен Леонардо сақталған әлемдік галерея", ru: "Галерея мирового уровня с Боттичелли и Леонардо", en: "World-class gallery of Botticelli and Leonardo"},
+        history: {kk: "Ғимаратты 1560 жылдан бастап Джорджо Вазари Козимо I Медичи үшін қала шенеуніктерінің кеңсесі ретінде салды — «уффици» итальян тілінде «кеңселер» деген сөз. 1737 жылы соңғы Медичи, Анна Мария Луиза, әулеттің бүкіл коллекциясын Флоренциядан шығармау шартымен қалаға мұра етті.", ru: "Здание с 1560 года строил Джорджо Вазари для Козимо I Медичи как контору городских магистратов — «уффици» по-итальянски значит «конторы». В 1737 году последняя из Медичи, Анна Мария Луиза, завещала всю коллекцию семьи городу с условием никогда не вывозить её из Флоренции.", en: "Giorgio Vasari began the building in 1560 for Cosimo I de' Medici as offices for the city's magistrates — 'uffizi' means 'offices'. In 1737 the last Medici, Anna Maria Luisa, left the family's entire collection to the city on condition it never leave Florence."},
+        fact: {kk: "Уффициден Палаццо Веккио мен Питти сарайына дейін ұзындығы шамамен 1 км Вазари дәлізі өтеді — Медичилер онымен көшеге шықпай-ақ жүрген.", ru: "От Уффици к Палаццо Веккьо и дворцу Питти тянется Коридор Вазари длиной около километра — по нему Медичи ходили, не выходя на улицу.", en: "The Vasari Corridor, about a kilometre long, links the Uffizi with Palazzo Vecchio and the Pitti Palace so the Medici could move without stepping into the street."},
+        tip: {kk: "Билетті ресми uffizi.it сайтынан алыңыз. Айдың бірінші жексенбісінде кіру тегін, бірақ кезек өте ұзын.", ru: "Билеты берите на официальном uffizi.it. В первое воскресенье месяца вход бесплатный, но очередь огромная.", en: "Buy on the official uffizi.it. Entry is free on the first Sunday of the month, but the queue is huge."},
+        source: "https://www.uffizi.it/en/tickets"
+      },
+      {
+        w: "Galleria dell'Accademia",
+        n: {kk: "Академия галереясы: Микеланджелоның «Давиді»", ru: "Галерея Академии: «Давид» Микеланджело", en: "Accademia Gallery: Michelangelo's David"},
+        h: 1.5,
+        p: 20,
+        tag: "c",
+        ll: [43.7768, 11.2587],
+        note: {kk: "2026 жылдың ақпанынан 20 €; дүйсенбіде жабық", ru: "С февраля 2026 — 20 €; по понедельникам закрыто", en: "€20 since February 2026; closed on Mondays"},
+        storyId: "florence-david",
+        tagline: {kk: "Әлемдегі ең танымал мүсін", ru: "Самая знаменитая статуя в мире", en: "The world's most famous statue"},
+        history: {kk: "Микеланджело «Давидті» 1501–1504 жылдары басқа мүсіншілер тастап кеткен мәрмәр тастан қашап шығарды. Мүсін 1873 жылға дейін Синьория алаңында тұрды, кейін оны күн мен жаңбырдан қорғау үшін Академияға көшірді.", ru: "Микеланджело высек «Давида» в 1501–1504 годах из мраморной глыбы, от которой до него отказались другие скульпторы. До 1873 года статуя стояла на площади Синьории, затем её перенесли в Академию, чтобы спасти от непогоды.", en: "Michelangelo carved David in 1501–1504 from a marble block other sculptors had given up on. It stood on Piazza della Signoria until 1873, when it was moved into the Accademia to protect it from the weather."},
+        fact: {kk: "Мүсіннің биіктігі тұғырынсыз 5 метрден асады. Синьория алаңындағы «Давид» — көшірмесі.", ru: "Высота статуи без постамента — больше 5 метров. «Давид» на площади Синьории — копия.", en: "The statue stands over 5 metres tall without its base. The David on Piazza della Signoria is a copy."},
+        tip: {kk: "Кезек ұзын: уақытты алдын ала брондаңыз немесе таңертең 8:15-те келіңіз.", ru: "Очереди длинные: бронируйте время заранее или приходите к открытию в 8:15.", en: "Queues are long: book a time slot or arrive at the 8:15 opening."},
+        source: "https://cultura.gov.it/evento/biglietti-cumulativi-e-nuovi-orari-di-apertura-di-tutti-i-musei-della-galleria-dellaccademia-e-musei-del-bargello"
+      },
+      {
+        w: "Ponte Vecchio",
+        n: {kk: "Понте-Веккьо көпірі", ru: "Мост Понте-Веккьо", en: "Ponte Vecchio"},
+        h: 0.5,
+        p: 0,
+        tag: "c",
+        ll: [43.768, 11.2531],
+        storyId: "florence-ponte-vecchio",
+        tagline: {kk: "Үстінде зергерлер дүкені тұрған ескі көпір", ru: "Старый мост с ювелирными лавками", en: "The old bridge lined with jewellers"},
+        history: {kk: "Қазіргі көпір 1345 жылы су тасқынынан кейін қайта салынды. 1593 жылы герцог Фердинанд I көпірден қасапшылар мен былғары илеушілерді қуып, олардың орнына зергерлерді отырғызды — содан бері мұнда алтын дүкендері тұр.", ru: "Нынешний мост перестроили в 1345 году после наводнения. В 1593 году герцог Фердинанд I выгнал с моста мясников и кожевников и поселил на их место ювелиров — с тех пор здесь золотые лавки.", en: "The present bridge was rebuilt in 1345 after a flood. In 1593 Grand Duke Ferdinand I evicted the butchers and tanners and moved goldsmiths in — the jewellery shops have been there ever since."},
+        fact: {kk: "1944 жылы шегінген неміс әскерлері Флоренциядағы көпірлердің бәрін жарып жіберіп, тек Понте-Веккьоны қалдырды.", ru: "В 1944 году отступавшие немецкие войска взорвали все мосты Флоренции, кроме Понте-Веккьо.", en: "In 1944 retreating German troops blew up every bridge in Florence except the Ponte Vecchio."},
+        tip: {kk: "Ең әдемі көрініс — көршілес Санта-Тринита көпірінен, әсіресе күн батқанда.", ru: "Лучший вид — с соседнего моста Санта-Тринита, особенно на закате.", en: "The best view is from the neighbouring Ponte Santa Trinita, especially at sunset."},
+        source: "https://en.wikipedia.org/wiki/Ponte_Vecchio"
+      },
+      {
+        w: "Palazzo Vecchio",
+        n: {kk: "Палаццо Веккьо", ru: "Палаццо Веккьо", en: "Palazzo Vecchio"},
+        h: 1.5,
+        p: 18,
+        tag: "c",
+        ll: [43.7694, 11.2562],
+        note: {kk: "Мұражай 18 €; Арнольфо мұнарасы бөлек 20 €, жаңбырда жабық", ru: "Музей 18 €; башня Арнольфо отдельно 20 €, в дождь закрыта", en: "Museum €18; the Arnolfo Tower is a separate €20 and closes in rain"},
+        storyId: "florence-palazzo-vecchio",
+        tagline: {kk: "700 жылдан бері қаланың әкімдігі", ru: "Ратуша города уже 700 лет", en: "Florence's town hall for 700 years"},
+        history: {kk: "Сарай 1299 жылдан бастап Флоренция республикасының билігі үшін салынды. Медичилер оны өз резиденциясына айналдырды, ал бүгін де мұнда қала әкімдігі отырады — бір бөлігі мұражай.", ru: "Дворец строили с 1299 года для правительства Флорентийской республики. Медичи сделали его своей резиденцией, а сегодня здесь по-прежнему сидит мэрия — часть здания стала музеем.", en: "Built from 1299 for the government of the Florentine Republic, the palace later became the Medici residence. It is still the city hall today, with part of it open as a museum."},
+        fact: {kk: "Бесжүздік залы (Salone dei Cinquecento) республиканың 500 мүшелі кеңесі үшін салынған — бұл Италиядағы ең үлкен залдардың бірі.", ru: "Зал Пятисот (Salone dei Cinquecento) построили для совета республики из 500 человек — это один из самых больших залов Италии.", en: "The Hall of the Five Hundred was built for the Republic's 500-member council and is one of the largest halls in Italy."},
+        tip: {kk: "Бейсенбі күні мұражай тек 14:00-ге дейін ашық.", ru: "В четверг музей работает только до 14:00.", en: "On Thursdays the museum closes at 2 pm."},
+        source: "https://ticketsmuseums.comune.fi.it/1_museo-di-palazzo-vecchio/"
+      },
+      {
+        w: "Santa Croce, Florence",
+        n: {kk: "Санта-Кроче базиликасы", ru: "Базилика Санта-Кроче", en: "Basilica of Santa Croce"},
+        h: 1.5,
+        p: "paid",
+        tag: "c",
+        ll: [43.7685, 11.2622],
+        storyId: "florence-santa-croce",
+        tagline: {kk: "Микеланджело мен Галилей жерленген храм", ru: "Храм, где похоронены Микеланджело и Галилей", en: "Resting place of Michelangelo and Galileo"},
+        history: {kk: "Францискандық базилика 1294 жылы салына бастады. Мұнда Италияның ұлы адамдары жерленген, сондықтан оны «итальяндық даңқ храмы» деп атайды.", ru: "Францисканскую базилику начали строить в 1294 году. Здесь похоронены великие итальянцы, поэтому её называют «храмом итальянской славы».", en: "Construction of the Franciscan basilica began in 1294. So many great Italians are buried here that it is called the 'Temple of the Italian Glories'."},
+        fact: {kk: "Мұнда Микеланджело, Галилео Галилей, Никколо Макиавелли және композитор Россини жерленген. Дантеге арналған ескерткіш бар, бірақ ақын өзі Равеннада жерленген.", ru: "Здесь похоронены Микеланджело, Галилео Галилей, Никколо Макиавелли и композитор Россини. Есть и памятник Данте, но сам поэт похоронен в Равенне.", en: "Michelangelo, Galileo Galilei, Niccolò Machiavelli and the composer Rossini are buried here. There is a monument to Dante, but the poet himself lies in Ravenna."},
+        tip: {kk: "Алаңның өзі де қарауға тұрарлық: маусымда мұнда тарихи футбол (Calcio Storico) өтеді.", ru: "Сама площадь тоже стоит внимания: в июне здесь играют в исторический футбол (Calcio Storico).", en: "The square itself is worth a look: historic football (Calcio Storico) is played here in June."},
+        source: "https://www.santacroceopera.it/en/"
+      },
+      {
+        w: "Piazzale Michelangelo",
+        n: {kk: "Микеланджело алаңы: қаланың панорамасы", ru: "Площадь Микеланджело: панорама города", en: "Piazzale Michelangelo: city panorama"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [43.7629, 11.265],
+        note: {kk: "Күн батқанда барыңыз; жаяу ~20 мин көтерілу", ru: "Приходите на закат; пешком ~20 мин в гору", en: "Go at sunset; ~20 min walk uphill"}
+      },
+      {
+        w: "Palazzo Pitti",
+        n: {kk: "Питти сарайы", ru: "Дворец Питти", en: "Pitti Palace"},
+        h: 2,
+        p: 22,
+        tag: "c",
+        ll: [43.7651, 11.25],
+        note: {kk: "Боболи бақшасымен бірге 22 € (сол күні сатып алсаңыз)", ru: "Вместе с садами Боболи 22 € (при покупке в день визита)", en: "€22 with the Boboli Gardens (bought on the day)"}
+      },
+      {
+        w: "Boboli Gardens",
+        n: {kk: "Боболи бақшасы", ru: "Сады Боболи", en: "Boboli Gardens"},
+        h: 1.5,
+        p: 10,
+        tag: "b",
+        ll: [43.7625, 11.2486]
+      },
+      {
+        w: "Medici Chapels",
+        n: {kk: "Медичи капеллалары", ru: "Капеллы Медичи", en: "Medici Chapels"},
+        h: 1,
+        p: 11,
+        tag: "c",
+        ll: [43.775, 11.2534]
+      },
+      {
+        w: "Bargello",
+        n: {kk: "Барджелло мұражайы: мүсіндер", ru: "Музей Барджелло: скульптура", en: "Bargello Museum: sculpture"},
+        h: 1.5,
+        p: 12,
+        tag: "c",
+        ll: [43.7704, 11.2582],
+        note: {kk: "Академиямен бірге 26 € (48 сағат)", ru: "Вместе с Академией 26 € (48 часов)", en: "€26 combined with the Accademia (48 h)"}
+      },
+      {
+        w: "Giotto's Campanile",
+        n: {kk: "Джотто қоңырау мұнарасы", ru: "Колокольня Джотто", en: "Giotto's Bell Tower"},
+        h: 1,
+        p: 20,
+        tag: "c",
+        ll: [43.7729, 11.2556],
+        note: {kk: "Giotto Pass 20 €, күмбезсіз; баспалдақпен ғана", ru: "Giotto Pass 20 €, без купола; только по лестнице", en: "Giotto Pass €20, without the dome; stairs only"}
+      },
+      {
+        w: "Santa Maria Novella",
+        n: {kk: "Санта-Мария-Новелла базиликасы", ru: "Базилика Санта-Мария-Новелла", en: "Santa Maria Novella"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [43.7745, 11.2493],
+        note: {kk: "Вокзалдың дәл қарсысында", ru: "Прямо напротив вокзала", en: "Right opposite the train station"}
+      },
+      {
+        w: "Mercato Centrale (Florence)",
+        n: {kk: "Орталық базар: тамақ залы", ru: "Центральный рынок: фуд-холл", en: "Mercato Centrale food hall"},
+        h: 1,
+        p: 0,
+        tag: "m",
+        ll: [43.7765, 11.2534],
+        note: {kk: "Төменде — базар, жоғарғы қабатта — тамақ залы", ru: "Внизу рынок, наверху фуд-холл", en: "Market downstairs, food hall upstairs"}
+      },
+      {
+        w: "Oltrarno",
+        n: {kk: "Ольтрарно: шеберханалар мен Санто-Спирито алаңы", ru: "Ольтрарно: мастерские и площадь Санто-Спирито", en: "Oltrarno: artisan workshops and Piazza Santo Spirito"},
+        h: 2,
+        p: 0,
+        tag: "b",
+        ll: [43.767, 11.247]
+      }
+    ],
+    trips: [
+      {
+        w: "Pisa",
+        n: {kk: "Пиза: құлап бара жатқан мұнара (пойызбен ~1 сағ)", ru: "Пиза: Падающая башня (~1 ч на поезде)", en: "Pisa: the Leaning Tower (~1 h by train)"}
+      },
+      {
+        w: "Siena",
+        n: {kk: "Сиена: Пьяцца-дель-Кампо (автобуспен ~1 сағ 15 мин)", ru: "Сиена: площадь Кампо (~1 ч 15 мин на автобусе)", en: "Siena: Piazza del Campo (~1 h 15 min by bus)"}
+      }
+    ],
+    hacks: [
+      [
+        "🎟️",
+        {kk: "Уффициге 16:00-ден кейін кірсеңіз, билет 25 € емес, 16 € тұрады.", ru: "Если войти в Уффици после 16:00, билет стоит 16 € вместо 25 €.", en: "Enter the Uffizi after 4 pm and the ticket is €16 instead of €25."}
+      ],
+      [
+        "🗓️",
+        {kk: "Айдың бірінші жексенбісінде мемлекеттік мұражайлар (Уффици, Академия, Питти) тегін. Бірақ кезек ұзын, алдын ала брондау болмайды.", ru: "В первое воскресенье месяца государственные музеи (Уффици, Академия, Питти) бесплатны. Но очереди длинные и без брони.", en: "State museums (Uffizi, Accademia, Pitti) are free on the first Sunday of the month — but expect long queues and no booking."}
+      ],
+      [
+        "⛪",
+        {kk: "Дуомоға кіру тегін, ал күмбезге тек брондалған уақытпен (Brunelleschi Pass 30 €). Иық пен тізе жабық болсын.", ru: "Вход в Дуомо бесплатный, а на купол — только по забронированному времени (Brunelleschi Pass 30 €). Плечи и колени закрыты.", en: "The Duomo is free, but the dome needs a booked slot (Brunelleschi Pass €30). Cover shoulders and knees."}
+      ],
+      [
+        "🥪",
+        {kk: "Түскі асқа скьяччата (флоренциялық сэндвич) 7–10 € — тойымды әрі арзан.", ru: "На обед — скьяччата (флорентийский сэндвич) за 7–10 €: сытно и недорого.", en: "For lunch, a schiacciata sandwich for €7–10 is filling and cheap."}
+      ],
+      [
+        "🚋",
+        {kk: "Әуежайдан T2 трамвайы ~20 мин, билеті 2 €. Таксиден әлдеқайда арзан.", ru: "Из аэропорта трамвай T2 ~20 мин, билет 2 €. Намного дешевле такси.", en: "Tram T2 from the airport takes ~20 min for €2 — far cheaper than a taxi."}
+      ]
+    ],
+    eat: {
+      local: [
+        [
+          "Trattoria Mario",
+          {kk: "Базар жанындағы отбасылық траттория, тек түскі ас", ru: "Семейная траттория у рынка, только обеды", en: "Family trattoria by the market, lunch only"},
+          "€"
+        ],
+        [
+          "All'Antico Vinaio",
+          {kk: "Әйгілі скьяччата сэндвичтері", ru: "Знаменитые сэндвичи-скьяччата", en: "Famous schiacciata sandwiches"},
+          "€"
+        ],
+        [
+          "Mercato Centrale",
+          {kk: "Тамақ залы: паста, пицца, лампредотто", ru: "Фуд-холл: паста, пицца, лампредотто", en: "Food hall: pasta, pizza, lampredotto"},
+          "€"
+        ],
+        [
+          "Trattoria Sostanza",
+          {kk: "Ескі флоренциялық траттория, бронь керек", ru: "Старая флорентийская траттория, нужна бронь", en: "Old Florentine trattoria, booking needed"},
+          "€€"
+        ],
+        [
+          "Gelateria dei Neri",
+          {kk: "Джелато", ru: "Джелато", en: "Gelato"},
+          "€"
+        ]
+      ],
+      vegan: [
+        [
+          "Il Vegano",
+          {kk: "Толық вегандық мейрамхана", ru: "Полностью веганский ресторан", en: "Fully vegan restaurant"},
+          "€€"
+        ],
+        [
+          "Santo Falafel",
+          {kk: "Вегандық фалафель, жылдам тамақ", ru: "Веганский фалафель, фастфуд", en: "Vegan falafel, fast food"},
+          "€"
+        ]
+      ],
+      halal: [
+        [
+          "Maddina Tandoori",
+          {kk: "Үнді асханасы, халал сертификаты, Понте-Веккьо жанында", ru: "Индийская кухня, сертифицированный халяль, у Понте-Веккьо", en: "Indian food, certified halal, near the Ponte Vecchio"},
+          "€€"
+        ],
+        [
+          "Royal India",
+          {kk: "Үнді асханасы, толық халал, Via Guelfa", ru: "Индийская кухня, полностью халяль, Via Guelfa", en: "Indian food, fully halal, Via Guelfa"},
+          "€€"
+        ],
+        [
+          "Ristorante Sultan",
+          {kk: "Алкогольсіз мейрамхана; иесі мұсылман — сертификатын сұраңыз", ru: "Ресторан без алкоголя; владелец мусульманин — сертификат уточняйте", en: "Alcohol-free restaurant; Muslim-owned — ask about certification"},
+          "€"
+        ]
+      ]
+    },
+    eatSources: ["https://www.happycow.net/reviews/il-vegano-florence-54089", "https://www.zabihah.com/restaurants/ca056ff0-7767-11ef-95ae-6045bdeb9f57/maddina-tandoori-florence-tuscany", "https://www.zabihah.com/restaurants/cb26958b-7767-11ef-95ae-6045bdeb9f57/royal-india-firenze-toscana"]
+  },
   como: {
     icon: "🏞️",
     flag: "🇮🇹",
@@ -3099,7 +3409,26 @@ const PHOTOS = {
   "Vajdahunyad Castle": {file: "Vajdahunyad vára Budapest September 2013.jpg", p: "commons/2/22", w: 3800, h: 2308, author: "Felix König", license: "CC BY 3.0"},
   "Müpa Budapest": {file: "Muveszetek-palotaja-P5120705.jpg", p: "commons/6/64", w: 1000, h: 454, author: "Misibacsi (Hungarian Wikipedia)", license: "CC BY-SA 3.0"},
   "Museum Kampa": {file: "Hlavní budova Musea Kampa z terasy.jpg", p: "commons/2/2c", w: 1280, h: 1024, author: "NoJin", license: "CC BY 4.0"},
-  "Holešovice": {file: "Tramway in the city, Prague - 8836.jpg", p: "commons/8/84", w: 4368, h: 2912, author: "Jorge Royan", license: "CC BY-SA 3.0"}
+  "Holešovice": {file: "Tramway in the city, Prague - 8836.jpg", p: "commons/8/84", w: 4368, h: 2912, author: "Jorge Royan", license: "CC BY-SA 3.0"},
+  // Флоренция — главное фото статьи Wikipedia, данные Commons API 2026-11-23
+  "Florence": {file: "Firenze - Piazzale Michelangelo, Firenze, Italy - April 6, 2015 02.jpg", p: "commons/3/3a", w: 6016, h: 4016, author: "Giorgio Galeotti", license: "CC BY 4.0"},
+  "Florence Cathedral": {file: "Cattedrale di Santa Maria del Fiore – Il Duomo di Firenze.jpg", p: "commons/c/c7", w: 3872, h: 2592, author: "Gary Campbell-Hall", license: "CC BY 2.0"},
+  "Uffizi": {file: "Florence, Italy - panoramio (125).jpg", p: "commons/d/d7", w: 3456, h: 2304, author: "Arek N.", license: "CC BY-SA 3.0"},
+  "Galleria dell'Accademia": {file: "David at the Galleria dell'Accademia (61351).jpg", p: "commons/d/d5", w: 2840, h: 2725, author: "Rhododendrites", license: "CC BY-SA 4.0"},
+  "Ponte Vecchio": {file: "Ponte Vecchio from Ponte alle Grazie.jpg", p: "commons/7/7d", w: 6000, h: 3340, author: "Ingo Mehling", license: "CC BY-SA 4.0"},
+  "Palazzo Vecchio": {file: "Piazza della signoria, palazzo vecchio, veduta 01.jpg", p: "commons/b/b3", w: 4040, h: 4354, author: "Francesco Bini", license: "CC BY-SA 4.0"},
+  "Santa Croce, Florence": {file: "Basílica de la Santa Cruz, Florencia, Italia, 2022-09-18, DD 95.jpg", p: "commons/4/4d", w: 4558, h: 4558, author: "Diego Delso", license: "CC BY-SA 4.0"},
+  "Piazzale Michelangelo": {file: "Firenze - Piazzale Michelangelo, Firenze, Italy - April 6, 2015 02.jpg", p: "commons/3/3a", w: 6016, h: 4016, author: "Giorgio Galeotti", license: "CC BY 4.0"},
+  "Palazzo Pitti": {file: "Palazzo Pitti nel tardo pomeriggio.jpg", p: "commons/6/6a", w: 3479, h: 2319, author: "Almaak", license: "CC BY-SA 3.0"},
+  "Boboli Gardens": {file: "Jardín de Bóboli, Florencia, Italia, 2022-09-19, DD 26.jpg", p: "commons/7/7e", w: 7850, h: 5233, author: "Diego Delso", license: "CC BY-SA 4.0"},
+  "Medici Chapels": {file: "Medicibib.jpg", p: "commons/f/fb", w: 2592, h: 1944, author: "Richardfabi", license: "Public domain"},
+  "Bargello": {file: "Florence, Bargello, Sala di Donatello (detail).jpg", p: "commons/a/af", w: 3959, h: 2639, author: "MenkinAlRire", license: "CC BY-SA 4.0"},
+  "Giotto's Campanile": {file: "CampanileGiotto-01.jpg", p: "commons/6/69", w: 2218, h: 3327, author: "Thermos", license: "CC BY-SA 2.5"},
+  "Santa Maria Novella": {file: "Florence, Santa Maria Novella, facade.jpg", p: "commons/8/89", w: 5314, h: 3543, author: "Armin Kleiner", license: "CC BY-SA 4.0"},
+  "Mercato Centrale (Florence)": {file: "Mercato centrale di san lorenzo 01.jpg", p: "commons/d/d3", w: 3756, h: 2026, author: "Sailko", license: "CC BY 3.0"},
+  "Oltrarno": {file: "Palazzo Pitti nel tardo pomeriggio.jpg", p: "commons/6/6a", w: 3479, h: 2319, author: "Almaak", license: "CC BY-SA 3.0"},
+  "Pisa": {file: "Italy - Pisa.jpg", p: "commons/d/d3", w: 5221, h: 3357, author: "Arne Müseler", license: "CC BY-SA 3.0 de"},
+  "Siena": {file: "Siena Cattedrale nuova Vista su la Piazza del Campo 2.jpg", p: "commons/2/20", w: 5181, h: 3469, author: "Zairon", license: "CC BY 4.0"}
 };
 
 /* 7. РАЗГОВОРНИК: [категория, фраза, произношение кириллицей (ударение — ЗАГЛАВНЫМИ), перевод] */
@@ -3535,7 +3864,7 @@ const EMBASSIES = [
     phones: [["main", "+43 1 890 8008"], ["consular", "+43 1 890 8008", "14"], ["emergency", "+43 676 644 2635"]],
     email: "consul.vienna@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-vienna"},
   {country: "Italy", flag: "🇮🇹", name: V("Италиядағы ҚР елшілігі (Рим)", "Посольство Казахстана в Италии (Рим)", "Embassy of Kazakhstan in Italy (Rome)"),
-    covers: V("Рим, Милан, Венеция, Комо", "Рим, Милан, Венеция, Комо", "Rome, Milan, Venice, Como"), address: "Via Cassia 471, 00189 Roma",
+    covers: V("Рим, Милан, Венеция, Флоренция, Комо", "Рим, Милан, Венеция, Флоренция, Комо", "Rome, Milan, Venice, Florence, Como"), address: "Via Cassia 471, 00189 Roma",
     phones: [["main", "+39 06 3630 1130"], ["consular", "+39 06 3630 8476"]],
     email: "consul.roma@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-roma"},
   {country: "France", flag: "🇫🇷", name: V("Франциядағы ҚР елшілігі (Париж)", "Посольство Казахстана во Франции (Париж)", "Embassy of Kazakhstan in France (Paris)"),
@@ -3547,6 +3876,69 @@ const EMBASSIES = [
     phones: [["main", "+41 31 310 14 70"], ["emergency", "+41 79 435 80 97"]],
     src: "https://www.gov.kz/mfa-bern"}
 ];
+
+/* 12. НАМАЗ: мечети и молельные комнаты по городам. Сверено по открытым источникам 2026-11.
+   type: mosque (мечеть / исламский центр) | airport (молельная комната в аэропорту).
+   level: "ok" — подтверждено официальным или туристическим сайтом; "check" — источники старые
+          или расходятся, в приложении пишем «уточните перед визитом».
+   addr — адрес для карты (Google Maps ищет по нему); note — где именно и что важно.
+   Города без записи (Комо, Лугано) — проверенных данных нет, приложение так и пишет.
+   Не добавлять места без источника: другой ИИ уже придумывал адреса. */
+const PRAYER_CHECKED = "2026-11";
+const PRAYER = {
+  vienna: [
+    {type: "mosque", name: "Islamisches Zentrum Wien", addr: "Am Bruckhaufen 3, 1210 Wien", level: "ok",
+      note: V("Аустриядағы ең үлкен мешіт, Дунай жағасында (Floridsdorf ауданы). Туристерге ашық уақыты шектеулі — сайттан қараңыз", "Крупнейшая мечеть Австрии, у Дуная (район Флоридсдорф). Для туристов открыта в ограниченные часы — смотрите сайт", "Austria's largest mosque, by the Danube (Floridsdorf). Visiting hours for tourists are limited — check the website"),
+      src: "https://www.wien.info/en/islamic-center-133010"},
+    {type: "airport", name: "Vienna Airport (VIE)", addr: "Vienna International Airport Terminal 3", level: "ok",
+      note: V("Терминал 3, 2-қабат, тіркеуге дейінгі аймақ. Тәулік бойы ашық, барлық дін өкілдеріне арналған", "Терминал 3, 2-й уровень, до досмотра. Открыта круглосуточно, для всех религий", "Terminal 3, Level 2, landside. Open 24/7, for all faiths"),
+      src: "https://viennaairport.com/en/passengers/airport/prayer_room_1"}
+  ],
+  rome: [
+    {type: "mosque", name: "Grande Moschea di Roma", addr: "Viale della Moschea 85, 00197 Roma", level: "ok",
+      note: V("Еуропадағы ең үлкен мешіттердің бірі. Жұма күні тек намаз үшін; экскурсияға алдын ала жазылу керек", "Одна из крупнейших мечетей Европы. По пятницам — только для молитвы; экскурсии по предварительной записи", "One of Europe's largest mosques. Fridays are for prayer only; tours by prior arrangement"),
+      src: "https://turismoroma.it/en/places/mosque"},
+    {type: "airport", name: "Fiumicino Airport (FCO)", addr: "Rome Fiumicino Airport Terminal 1", level: "ok",
+      note: V("Терминал 1, келу залы, 6-есікке қарсы. Тағы біреуі — E аймағында (Шенгеннен тыс рейстер), E18 гейті жанында", "Терминал 1, зона прилёта, напротив двери 6. Ещё одна — в зоне E (рейсы вне шенгена), у выхода E18", "Terminal 1 arrivals, opposite Door 6. Another one in area E (non-Schengen), near gate E18"),
+      src: "https://www.adr.it/web/aeroporti-di-roma-en/pax-fco-airport-services"}
+  ],
+  paris: [
+    {type: "mosque", name: "Grande Mosquée de Paris", addr: "2 bis Place du Puits-de-l'Ermite, 75005 Paris", level: "ok",
+      note: V("Тарихи мешіт, метро Place Monge (7-желі). Туристік кіру ақылы, жұма күні туристерге жабық", "Историческая мечеть, метро Place Monge (линия 7). Вход для туристов платный, по пятницам для туристов закрыто", "Historic mosque, metro Place Monge (line 7). Paid entry for visitors; closed to visitors on Fridays"),
+      src: "https://www.grandemosqueedeparis.fr"},
+    {type: "airport", name: "Charles de Gaulle (CDG)", addr: "Paris Charles de Gaulle Airport", level: "check",
+      note: V("Намаз бөлмелері 1, 2E және 2F терминалдарында деп жазылған, бірақ ресми бетін аша алмадық. Францияда қоғамдық орында (гейт жанында) намаз оқуға тыйым салынуы мүмкін — бөлмені қолданыңыз", "Молельные комнаты указаны в терминалах 1, 2E и 2F, но официальную страницу открыть не удалось. Во Франции молиться у выхода на посадку могут запретить — используйте комнату", "Prayer rooms are listed in Terminals 1, 2E and 2F, but we couldn't open the official page. In France praying at the gate may be stopped — use a prayer room"),
+      src: "https://www.parisaeroport.fr/en"}
+  ],
+  milan: [
+    {type: "mosque", name: "Moschea al-Rahman (Centro Islamico di Milano e Lombardia)", addr: "Via Cassanese 3, Segrate", level: "check",
+      note: V("Миланның шетінде, Сеграте шекарасында. Milano Lambrate вокзалынан автобуспен. Дереккөздер ескі — уақытын тексеріңіз", "На окраине Милана, на границе с Сеграте. От вокзала Milano Lambrate на автобусе. Источники старые — уточните часы", "On the edge of Milan, by Segrate. Bus from Milano Lambrate station. Sources are old — check the times"),
+      src: "https://en.wikipedia.org/wiki/Mosque_of_Segrate"}
+  ],
+  venice: [
+    {type: "airport", name: "Venice Marco Polo (VCE)", addr: "Venice Marco Polo Airport", level: "check",
+      note: V("Намаз бөлмесі бар, бақылаудан кейін 1-қабатта деп жазылған. Тарихи орталықта тексерілген мешіт таппадық", "Молельная комната есть, по описаниям — после досмотра на 1-м этаже. Проверенной мечети в историческом центре мы не нашли", "There is a prayer room, reportedly airside on Floor 1. We found no verified mosque in the historic centre"),
+      src: "https://www.veneziaairport.it/en/info-and-assistance/faq.html"}
+  ],
+  florence: [
+    {type: "mosque", name: "Comunità Islamica di Firenze", addr: "Piazza dei Ciompi, Firenze", level: "check",
+      note: V("2024 жылдың сәуірінен бастап Чомпи алаңындағы бұрынғы банк ғимаратында. Орталықта, Санта-Кроче жанында", "С апреля 2024 года — в бывшем здании банка на площади Чомпи. В центре, рядом с Санта-Кроче", "Since April 2024 in a former bank building on Piazza dei Ciompi. Central, near Santa Croce"),
+      src: "https://www.lanazione.it/firenze/cronaca/firenze-la-moschea-nellex-banca-in-piazza-dei-ciompi-02d3189c"}
+  ],
+  budapest: [
+    {type: "mosque", name: "Al-Huda mecset", addr: "Dobozi utca 1, 1086 Budapest", level: "check",
+      note: V("Метро M4, II. János Pál pápa tér аялдамасы. Мекенжайы дереккөздерде әртүрлі (Teleki tér маңы)", "Метро M4, станция II. János Pál pápa tér. Адрес в источниках расходится (район площади Телеки)", "Metro M4, II. János Pál pápa tér. Sources differ on the exact address (Teleki tér area)"),
+      src: "https://mawaqit.net/en/m/huda-budapest"}
+  ],
+  prague: [
+    {type: "mosque", name: "Islámské centrum Praha", addr: "Blatská 1491, Praha 9 - Kyje", level: "check",
+      note: V("Прагадағы негізгі мешіт, қала шетінде (Praha 9). Дереккөздер ескі — барар алдында тексеріңіз", "Главная мечеть Праги, на окраине (Прага 9). Источники старые — проверьте перед визитом", "Prague's main mosque, on the outskirts (Prague 9). Sources are old — check before you go"),
+      src: "https://en.wikipedia.org/wiki/Islam_in_the_Czech_Republic"},
+    {type: "airport", name: "Prague Airport (PRG)", addr: "Václav Havel Airport Prague", level: "ok",
+      note: V("Бақылаудан кейін: Терминал 1 — Runway Restaurant жанында, Терминал 2 — D пирсі. Тәулік бойы, кілемшелер бар", "После досмотра: Терминал 1 — у Runway Restaurant, Терминал 2 — пирс D. Круглосуточно, есть коврики", "Airside: Terminal 1 near the Runway Restaurant, Terminal 2 at Pier D. Open 24/7, prayer rugs provided"),
+      src: "https://www.prg.aero/en/prayer-room"}
+  ]
+};
 
 /* 10. ДАТЫ: выходные дни мест, праздники, события в городах.
    Предупреждения показываются только на даты поездки клиента; план сам переставляет дни,
@@ -3604,6 +3996,14 @@ const CLOSURES = {
     why: V("Скровеньи капелласы бұл мерекеде жабық болуы мүмкін", "капелла Скровеньи в этот праздник может не работать", "the Scrovegni Chapel may be closed on this holiday")},
   "Verona": {src: "https://cultura.gov.it/luogo/anfiteatro-arena",
     partial: {wd: [1], months: [10, 11, 12, 1, 2, 3, 4, 5], text: V("Қазаннан мамырға дейін Арена дүйсенбіде жабық", "С октября по май Арена по понедельникам закрыта", "From October to May the Arena is closed on Mondays")}},
+  // Флоренция (официальные сайты, 2026-11)
+  "Uffizi": {wd: [1], dates: ["01-01", "12-25"], src: "https://www.uffizi.it/en/tickets"},
+  "Galleria dell'Accademia": {wd: [1], src: "https://cultura.gov.it/evento/biglietti-cumulativi-e-nuovi-orari-di-apertura-di-tutti-i-musei-della-galleria-dellaccademia-e-musei-del-bargello"},
+  "Bargello": {wd: [1], src: "https://cultura.gov.it/evento/biglietti-cumulativi-e-nuovi-orari-di-apertura-di-tutti-i-musei-della-galleria-dellaccademia-e-musei-del-bargello"},
+  "Medici Chapels": {wd: [1], dates: ["01-01", "12-25"], src: "https://bargellomusei.it/en/museum/cappelle-medicee/"},
+  "Palazzo Pitti": {level: "check", wd: [1], src: "https://www.uffizi.it/en/tickets"},
+  "Palazzo Vecchio": {src: "https://ticketsmuseums.comune.fi.it/1_museo-di-palazzo-vecchio/",
+    partial: {wd: [4], text: V("Бейсенбіде мұражай тек 14:00-ге дейін ашық", "По четвергам музей работает только до 14:00", "On Thursdays the museum is open only until 2 pm")}},
   // Вена
   "Naschmarkt": {wd: [0], src: "https://www.wien.info/en/shopping-wining-dining/markets/naschmarkt-349474"},
   "Kunsthistorisches Museum": {level: "check", wd: [1], months: [9, 10, 11, 12, 1, 2, 3, 4, 5], src: "https://www.khm.at/en/visit"},
@@ -3657,7 +4057,8 @@ const HOLIDAYS = {
 // праздники одного города (покровитель города)
 const LOCAL_HOLIDAYS = {
   rome: {"06-29": V("Әулие Петр мен Павел күні — Рим мерекесі", "День святых Петра и Павла — праздник Рима", "Saints Peter and Paul — Rome's holiday")},
-  milan: {"12-07": V("Әулие Амвросий күні — Милан мерекесі", "День святого Амвросия — праздник Милана", "St Ambrose Day — Milan's holiday")}
+  milan: {"12-07": V("Әулие Амвросий күні — Милан мерекесі", "День святого Амвросия — праздник Милана", "St Ambrose Day — Milan's holiday")},
+  florence: {"06-24": V("Әулие Иоанн Креститель күні — Флоренция мерекесі", "День святого Иоанна Крестителя — праздник Флоренции", "St John the Baptist — Florence's holiday")}
 };
 
 /* События и особенности городов на определённые даты.
@@ -3690,6 +4091,11 @@ const CITY_DATES = {
       text: V("Жоғары су маусымы (acqua alta): Сан-Марко алаңын су басуы мүмкін. Болжамды қала сайтынан қараңыз", "Сезон высокой воды (acqua alta): площадь Сан-Марко может подтопить. Прогноз — на сайте города", "High-water season (acqua alta): St Mark's Square may flood. Check the city's tide forecast")}
   ],
   milan: [{months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}],
+  florence: [
+    {easterRange: [0, 0], icon: "🎆", text: V("Пасха күні Дуомо алдында «Scoppio del Carro» — дәстүрлі арбаны жару рәсімі: таңертең алаң адамға толы", "В Пасху у Дуомо — «Scoppio del Carro», традиционный «взрыв повозки»: утром площадь переполнена", "Easter Sunday: the 'Scoppio del Carro' (explosion of the cart) outside the Duomo — the square is packed in the morning")},
+    {dates: ["06-24"], icon: "⚽", text: V("Әулие Иоанн күні: Санта-Кроче алаңында тарихи футбол (Calcio Storico) финалы, кешке Арно үстінде салют", "День святого Иоанна: финал исторического футбола (Calcio Storico) на площади Санта-Кроче, вечером салют над Арно", "St John's Day: the Calcio Storico final on Piazza Santa Croce, fireworks over the Arno in the evening")},
+    {months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}
+  ],
   rome: [{months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}],
   paris: [{dates: ["07-14"], icon: "🎆", text: V("Таңертең Елисей алаңдарында әскери шеру (орталық жабық), кешке Эйфель мұнарасында салют", "Утром военный парад на Елисейских Полях (центр перекрыт), вечером салют у Эйфелевой башни", "Military parade on the Champs-Élysées in the morning (centre closed), fireworks at the Eiffel Tower in the evening")}],
   lugano: [{wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық", "Воскресенье: большинство магазинов закрыто", "Sunday: most shops are closed")}]
@@ -3819,6 +4225,10 @@ const T = {
     sosTips: ["💳 Карта жоғалса — банк қосымшасында бірден бұғаттаңыз.", "🏥 Ауырып қалсаңыз — алдымен сақтандыру полисіндегі нөмірге қоңырау шалыңыз.",
       "📱 Төлқұжаттың, визаның және сақтандырудың фотосын телефонда және бұлтта сақтаңыз."],
     sosWrite: "💬 Бізге WhatsApp-қа жазу",
+    prTitle: "Намаз оқитын орындар", prOther: "Басқа қалалар", prCheck: "барар алдында тексеріңіз", prSrc: "дереккөз",
+    prNone: "Тексерілген дерек таппадық. Жақын үлкен қаланың мешітін немесе әуежайдағы бөлмені қолданыңыз.",
+    prTip: "Намаз уақыты мен құбыла бағыты — Mawaqit немесе Muslim Pro қосымшасында. Әуежай бөлмелері барлық дін өкілдеріне ортақ.",
+    prChecked: "Ашық дереккөздер бойынша тексерілді ({d}). Мешіттердің мекенжайы мен уақыты өзгеруі мүмкін.",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -3925,6 +4335,10 @@ const T = {
     sosTips: ["💳 Потеряли карту — сразу заблокируйте её в приложении банка.", "🏥 Заболели — сначала позвоните в страховую по номеру из полиса.",
       "📱 Храните фото паспорта, визы и страховки в телефоне и в облаке."],
     sosWrite: "💬 Написать нам в WhatsApp",
+    prTitle: "Где совершить намаз", prOther: "Другие города", prCheck: "уточните перед визитом", prSrc: "источник",
+    prNone: "Проверенных данных не нашли. Используйте мечеть ближайшего крупного города или комнату в аэропорту.",
+    prTip: "Время намаза и направление киблы — в приложении Mawaqit или Muslim Pro. Комнаты в аэропортах общие для всех религий.",
+    prChecked: "Сверено по открытым источникам ({d}). Адреса и часы мечетей могут меняться.",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -4031,6 +4445,10 @@ const T = {
     sosTips: ["💳 Lost a card? Block it right away in your bank's app.", "🏥 Feeling ill? Call your insurer first, using the number on your policy.",
       "📱 Keep photos of your passport, visa and insurance on your phone and in the cloud."],
     sosWrite: "💬 Message us on WhatsApp",
+    prTitle: "Places to pray", prOther: "Other cities", prCheck: "check before you go", prSrc: "source",
+    prNone: "We found no verified data. Use a mosque in the nearest big city or an airport prayer room.",
+    prTip: "Prayer times and qibla direction: the Mawaqit or Muslim Pro app. Airport prayer rooms are shared by all faiths.",
+    prChecked: "Checked against public sources ({d}). Mosque addresses and hours may change.",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -4049,6 +4467,7 @@ const MAPQ = {
   "Bourse de commerce (Paris)": "Bourse de Commerce Pinault Collection, Paris", "Tivoli, Lazio": "Villa d'Este, Tivoli", "Giverny": "Fondation Claude Monet, Giverny",
   "Navigli (Milan)": "Naviglio Grande, Milan", "Bosco Verticale": "Bosco Verticale, Milan", "Venetian Ghetto": "Campo del Ghetto Nuovo, Venice",
   "Lake Como": "Lungolago di Como", "Como–Brunate funicular": "Funicolare Como-Brunate", "Monte Brè": "Funicolare Monte Brè, Lugano",
+  "Oltrarno": "Piazza Santo Spirito, Florence", "Mercato Centrale (Florence)": "Mercato Centrale, Florence", "Medici Chapels": "Cappelle Medicee, Florence",
   "Bellagio, Lake Como": "Bellagio, Italy", "Varenna, Lake Como": "Varenna, Italy", "Santa Maria delle Grazie": "Santa Maria delle Grazie, Milan"
 };
 
@@ -5101,6 +5520,21 @@ const telHref = (n) => "tel:" + n.replace(/[^\d+]/g, "");
 function cols2(cells) {
   return `<div class="cols">${[0, 1].map((side) => `<div class="col">${cells.map(([html, sd], i) => sd === side ? `<div class="cell" style="order:${i}">${html}</div>` : "").join("")}</div>`).join("")}</div>`;
 }
+// Намаз: сначала города маршрута клиента, остальные — под «Другие города». Данные — PRAYER в блоке данных.
+function prayerCard() {
+  const onRoute = S.cities.length ? currentRoute().order : [];
+  const rest = Object.keys(CITIES).filter((id) => !onRoute.includes(id));
+  const item = (p) => `<div class="pr-item">
+      <a class="emb-addr" href="${esc(mapsSearch(p.type === "airport" ? p.addr : p.name + ", " + p.addr))}" target="_blank" rel="noopener" data-ext>${p.type === "airport" ? "✈️" : "🕌"} <b>${esc(p.name)}</b><br><span class="small">📍 ${esc(p.addr)}</span></a>
+      <div class="small">${esc(L(p.note))}</div>
+      <div class="small">${p.level === "check" ? `⚠️ ${t("prCheck")} · ` : ""}<a href="${esc(p.src)}" target="_blank" rel="noopener" data-ext>${t("prSrc")}: ${esc(new URL(p.src).hostname.replace(/^www\./, ""))} ↗</a></div>
+    </div>`;
+  const block = (id) => `<div class="emb"><div class="emb-h"><span>${cityIcon(id)}</span><b>${esc(cityName(id))}</b>${onRoute.includes(id) ? `<span class="rtag">✓ ${t("sosForTrip")}</span>` : ""}</div>
+    ${(PRAYER[id] || []).length ? PRAYER[id].map(item).join("") : `<div class="small muted">${t("prNone")}</div>`}</div>`;
+  const body = onRoute.length ? onRoute.map(block).join("") + `<details class="pr-more"><summary>${t("prOther")}</summary>${rest.map(block).join("")}</details>`
+    : rest.map(block).join("");
+  return `<div class="card"><div class="h3">🕌 ${t("prTitle")}</div><p class="sos-tip">${t("prTip")}</p>${body}<p class="note">${tf("prChecked", {d: PRAYER_CHECKED})}</p></div>`;
+}
 function renderTrip() {
   const r = rate(), v = visaTrip(), onTrip = v ? v.list.map((e) => e.key) : [];
   const embs = EMBASSIES.slice().sort((a, b) => (onTrip.includes(b.country) ? 1 : 0) - (onTrip.includes(a.country) ? 1 : 0));
@@ -5120,6 +5554,7 @@ function renderTrip() {
       ${e.phones.map(([k, num, ext]) => `<a class="emb-ph${k === "emergency" ? " em" : ""}" href="${telHref(num)}"><span>${t("sosPhone")[k]}</span><b>📞 ${esc(num)}${ext ? ` (${t("sosExt")} ${ext})` : ""}</b></a>`).join("")}
       <div class="small">${e.email ? `<a href="mailto:${esc(e.email)}">✉️ ${esc(e.email)}</a> · ` : ""}<a href="${esc(e.src)}" target="_blank" rel="noopener" data-ext>gov.kz ↗</a></div>
     </div>`).join("")}<p class="note">${tf("sosChecked", {d: EMBASSIES_CHECKED})}</p></div>`, 1]);
+  cells.push([prayerCard(), 1]);
   cells.push([`<div class="card"><div class="h3">🛂 ${t("sosPassTitle")}</div><ol class="v-steps">${t("sosPassSteps").map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>`, 0]);
   cells.push([`<div class="card"><div class="h3">💡 ${t("sosTipsTitle")}</div>${t("sosTips").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
     <a class="btn btn-wa" style="width:100%;margin-top:4px" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener" data-ext>${t("sosWrite")}</a></div>`, 0]);

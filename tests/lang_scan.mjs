@@ -20,7 +20,7 @@ await page.goto(FILE); await page.waitForTimeout(300);
 await page.evaluate(() => localStorage.clear()); await page.reload(); await page.waitForTimeout(300);
 await page.click('[data-lang="kk"]');
 await page.click('[data-tier="2"]'); await page.click('[data-style="mix"]');
-for (const c of ["vienna", "rome", "paris", "milan", "venice", "como", "lugano", "budapest", "prague"]) await page.click(`[data-city="${c}"]`);
+for (const c of ["vienna", "rome", "paris", "milan", "venice", "florence", "como", "lugano", "budapest", "prague"]) await page.click(`[data-city="${c}"]`);
 await page.click('[data-days="14"]'); await page.click("#go"); await page.waitForTimeout(400);
 await page.$$eval("details", (ds) => ds.forEach((d) => { d.open = true; }));
 
