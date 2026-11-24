@@ -5049,7 +5049,7 @@ const T = {
     bookTgOpen: "Telegram ішінде файл сақталмайды — жоспар браузерде ашылды. Сол жерде «Сапар кітапшасы» батырмасын басыңыз.",
     bookTapHint: "Кітапшаны сақтау үшін «Сапар кітапшасы (PDF)» батырмасын басыңыз.",
     bookTitle: "Сапар кітапшасы", bookPeople: ["адам"], bookRoute: "Маршрут", bookDays: "Күн сайынғы жоспар", bookInfo: "Пайдалы ақпарат",
-    bookOpenLink: "Жоспарды телефонда ашу (интерактивті нұсқасы)", bookContacts: "Qazir Travel-мен байланыс", bookMosque: "Жақын мешіт: {name}, ~{km} км",
+    bookOpenLink: "Жоспарды телефонда ашу (интерактивті нұсқасы)", bookContacts: "Qazir Travel-мен байланыс",
     bookDisclaimer: "Бағалар, жұмыс уақыты мен кестелер — бағдар. Барар алдында ресми сайттардан тексеріңіз. Деректер тексерілген күн: {d}.",
     bookPrepared: "Qazir Travel қосымшасында жасалды: {d}",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
@@ -5210,7 +5210,7 @@ const T = {
     bookTgOpen: "В Telegram файл не сохраняется — план открыт в браузере. Нажмите там «Книжка поездки».",
     bookTapHint: "Чтобы сохранить книжку, нажмите «Книжка поездки (PDF)».",
     bookTitle: "Книжка поездки", bookPeople: ["человек", "человека", "человек"], bookRoute: "Маршрут", bookDays: "План по дням", bookInfo: "Полезное",
-    bookOpenLink: "Открыть план на телефоне (интерактивная версия)", bookContacts: "Связаться с Qazir Travel", bookMosque: "Ближайшая мечеть: {name}, ~{km} км",
+    bookOpenLink: "Открыть план на телефоне (интерактивная версия)", bookContacts: "Связаться с Qazir Travel",
     bookDisclaimer: "Цены, часы работы и расписания — ориентир. Перед поездкой сверьтесь с официальными сайтами. Данные проверены: {d}.",
     bookPrepared: "Сделано в приложении Qazir Travel: {d}",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
@@ -5371,7 +5371,7 @@ const T = {
     bookTgOpen: "Telegram cannot save files — the plan is now open in your browser. Tap “Trip booklet” there.",
     bookTapHint: "To save the booklet, tap “Trip booklet (PDF)”.",
     bookTitle: "Trip booklet", bookPeople: ["traveller", "travellers"], bookRoute: "Route", bookDays: "Day by day", bookInfo: "Useful information",
-    bookOpenLink: "Open the plan on your phone (interactive version)", bookContacts: "Contact Qazir Travel", bookMosque: "Nearest mosque: {name}, ~{km} km",
+    bookOpenLink: "Open the plan on your phone (interactive version)", bookContacts: "Contact Qazir Travel",
     bookDisclaimer: "Prices, opening hours and timetables are a guide. Check the official websites before you go. Data checked: {d}.",
     bookPrepared: "Made with the Qazir Travel app: {d}",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
@@ -7093,11 +7093,9 @@ function bookDays(B, v, plan, ims) {
     items.forEach((s) => bookSpot(B, s, cityId, date, ims));
     if (!items.length) B.text(t("freeDay"), {size: 10, color: BK_C.muted});
     // низ дня — одним блоком, чтобы строка не «оторвалась» на следующую страницу:
-    // маршрут на карте, намаз (время на этот день и ближайшая проверенная мечеть рядом с местами дня), обратный вылет
-    const foot = [], [la, ln] = c.center, tz = PR_TZ[c.country.en] || "Europe/Paris", p = prayerTimes(la, ln, date), nm = t("prNames"), near = prayerNear(cityId, day);
+    // маршрут на карте и обратный вылет. Намаза в кітапше нет (решение владельца 2026-11-24) — он во вкладке «Намаз»
+    const foot = [];
     if (day.spots && day.spots.length > 1) foot.push([`🗺️ ${t("route")} ↗`, {size: 9, weight: 700, color: BK_C.deep, url: routeUrl(cityId, day.spots)}]);
-    foot.push([`🕌 ${["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"].map((k, j) => `${nm[j]} ${prClock(p[k], tz)}`).join(" · ")}`, {size: 8.5, color: BK_C.muted}]);
-    if (near && near.km <= PR_FAR_KM) foot.push([`${tf("bookMosque", {name: near.p.name, km: prKm(near.km)})} ↗`, {size: 8.5, color: BK_C.deep, x: M + 17, url: mapsSearch(near.p.name + ", " + near.p.addr)}]);
     if (n === last) foot.push([`✈️ ${t("returnTitle")}: ${returnText(v.route)}`, {size: 9, color: BK_C.warn}]);
     B.need(foot.reduce((h, [s, o]) => h + B.height(s, o.size, o.weight, o.x ? CW - (o.x - M) : CW), 0));
     foot.forEach(([s, o]) => B.text(s, o));
@@ -7138,18 +7136,6 @@ function bookInfo(B, v, plan) {
     if (e.email) B.text(`✉️ ${e.email}`, {size: 9, x: M + 12, url: "mailto:" + e.email});
   });
   B.text(tf("sosChecked", {d: EMBASSIES_CHECKED}), muted);
-  // намаз: места и правила в пути (с источником)
-  const places = ids.flatMap((id) => PRAYER[id] || []);
-  B.sub("🕌 " + t("prTitle"), 50);
-  places.forEach((p) => {
-    B.need(34);
-    B.text(p.type === "airport" ? `✈️ ${p.name}` : `🕌 ${p.name} — ${p.addr}`, {size: 9.5, weight: 700, url: mapsSearch(p.type === "airport" ? p.addr : p.name + ", " + p.addr)});
-    B.text(L(p.note), {size: 8.5, color: BK_C.muted, x: M + 17});
-  });
-  if (!places.length) B.text(t("prNone"), {size: 9});
-  B.y += 4; B.text(t("prTravelTitle") + ":", {size: 9.5, weight: 700});
-  t("prTravel").forEach((x) => B.text("• " + x, {size: 8.5, x: M + 8}));
-  B.text(`${t("prTravelSrc")} ↗`, {size: 8, color: BK_C.deep, url: "https://www.muftyat.kz/kk/qa/namaz/2022-08-01/40134-zholaushy-adam-namazdy-kalai-okidy/"});
   // связь с агентством
   B.sub("💬 " + t("bookContacts"), 70);
   const url = shareUrl();

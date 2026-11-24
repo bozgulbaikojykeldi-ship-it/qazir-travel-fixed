@@ -88,6 +88,7 @@ async function bookInfo(pg) {
     let txt = ""; for (let i = 0; i < buf.length; i += 65536) txt += String.fromCharCode(...buf.subarray(i, i + 65536)); // 1 байт = 1 знак
     const sx = +txt.match(/startxref\n(\d+)/)[1], offs = [...txt.slice(sx).matchAll(/^(\d{10}) 00000 n $/gm)].map((m) => +m[1]);
     return {size: b.size, head: txt.slice(0, 8), pages: (txt.match(/\/Type \/Page\b(?!s)/g) || []).length, links: (txt.match(/\/Subtype \/Link/g) || []).length,
+      mosques: Object.values(PRAYER).flat().filter((p) => p.type === "mosque").map((p) => p.name),
       uris: [...txt.matchAll(/\/URI \(([^)]*)\)/g)].map((m) => m[1]), xref: txt.slice(sx, sx + 4) === "xref", objs: offs.length > 0 && offs.every((o, i) => txt.startsWith(`${i + 1} 0 obj`, o))};
   });
 }
@@ -96,6 +97,8 @@ check("PDF собран: заголовок, xref и адреса всех об�
 check("в кітапше обложка, дни и полезное (≥ 4 страниц), размер < 6 МБ", bk && bk.pages >= 4 && bk.size < 6e6, bk && `${bk.pages} стр., ${Math.round(bk.size / 1024)} КБ`);
 check("кликабельные ссылки: план, карты, телефоны, WhatsApp", bk && bk.uris.includes(st.url) && bk.uris.some((u) => u.startsWith("https://www.google.com/maps/")) && bk.uris.some((u) => u.startsWith("tel:+")) && bk.uris.some((u) => u.startsWith("https://wa.me/")), bk && `${bk.links} ссылок`);
 check("адреса ссылок — только ASCII", bk && bk.uris.every((u) => /^[\x20-\x7E]+$/.test(u)));
+const dec = (u) => { try { return decodeURIComponent(u); } catch (e) { return u; } };
+check("намаза в кітапше нет (решение владельца): ни мечетей, ни muftyat", bk && bk.mosques.length > 0 && !bk.uris.some((u) => /muftyat/.test(u) || bk.mosques.some((n) => dec(u).includes(n))), bk && `мечетей в данных: ${bk.mosques.length}`);
 if (process.env.QZ_BOOK_OUT) {
   const b64 = await page.evaluate(async () => { const b = await QZ.makeBookPdf(); const u = new Uint8Array(await b.arrayBuffer()); let s = ""; for (let i = 0; i < u.length; i += 65536) s += String.fromCharCode(...u.subarray(i, i + 65536)); return btoa(s); });
   fs.writeFileSync(process.env.QZ_BOOK_OUT, Buffer.from(b64, "base64")); console.log("     сохранено:", process.env.QZ_BOOK_OUT);
