@@ -281,6 +281,14 @@ details[open] summary::after { content: "–"; }
 :root[data-theme="dark"] .btn-soft { color: var(--text); }
 .btn-primary { background: var(--sky); color: #06243F; }
 .btn-sun { background: var(--sun); color: #06243F; }
+/* «Сапарыңмен бөліс»: сілтеме, WhatsApp, PDF кітапша, сторис */
+.share-btns { display: grid; gap: 8px; }
+.share-btns .btn { width: 100%; }
+.share-btns .btn:disabled { opacity: .7; cursor: progress; }
+.share-route { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; font-size: 18px; }
+.share-url { margin-top: 10px; padding: 8px 10px; border-radius: 10px; background: var(--soft); font-size: 12px; color: var(--muted); word-break: break-all; -webkit-user-select: all; user-select: all; }
+.btn.pulse { animation: qzPulse 1.1s ease-in-out 4; }
+@keyframes qzPulse { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--sun) 60%, transparent); } }
 .story-footer-meta { font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
 .story-footer-meta a { color: var(--muted); text-decoration: underline; }
 .guide-empty { padding: 24px; text-align: center; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 18px; }
@@ -593,8 +601,8 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
         <div class="card" id="datesCard"></div>
         <div class="card" id="weatherCard"></div>
         <div class="card total" id="total"></div>
-        <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
         <div class="card" id="shareCard"></div>
+        <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
       </div>
       <div class="res-main">
         <div id="plan"></div>
@@ -5032,6 +5040,18 @@ const T = {
       "Соңынан раковина мен еденді қағаз сүлгімен құрғатып кетіңіз — келесі адамға құрмет.",
       "Көшеде, вокзалда немесе мұражай залында намаз оқуға кейде тыйым салынады (әсіресе Францияда). Жолды бөгемей, тыныш жерді таңдаңыз; күзетші сұраса, сыпайы түрде басқа жерге ауысыңыз."],
     prWuduPlaces: "Дәрет алатын тексерілген жерлер: төмендегі тізімдегі мешіттерде әдетте дәрет алатын орын бар; Мюнхен әуежайында — 1-терминал, 03-қабат.",
+    shareLinkText: "Сілтемені ашқан адам дәл осы жоспарды көреді: қалалар, күндер және бюджет. PDF кітапшаны интернетсіз ашуға және басып шығаруға болады.",
+    shareLinkBtn: "Сілтемемен бөлісу", shareWaBtn: "Менеджерге WhatsApp-та жіберу", shareOpened: "Сізге жіберілген маршрут ашылды ✓",
+    shareLinkLbl: "Жоспар сілтемесі", shareMsgTitle: "Менің сапар жоспарым — Qazir Travel", shareBudgetPer: "бір адамға, шамамен",
+    tripMsgHello: "Сәлеметсіз бе! Осы маршрут бойынша сапар жоспарлап жатырмын. Кеңес беріп, көмектесесіз бе?",
+    bookBtn: "Сапар кітапшасы (PDF)", bookMaking: "Кітапша дайындалып жатыр…", bookReady: "Кітапша дайын — ашу",
+    bookReadyHint: "Кітапша дайын ✓ Сақтау үшін батырманы тағы бір басыңыз.", bookDone: "Кітапша сақталды ✓", bookFail: "PDF жасалмады. Қайталап көріңіз.",
+    bookTgOpen: "Telegram ішінде файл сақталмайды — жоспар браузерде ашылды. Сол жерде «Сапар кітапшасы» батырмасын басыңыз.",
+    bookTapHint: "Кітапшаны сақтау үшін «Сапар кітапшасы (PDF)» батырмасын басыңыз.",
+    bookTitle: "Сапар кітапшасы", bookPeople: ["адам"], bookRoute: "Маршрут", bookDays: "Күн сайынғы жоспар", bookInfo: "Пайдалы ақпарат",
+    bookOpenLink: "Жоспарды телефонда ашу (интерактивті нұсқасы)", bookContacts: "Qazir Travel-мен байланыс", bookMosque: "Жақын мешіт: {name}, ~{km} км",
+    bookDisclaimer: "Бағалар, жұмыс уақыты мен кестелер — бағдар. Барар алдында ресми сайттардан тексеріңіз. Деректер тексерілген күн: {d}.",
+    bookPrepared: "Qazir Travel қосымшасында жасалды: {d}",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -5181,6 +5201,18 @@ const T = {
       "После себя вытрите раковину и пол бумажным полотенцем — это уважение к следующему человеку.",
       "Молиться на улице, на вокзале или в залах музеев иногда запрещено (особенно во Франции). Не перекрывайте проход, выбирайте тихое место; если охрана попросит — вежливо перейдите в другое место."],
     prWuduPlaces: "Проверенные места для омовения: в мечетях из списка ниже обычно есть место для омовения; в аэропорту Мюнхена — терминал 1, уровень 03.",
+    shareLinkText: "По ссылке откроется ровно этот план: города, даты и бюджет. PDF-книжку можно открыть без интернета и распечатать.",
+    shareLinkBtn: "Поделиться ссылкой", shareWaBtn: "Отправить менеджеру в WhatsApp", shareOpened: "Открыт маршрут, которым с вами поделились ✓",
+    shareLinkLbl: "Ссылка на план", shareMsgTitle: "Мой план поездки — Qazir Travel", shareBudgetPer: "на одного, примерно",
+    tripMsgHello: "Здравствуйте! Планирую поездку по этому маршруту. Подскажете и поможете с организацией?",
+    bookBtn: "Книжка поездки (PDF)", bookMaking: "Готовим книжку…", bookReady: "Книжка готова — открыть",
+    bookReadyHint: "Книжка готова ✓ Нажмите кнопку ещё раз, чтобы сохранить.", bookDone: "Книжка сохранена ✓", bookFail: "Не удалось создать PDF. Попробуйте ещё раз.",
+    bookTgOpen: "В Telegram файл не сохраняется — план открыт в браузере. Нажмите там «Книжка поездки».",
+    bookTapHint: "Чтобы сохранить книжку, нажмите «Книжка поездки (PDF)».",
+    bookTitle: "Книжка поездки", bookPeople: ["человек", "человека", "человек"], bookRoute: "Маршрут", bookDays: "План по дням", bookInfo: "Полезное",
+    bookOpenLink: "Открыть план на телефоне (интерактивная версия)", bookContacts: "Связаться с Qazir Travel", bookMosque: "Ближайшая мечеть: {name}, ~{km} км",
+    bookDisclaimer: "Цены, часы работы и расписания — ориентир. Перед поездкой сверьтесь с официальными сайтами. Данные проверены: {d}.",
+    bookPrepared: "Сделано в приложении Qazir Travel: {d}",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -5330,6 +5362,18 @@ const T = {
       "Afterwards, dry the sink and floor with a paper towel — a courtesy to the next person.",
       "Praying in the street, at a station or in a museum gallery is sometimes not allowed (especially in France). Don't block the way, choose a quiet spot, and if security asks, politely move elsewhere."],
     prWuduPlaces: "Verified places for wudu: the mosques listed below usually have ablution facilities; Munich Airport — Terminal 1, level 03.",
+    shareLinkText: "The link opens exactly this plan: cities, dates and budget. The PDF booklet opens offline and can be printed.",
+    shareLinkBtn: "Share a link", shareWaBtn: "Send to the manager on WhatsApp", shareOpened: "Opened the route that was shared with you ✓",
+    shareLinkLbl: "Plan link", shareMsgTitle: "My trip plan — Qazir Travel", shareBudgetPer: "per person, approx.",
+    tripMsgHello: "Hello! I am planning a trip along this route. Could you advise and help me organise it?",
+    bookBtn: "Trip booklet (PDF)", bookMaking: "Preparing the booklet…", bookReady: "Booklet ready — open",
+    bookReadyHint: "The booklet is ready ✓ Tap the button again to save it.", bookDone: "Booklet saved ✓", bookFail: "Could not create the PDF. Please try again.",
+    bookTgOpen: "Telegram cannot save files — the plan is now open in your browser. Tap “Trip booklet” there.",
+    bookTapHint: "To save the booklet, tap “Trip booklet (PDF)”.",
+    bookTitle: "Trip booklet", bookPeople: ["traveller", "travellers"], bookRoute: "Route", bookDays: "Day by day", bookInfo: "Useful information",
+    bookOpenLink: "Open the plan on your phone (interactive version)", bookContacts: "Contact Qazir Travel", bookMosque: "Nearest mosque: {name}, ~{km} km",
+    bookDisclaimer: "Prices, opening hours and timetables are a guide. Check the official websites before you go. Data checked: {d}.",
+    bookPrepared: "Made with the Qazir Travel app: {d}",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -5668,13 +5712,15 @@ function renderPlanner() {
   $("#start").value = S.start; $("#start").min = todayISO();
   $("#people").value = S.people;
 }
-function priceTag(s, cityId) {
-  if (s.p === 0) return `<span class="tag">${t("free")}</span>`;
-  if (s.p === "paid") return `<span class="tag paid">${t("paid")}</span>`;
+// цена входа текстом: «тегін», «ақылы», «18 €», «4 000–6 000 Ft» (и для карточки, и для PDF кітапшы)
+function priceLabel(s, cityId) {
+  if (s.p === 0) return t("free");
+  if (s.p === "paid") return t("paid");
   const sym = CUR_SYM[CITIES[cityId].currency || "EUR"];
   const n = (v) => (v >= 1000 ? fmt(v) : num(v)); // форинты и кроны — с разделителем тысяч
-  return `<span class="tag paid">${Array.isArray(s.p) ? (s.p[0] === s.p[1] ? `${n(s.p[0])} ${sym}` : `${n(s.p[0])}–${n(s.p[1])} ${sym}`) : `~${n(s.p)} ${sym}`}</span>`;
+  return Array.isArray(s.p) ? (s.p[0] === s.p[1] ? `${n(s.p[0])} ${sym}` : `${n(s.p[0])}–${n(s.p[1])} ${sym}`) : `~${n(s.p)} ${sym}`;
 }
+const priceTag = (s, cityId) => `<span class="tag${s.p === 0 ? "" : " paid"}">${priceLabel(s, cityId)}</span>`;
 const usedPhotos = new Set();
 function spotRow(s, cityId, date) {
   usedPhotos.add(s.w);
@@ -5716,15 +5762,19 @@ function renderRouteCard(route, per) {
   const savedBox = route.legs.length ? (route.saved > 0.05
     ? `<div class="good"><div class="v">−${fmtHours(route.saved)}</div><div class="k">${t("saved")} ${t("vsYourOrder")}</div></div>`
     : `<div><div class="v">✓</div><div class="k">${t("savedNone")}</div></div>`) : "";
-  const r = route.ret, hubs = r && r.via ? r.via.join(", ") : RETURN_FLIGHTS.hubs.join(", ");
-  const ret = r && r.direct ? tf("directYes", {city: cityName(route.end)}) : tf("noDirect", {city: cityName(route.end), hubs, h: num(route.returnHours)});
   const userOrder = route.legs.length && route.saved > 0.05 ? `<p class="note">${t("yourOrderWas")}: ${S.cities.map(cityIcon).join(" → ")} · ${fmtHours(route.userHours)}</p>` : "";
   $("#routeCard").innerHTML = `<div class="h3">🧭 ${t("routeTitle")}</div><div class="route-list">${stops}</div>
     ${route.legs.length ? `<div class="rsum"><div><div class="v">${fmtHours(route.hours)}</div><div class="k">${t("travelTotal")} · ~${fmt(route.km)} km</div></div>${savedBox}</div>` : ""}
     ${route.legs.length ? `<div class="rsum" style="margin-top:8px"><div style="grid-column:1/-1"><div class="v">${route.fare[1] ? money(route.fare[0], route.fare[1], "€") : "—"}</div><div class="k">${t("fareTotal")}${route.fareUnknown ? ` · ${tf("fareUnknownN", {n: route.fareUnknown})}` : ""}</div></div></div><p class="note">${t("fareNote")}</p>` : ""}
     ${userOrder}
     <p class="note">${route.exact ? t("exact") : t("approx")}</p>
-    <div class="warn" style="margin:10px 0 0">✈️ <b>${t("returnTitle")}:</b> ${esc(ret)}${r && r.note ? ` ${esc(L(r.note))}.` : ""}<br><span class="small">${tf("verifyFlights", {date: RETURN_FLIGHTS.checkedAt})}</span></div>`;
+    <div class="warn" style="margin:10px 0 0">✈️ <b>${t("returnTitle")}:</b> ${esc(returnText(route))}<br><span class="small">${tf("verifyFlights", {date: RETURN_FLIGHTS.checkedAt})}</span></div>`;
+}
+// обратный вылет из последнего города: прямой рейс или через какие хабы (+ заметка из RETURN_FLIGHTS)
+function returnText(route) {
+  const r = route.ret, hubs = r && r.via ? r.via.join(", ") : RETURN_FLIGHTS.hubs.join(", ");
+  const ret = r && r.direct ? tf("directYes", {city: cityName(route.end)}) : tf("noDirect", {city: cityName(route.end), hubs, h: num(route.returnHours)});
+  return ret + (r && r.note ? ` ${L(r.note)}.` : "");
 }
 function renderResult() {
   usedPhotos.clear();
@@ -5771,9 +5821,14 @@ function renderResult() {
     (route.legs.length ? `<div class="ln"><span>🚆 ${t("fareLine")}</span><b>${travel[1] ? money(travel[0], travel[1], "€") : "—"}</b></div>` : "") +
     `<div class="ln"><span class="muted">${t("knownTicketSubtotal")}</span><b>~${fmt(tickets)} €</b></div>` +
     (unpriced ? `<p class="note">${tf("ticketsUnpriced", {n: unpriced})}</p>` : "");
-  $("#shareCard").innerHTML = `<div class="h3">📲 ${t("shareTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13px">${t("shareText")}</p>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">${route.order.map(cityIcon).join(" → ")}</div>
-    <button class="btn btn-primary" style="width:100%" data-open-trip-story>${t("shareBtn")}</button>`;
+  const surl = shareUrl();
+  $("#shareCard").innerHTML = `<div class="h3">📲 ${t("shareTitle")}</div><p class="small" style="margin:0 0 10px;font-size:13px">${t("shareLinkText")}</p>
+    <div class="share-route">${route.order.map(cityIcon).join(" → ")}</div>
+    <div class="share-btns">${surl ? `<button class="btn btn-primary" data-share-link>🔗 ${t("shareLinkBtn")}</button>
+      <a class="btn btn-wa" href="${esc(waUrl(tripMessage()))}" target="_blank" rel="noopener" data-ext>💬 ${t("shareWaBtn")}</a>` : ""}
+      <button class="btn btn-sun" data-book-pdf>📘 ${t(bookReadyNow() ? "bookReady" : "bookBtn")}</button>
+      <button class="btn btn-soft" data-open-trip-story>${t("shareBtn")}</button></div>
+    ${surl ? `<div class="share-url" id="shareUrl">${esc(surl)}</div>` : ""}`;
   $("#guides").innerHTML = route.order.map((id, i) => cityGuideHTML(id, i === 0)).join("");
   route.order.forEach(renderEat);
   renderCredits();
@@ -6635,6 +6690,7 @@ function visaMessage() {
   if (v) out.push(`${t("visaMsgTrip")}: ${fmtD(v.start)} – ${fmtD(v.end)} (${S.days} ${t("days")})`, `${t("visaMsgRoute")}: ${v.route.order.map(cityName).join(" → ")}`,
     `${t("visaMsgCons")}: ${L(v.main.country)}`, `${t("visaMsgPeople")}: ${S.people}`);
   else out.push(t("visaMsgNoPlan"));
+  const link = shareUrl(); if (v && link) out.push(`${t("shareLinkLbl")}: ${link}`); // менеджер открывает тот же план одним нажатием
   out.push("", `— ${t("visaMsgFrom")}`);
   return out.join("\n");
 }
@@ -6688,6 +6744,92 @@ function visaResultHTML() {
   return `<div class="h3">🛂 ${t("visaResultTitle")}</div>${visaMainHTML(v)}
     <p class="note">${tf("visaWindow", {a: fmtD(addMonths(v.start, -VISA.applyMaxMonths)), b: fmtD(addDays(v.start, -VISA.applyMinDays))})}</p>
     <div class="v-btns" style="margin-top:10px">${waBtn(t("visaResultBtn"))}<button class="btn btn-soft" data-view="visa">${t("visaMore")}</button></div>`;
+}
+
+/* ---------- Ссылка на маршрут ----------
+   Весь план — в коротком коде после «#trip=», например …/#trip=2x-viropa-d10-p2-20270726:
+   уровень (0–4) + стиль (c/m/x), города по 2 буквы в порядке выбора, d<дни>, p<люди>, дата старта ГГГГММДД,
+   по желанию -s<код> (город старта) и -e<код> (город финиша). Только латиница, цифры и «-», до 64 знаков —
+   тот же код подойдёт для ссылки Telegram Mini App (t.me/<бот>/<app>?startapp=<код>), когда появится бот.
+   Код идёт после «#», поэтому не уходит на сервер. Коды городов НЕ менять: старые ссылки перестанут открываться.
+   Новый город → новый код здесь (tests/share_test.mjs проверит, что код есть у каждого города). */
+const TRIP_CODE = {vienna: "vi", rome: "ro", paris: "pa", milan: "mi", venice: "ve", florence: "fl", como: "co", lugano: "lu",
+  budapest: "bu", prague: "pr", munich: "mu", barcelona: "ba"};
+const TRIP_STYLE = {classic: "c", modern: "m", mix: "x"};
+const codeCity = (cc) => Object.keys(TRIP_CODE).find((id) => TRIP_CODE[id] === cc && CITIES[id]);
+const defaultStart = () => new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10);
+function tripCode() {
+  if (S.tier === null || !TRIP_STYLE[S.style] || !S.cities.length || S.cities.some((id) => !TRIP_CODE[id])) return "";
+  const p = [S.tier + TRIP_STYLE[S.style], S.cities.map((id) => TRIP_CODE[id]).join(""), "d" + S.days, "p" + S.people, S.start.replace(/-/g, "")];
+  if (S.startCity && S.startCity !== S.cities[0] && S.cities.includes(S.startCity)) p.push("s" + TRIP_CODE[S.startCity]);
+  if (!S.autoEnd && S.endCity && S.cities.includes(S.endCity)) p.push("e" + TRIP_CODE[S.endCity]);
+  return p.join("-");
+}
+// код → поля плана или null; всё, что не узнали, отбрасываем (чужой город, неверная дата, лишние дни)
+function parseTripCode(code) {
+  const m = /^(\d)([cmx])-((?:[a-z]{2})+)-d(\d{1,2})-p(\d{1,2})-(\d{8})((?:-[se][a-z]{2})*)$/.exec(String(code || "").trim().toLowerCase());
+  if (!m || +m[1] >= TIER_EMOJI.length) return null;
+  const cities = [...new Set(m[3].match(/../g).map(codeCity).filter(Boolean))];
+  if (!cities.length) return null;
+  const days = +m[4], iso = `${m[6].slice(0, 4)}-${m[6].slice(4, 6)}-${m[6].slice(6)}`, dt = parseISO(iso);
+  const realDate = !isNaN(dt) && fmtD(dt) === iso.split("-").reverse().join(".");
+  const out = {tier: +m[1], style: Object.keys(TRIP_STYLE).find((k) => TRIP_STYLE[k] === m[2]), cities, startCity: null, endCity: null, autoEnd: true,
+    days: DAY_OPTIONS.includes(days) && days >= cities.length ? days : nextAvailableDays(cities.length),
+    people: Math.min(10, Math.max(1, +m[5])), start: realDate && iso > todayISO() ? iso : defaultStart()}; // прошедшая дата → через 30 дней, как при первом запуске
+  (m[7].match(/-[se][a-z]{2}/g) || []).forEach((x) => {
+    const id = codeCity(x.slice(2)); if (!id || !cities.includes(id)) return;
+    if (x[1] === "s") out.startCity = id; else { out.endCity = id; out.autoEnd = false; }
+  });
+  if (out.endCity === (out.startCity || cities[0])) { out.endCity = null; out.autoEnd = true; }
+  return out;
+}
+function shareUrl() {
+  const code = tripCode(); if (!code) return "";
+  // с компьютера разработчика (file://, localhost) отдаём адрес сайта — иначе ссылка у получателя не откроется
+  return (location.protocol === "https:" ? location.origin + location.pathname : CONTACT.site) + "#trip=" + code;
+}
+const linkParams = () => [new URLSearchParams(location.hash.replace(/^#/, "")), new URLSearchParams(location.search)];
+// код из адреса (#trip=… или ?trip=…) или из Telegram (startapp); тот же код Telegram дважды за сеанс не применяем
+function incomingTrip() {
+  const [h, q] = linkParams(), code = h.get("trip") || q.get("trip");
+  if (code) return {code, book: h.has("book") || q.has("book")};
+  const sp = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
+  if (!sp) return null;
+  let seen = null; try { seen = sessionStorage.getItem("qz_startapp"); sessionStorage.setItem("qz_startapp", sp); } catch (e) {}
+  return seen === sp ? null : {code: sp, book: false};
+}
+function applyIncomingTrip() {
+  const inc = incomingTrip(); if (!inc) return null;
+  // убираем код из адреса: перезагрузка не должна затирать то, что клиент поменял после открытия ссылки
+  try {
+    const [h, q] = linkParams();
+    if (["trip", "book"].some((k) => h.has(k) || q.has(k))) {
+      ["trip", "book"].forEach((k) => { h.delete(k); q.delete(k); });
+      const qs = q.toString(), hs = h.toString();
+      history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + (hs ? "#" + hs : ""));
+    }
+  } catch (e) {}
+  const p = parseTripCode(inc.code); if (!p) return null;
+  Object.assign(S, p); savePlan(); S.view = "result";
+  return inc;
+}
+// коротко о поездке: для сообщения в WhatsApp/Telegram и для меню «Поделиться»
+function tripSummaryLines() {
+  const v = visaTrip(); if (!v || S.tier === null) return [];
+  const {tot} = calc(v.route, v.per);
+  return [`🧳 ${v.route.order.map(cityName).join(" → ")}`, `📅 ${fmtD(v.start)} – ${fmtD(v.end)} · ${S.days} ${t("days")} · ${S.people} 👤`,
+    `💶 ~${money(tot[0], tot[1], "€")} (${t("shareBudgetPer")})`];
+}
+const tripMessage = () => [t("tripMsgHello"), "", ...tripSummaryLines(), `🔗 ${shareUrl()}`, "", `— ${t("visaMsgFrom")}`].join("\n");
+async function shareTrip(btn) {
+  const url = shareUrl(); if (!url) { toast(t("visaNeedPlan")); return; }
+  const text = [t("shareMsgTitle"), ...tripSummaryLines()].join("\n");
+  // Telegram: своё окно «Переслать»; телефон: системное меню «Поделиться»; компьютер: копируем текст со ссылкой
+  if (tg && openExternal(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`)) return;
+  if (navigator.share && (isIOS || /Android/i.test(navigator.userAgent))) {
+    try { await navigator.share({title: CONTACT.brand, text, url}); return; } catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  copyText(text + "\n" + url, btn, $("#shareUrl"));
 }
 
 /* ---------- План поездки для консульства (английский, PDF без внешних библиотек) ---------- */
@@ -6797,6 +6939,312 @@ async function visaPdf() {
   downloadBlob(blob, name); toast(t("visaPdfDone"));
 }
 
+/* ---------- Сапар кітапшасы: PDF на языке приложения ----------
+   Стандартные шрифты PDF не знают кириллицы, а встроить свой шрифт — сотни КБ в файле приложения. Поэтому каждую
+   страницу рисуем на canvas шрифтом телефона (казахские буквы и эмодзи есть везде), кладём в PDF картинкой JPEG,
+   а поверх — кликабельные ссылки (карты, телефоны, WhatsApp, сам план). Фото — встроенные превью: работает без интернета.
+   Страница A4 в пунктах (595×842), рисуем ×2 (≈145 dpi): чётко на телефоне и при печати. Текст из PDF не копируется —
+   для визы есть отдельный текстовый PDF на английском (visaPdf). */
+const BK = {W: 595, H: 842, M: 40, K: 2, FOOT: 30};
+const BK_C = {ink: "#0B2545", muted: "#5A6677", sky: "#1BB3D1", deep: "#0B7F97", sun: "#FFC22E", soft: "#E5F2F1", line: "#E6DED1",
+  warn: "#7A5800", bad: "#8A2414", white: "#FFFFFF"};
+const BK_FONT = "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif";
+const BK_HEAD = "'Montserrat', " + BK_FONT;
+const bkDM = (d) => (S.lang === "kk" ? `${d.getDate()} ${KK_MON[d.getMonth()]}` : d.toLocaleDateString(S.lang === "en" ? "en-GB" : "ru-RU", {day: "numeric", month: "short"}));
+const bkRange = (ds) => (!ds.length ? "" : ds.length === 1 ? bkDM(ds[0]) : `${bkDM(ds[0])} – ${bkDM(ds[ds.length - 1])}`);
+// «перо»: текущая страница, позиция y (сверху вниз, в пунктах), перенос строк и страниц, ссылки
+function bookWriter() {
+  const {W, H, M, K} = BK, CW = W - 2 * M, BOTTOM = H - BK.FOOT - 16, pages = [];
+  let ctx = null, y = 0;
+  const B = {
+    CW, pages,
+    get y() { return y; }, set y(v) { y = v; },
+    get ctx() { return ctx; },
+    page() {
+      const cv = document.createElement("canvas"); cv.width = W * K; cv.height = H * K;
+      ctx = cv.getContext("2d"); ctx.scale(K, K); ctx.fillStyle = BK_C.white; ctx.fillRect(0, 0, W, H);
+      pages.push({cv, ctx, links: []}); y = M;
+    },
+    need(h) { if (y + h > BOTTOM) B.page(); },
+    font(size, weight, head) { ctx.font = `${weight || 400} ${size}px ${head ? BK_HEAD : BK_FONT}`; },
+    lines(str, size, weight, maxW, head) { B.font(size, weight, head); return String(str).split("\n").flatMap((p) => (p.trim() ? wrapLines(ctx, p, maxW) : [""])); },
+    height(str, size, weight, maxW, head) { return B.lines(str, size, weight, maxW, head).length * size * 1.45; },
+    // одна строка; yy — верх строки
+    put(str, x, yy, o = {}) {
+      const size = o.size || 10; B.font(size, o.weight, o.head); ctx.fillStyle = o.color || BK_C.ink;
+      const w = ctx.measureText(str).width, left = o.align === "right" ? x - w : x;
+      ctx.fillText(str, left, yy + size);
+      if (o.url) B.link(left, yy - 1, w, size * 1.45, o.url);
+      return w;
+    },
+    // абзац: перенос по словам и, если надо, на новую страницу
+    text(str, o = {}) {
+      const size = o.size || 10, lh = size * 1.45, x = o.x !== undefined ? o.x : M, maxW = o.w || CW - (x - M);
+      B.lines(str, size, o.weight, maxW, o.head).forEach((ln) => {
+        if (y + lh > BOTTOM) B.page();
+        B.put(ln, x, y + lh * 0.04, {...o, size});
+        y += lh;
+      });
+    },
+    link(x, yy, w, h, url) { if (url) pages[pages.length - 1].links.push({x, y: yy, w, h, url}); },
+    rect(x, yy, w, h, r, fill) { ctx.fillStyle = fill; roundRect(ctx, x, yy, w, h, r); ctx.fill(); },
+    img(im, x, yy, w, h, r) {
+      if (!im || !im.width) { B.rect(x, yy, w, h, r, BK_C.soft); return; }
+      const s = Math.max(w / im.width, h / im.height), sw = w / s, sh = h / s;
+      ctx.save(); roundRect(ctx, x, yy, w, h, r); ctx.clip();
+      ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, x, yy, w, h); ctx.restore();
+    },
+    // заголовок раздела — не оставляем один внизу страницы
+    title(str, keep) { B.need((keep || 60) + 34); y += 4; B.text(str, {size: 16, weight: 800, head: true}); ctx.fillStyle = BK_C.sun; ctx.fillRect(M, y + 1, 34, 3); y += 14; },
+    sub(str, keep) { B.need((keep || 40) + 24); y += 10; B.text(str, {size: 12, weight: 800, head: true}); y += 3; }
+  };
+  return B;
+}
+function bookCover(B, v, plan, ims) {
+  const {W, M} = BK, ctx = B.ctx, CW = B.CW, r = rate(), {tot} = calc(v.route, v.per);
+  const route = v.route.order.map(cityName).join(" → ");
+  const dates = `${fmtD(v.start)} – ${fmtD(v.end)} · ${S.days} ${t("days")} · ${S.people} ${plural(S.people, t("bookPeople"))}`;
+  const url = shareUrl(), linkTx = `🔗 ${t("bookOpenLink")} ↗`;
+  // шапка в цветах приложения: ночной синий, бирюзовое кольцо и солнце; высота — по тексту
+  const HB = Math.max(196, 40 + 10.5 * 1.45 + 6 + B.height(t("bookTitle"), 30, 800, CW - 110, true) + 4 + B.height(route, 14, 700, CW - 70) + B.height(dates, 11, 400, CW - 70) +
+    (url ? 8 + B.height(linkTx, 10, 700, CW - 70) : 0) + 24);
+  ctx.fillStyle = BK_C.ink; ctx.fillRect(0, 0, W, HB);
+  ctx.strokeStyle = BK_C.sky; ctx.lineWidth = 34; ctx.beginPath(); ctx.arc(W - 22, 18, 70, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = BK_C.sun; ctx.beginPath(); ctx.arc(W - 128, 46, 10, 0, Math.PI * 2); ctx.fill();
+  B.y = 40;
+  B.text(CONTACT.brand.toUpperCase(), {size: 10.5, weight: 800, head: true, color: BK_C.sky});
+  B.y += 6;
+  B.text(t("bookTitle"), {size: 30, weight: 800, head: true, color: BK_C.white, w: CW - 110});
+  B.y += 4;
+  B.text(route, {size: 14, weight: 700, color: BK_C.white, w: CW - 70});
+  B.text(dates, {size: 11, color: "#CFE3EE", w: CW - 70});
+  if (url) { B.y += 8; B.text(linkTx, {size: 10, weight: 700, color: BK_C.sky, w: CW - 70, url}); }
+  // фото городов (до 6), подпись прямо на фото
+  B.y = HB + 18;
+  const ids = v.route.order.slice(0, 6), n = ids.length, cols = n === 1 ? 1 : n === 2 || n === 4 ? 2 : 3, rows = Math.ceil(n / cols), gap = 10;
+  const cw = (CW - gap * (cols - 1)) / cols, ch = n === 1 ? 220 : cols === 2 ? 150 : 108;
+  ids.forEach((id, i) => {
+    const x = M + (i % cols) * (cw + gap), yy = B.y + Math.floor(i / cols) * (ch + gap);
+    B.img(ims[CITIES[id].photoKey], x, yy, cw, ch, 10);
+    const g = ctx.createLinearGradient(0, yy + ch * 0.4, 0, yy + ch); g.addColorStop(0, "rgba(6,20,40,0)"); g.addColorStop(1, "rgba(6,20,40,.75)");
+    ctx.save(); roundRect(ctx, x, yy, cw, ch, 10); ctx.clip(); ctx.fillStyle = g; ctx.fillRect(x, yy, cw, ch); ctx.restore();
+    B.put(cityName(id), x + 10, yy + ch - 36, {size: 13, weight: 800, head: true, color: BK_C.white});
+    B.put(`${v.per[i]} ${t("daysShort")} · ${bkRange(plan.days.filter((d) => d.ci === i).map((d) => d.date))}`, x + 10, yy + ch - 18, {size: 9, weight: 600, color: "#E8F1F6"});
+  });
+  B.y += rows * (ch + gap) + 6;
+  // бюджет на одного
+  const bh = 58; B.need(bh + 30);
+  B.rect(M, B.y, CW, bh, 12, BK_C.soft);
+  B.put(t("totalLbl"), M + 14, B.y + 9, {size: 9, weight: 700, color: BK_C.deep});
+  B.put(money(tot[0], tot[1], "€"), M + 14, B.y + 24, {size: 20, weight: 800, head: true});
+  B.put(`≈ ${money(tot[0] * r.KZT, tot[1] * r.KZT, "₸")}`, M + CW - 14, B.y + 30, {size: 11, weight: 700, align: "right"});
+  B.y += bh + 4;
+  B.text(t("note"), {size: 8.5, color: BK_C.muted});
+  // маршрут: города, дни, переезды, обратный вылет
+  B.title("🧭 " + t("bookRoute"), 70);
+  v.route.order.forEach((id, i) => {
+    B.need(30);
+    B.text(`${cityIcon(id)}  ${cityName(id)} — ${v.per[i]} ${t("daysShort")} (${bkRange(plan.days.filter((d) => d.ci === i).map((d) => d.date))})`, {size: 11, weight: 700});
+    const l = v.route.legs[i];
+    if (l) B.text(`↓ ${MODE_ICON[l.mode] || "🚆"} ${fmtHours(l.h)}${Array.isArray(l.p) ? ` · ${t("fareFrom")} ${num(l.p[0])}–${num(l.p[1])} €` : ""}${l.via ? ` · ${L(l.via)}` : ""}`, {size: 9, color: BK_C.muted, x: M + 22});
+  });
+  B.y += 4;
+  B.text(`✈️ ${t("returnTitle")}: ${returnText(v.route)}`, {size: 9.5, color: BK_C.warn});
+}
+// одно место дня: превью, название (ссылка на карту), цена и часы, заметка, предупреждение о закрытии
+function bookSpot(B, s, cityId, date, ims) {
+  const {M} = BK, tw = 66, th = 44, x = M + tw + 10, w = B.CW - tw - 10;
+  const meta = [s.p !== undefined ? priceLabel(s, cityId) : "", s.h ? `~${num(s.h)} ${t("hours")}` : ""].filter(Boolean).join(" · ");
+  const cl = closureOn(s.w, date), note = s.note ? L(s.note) : "", warn = cl ? `${DL_ICON[cl.level]} ${cl.text}` : "";
+  const hTxt = B.height(L(s.n), 11, 700, w) + (meta ? 9 * 1.45 : 0) + (note ? B.height(note, 8.5, 400, w) : 0) + (warn ? B.height(warn, 8.5, 600, w) : 0);
+  B.need(Math.max(th, hTxt) + 8);
+  const top = B.y, url = mapsSearch(mapQ(s.w, cityId));
+  B.img(ims[s.w], M, top, tw, th, 6); B.link(M, top, tw, th, url);
+  B.text(L(s.n), {x, w, size: 11, weight: 700, url});
+  if (meta) B.text(meta, {x, w, size: 9, color: BK_C.muted});
+  if (note) B.text(note, {x, w, size: 8.5, color: BK_C.muted});
+  if (warn) B.text(warn, {x, w, size: 8.5, weight: 600, color: cl.level === "closed" ? BK_C.bad : BK_C.warn});
+  B.y = Math.max(B.y, top + th) + 8;
+}
+function bookDays(B, v, plan, ims) {
+  const {M} = BK, CW = B.CW, last = plan.days.length - 1;
+  // дни — с новой страницы; если обложка уже перелилась на вторую, продолжаем на ней
+  if (B.pages.length === 1) B.page(); else B.y += 10;
+  B.title("📅 " + t("bookDays"), 100);
+  plan.days.forEach(({cityId, ci, i, date, day}, n) => {
+    const c = CITIES[cityId];
+    B.need(112);
+    const hy = B.y;
+    B.rect(M, hy, CW, 26, 8, BK_C.soft);
+    B.put(`${S.lang === "kk" ? `${n + 1}-${t("day")}` : `${t("day")} ${n + 1}`} · ${c.icon} ${cityName(cityId)}`, M + 10, hy + 6, {size: 11.5, weight: 800, head: true});
+    B.put(fmtDate(date), M + CW - 10, hy + 7.5, {size: 9.5, weight: 700, color: BK_C.deep, align: "right"});
+    B.y = hy + 33;
+    if (i === 0 && ci > 0) {
+      const l = v.route.legs[ci - 1];
+      B.text(`${MODE_ICON[l.mode] || "🚆"} ${t("moveTo")}: ${cityName(v.route.order[ci - 1])} → ${cityName(cityId)} · ${fmtHours(l.h)}${l.via ? ` · ${L(l.via)}` : ""}`, {size: 9.5, weight: 600, color: BK_C.deep});
+      if (l.h >= 4) B.text(`⏳ ${tf("arriveNote", {h: fmtHours(l.h)})}`, {size: 8.5, color: BK_C.muted});
+      B.y += 3;
+    }
+    const notes = dayNotes(cityId, date);
+    notes.forEach((x) => B.text(`${x.icon} ${x.text}`, {size: 8.5, color: BK_C.warn}));
+    if (notes.length) B.y += 4;
+    if (day.trip) B.text(t("tripDay"), {size: 8.5, weight: 700, color: BK_C.muted});
+    const items = day.spots || (day.trip ? [day.trip] : []);
+    items.forEach((s) => bookSpot(B, s, cityId, date, ims));
+    if (!items.length) B.text(t("freeDay"), {size: 10, color: BK_C.muted});
+    // низ дня — одним блоком, чтобы строка не «оторвалась» на следующую страницу:
+    // маршрут на карте, намаз (время на этот день и ближайшая проверенная мечеть рядом с местами дня), обратный вылет
+    const foot = [], [la, ln] = c.center, tz = PR_TZ[c.country.en] || "Europe/Paris", p = prayerTimes(la, ln, date), nm = t("prNames"), near = prayerNear(cityId, day);
+    if (day.spots && day.spots.length > 1) foot.push([`🗺️ ${t("route")} ↗`, {size: 9, weight: 700, color: BK_C.deep, url: routeUrl(cityId, day.spots)}]);
+    foot.push([`🕌 ${["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"].map((k, j) => `${nm[j]} ${prClock(p[k], tz)}`).join(" · ")}`, {size: 8.5, color: BK_C.muted}]);
+    if (near && near.km <= PR_FAR_KM) foot.push([`${tf("bookMosque", {name: near.p.name, km: prKm(near.km)})} ↗`, {size: 8.5, color: BK_C.deep, x: M + 17, url: mapsSearch(near.p.name + ", " + near.p.addr)}]);
+    if (n === last) foot.push([`✈️ ${t("returnTitle")}: ${returnText(v.route)}`, {size: 9, color: BK_C.warn}]);
+    B.need(foot.reduce((h, [s, o]) => h + B.height(s, o.size, o.weight, o.x ? CW - (o.x - M) : CW), 0));
+    foot.forEach(([s, o]) => B.text(s, o));
+    B.y += 12;
+  });
+}
+function bookInfo(B, v, plan) {
+  const {M} = BK, ids = v.route.order, muted = {size: 8, color: BK_C.muted};
+  B.page(); B.title("ℹ️ " + t("bookInfo"), 80);
+  // погода в месяцы поездки и что взять
+  const pairs = [];
+  plan.days.forEach((x) => { if (!pairs.some(([id, m]) => id === x.cityId && m === x.date.getMonth())) pairs.push([x.cityId, x.date.getMonth()]); });
+  B.sub("🌤️ " + t("wxTripTitle"));
+  pairs.forEach(([id, m]) => { const w = CLIMATE[id]; if (w) B.text(`${cityIcon(id)} ${cityName(id)} · ${monthName(m)}: ${t("wxDay").toLocaleLowerCase(S.lang)} ${deg(w.hi[m])}, ${t("wxNight").toLocaleLowerCase(S.lang)} ${deg(w.lo[m])}${w.days ? ` · ☔ ${w.days[m]}` : ""}`, {size: 9.5}); });
+  B.y += 4; B.text(`🧳 ${t("wxPack")}:`, {size: 9.5, weight: 700});
+  packTips(pairs).forEach(([ic, k]) => B.text(`${ic} ${t(k)}`, {size: 9, x: M + 12}));
+  B.text(t("wxNote"), muted);
+  // где жить
+  if (ids.some((id) => STAY[id])) {
+    B.sub("🏨 " + t("stayTitle"));
+    ids.forEach((id) => {
+      const s = STAY[id]; if (!s) return;
+      B.need(46); B.text(`${cityIcon(id)} ${cityName(id)}`, {size: 10.5, weight: 800});
+      s.areas.forEach(([nm, tx]) => B.text(`📍 ${nm} — ${L(tx)}`, {size: 9, x: M + 12}));
+      if (s.warn) B.text(`⚠️ ${L(s.warn)}`, {size: 9, x: M + 12, color: BK_C.warn});
+    });
+    B.text(t("stayNote"), muted);
+  }
+  // посольства стран маршрута и 112
+  const countries = v.list.map((e) => e.key), embs = EMBASSIES.filter((e) => countries.includes(e.country));
+  B.sub("🏛️ " + t("sosEmbTitle"), 60);
+  B.text(`🆘 ${t("sos112")}. ${t("sos112Text")}`, {size: 9.5, weight: 700, color: BK_C.bad, url: "tel:112"});
+  embs.forEach((e) => {
+    B.need(64); B.y += 3;
+    B.text(L(e.name), {size: 10.5, weight: 800});
+    B.text(`📍 ${e.address}`, {size: 9, x: M + 12, url: mapsSearch(e.address)});
+    e.phones.forEach(([k, nb, ext]) => B.text(`📞 ${t("sosPhone")[k]}: ${nb}${ext ? ` (${t("sosExt")} ${ext})` : ""}`, {size: 9, x: M + 12, url: telHref(nb)}));
+    if (e.email) B.text(`✉️ ${e.email}`, {size: 9, x: M + 12, url: "mailto:" + e.email});
+  });
+  B.text(tf("sosChecked", {d: EMBASSIES_CHECKED}), muted);
+  // намаз: места и правила в пути (с источником)
+  const places = ids.flatMap((id) => PRAYER[id] || []);
+  B.sub("🕌 " + t("prTitle"), 50);
+  places.forEach((p) => {
+    B.need(34);
+    B.text(p.type === "airport" ? `✈️ ${p.name}` : `🕌 ${p.name} — ${p.addr}`, {size: 9.5, weight: 700, url: mapsSearch(p.type === "airport" ? p.addr : p.name + ", " + p.addr)});
+    B.text(L(p.note), {size: 8.5, color: BK_C.muted, x: M + 17});
+  });
+  if (!places.length) B.text(t("prNone"), {size: 9});
+  B.y += 4; B.text(t("prTravelTitle") + ":", {size: 9.5, weight: 700});
+  t("prTravel").forEach((x) => B.text("• " + x, {size: 8.5, x: M + 8}));
+  B.text(`${t("prTravelSrc")} ↗`, {size: 8, color: BK_C.deep, url: "https://www.muftyat.kz/kk/qa/namaz/2022-08-01/40134-zholaushy-adam-namazdy-kalai-okidy/"});
+  // связь с агентством
+  B.sub("💬 " + t("bookContacts"), 70);
+  const url = shareUrl();
+  if (url) B.text(`🔗 ${t("bookOpenLink")} ↗`, {size: 10.5, weight: 700, color: BK_C.deep, url});
+  B.text(`WhatsApp: ${CONTACT.whatsappLabel}`, {size: 10.5, url: `https://wa.me/${CONTACT.whatsapp}`});
+  B.text(`Telegram: @${CONTACT.telegram}`, {size: 10.5, url: tgUrl()});
+  B.text(CONTACT.site.replace(/^https?:\/\//, "").replace(/\/$/, ""), {size: 9.5, color: BK_C.deep, url: CONTACT.site});
+  B.y += 8;
+  B.text(tf("bookDisclaimer", {d: DATES_CHECKED}), muted);
+  B.text(tf("bookPrepared", {d: fmtD(new Date())}), muted);
+}
+function bookFooters(B) {
+  const {W, H, M} = BK, n = B.pages.length;
+  B.pages.forEach((p, i) => {
+    const ctx = p.ctx;
+    ctx.fillStyle = BK_C.line; ctx.fillRect(M, H - BK.FOOT - 4, W - 2 * M, 0.8);
+    ctx.font = `600 8px ${BK_FONT}`; ctx.fillStyle = BK_C.muted;
+    ctx.fillText(`${CONTACT.brand} · ${t("bookTitle")}`, M, H - BK.FOOT + 10);
+    const s = `${i + 1} / ${n}`; ctx.fillText(s, W - M - ctx.measureText(s).width, H - BK.FOOT + 10);
+  });
+}
+// PDF из страниц-картинок: на страницу — JPEG во весь лист и кликабельные области ссылок
+const pdfLit = (s) => "(" + String(s).replace(/[^\x20-\x7E]/g, (c) => encodeURIComponent(c)).replace(/[\\()]/g, "\\$&") + ")";
+const pdfUtf16 = (s) => "<FEFF" + Array.from({length: s.length}, (_, i) => s.charCodeAt(i).toString(16).padStart(4, "0")).join("").toUpperCase() + ">";
+async function pdfFromPages(pages, title) {
+  const jpgs = await Promise.all(pages.map((p) => new Promise((res, rej) => p.cv.toBlob((b) => (b ? res(b) : rej(new Error("jpeg"))), "image/jpeg", 0.85))
+    .then((b) => b.arrayBuffer()).then((a) => new Uint8Array(a))));
+  const objs = [], add = (o) => objs.push(o), f = (x) => String(Math.round(x * 100) / 100); // add → номер объекта (с 1)
+  const catalog = add(null), root = add(null), info = add(`<< /Title ${pdfUtf16(title)} /Producer (${CONTACT.brand}) >>`), kids = [];
+  pages.forEach((p, i) => {
+    const im = add([`<< /Type /XObject /Subtype /Image /Width ${p.cv.width} /Height ${p.cv.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpgs[i].length} >>\nstream\n`, jpgs[i], "\nendstream"]);
+    const cs = `q ${BK.W} 0 0 ${BK.H} 0 0 cm /Pg Do Q`, ct = add(`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`);
+    const an = p.links.map((l) => add(`<< /Type /Annot /Subtype /Link /Rect [${f(l.x)} ${f(BK.H - l.y - l.h)} ${f(l.x + l.w)} ${f(BK.H - l.y)}] /Border [0 0 0] /A << /S /URI /URI ${pdfLit(l.url)} >> >>`));
+    kids.push(add(`<< /Type /Page /Parent ${root} 0 R /MediaBox [0 0 ${BK.W} ${BK.H}] /Resources << /XObject << /Pg ${im} 0 R >> >> /Contents ${ct} 0 R${an.length ? ` /Annots [${an.map((x) => x + " 0 R").join(" ")}]` : ""} >>`));
+  });
+  objs[catalog - 1] = `<< /Type /Catalog /Pages ${root} 0 R >>`;
+  objs[root - 1] = `<< /Type /Pages /Kids [${kids.map((x) => x + " 0 R").join(" ")}] /Count ${kids.length} >>`;
+  const enc = new TextEncoder(), parts = [], offs = [];
+  let len = 0;
+  const put = (x) => { const b = typeof x === "string" ? enc.encode(x) : x; parts.push(b); len += b.length; };
+  put("%PDF-1.4\n"); put(new Uint8Array([37, 226, 227, 207, 211, 10])); // «двоичная» строка-комментарий по стандарту
+  objs.forEach((o, i) => { offs.push(len); put(`${i + 1} 0 obj\n`); (Array.isArray(o) ? o : [o]).forEach(put); put("\nendobj\n"); });
+  const xref = len;
+  put(`xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${offs.map((o) => String(o).padStart(10, "0") + " 00000 n \n").join("")}trailer\n<< /Size ${objs.length + 1} /Root ${catalog} 0 R /Info ${info} 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  return new Blob(parts, {type: "application/pdf"});
+}
+async function makeBookPdf() {
+  const v = visaTrip(); if (!v || S.tier === null || !S.style) return null;
+  const plan = planTrip(v.route, v.per, v.start), ims = {}, keys = new Set(v.route.order.map((id) => CITIES[id].photoKey));
+  plan.days.forEach(({day}) => dayItems(day).forEach((k) => keys.add(k)));
+  await Promise.all([...keys].map(async (k) => { const th = THUMB(k); if (th) { try { ims[k] = await loadImage(th); } catch (e) {} } }));
+  if (document.fonts && document.fonts.load) { // веб-шрифты приложения, если уже загружены; без интернета — шрифт телефона
+    const tx = t("bookTitle") + " Әә Ққ";
+    try { await Promise.race([Promise.all(["800 20px Montserrat", "400 10px Manrope", "600 10px Manrope", "700 10px Manrope", "800 10px Manrope"].map((f) => document.fonts.load(f, tx))), new Promise((r) => setTimeout(r, 2000))]); } catch (e) {}
+  }
+  const B = bookWriter(); B.page();
+  bookCover(B, v, plan, ims); bookDays(B, v, plan, ims); bookInfo(B, v, plan); bookFooters(B);
+  return pdfFromPages(B.pages, `${CONTACT.brand} — ${t("bookTitle")}: ${v.route.order.map(cityName).join(" → ")}`);
+}
+/* Сохранение: iPhone и Telegram — меню «Поделиться» (там «Сохранить в Файлы», WhatsApp, Telegram); компьютер и Android — скачивание.
+   Меню «Поделиться» открывается только сразу после нажатия, а кітапша готовится 1–2 с, поэтому там готовый файл
+   держим в памяти и просим нажать кнопку ещё раз. В Telegram без «Поделиться» — открываем тот же план в браузере. */
+let bookCache = null;
+const bookKey = () => tripCode() + "|" + S.lang;
+const bookReadyNow = () => !!(bookCache && bookCache.key === bookKey() && (isIOS || tg));
+const canShareFiles = () => { try { return !!(navigator.canShare && navigator.canShare({files: [new File(["x"], "x.pdf", {type: "application/pdf"})]})); } catch (e) { return false; } };
+function bookInBrowser() { const u = shareUrl(); if (u && openExternal(u + "&book=1")) { toast(t("bookTgOpen")); return true; } return false; }
+async function deliverPdf(blob, name, doneMsg) {
+  let file = null; try { file = new File([blob], name, {type: "application/pdf"}); } catch (e) {}
+  if (file && (isIOS || tg) && navigator.canShare && navigator.canShare({files: [file]})) {
+    try { await navigator.share({files: [file]}); return; } catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  if (tg && bookInBrowser()) return;
+  downloadBlob(blob, name); toast(doneMsg);
+}
+async function bookPdf(btn) {
+  if (bookPdf.busy) return;
+  const key = bookKey();
+  if (bookCache && bookCache.key === key) { await deliverPdf(bookCache.blob, bookCache.name, t("bookDone")); return; }
+  if (tg && !canShareFiles() && bookInBrowser()) return;
+  bookPdf.busy = true;
+  if (btn) { btn.disabled = true; btn.innerHTML = "⏳ " + t("bookMaking"); }
+  try {
+    const blob = await makeBookPdf(); if (!blob) { toast(t("visaNeedPlan")); return; }
+    const names = visaTrip().route.order.map((id) => CITIES[id].name.en.replace(/[^A-Za-z]/g, "")).join("-");
+    bookCache = {key, blob, name: `Qazir-Travel-${names}-${S.start}.pdf`};
+    if (isIOS || tg) { toast(t("bookReadyHint")); return; }
+    await deliverPdf(blob, bookCache.name, t("bookDone"));
+  } catch (e) { toast(t("bookFail")); }
+  finally {
+    bookPdf.busy = false;
+    if (btn && btn.isConnected) { btn.disabled = false; btn.innerHTML = "📘 " + t(bookReadyNow() ? "bookReady" : "bookBtn"); }
+  }
+}
+
 /* ---------- Установка на телефон (PWA) ---------- */
 let installEvt = null;
 const isStandalone = () => (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
@@ -6889,6 +7337,8 @@ document.addEventListener("click", (e) => {
   if (b.hasAttribute("data-visa-tg")) { copyText(visaMessage(), null, null); toast(t("visaTgCopied")); if (!openExternal(tgUrl())) window.open(tgUrl(), "_blank", "noopener"); return; }
   if (b.hasAttribute("data-visa-pdf")) { visaPdf(); return; }
   if (b.hasAttribute("data-visa-copy")) { copyText(itineraryText(), b, null); return; }
+  if (b.hasAttribute("data-share-link")) { haptic(); shareTrip(b); return; }
+  if (b.hasAttribute("data-book-pdf")) { haptic(); b.classList.remove("pulse"); bookPdf(b); return; }
   if (b.hasAttribute("data-install")) { if (installEvt) { installEvt.prompt(); installEvt = null; } renderInstall(); return; }
   if (b.hasAttribute("data-install-hide")) { store.set("instHidden", true); renderInstall(); return; }
   if (b.dataset.cvCur) { S.cv.cur = b.dataset.cvCur; store.set("cvCur", S.cv.cur); haptic(); renderTrip(); return; }
@@ -6947,7 +7397,8 @@ async function loadRate() {
 
 // для тестов и отладки (console): window.QZ.optimizeRoute(["vienna","rome"], "vienna", null)
 window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob,
-  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip, prayerTimes, qiblaDeg, prayerNear, renderPrayer};
+  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip, prayerTimes, qiblaDeg, prayerNear, renderPrayer,
+  TRIP_CODE, tripCode, parseTripCode, shareUrl, tripMessage, makeBookPdf};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
 // тема: синхронизируем цвет шапки браузера/Telegram; пока клиент сам не выбрал — следуем за телефоном и Telegram
 setTheme(curTheme(), false);
@@ -6958,8 +7409,18 @@ try {
 if (tg && tg.initData) { try { tg.onEvent("themeChanged", () => { if (store.get("theme", null) === null) setTheme(tg.colorScheme === "dark" ? "dark" : "light", false); }); } catch (e) {} }
 // офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+// присланная ссылка на маршрут (#trip=…): сразу открываем этот план на странице результата
+const incoming = applyIncomingTrip();
+function firstRender() {
+  render();
+  if (!incoming) return;
+  toast(t("shareOpened"));
+  // пришли из Telegram за PDF (…&book=1): подсвечиваем кнопку кітапшы
+  const b = incoming.book && $("[data-book-pdf]");
+  if (b) { b.scrollIntoView({block: "center"}); b.classList.add("pulse"); toast(t("bookTapHint")); }
+}
 // первый рендер — когда весь файл прочитан: к этому моменту блок встроенных превью THUMBS уже загружен
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render); else render();
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", firstRender); else firstRender();
 loadRate();
 </script>
 <!-- Встроенные превью фото (WebP 420×280 для обложек и 240×160 для миниатюр), сгенерированы из Wikimedia Commons.
