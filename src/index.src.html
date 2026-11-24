@@ -678,7 +678,31 @@ const TRAVEL = {
   "florence|vienna": {h: 4.5, mode: "flight", p: null, via: V("FLR → VIE ~1 сағ 30 мин (Austrian) — кестені тексеріңіз", "FLR → VIE ~1 ч 30 мин (Austrian) — проверьте расписание", "FLR → VIE ~1 h 30 min (Austrian) — check the schedule")},
   "florence|paris": {h: 4.75, mode: "flight", p: [30, 130], via: V("FLR/PSA → CDG/ORY ~1 сағ 50 мин", "FLR/PSA → CDG/ORY ~1 ч 50 мин", "FLR/PSA → CDG/ORY ~1 h 50 min")},
   "florence|budapest": {h: 5.5, mode: "flight", p: null, via: V("Тікелей рейс расталмады — Пиза (PSA) немесе Болонья (BLQ) арқылы", "Прямой рейс не подтверждён — через Пизу (PSA) или Болонью (BLQ)", "No confirmed direct flight — via Pisa (PSA) or Bologna (BLQ)")},
-  "florence|prague": {h: 4.75, mode: "flight", p: [63, 130], via: V("FLR/PSA → PRG ~1 сағ 40 мин (Smartwings, Volotea — кестені тексеріңіз)", "FLR/PSA → PRG ~1 ч 40 мин (Smartwings, Volotea — проверьте расписание)", "FLR/PSA → PRG ~1 h 40 min (Smartwings, Volotea — check the schedule)")}
+  "florence|prague": {h: 4.75, mode: "flight", p: [63, 130], via: V("FLR/PSA → PRG ~1 сағ 40 мин (Smartwings, Volotea — кестені тексеріңіз)", "FLR/PSA → PRG ~1 ч 40 мин (Smartwings, Volotea — проверьте расписание)", "FLR/PSA → PRG ~1 h 40 min (Smartwings, Volotea — check the schedule)")},
+  // Мюнхен (ноябрь 2026): поезда ÖBB/DB/ČD, «от» — агрегаторы и сайты перевозчиков (railpassguide, seat61, Bahnpedia, Google Flights);
+  // «типично» — оценка. Где цену не нашли — null (не выдумываем).
+  "munich|vienna": {h: 4.0, mode: "train", p: [19, 60], via: V("ÖBB Railjet, тікелей пойыз ~4 сағ, München Hbf → Wien Hbf", "ÖBB Railjet, прямой поезд ~4 ч, München Hbf → Wien Hbf", "ÖBB Railjet direct ~4 h, München Hbf → Wien Hbf")},
+  "munich|prague": {h: 5.75, mode: "train", p: [16, 45], via: V("EuroCity, тікелей пойыз ~5 сағ 40 мин, München Hbf → Praha hl.n.", "EuroCity, прямой поезд ~5 ч 40 мин, München Hbf → Praha hl.n.", "EuroCity direct ~5 h 40 min, München Hbf → Praha hl.n.")},
+  "munich|budapest": {h: 7.0, mode: "train", p: null, via: V("ÖBB Railjet ~6 сағ 45 мин (Вена арқылы)", "ÖBB Railjet ~6 ч 45 мин (через Вену)", "ÖBB Railjet ~6 h 45 min (via Vienna)")},
+  "munich|venice": {h: 6.75, mode: "train", p: [25, 90], via: V("ÖBB EuroCity ~6,5–7 сағ, Бреннер асуы арқылы", "ÖBB EuroCity ~6,5–7 ч, через перевал Бреннер", "ÖBB EuroCity ~6.5–7 h over the Brenner Pass")},
+  "munich|milan": {h: 4.0, mode: "flight", p: null, via: V("MUC → MXP/LIN ~1 сағ 10 мин", "MUC → MXP/LIN ~1 ч 10 мин", "MUC → MXP/LIN ~1 h 10 min")},
+  "munich|como": {h: 5.5, mode: "mixed", p: null, via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  "munich|lugano": {h: 6.0, mode: "mixed", p: null, via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
+  "munich|rome": {h: 4.5, mode: "flight", p: [50, 150], via: V("MUC → FCO ~1 сағ 30 мин (easyJet, ITA, Lufthansa)", "MUC → FCO ~1 ч 30 мин (easyJet, ITA, Lufthansa)", "MUC → FCO ~1 h 30 min (easyJet, ITA, Lufthansa)")},
+  "munich|paris": {h: 4.5, mode: "flight", p: null, via: V("MUC → CDG ~1 сағ 30 мин", "MUC → CDG ~1 ч 30 мин", "MUC → CDG ~1 h 30 min")},
+  "munich|florence": {h: 4.0, mode: "flight", p: null, via: V("MUC → FLR ~1 сағ 15 мин (Lufthansa) — кестені тексеріңіз", "MUC → FLR ~1 ч 15 мин (Lufthansa) — проверьте расписание", "MUC → FLR ~1 h 15 min (Lufthansa) — check the schedule")},
+  "munich|barcelona": {h: 5.0, mode: "flight", p: null, via: V("MUC → BCN ~2 сағ", "MUC → BCN ~2 ч", "MUC → BCN ~2 h")},
+  // Барселона (ноябрь 2026): все направления — перелёты (Vueling, Ryanair и др.), «от» — сайты авиакомпаний и Google Flights/Kayak; «типично» — оценка.
+  "barcelona|paris": {h: 4.75, mode: "flight", p: null, via: V("BCN → ORY/CDG ~1 сағ 50 мин", "BCN → ORY/CDG ~1 ч 50 мин", "BCN → ORY/CDG ~1 h 50 min"), alt: {h: 6.75, mode: "train", p: [39, 110], via: V("TGV INOUI, тікелей пойыз ~6 сағ 40 мин (күніне 1–2 рейс)", "TGV INOUI, прямой поезд ~6 ч 40 мин (1–2 рейса в день)", "TGV INOUI direct ~6 h 40 min (1–2 a day)")}},
+  "barcelona|rome": {h: 4.75, mode: "flight", p: [20, 150], via: V("BCN → FCO ~1 сағ 50 мин (Vueling, Ryanair)", "BCN → FCO ~1 ч 50 мин (Vueling, Ryanair)", "BCN → FCO ~1 h 50 min (Vueling, Ryanair)")},
+  "barcelona|milan": {h: 4.5, mode: "flight", p: [16, 110], via: V("BCN → MXP/LIN/BGY ~1 сағ 40 мин (Vueling, Ryanair)", "BCN → MXP/LIN/BGY ~1 ч 40 мин (Vueling, Ryanair)", "BCN → MXP/LIN/BGY ~1 h 40 min (Vueling, Ryanair)")},
+  "barcelona|venice": {h: 4.5, mode: "flight", p: [14, 100], via: V("BCN → VCE/TSF ~1 сағ 50 мин (Vueling, Ryanair)", "BCN → VCE/TSF ~1 ч 50 мин (Vueling, Ryanair)", "BCN → VCE/TSF ~1 h 50 min (Vueling, Ryanair)")},
+  "barcelona|vienna": {h: 5.0, mode: "flight", p: [30, 180], via: V("BCN → VIE ~2 сағ 30 мин (Vueling, Austrian)", "BCN → VIE ~2 ч 30 мин (Vueling, Austrian)", "BCN → VIE ~2 h 30 min (Vueling, Austrian)")},
+  "barcelona|prague": {h: 5.0, mode: "flight", p: null, via: V("BCN → PRG ~2 сағ 30 мин", "BCN → PRG ~2 ч 30 мин", "BCN → PRG ~2 h 30 min")},
+  "barcelona|budapest": {h: 5.25, mode: "flight", p: null, via: V("BCN → BUD ~2 сағ 45 мин", "BCN → BUD ~2 ч 45 мин", "BCN → BUD ~2 h 45 min")},
+  "barcelona|florence": {h: 4.75, mode: "flight", p: null, via: V("BCN → FLR немесе Пиза (PSA) ~1 сағ 40 мин — кестені тексеріңіз", "BCN → FLR или Пиза (PSA) ~1 ч 40 мин — проверьте расписание", "BCN → FLR or Pisa (PSA) ~1 h 40 min — check the schedule")},
+  "barcelona|como": {h: 5.5, mode: "mixed", p: null, via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  "barcelona|lugano": {h: 6.0, mode: "mixed", p: null, via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")}
 };
 
 /* 4. ОБРАТНЫЙ ВЫЛЕТ В КАЗАХСТАН.
@@ -703,7 +727,9 @@ const RETURN_FLIGHTS = {
     como:   {airport: "MXP", toAirportMin: 75, returnHours: 13,   via: ["IST", "FRA"],        direct: false, note: V("Мальпенсаға пойыз/автобуспен ~1 сағ 15 мин", "до Мальпенсы ~1 ч 15 мин поездом/автобусом", "~1 h 15 min to Malpensa by train/bus")},
     lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")},
     budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("Тікелей рейс 2026 жылы расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "Прямой рейс в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "No direct flight confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
-    prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT, Прага → Астана, аптасына 2–4 рет (маусымға байланысты)", "SCAT, Прага → Астана, 2–4 раза в неделю (зависит от сезона)", "SCAT, Prague → Astana, 2–4 times a week (seasonal)")}
+    prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT, Прага → Астана, аптасына 2–4 рет (маусымға байланысты)", "SCAT, Прага → Астана, 2–4 раза в неделю (зависит от сезона)", "SCAT, Prague → Astana, 2–4 times a week (seasonal)")},
+    munich: {airport: "MUC", toAirportMin: 45, returnHours: 11, via: ["IST", "FRA"], direct: false, note: V("Әуежайға S1/S8 ~40 мин (5-аймаққа дейін билет). Қазақстанға тікелей рейс жоқ — Стамбұл немесе Франкфурт арқылы", "До аэропорта S1/S8 ~40 мин (билет до зоны 5). Прямых рейсов в Казахстан нет — через Стамбул или Франкфурт", "S1/S8 to the airport ~40 min (ticket to zone 5). No direct flights to Kazakhstan — via Istanbul or Frankfurt")},
+    barcelona: {airport: "BCN", toAirportMin: 35, returnHours: 12.5, via: ["IST", "FRA"], direct: false, note: V("Әуежайға Aerobús ~35 мин немесе L9 Sud метросы. Air Astana-ның Алматы–Барселона рейсі туралы хабар болған, бірақ 2026 жылға расталмады — кестені тексеріңіз", "До аэропорта Aerobús ~35 мин или метро L9 Sud. О рейсе Air Astana Алматы–Барселона сообщали, но на 2026 год он не подтверждён — проверьте расписание", "Aerobús ~35 min or metro L9 Sud to the airport. An Air Astana Almaty–Barcelona route was reported but isn't confirmed for 2026 — check the schedule")}
   }
 };
 
@@ -3261,6 +3287,472 @@ const CITIES = {
       ]
     },
     eatSources: ["https://spinach.guide/cities/prague/fully-vegan/", "https://www.zabihah.com/restaurants/ca4eb7b4-7767-11ef-95ae-6045bdeb9f57/hanedan-prague-hlavn-msto-praha"]
+  },
+  // Мюнхен (добавлен 2026-11-24). Цены билетов — официальные сайты (Deutsches Museum, Pinakotheken, BMW, Schlösserverwaltung);
+  // проезд MVV — тарифы с 01.01.2026; средний чек — оценка (Numbeo и др.).
+  munich: {
+    icon: "🥨",
+    flag: "🇩🇪",
+    country: {kk: "Германия", ru: "Германия", en: "Germany"},
+    lang: "de",
+    currency: "EUR",
+    weight: 2.3,
+    name: {kk: "Мюнхен", ru: "Мюнхен", en: "Munich"},
+    center: [48.1374, 11.5755],
+    airport: "MUC",
+    photoKey: "Munich",
+    history: {kk: "Мюнхен туралы алғашқы құжат 1158 жылғы: сол жылы герцог Генрих Арыстан Изар өзені арқылы өтетін тұз жолына көпір мен базар салдырды. 1255 жылдан 1918 жылға дейін мұнда Виттельсбахтар әулеті билік құрды — алдымен герцогтар, кейін курфюрстер мен Бавария корольдері. 1972 жылы Мюнхен жазғы Олимпиада ойындарын өткізді.", ru: "Первое упоминание Мюнхена — 1158 год: тогда герцог Генрих Лев поставил мост и рынок на соляном пути через Изар. С 1255 по 1918 год здесь правили Виттельсбахи — сначала герцоги, затем курфюрсты и короли Баварии. В 1972 году Мюнхен принимал летние Олимпийские игры.", en: "Munich is first recorded in 1158, when Duke Henry the Lion set up a bridge and market on the salt road across the Isar. From 1255 to 1918 the Wittelsbach dynasty ruled from here — first as dukes, then as electors and kings of Bavaria. In 1972 Munich hosted the Summer Olympics."},
+    fact: {kk: "Қала атауы ескі неміс тіліндегі «монахтардың жанында» деген сөзден шыққан. Сондықтан Мюнхеннің елтаңбасында монах бейнеленген — оны «Мюнхен баласы» (Münchner Kindl) деп атайды.", ru: "Название города происходит от древненемецкого «у монахов». Поэтому на гербе Мюнхена изображён монах — его называют «мюнхенским дитя» (Münchner Kindl).", en: "The city's name comes from Old High German for 'by the monks' — which is why a monk, the 'Münchner Kindl', appears on Munich's coat of arms."},
+    historySource: "https://en.wikipedia.org/wiki/History_of_Munich",
+    stay: [[35, 55], [65, 100], [110, 180], [200, 340], [420, 850]],
+    food: [[18, 28], [28, 45], [45, 70], [80, 130], [160, 320]],
+    day: [4, 9],
+    activity: [[0, 10], [15, 30], [30, 55], [55, 100], [100, 220]],
+    transport: {kk: "Орталық негізінен M аймағында: бір рет жүру 4,20 € (2026 жылдың 1 қаңтарынан). Он жолақты Streifenkarte 18,70 € — M аймағында бір сапар шамамен 1,87 €-ға түседі. Әуежай 5-аймақта: S1 немесе S8 S-Bahn пойызымен орталыққа ~40 мин, билетті 5-аймаққа дейін алыңыз. Deutschlandticket та жарамды.", ru: "Центр почти весь в зоне M: разовая поездка 4,20 € (с 1 января 2026). Полосатая карта Streifenkarte — 18,70 €, поездка по зоне M выходит примерно в 1,87 €. Аэропорт в зоне 5: электричка S1 или S8 до центра ~40 мин, билет берите до зоны 5. Deutschlandticket тоже действует.", en: "The centre is almost all in zone M: a single ride is €4.20 (from 1 January 2026). A Streifenkarte strip card is €18.70, so a zone-M ride works out at about €1.87. The airport is in zone 5: S-Bahn S1 or S8 takes ~40 min to the centre — buy a ticket valid to zone 5. The Deutschlandticket is valid too."},
+    source: "https://www.nachrichten-muenchen.com/neue-fahrpreise-im-mvv-zum-01-01-2026/220031/",
+    prices: {
+      currency: "EUR",
+      checked: "2026-11",
+      confidence: "estimate",
+      items: {coffee: [3.5, 4.5], breakfast: [7, 13], pizzaPasta: [12, 18], lunchCheap: [13, 20], dinnerMid: [35, 55]},
+      notes: {
+        lunchCheap: {kk: "Жұмыс күндері түскі мәзір (Mittagsmenü) немесе базардағы дүңгіршек", ru: "Обеденное меню в будни (Mittagsmenü) или прилавок на рынке", en: "Weekday lunch menu (Mittagsmenü) or a market stall"},
+        dinnerMid: {kk: "Бавар асханасы бар мейрамханада бір адамға", ru: "На человека в ресторане баварской кухни", en: "Per person at a Bavarian restaurant"}
+      },
+      source: "https://www.expatica.com/de/cost-of-living/munich/"
+    },
+    shops: ["REWE", "Edeka", "Aldi", "Lidl", "dm"],
+    spots: [
+      {
+        w: "Marienplatz",
+        n: {kk: "Мариенплац алаңы және Глокеншпиль", ru: "Мариенплац и Глокеншпиль", en: "Marienplatz and the Glockenspiel"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [48.1374, 11.5755],
+        note: {kk: "Глокеншпиль күн сайын 11:00 және 12:00-де, наурыз–қазан айларында 17:00-де де ойнайды", ru: "Глокеншпиль играет ежедневно в 11:00 и 12:00, с марта по октябрь — ещё в 17:00", en: "The Glockenspiel plays daily at 11:00 and 12:00, and also at 17:00 from March to October"},
+        storyId: "munich-marienplatz",
+        tagline: {kk: "Мюнхеннің бас алаңы және билейтін қуыршақтар", ru: "Главная площадь Мюнхена и танцующие фигуры", en: "Munich's main square and its dancing figures"},
+        history: {kk: "Алаң қала құрылғаннан бері оның орталығы: мұнда базар мен сайыстар өткен. 1638 жылы алаңға Мария бағанасы қойылды, ал 1854 жылы алаң соның құрметіне Мариенплац деп аталды. Алаңдағы жаңа ратуша 1867–1908 жылдары неоготика стилінде салынды.", ru: "Площадь — центр города с момента его основания: здесь шли рынки и турниры. В 1638 году на ней поставили Мариинскую колонну, а в 1854 году площадь назвали в её честь Мариенплац. Новая ратуша на площади построена в 1867–1908 годах в неоготическом стиле.", en: "The square has been the city's centre since its founding, home to markets and tournaments. The Column of St Mary was raised here in 1638, and in 1854 the square was renamed Marienplatz after it. The neo-Gothic New Town Hall was built in 1867–1908."},
+        fact: {kk: "Ратуша мұнарасындағы Глокеншпиль 1908 жылдан бері ойнайды: 43 қоңырау мен 32 адам бойындай мүсін 1568 жылғы герцог Вильгельм V-тің үйлену тойын және бөшкешілердің биін көрсетеді.", ru: "Глокеншпиль на башне ратуши играет с 1908 года: 43 колокола и 32 фигуры в человеческий рост показывают свадьбу герцога Вильгельма V в 1568 году и танец бондарей.", en: "The Glockenspiel in the town-hall tower has played since 1908: 43 bells and 32 life-size figures re-enact Duke Wilhelm V's wedding of 1568 and the coopers' dance."},
+        tip: {kk: "Глокеншпильге 10–15 минут бұрын келіңіз — алаң тез толады. Қасиетті Жұмада қоңыраулар ойнамайды.", ru: "Приходите к Глокеншпилю за 10–15 минут — площадь быстро заполняется. В Страстную пятницу колокола молчат.", en: "Arrive 10–15 minutes before the Glockenspiel — the square fills fast. It stays silent on Good Friday."},
+        source: "https://www.muenchen.de/en/sights/munich-glockenspiel"
+      },
+      {
+        w: "Frauenkirche, Munich",
+        n: {kk: "Фрауэнкирхе соборы", ru: "Собор Фрауэнкирхе", en: "Frauenkirche (Cathedral of Our Dear Lady)"},
+        h: 0.75,
+        p: 0,
+        tag: "c",
+        ll: [48.1386, 11.5736],
+        storyId: "munich-frauenkirche",
+        tagline: {kk: "Қаланың символы — «пияз» күмбезді егіз мұнара", ru: "Символ города — две башни с «луковичными» куполами", en: "The city's symbol: twin towers with onion domes"},
+        history: {kk: "Готикалық собор 1468–1488 жылдары кірпіштен салынды. Мұнаралардың дөңгелек күмбездері 1525 жылы қосылды. Бүгінде бұл Мюнхен мен Фрайзинг архиепархиясының соборы.", ru: "Готический собор построили из кирпича в 1468–1488 годах. Круглые купола башен добавили в 1525 году. Сегодня это кафедральный собор архиепархии Мюнхена и Фрайзинга.", en: "The Gothic brick cathedral was built in 1468–1488; the rounded domes were added to its towers in 1525. It is the cathedral of the Archdiocese of Munich and Freising."},
+        fact: {kk: "Кіреберістегі еденде «Ібілістің ізі» (Teufelstritt) бар. Аңыз бойынша ібіліс шіркеуді терезесіз деп ойлап, қуанып аяғын тепкен — сол нүктеден шынымен де бүйір терезелер көрінбейді.", ru: "В полу у входа — «След дьявола» (Teufelstritt). По легенде, дьявол решил, что церковь без окон, и в восторге топнул — с этой точки боковых окон действительно не видно.", en: "In the entrance hall is the 'Devil's Footstep' (Teufelstritt). Legend says the devil thought the church had no windows and stamped in glee — from that spot the side windows really are hidden."},
+        tip: {kk: "Кіру тегін. Құдайға құлшылық кезінде тыныштық сақтап, суретке түсірмеңіз.", ru: "Вход бесплатный. Во время службы соблюдайте тишину и не фотографируйте.", en: "Entry is free. Keep quiet and don't take photos during services."},
+        source: "https://en.wikipedia.org/wiki/Frauenkirche,_Munich"
+      },
+      {
+        w: "Munich Residenz",
+        n: {kk: "Мюнхен резиденциясы: Бавария корольдерінің сарайы", ru: "Мюнхенская резиденция: дворец баварских королей", en: "Munich Residenz: palace of the Bavarian kings"},
+        h: 2.5,
+        p: 10,
+        tag: "c",
+        ll: [48.1411, 11.5786],
+        note: {kk: "Резиденция мұражайы 10 €, Қазынамен бірге 15 €; 18 жасқа дейін тегін; Hofgarten бағы тегін", ru: "Музей Резиденции 10 €, вместе с Сокровищницей 15 €; до 18 лет бесплатно; сад Хофгартен бесплатный", en: "Residenz Museum €10, €15 with the Treasury; free under 18; the Hofgarten is free"},
+        storyId: "munich-residenz",
+        tagline: {kk: "400 жыл бойы Бавария билеушілері тұрған сарай", ru: "Дворец, где 400 лет жили правители Баварии", en: "Home of Bavaria's rulers for 400 years"},
+        history: {kk: "1508 жылдан 1918 жылға дейін Резиденция Бавария герцогтарының, курфюрстерінің және корольдерінің мекені әрі үкімет орны болды. Сарай ғасырлар бойы кеңейіп, Германиядағы ең үлкен қалалық сарайлардың біріне айналды. Екінші дүниежүзілік соғыста қатты қираған соң қалпына келтірілді.", ru: "С 1508 по 1918 год Резиденция была домом и местом правления герцогов, курфюрстов и королей Баварии. Веками дворец разрастался и стал одним из крупнейших городских дворцов Германии. После тяжёлых разрушений во Второй мировой войне его восстановили.", en: "From 1508 to 1918 the Residenz was the seat and home of Bavaria's dukes, electors and kings. Growing over the centuries into one of Germany's largest city palaces, it was rebuilt after heavy damage in the Second World War."},
+        fact: {kk: "Антиквариум залы (1568–1571) герцог Альбрехт V-тің антикалық мүсіндер жинағына арнап салынған. Бұл — Альпінің солтүстігіндегі Қайта өрлеу дәуірінің ең үлкен залы.", ru: "Зал Антиквариум (1568–1571) построили для коллекции античных скульптур герцога Альбрехта V. Это крупнейший ренессансный зал к северу от Альп.", en: "The Antiquarium (1568–1571) was built for Duke Albrecht V's collection of antique sculpture — the largest Renaissance hall north of the Alps."},
+        tip: {kk: "Резиденция мен Қазынаны бір күнде көрсеңіз, біріктірілген билет арзанырақ. 1 қаңтарда, Фашинг сейсенбісінде, 24, 25 және 31 желтоқсанда жабық деп жазылған — тексеріңіз.", ru: "Если смотрите Резиденцию и Сокровищницу в один день, комбинированный билет дешевле. Указано, что 1 января, во вторник Фашинга, 24, 25 и 31 декабря закрыто — проверьте.", en: "Seeing the Residenz and the Treasury on the same day? The combined ticket is cheaper. It is listed as closed on 1 January, Shrove Tuesday and 24, 25 and 31 December — check before you go."},
+        source: "https://www.schloesser.bayern.de/englisch/palace/objects/mu_res.htm"
+      },
+      {
+        w: "Nymphenburg Palace",
+        n: {kk: "Нимфенбург сарайы", ru: "Дворец Нимфенбург", en: "Nymphenburg Palace"},
+        h: 2.5,
+        p: 10,
+        tag: "c",
+        ll: [48.1583, 11.5033],
+        note: {kk: "Тек сарай 10 €; жалпы билет сәуір–қазанның ортасы 20 €, қыста 16 € (парктегі павильондар қыста жабық); саябақ тегін", ru: "Только дворец 10 €; общий билет с апреля до середины октября 20 €, зимой 16 € (павильоны парка зимой закрыты); парк бесплатный", en: "Palace only €10; combined ticket €20 April–mid-October, €16 in winter (park pavilions close in winter); the park is free"},
+        storyId: "munich-nymphenburg",
+        tagline: {kk: "Мұрагердің дүниеге келуіне арналған жазғы сарай", ru: "Летний дворец в честь рождения наследника", en: "A summer palace built to celebrate an heir"},
+        history: {kk: "Курфюрст Фердинанд Мария мен оның әйелі Генриетта Аделаида сарайды 1664 жылы мұрагер Макс Эмануэльдің дүниеге келуіне орай салдыра бастады. Келесі ғасырда сарай кеңейіп, айналасында үлкен француз және ағылшын стиліндегі саябақ пайда болды.", ru: "Курфюрст Фердинанд Мария и его жена Генриетта Аделаида заложили дворец в 1664 году в честь рождения наследника Макса Эмануэля. В следующем веке дворец расширили, а вокруг разбили огромный парк во французском и английском стиле.", en: "Elector Ferdinand Maria and his wife Henriette Adelaide began the palace in 1664 to celebrate the birth of their heir, Max Emanuel. Over the next century it grew, surrounded by a vast park in French and English style."},
+        fact: {kk: "1845 жылы осы сарайда Нойшванштайнды салдырған «ертегі король» Людвиг II дүниеге келген.", ru: "В 1845 году в этом дворце родился «сказочный король» Людвиг II, построивший Нойшванштайн.", en: "In 1845 the 'fairy-tale king' Ludwig II, who built Neuschwanstein, was born in this palace."},
+        tip: {kk: "Сарайға кіру уақыты белгіленген билетпен — ресми сайттан алдын ала алыңыз. Ішінде король Людвиг I тапсырысымен салынған «Сұлулар галереясын» міндетті түрде көріңіз.", ru: "Вход во дворец по билетам на время — берите заранее на официальном сайте. Внутри обязательно загляните в «Галерею красавиц», заказанную королём Людвигом I.", en: "Palace entry uses timed tickets — book ahead on the official site. Don't miss the Gallery of Beauties commissioned by King Ludwig I."},
+        source: "https://www.schloss-nymphenburg.de/englisch/tourist/admiss.htm"
+      },
+      {
+        w: "Englischer Garten",
+        n: {kk: "Ағылшын бағы", ru: "Английский сад", en: "English Garden"},
+        h: 2,
+        p: 0,
+        tag: "b",
+        ll: [48.1642, 11.6056],
+        storyId: "munich-englischer-garten",
+        tagline: {kk: "Нью-Йорктағы Орталық саябақтан да үлкен бақ", ru: "Парк больше нью-йоркского Центрального", en: "A city park bigger than New York's Central Park"},
+        history: {kk: "Бақты 1789 жылы курфюрст Карл Теодордың бұйрығымен Бенджамин Томпсон (кейін граф Румфорд) жасай бастады. Ол басынан-ақ барлық халыққа ашық болды — бұл Еуропадағы алғашқы қоғамдық саябақтардың бірі.", ru: "Сад начали разбивать в 1789 году по указу курфюрста Карла Теодора под руководством Бенджамина Томпсона (позже графа Румфорда). Он с самого начала был открыт для всех — один из первых общественных парков Европы.", en: "Work began in 1789 under Elector Karl Theodor, led by Benjamin Thompson (later Count Rumford). Open to everyone from the start, it was one of Europe's first public parks."},
+        fact: {kk: "Бақтың ауданы шамамен 3,7 км² — Нью-Йорктағы Орталық саябақтан үлкен. Ортасында 1789–1790 жылдары салынған ағаш Қытай мұнарасы тұр.", ru: "Площадь сада — около 3,7 км², больше нью-йоркского Центрального парка. В середине стоит деревянная Китайская башня 1789–1790 годов.", en: "At about 3.7 km² it is larger than New York's Central Park. At its heart stands the wooden Chinese Tower of 1789–1790."},
+        tip: {kk: "Айсбах өзенінде шомылмаңыз — ағысы өте жылдам. Жаяу серуенге 2 сағат жеткілікті; велосипедпен одан да көп көресіз.", ru: "Не купайтесь в Айсбахе — течение очень быстрое. Для прогулки хватит 2 часов; на велосипеде увидите больше.", en: "Don't swim in the Eisbach — the current is very fast. Two hours is enough for a walk; by bike you'll see more."},
+        source: "https://en.wikipedia.org/wiki/Englischer_Garten"
+      },
+      {
+        w: "Deutsches Museum",
+        n: {kk: "Неміс мұражайы: ғылым мен техника", ru: "Немецкий музей: наука и техника", en: "Deutsches Museum: science and technology"},
+        h: 3,
+        p: 18,
+        tag: "m",
+        ll: [48.1299, 11.5834],
+        note: {kk: "Күн сайын 9:00–17:00; 1 қаңтарда, Қасиетті Жұмада, 1 мамырда және 25 желтоқсанда жабық", ru: "Ежедневно 9:00–17:00; закрыто 1 января, в Страстную пятницу, 1 мая и 25 декабря", en: "Daily 9:00–17:00; closed 1 January, Good Friday, 1 May and 25 December"},
+        storyId: "munich-deutsches-museum",
+        tagline: {kk: "Әлемдегі ең үлкен техника мұражайларының бірі", ru: "Один из крупнейших технических музеев мира", en: "One of the world's largest museums of technology"},
+        history: {kk: "Мұражайды 1903 жылы инженер Оскар фон Миллер құрды. Оның Изар өзеніндегі аралда тұрған ғимараты 1925 жылы ашылды.", ru: "Музей основал в 1903 году инженер Оскар фон Миллер. Его здание на острове посреди Изара открылось в 1925 году.", en: "Engineer Oskar von Miller founded the museum in 1903; its building on an island in the Isar opened in 1925."},
+        fact: {kk: "Мұражай 2015 жылдан бері кезең-кезеңімен жаңартылып жатыр, сондықтан кейбір залдар жабық болуы мүмкін.", ru: "С 2015 года музей поэтапно модернизируют, поэтому часть залов может быть закрыта.", en: "The museum has been modernised in stages since 2015, so some halls may be closed."},
+        tip: {kk: "Барлығын бір күнде көру мүмкін емес — ұшақтар мен ғарыш сияқты 2–3 тақырыпты таңдаңыз.", ru: "Всё за день не обойти — выберите 2–3 темы, например авиацию и космос.", en: "You can't see it all in a day — pick 2–3 themes, such as aviation and space."},
+        source: "https://deutsches-museum.de/en/museum-island/visit/admission-and-tickets"
+      },
+      {
+        w: "Viktualienmarkt",
+        n: {kk: "Виктуалиенмаркт базары", ru: "Рынок Виктуалиенмаркт", en: "Viktualienmarkt food market"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [48.1351, 11.5763],
+        note: {kk: "Дс–сн 8:00–20:00; жексенбіде жабық", ru: "Пн–сб 8:00–20:00; в воскресенье закрыто", en: "Mon–Sat 8:00–20:00; closed on Sundays"}
+      },
+      {
+        w: "Alte Pinakothek",
+        n: {kk: "Ескі Пинакотека: ескі шеберлердің суреттері", ru: "Старая пинакотека: старые мастера", en: "Alte Pinakothek: Old Masters"},
+        h: 2,
+        p: 9,
+        tag: "c",
+        ll: [48.1483, 11.57],
+        note: {kk: "Жексенбіде 1 €; дүйсенбіде жабық. 26.11.2026–04.04.2027 көрме кезінде 12 € (жексенбіде 4 €)", ru: "В воскресенье 1 €; по понедельникам закрыто. На время выставки 26.11.2026–04.04.2027 — 12 € (в воскресенье 4 €)", en: "€1 on Sundays; closed Mondays. During the 26.11.2026–04.04.2027 exhibition €12 (€4 on Sundays)"}
+      },
+      {
+        w: "BMW Museum",
+        n: {kk: "BMW мұражайы және BMW Welt", ru: "Музей BMW и BMW Welt", en: "BMW Museum and BMW Welt"},
+        h: 2,
+        p: 17,
+        tag: "m",
+        ll: [48.1769, 11.5594],
+        note: {kk: "Мұражай 17 €, дүйсенбіде жабық; көршілес BMW Welt көрме залына кіру тегін", ru: "Музей 17 €, по понедельникам закрыт; в соседний шоурум BMW Welt вход бесплатный", en: "Museum €17, closed Mondays; the neighbouring BMW Welt showroom is free"}
+      },
+      {
+        w: "Olympiapark, Munich",
+        n: {kk: "Олимпиада саябағы (1972)", ru: "Олимпийский парк (1972)", en: "Olympic Park (1972)"},
+        h: 1.5,
+        p: 0,
+        tag: "m",
+        ll: [48.1731, 11.5466],
+        note: {kk: "Саябаққа кіру тегін; BMW мұражайымен қатар көруге болады", ru: "Вход в парк бесплатный; удобно совместить с музеем BMW", en: "The park is free; easy to combine with the BMW Museum"}
+      },
+      {
+        w: "Asam Church, Munich",
+        n: {kk: "Асам шіркеуі: барокко інжу-маржаны", ru: "Церковь Азама: жемчужина барокко", en: "Asam Church: a baroque jewel"},
+        h: 0.5,
+        p: 0,
+        tag: "c",
+        ll: [48.1351, 11.5696],
+        note: {kk: "Sendlinger Straße көшесіндегі шағын шіркеу; кіру тегін", ru: "Небольшая церковь на улице Sendlinger Straße; вход бесплатный", en: "A small church on Sendlinger Straße; free entry"}
+      },
+      {
+        w: "Odeonsplatz",
+        n: {kk: "Одеонсплац: Фельдхеррнхалле және Театинер шіркеуі", ru: "Одеонсплац: Фельдхеррнхалле и Театинеркирхе", en: "Odeonsplatz: Feldherrnhalle and the Theatine Church"},
+        h: 0.75,
+        p: 0,
+        tag: "c",
+        ll: [48.1425, 11.5775],
+        note: {kk: "Сары Театинер шіркеуі мен Hofgarten бағының кіреберісі", ru: "Жёлтая Театинеркирхе и вход в сад Хофгартен", en: "The yellow Theatine Church and the gate to the Hofgarten"}
+      },
+      {
+        w: "Allianz Arena",
+        n: {kk: "«Альянц Арена»: «Бавария» стадионы", ru: "«Альянц Арена»: стадион «Баварии»", en: "Allianz Arena: FC Bayern's stadium"},
+        h: 2,
+        p: "paid",
+        tag: "m",
+        ll: [48.2188, 11.6247],
+        note: {kk: "U6 метросымен Fröttmaning бекетіне дейін; экскурсия бағасын клуб сайтынан қараңыз", ru: "Метро U6 до станции Fröttmaning; цену экскурсии смотрите на сайте клуба", en: "U6 to Fröttmaning; check the tour price on the club's website"}
+      }
+    ],
+    trips: [
+      {
+        w: "Neuschwanstein Castle",
+        n: {kk: "Нойшванштайн сарайы (пойыз + автобус ~2,5 сағ; билет 21 €, ресми сайттан кемінде 2 күн бұрын)", ru: "Замок Нойшванштайн (поезд + автобус ~2,5 ч; билет 21 €, на официальном сайте минимум за 2 дня)", en: "Neuschwanstein Castle (train + bus ~2.5 h; €21, book on the official site at least 2 days ahead)"}
+      },
+      {
+        w: "Salzburg",
+        n: {kk: "Зальцбург, Моцарттың қаласы (пойызбен ~1,5 сағ)", ru: "Зальцбург, город Моцарта (~1,5 ч на поезде)", en: "Salzburg, Mozart's city (~1.5 h by train)"}
+      },
+      {
+        w: "Dachau concentration camp",
+        n: {kk: "Дахау мемориалы (S-Bahn + автобус ~45 мин; кіру тегін)", ru: "Мемориал Дахау (электричка + автобус ~45 мин; вход бесплатный)", en: "Dachau Memorial (S-Bahn + bus ~45 min; free entry)"}
+      }
+    ],
+    hacks: [
+      ["🎨", {kk: "Жексенбіде Ескі Пинакотекаға кіру небәрі 1 €.", ru: "По воскресеньям вход в Старую пинакотеку стоит всего 1 €.", en: "On Sundays the Alte Pinakothek costs just €1."}],
+      ["🎫", {kk: "Бірнеше рет жүрсеңіз, Streifenkarte (18,70 €) алыңыз: M аймағында бір сапар ~1,87 € болады, ал жеке билет 4,20 €.", ru: "Если ездите несколько раз, берите Streifenkarte (18,70 €): поездка по зоне M выйдет ~1,87 € вместо 4,20 €.", en: "Riding a few times? A Streifenkarte (€18.70) brings a zone-M trip down to ~€1.87 instead of €4.20."}],
+      ["🏰", {kk: "Нойшванштайн билеті тек ресми сайтта кемінде 2 күн бұрын сатылады; сол күнгі кассадағы билеттер таңертеңнің соңына қарай таусылады.", ru: "Билеты в Нойшванштайн продаются на официальном сайте минимум за 2 дня; в кассе на день визита их обычно раскупают к концу утра.", en: "Neuschwanstein tickets sell online at least 2 days ahead; same-day tickets at the ticket centre usually sell out by late morning."}],
+      ["🛒", {kk: "Жексенбіде дүкендер жабық — азық-түлікті сенбіде алыңыз немесе Hauptbahnhof вокзалындағы дүкендерді пайдаланыңыз.", ru: "По воскресеньям магазины закрыты — купите продукты в субботу или зайдите в магазины на главном вокзале.", en: "Shops close on Sundays — stock up on Saturday or use the shops at the Hauptbahnhof."}],
+      ["💧", {kk: "Құбыр суын ішуге болады — бөтелкеңізді ала жүріңіз.", ru: "Воду из-под крана можно пить — носите с собой бутылку.", en: "Tap water is safe to drink — carry a bottle."}]
+    ],
+    eat: {
+      local: [
+        ["Viktualienmarkt", {kk: "Базардағы дүңгіршектер: бавар тағамдары, сорпа, нан", ru: "Прилавки рынка: баварская еда, супы, выпечка", en: "Market stalls: Bavarian food, soups, bakes"}, "€"],
+        ["Café Frischhut", {kk: "Базар жанындағы әйгілі Schmalznudel пончиктері", ru: "Знаменитые пончики Schmalznudel у рынка", en: "Famous Schmalznudel doughnuts by the market"}, "€"],
+        ["Dallmayr", {kk: "Тарихи деликатес дүкені мен кофе", ru: "Исторический магазин деликатесов и кофе", en: "Historic delicatessen and coffee"}, "€€"],
+        ["Hofbräuhaus", {kk: "Әйгілі сыраханасы, бавар асханасы", ru: "Знаменитая пивная, баварская кухня", en: "The famous beer hall, Bavarian food"}, "€€"]
+      ],
+      vegan: [
+        ["Die Vegane Fleischerei", {kk: "Вегандық «қасапхана» мен бистро, Frauenstraße", ru: "Веганская «мясная лавка» с бистро, Frauenstraße", en: "Vegan 'butcher' and bistro, Frauenstraße"}, "€"],
+        ["Emmi's Kitchen", {kk: "Вегандық бранч пен тоқаштар, Глокенбах", ru: "Веганский бранч и выпечка, Глокенбах", en: "Vegan brunch and bakes, Glockenbach"}, "€€"],
+        ["A Little Lost", {kk: "Вегандық кафе, вокзал жанында", ru: "Веганское кафе у вокзала", en: "Vegan café near the main station"}, "€"],
+        ["Akimy", {kk: "Вегандық вьетнам фьюжн және суши", ru: "Веганский вьетнамский фьюжн и суши", en: "Vegan Vietnamese fusion and sushi"}, "€€"]
+      ],
+      halal: [
+        ["Tarboosh", {kk: "Таяу Шығыс асханасы, толық халал, алкогольсіз", ru: "Ближневосточная кухня, полностью халяль, без алкоголя", en: "Middle Eastern, fully halal, no alcohol"}, "€"],
+        ["Lahori Hajweri", {kk: "Пәкістан асханасы, тек халал, алкогольсіз, Schillerstraße", ru: "Пакистанская кухня, только халяль, без алкоголя, Schillerstraße", en: "Pakistani, halal only, no alcohol, Schillerstraße"}, "€"],
+        ["Sindbad", {kk: "Түрік асханасы, халал, Schwanthalerstraße", ru: "Турецкая кухня, халяль, Schwanthalerstraße", en: "Turkish, halal, Schwanthalerstraße"}, "€"],
+        ["Persepolis", {kk: "Парсы асханасы, халал, Karlstraße", ru: "Персидская кухня, халяль, Karlstraße", en: "Persian, halal, Karlstraße"}, "€€"]
+      ]
+    },
+    eatSources: ["https://www.happycow.net/best-vegan-restaurants/munich-germany", "https://www.zabihah.com/restaurants/cb6523ac-7767-11ef-95ae-6045bdeb9f57/tarboosh-mnchen-bayern", "https://www.zabihah.com/restaurants/cadedb37-7767-11ef-95ae-6045bdeb9f57/lahori-hajweri-munich-bayern"]
+  },
+  // Барселона (добавлена 2026-11-24). Цены — официальные сайты (Sagrada Família, Park Güell, Casa Batlló, La Pedrera,
+  // Museu Picasso, Palau de la Música, FC Barcelona); проезд TMB — тарифы 2026; средний чек — оценка.
+  barcelona: {
+    icon: "🏖️",
+    flag: "🇪🇸",
+    country: {kk: "Испания", ru: "Испания", en: "Spain"},
+    lang: "es",
+    currency: "EUR",
+    weight: 2.7,
+    name: {kk: "Барселона", ru: "Барселона", en: "Barcelona"},
+    center: [41.3874, 2.1686],
+    airport: "BCN",
+    photoKey: "Barcelona",
+    history: {kk: "Барселона б.з.д. I ғасырда император Август тұсында Barcino деген рим колониясы ретінде құрылды. Орта ғасырда ол Арагон тәжінің ірі сауда порты болды. 1888 және 1929 жылдардағы дүниежүзілік көрмелер мен 1992 жылғы Олимпиада қаланың бет-бейнесін өзгертті, ал Антони Гаудидің туындылары ЮНЕСКО тізіміне енді.", ru: "Барселона основана в I веке до н. э. при императоре Августе как римская колония Barcino. В Средние века она стала крупным торговым портом Арагонской короны. Всемирные выставки 1888 и 1929 годов и Олимпиада 1992 года изменили облик города, а работы Антони Гауди вошли в список ЮНЕСКО.", en: "Barcelona was founded in the 1st century BC under Augustus as the Roman colony of Barcino. In the Middle Ages it was a major trading port of the Crown of Aragon. The World Fairs of 1888 and 1929 and the 1992 Olympics reshaped the city, and Antoni Gaudí's works are on the UNESCO list."},
+    fact: {kk: "1992 жылғы Олимпиадаға дейін қала теңізге «арқасын беріп» тұрған: жағалаудағы зауыттар мен теміржолдар алынып, орнына жаңа жағажайлар мен серуен жолдары жасалды.", ru: "До Олимпиады 1992 года город стоял к морю «спиной»: с побережья убрали заводы и железнодорожные пути, а на их месте сделали новые пляжи и набережные.", en: "Before the 1992 Olympics the city turned its back on the sea: factories and rail lines were cleared from the shore and replaced with new beaches and promenades."},
+    historySource: "https://whc.unesco.org/en/list/320",
+    stay: [[30, 50], [60, 95], [105, 170], [200, 340], [420, 850]],
+    food: [[15, 25], [25, 40], [40, 65], [75, 120], [150, 300]],
+    day: [3, 6],
+    activity: [[0, 15], [20, 35], [35, 65], [65, 110], [110, 220]],
+    transport: {kk: "Метро мен автобусқа бір рет жүру 2,90 € (2026), он сапарлық T-casual — 13 €. Бірақ T-casual әуежайдағы L9 Sud бекеттерінде жарамайды: әуежайға метро билеті 5,90 €, ал Aerobús автобусы — 7,45 €.", ru: "Разовая поездка на метро и автобусе — 2,90 € (2026), T-casual на 10 поездок — 13 €. Но T-casual не действует на станциях L9 Sud в аэропорту: билет метро до аэропорта 5,90 €, автобус Aerobús — 7,45 €.", en: "A single metro or bus ride is €2.90 (2026); a 10-trip T-casual is €13. But the T-casual isn't valid at the airport's L9 Sud stations: the airport metro ticket is €5.90 and the Aerobús is €7.45."},
+    source: "https://www.elnacional.cat/es/sociedad/nuevas-tarifas-transporte-publico-tmb-2026_1537597_102.html",
+    prices: {
+      currency: "EUR",
+      checked: "2026-11",
+      confidence: "estimate",
+      items: {coffee: [2, 3], breakfast: [4, 8], pizzaPasta: [11, 16], lunchCheap: [13, 18], dinnerMid: [30, 50]},
+      notes: {
+        lunchCheap: {kk: "Menú del día — жұмыс күндері түскі кешенді мәзір", ru: "Menú del día — комплексный обед в будни", en: "Menú del día: the weekday set lunch"},
+        dinnerMid: {kk: "Тапас-барда немесе мейрамханада бір адамға; испандықтар кешкі асты 21:00-ден кейін ішеді", ru: "На человека в тапас-баре или ресторане; ужинают в Испании после 21:00", en: "Per person at a tapas bar or restaurant; Spaniards dine after 9 pm"}
+      },
+      source: "https://www.expatica.com/es/cost-of-living/barcelona/"
+    },
+    shops: ["Mercadona", "Caprabo", "Carrefour Express", "Lidl", "Bonpreu"],
+    spots: [
+      {
+        w: "Sagrada Família",
+        n: {kk: "Саграда Фамилия базиликасы", ru: "Базилика Саграда Фамилия", en: "Sagrada Família"},
+        h: 2,
+        p: 26,
+        tag: "c",
+        ll: [41.4036, 2.1744],
+        note: {kk: "Базилика 26 €, мұнаралармен 36 € (аудиогид қосымшасымен); 11 жасқа дейін тегін; тек уақыты брондалған билетпен", ru: "Базилика 26 €, с башнями 36 € (с аудиогидом в приложении); до 11 лет бесплатно; только по билетам на время", en: "Basilica €26, with towers €36 (audio-guide app included); free under 11; timed tickets only"},
+        storyId: "barcelona-sagrada-familia",
+        tagline: {kk: "Гаудидің 140 жылдан бері салынып жатқан ғибадатханасы", ru: "Храм Гауди, который строят уже больше 140 лет", en: "Gaudí's church, under construction for over 140 years"},
+        history: {kk: "Ғибадатхананың алғашқы тасы 1882 жылы 19 наурызда қаланды. Келесі жылы жобаны жас сәулетші Антони Гауди қолға алып, өмірінің соңына дейін, 1926 жылға дейін осы құрылыста жұмыс істеді. 2010 жылы Рим Папасы Бенедикт XVI оны базилика ретінде киелі деп жариялады.", ru: "Первый камень храма заложили 19 марта 1882 года. Через год проект взял молодой архитектор Антони Гауди и работал над ним до самой смерти в 1926 году. В 2010 году папа Бенедикт XVI освятил храм как базилику.", en: "The first stone was laid on 19 March 1882. A year later the young architect Antoni Gaudí took over and worked on it until his death in 1926. In 2010 Pope Benedict XVI consecrated it as a basilica."},
+        fact: {kk: "Гауди осы базиликаның криптасында жерленген. Құрылыс мемлекет қаржысымен емес, тек садақа мен билет сатудан түскен ақшамен жүргізіледі.", ru: "Гауди похоронен в крипте этой базилики. Стройка идёт не на государственные деньги, а только на пожертвования и продажу билетов.", en: "Gaudí is buried in the basilica's crypt. Construction is funded not by the state but only by donations and ticket sales."},
+        tip: {kk: "Билетті тек ресми сайттан алдын ала алыңыз. Қатты жел немесе дауыл кезінде мұнаралар мен базилика уақытша жабылуы мүмкін — алдыңғы күні сайттан тексеріңіз.", ru: "Билеты берите заранее только на официальном сайте. В сильный ветер или бурю башни и базилику могут временно закрыть — проверьте сайт накануне.", en: "Buy tickets in advance on the official site only. In strong wind or storms the towers or the whole basilica may close temporarily — check the site the day before."},
+        source: "https://sagradafamilia.org/en/prices"
+      },
+      {
+        w: "Park Güell",
+        n: {kk: "Гуэль саябағы", ru: "Парк Гуэль", en: "Park Güell"},
+        h: 2,
+        p: 18,
+        tag: "b",
+        ll: [41.4145, 2.1527],
+        note: {kk: "Билет 18 €, кіру уақыты белгіленген; 0–6 жас тегін; жыл бойы ашық", ru: "Билет 18 €, вход по времени; дети 0–6 лет бесплатно; открыт круглый год", en: "€18, timed entry; free for ages 0–6; open all year"},
+        storyId: "barcelona-park-guell",
+        tagline: {kk: "Гаудидің мозаикалы ертегі-саябағы", ru: "Сказочный мозаичный парк Гауди", en: "Gaudí's fairy-tale mosaic park"},
+        history: {kk: "Саябақты 1900–1914 жылдары граф Эусеби Гуэль бай отбасыларға арналған тұрғын үй кешені ретінде салдырды. Бірақ жоба сәтсіз аяқталды: тек екі үй салынды. Кейін қала аумақты сатып алып, 1926 жылы оны қоғамдық саябақ ретінде ашты.", ru: "Парк строили в 1900–1914 годах для графа Эусеби Гуэля как элитный жилой посёлок. Проект провалился — построили лишь два дома. Позже город выкупил территорию и в 1926 году открыл её как общественный парк.", en: "Built in 1900–1914 for Count Eusebi Güell as an exclusive housing estate, the project failed — only two houses were built. The city later bought the land and opened it as a public park in 1926."},
+        fact: {kk: "Иректелген ұзын орындық сынған плитка мен керамикадан жасалған мозаикамен (trencadís) қапталған — оны Гаудимен бірге сәулетші Жузеп Мария Жужол жасаған.", ru: "Длинная извилистая скамья покрыта мозаикой из битой плитки и керамики (trencadís) — её вместе с Гауди создал архитектор Жузеп Мария Жужоль.", en: "The long serpentine bench is clad in broken-tile mosaic (trencadís), created by architect Josep Maria Jujol with Gaudí."},
+        tip: {kk: "Таңертең ерте немесе кешке барыңыз — салқын әрі адам аз. Ішіндегі Гауди үй-мұражайы — бөлек билет, уақытша жабық болуы мүмкін.", ru: "Идите рано утром или вечером — прохладнее и меньше людей. Дом-музей Гауди внутри — отдельный билет, может быть временно закрыт.", en: "Go early or late in the day — cooler and quieter. The Gaudí House Museum inside needs a separate ticket and may be temporarily closed."},
+        source: "https://parkguell.barcelona/en/planning-your-visit/prices-and-times"
+      },
+      {
+        w: "Casa Batlló",
+        n: {kk: "Батльо үйі", ru: "Дом Бальо", en: "Casa Batlló"},
+        h: 1.25,
+        p: 29,
+        tag: "c",
+        ll: [41.3916, 2.1649],
+        note: {kk: "29 €-дан, аудиогидпен; күн сайын ашық; 0–12 жас тегін", ru: "От 29 €, с аудиогидом; открыт каждый день; дети 0–12 лет бесплатно", en: "From €29 with audio guide; open every day; free for ages 0–12"},
+        storyId: "barcelona-casa-batllo",
+        tagline: {kk: "Шатыры айдаһардың арқасындай үй", ru: "Дом с крышей, похожей на спину дракона", en: "The house with a dragon's-back roof"},
+        history: {kk: "Гауди 1904–1906 жылдары тоқыма өнеркәсіпшісі Жузеп Батльоға арнап бұрыннан тұрған үйді толық қайта жасады: қасбеті толқын тәрізді болып, терезелері мен балкондары ерекше пішінге енді.", ru: "Гауди в 1904–1906 годах полностью переделал уже стоявший дом для текстильного фабриканта Жузепа Бальо: фасад стал волнистым, а окна и балконы — необычной формы.", en: "In 1904–1906 Gaudí completely remodelled an existing house for textile industrialist Josep Batlló, giving it a rippling façade and unusual windows and balconies."},
+        fact: {kk: "Шатыры айдаһардың арқасына, ал крест орнатылған мұнарасы Каталонияның қамқоршысы Әулие Георгийдің найзасына ұқсатылады. Сүйекке ұқсас балкондары үшін жергілікті тұрғындар оны «сүйек үйі» деп атайды.", ru: "Крышу сравнивают со спиной дракона, а башенку с крестом — с копьём святого Георгия, покровителя Каталонии. За балконы, похожие на кости, местные зовут его «домом костей».", en: "The roof is likened to a dragon's back and the cross-topped turret to the lance of St George, Catalonia's patron. Locals call it the 'house of bones' for its bone-like balconies."},
+        tip: {kk: "Кешке барсаңыз, жарығы әдемі және адам азырақ. Билетті ресми сайттан алыңыз.", ru: "Вечером красивее свет и меньше людей. Билеты берите на официальном сайте.", en: "Evening visits have lovely light and fewer people. Buy on the official site."},
+        source: "https://www.casabatllo.es/en/online-tickets/"
+      },
+      {
+        w: "Casa Milà",
+        n: {kk: "Мила үйі (Ла Педрера)", ru: "Дом Мила (Ла Педрера)", en: "Casa Milà (La Pedrera)"},
+        h: 1.25,
+        p: 29,
+        tag: "c",
+        ll: [41.3954, 2.162],
+        note: {kk: "29 €-дан, шатырмен бірге; 25 желтоқсанда және 2027 жылдың 11–17 қаңтарында жабық", ru: "От 29 €, вместе с крышей; закрыто 25 декабря и 11–17 января 2027", en: "From €29 including the rooftop; closed 25 December and 11–17 January 2027"},
+        storyId: "barcelona-casa-mila",
+        tagline: {kk: "«Тас карьері» — Гаудидің соңғы тұрғын үйі", ru: "«Каменоломня» — последний жилой дом Гауди", en: "'The Stone Quarry': Gaudí's last apartment building"},
+        history: {kk: "Үйді Гауди 1906–1912 жылдары Пере Мила мен Росер Сежимон ерлі-зайыптыларына арнап салды. Бұл — ол Саграда Фамилияға толық берілгенге дейінгі соңғы азаматтық ғимараты.", ru: "Дом Гауди построил в 1906–1912 годах для супругов Пере Мила и Росер Сежимон. Это его последнее гражданское здание перед тем, как он полностью посвятил себя Саграда Фамилии.", en: "Gaudí built it in 1906–1912 for Pere Milà and Roser Segimon — his last civil building before he devoted himself entirely to the Sagrada Família."},
+        fact: {kk: "Толқынды тас қасбеті үшін тұрғындар үйді мазақтап «Ла Педрера» — «тас карьері» деп атады, бұл ат кейін ресми атауға айналды. Шатырындағы мұржалар жауынгерлерге ұқсайды.", ru: "За волнистый каменный фасад горожане насмешливо прозвали дом «Ла Педрера» — «каменоломня», и прозвище прижилось. Трубы на крыше похожи на воинов.", en: "Locals mocked the wavy stone façade as 'La Pedrera' — the stone quarry — and the nickname stuck. The rooftop chimneys look like warriors."},
+        tip: {kk: "Шатырға күн батар алдында шығыңыз — қала көрінісі ерекше.", ru: "Поднимитесь на крышу перед закатом — вид на город особенный.", en: "Go up to the roof before sunset for the best city views."},
+        source: "https://www.lapedrera.com/en/tickets"
+      },
+      {
+        w: "Gothic Quarter, Barcelona",
+        n: {kk: "Готикалық квартал (Барри Готик)", ru: "Готический квартал (Барри Готик)", en: "Gothic Quarter (Barri Gòtic)"},
+        h: 2,
+        p: 0,
+        tag: "c",
+        ll: [41.3833, 2.1767],
+        storyId: "barcelona-gothic-quarter",
+        tagline: {kk: "Рим қаласы Барсиноның орнындағы ескі қала", ru: "Старый город на месте римского Барсино", en: "The old town on the site of Roman Barcino"},
+        history: {kk: "Квартал рим қаласы Барсиноның дәл орнында тұр: мұнда әлі де рим қамалы қабырғаларының қалдықтары сақталған. Орта ғасырда тар көшелер бойында сарайлар, шіркеулер мен базар алаңдары салынды.", ru: "Квартал стоит прямо на месте римского Барсино: здесь до сих пор сохранились остатки римских стен. В Средние века вдоль узких улиц выросли дворцы, церкви и рыночные площади.", en: "The quarter sits right on Roman Barcino, and pieces of the Roman walls still survive. In the Middle Ages palaces, churches and market squares rose along its narrow lanes."},
+        fact: {kk: "Carrer del Paradís, 10 мекенжайындағы аулада Август ғибадатханасының төрт рим бағанасы тұр — оларды тегін көруге болады.", ru: "Во дворе дома по адресу Carrer del Paradís, 10 стоят четыре римские колонны храма Августа — посмотреть можно бесплатно.", en: "In a courtyard at Carrer del Paradís 10 stand four Roman columns of the Temple of Augustus — free to see."},
+        tip: {kk: "Carrer del Bisbe көшесіндегі әйгілі көпір ескі болып көрінгенімен, ол 1928 жылы салынған. Кешке сөмкеңізді алдыңызға ұстаңыз.", ru: "Знаменитый мостик на Carrer del Bisbe выглядит древним, но построен в 1928 году. Вечером держите сумку перед собой.", en: "The famous bridge on Carrer del Bisbe looks medieval but dates from 1928. In the evening keep your bag in front of you."},
+        source: "https://en.wikipedia.org/wiki/Gothic_Quarter,_Barcelona"
+      },
+      {
+        w: "Barcelona Cathedral",
+        n: {kk: "Барселона соборы", ru: "Барселонский собор", en: "Barcelona Cathedral"},
+        h: 1,
+        p: 16,
+        tag: "c",
+        ll: [41.3839, 2.1762],
+        note: {kk: "Мәдени сапар 16 € (жеңілдікпен 14 €); дс–жм 9:30–18:30", ru: "Культурный визит 16 € (льготный 14 €); пн–пт 9:30–18:30", en: "Cultural visit €16 (€14 reduced); Mon–Fri 9:30–18:30"},
+        storyId: "barcelona-cathedral",
+        tagline: {kk: "Ауласында 13 ақ қаз жүретін собор", ru: "Собор, где во дворе живут 13 белых гусей", en: "The cathedral with 13 white geese in its cloister"},
+        history: {kk: "Готикалық собор негізінен XIII–XV ғасырларда ертедегі шіркеулердің орнында салынды. Оның салтанатты қасбеті әлдеқайда кейін, XIX ғасырдың соңында ғана аяқталды.", ru: "Готический собор строили в основном в XIII–XV веках на месте более ранних церквей. Парадный фасад закончили гораздо позже — только в конце XIX века.", en: "The Gothic cathedral was built mainly in the 13th–15th centuries on the site of earlier churches; its grand façade was finished much later, in the late 19th century."},
+        fact: {kk: "Собор ауласында 13 ақ қаз тұрады — Барселонаның қамқоршысы Әулие Евлалияның жасына сай: аңыз бойынша ол 13 жасында азапталып өлген.", ru: "В клуатре собора живут 13 белых гусей — по числу лет святой Евлалии, покровительницы Барселоны: по преданию, её замучили в 13 лет.", en: "Thirteen white geese live in the cloister — one for each year of St Eulalia, Barcelona's patron, who by tradition was martyred at 13."},
+        tip: {kk: "Иық пен тізе жабық болсын. Ғибадат уақыттарында туристік кіру шектелуі мүмкін.", ru: "Плечи и колени должны быть закрыты. Во время богослужений туристический вход может быть ограничен.", en: "Cover shoulders and knees. Tourist entry may be limited during services."},
+        source: "https://en.wikipedia.org/wiki/Barcelona_Cathedral"
+      },
+      {
+        w: "La Rambla, Barcelona",
+        n: {kk: "Ла Рамбла бульвары", ru: "Бульвар Ла Рамбла", en: "La Rambla"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [41.3809, 2.1735],
+        note: {kk: "Қалтаға түсетін ұрылардан сақ болыңыз; бульвардағы кафелер қымбат", ru: "Берегитесь карманников; кафе на самом бульваре дорогие", en: "Watch out for pickpockets; cafés on the boulevard itself are pricey"}
+      },
+      {
+        w: "La Boqueria",
+        n: {kk: "Бокерия базары", ru: "Рынок Бокерия", en: "La Boqueria market"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [41.3817, 2.1716],
+        note: {kk: "Дс–сн 8:00–20:30; жексенбі мен мерекелерде жабық. 2026–2027 жылдары кезең-кезеңімен жөндеу жүреді", ru: "Пн–сб 8:00–20:30; в воскресенье и праздники закрыто. В 2026–2027 годах идёт поэтапная реконструкция", en: "Mon–Sat 8:00–20:30; closed Sundays and holidays. Renovation in phases during 2026–2027"}
+      },
+      {
+        w: "Museu Picasso",
+        n: {kk: "Пикассо мұражайы", ru: "Музей Пикассо", en: "Picasso Museum"},
+        h: 1.5,
+        p: 15,
+        tag: "m",
+        ll: [41.3852, 2.1808],
+        note: {kk: "Кассада 15 €, онлайн 14 €; бейсенбі 16:00–19:00 және айдың бірінші жексенбісінде тегін (брондау керек); дүйсенбіде жабық", ru: "В кассе 15 €, онлайн 14 €; бесплатно в четверг 16:00–19:00 и в первое воскресенье месяца (нужна бронь); по понедельникам закрыто", en: "€15 at the desk, €14 online; free Thursdays 4–7 pm and on the first Sunday (booking required); closed Mondays"}
+      },
+      {
+        w: "Palau de la Música Catalana",
+        n: {kk: "Каталон музыка сарайы", ru: "Дворец каталонской музыки", en: "Palau de la Música Catalana"},
+        h: 1,
+        p: 24,
+        tag: "c",
+        ll: [41.3875, 2.1753],
+        note: {kk: "Гидпен экскурсия 24 €, ~50 минут", ru: "Экскурсия с гидом 24 €, ~50 минут", en: "Guided tour €24, ~50 minutes"}
+      },
+      {
+        w: "La Barceloneta, Barcelona",
+        n: {kk: "Барселонета жағажайы", ru: "Пляж Барселонета", en: "Barceloneta beach"},
+        h: 2,
+        p: 0,
+        tag: "b",
+        ll: [41.3784, 2.1925],
+        note: {kk: "Қаладағы жағажай, метро L4 Barceloneta; заттарыңызды қараусыз қалдырмаңыз", ru: "Городской пляж, метро L4 Barceloneta; не оставляйте вещи без присмотра", en: "City beach, metro L4 Barceloneta; never leave your things unattended"}
+      },
+      {
+        w: "Montjuïc",
+        n: {kk: "Монжуик тауы: бақтар мен Олимпиада стадионы", ru: "Гора Монжуик: сады и Олимпийский стадион", en: "Montjuïc: gardens and the Olympic stadium"},
+        h: 2.5,
+        p: 0,
+        tag: "b",
+        ll: [41.3636, 2.1586],
+        note: {kk: "Тау мен бақтарға кіру тегін; қамал мен мұражайлар — ақылы", ru: "Гора и сады бесплатно; крепость и музеи — платно", en: "The hill and gardens are free; the castle and museums charge"}
+      },
+      {
+        w: "Camp Nou",
+        n: {kk: "«Камп Ноу»: «Барселона» стадионы", ru: "«Камп Ноу»: стадион «Барселоны»", en: "Camp Nou: FC Barcelona's stadium"},
+        h: 1.5,
+        p: 28,
+        tag: "m",
+        ll: [41.3809, 2.1228],
+        note: {kk: "Barça Immersive Tour: мұражай 28 €-дан; 1 қаңтарда және 25 желтоқсанда жабық; стадион әлі қайта салынуда", ru: "Barça Immersive Tour: музей от 28 €; закрыто 1 января и 25 декабря; стадион ещё перестраивают", en: "Barça Immersive Tour: museum from €28; closed 1 January and 25 December; the stadium is still being rebuilt"}
+      },
+      {
+        w: "Turó de la Rovira",
+        n: {kk: "Бункерлер (Туро-де-ла-Ровира): қаланың ең жақсы панорамасы", ru: "Бункеры (Туро-де-ла-Ровира): лучшая панорама города", en: "The Bunkers (Turó de la Rovira): the best city panorama"},
+        h: 1,
+        p: 0,
+        tag: "b",
+        ll: [41.4189, 2.1617],
+        note: {kk: "Күн батарда барыңыз; аялдамадан жоғары жаяу ~15–20 мин", ru: "Приходите на закат; от остановки ~15–20 мин пешком в гору", en: "Go at sunset; ~15–20 min uphill walk from the bus stop"}
+      }
+    ],
+    trips: [
+      {
+        w: "Montserrat (mountain)",
+        n: {kk: "Монсеррат тауы мен монастыры (пойыз + фуникулер ~1,5 сағ)", ru: "Гора и монастырь Монсеррат (поезд + фуникулёр ~1,5 ч)", en: "Montserrat mountain and monastery (train + rack railway ~1.5 h)"}
+      },
+      {
+        w: "Girona",
+        n: {kk: "Жирона: ортағасырлық ескі қала (жылдам пойызбен ~40 мин)", ru: "Жирона: средневековый старый город (~40 мин на скоростном поезде)", en: "Girona: medieval old town (~40 min by high-speed train)"}
+      }
+    ],
+    hacks: [
+      ["🎟️", {kk: "Гауди нысандарына билет тек уақытпен сатылады — ресми сайттардан бірнеше күн бұрын алыңыз. Делдал сайттар қымбатырақ.", ru: "Билеты на объекты Гауди продаются на конкретное время — берите на официальных сайтах за несколько дней. У посредников дороже.", en: "Gaudí sites sell timed tickets — buy on the official sites a few days ahead. Resellers charge more."}],
+      ["🎨", {kk: "Пикассо мұражайы бейсенбі күні 16:00–19:00 және айдың бірінші жексенбісінде тегін, бірақ алдын ала брондау керек.", ru: "Музей Пикассо бесплатен по четвергам 16:00–19:00 и в первое воскресенье месяца, но нужна предварительная бронь.", en: "The Picasso Museum is free on Thursdays 4–7 pm and on the first Sunday of the month — booking required."}],
+      ["🚇", {kk: "T-casual (13 € / 10 сапар) жеке билеттен (2,90 €) әлдеқайда тиімді, бірақ әуежайға жарамайды — оған бөлек билет керек.", ru: "T-casual (13 € за 10 поездок) намного выгоднее разовых (2,90 €), но в аэропорт не действует — туда нужен отдельный билет.", en: "The T-casual (€13 for 10 rides) beats singles (€2.90) by far, but not for the airport — that needs its own ticket."}],
+      ["👜", {kk: "Ла Рамблада, метрода және жағажайда қалта ұрылары көп — телефон мен әмиянды алдыңғы қалтада ұстаңыз.", ru: "На Рамбле, в метро и на пляже много карманников — держите телефон и кошелёк в переднем кармане.", en: "Pickpockets work La Rambla, the metro and the beach — keep phone and wallet in a front pocket."}],
+      ["🍽️", {kk: "Жұмыс күндері түсте «menú del día» іздеңіз: бірінші, екінші тағам және десерт бір бағамен.", ru: "В будни в обед ищите «menú del día»: первое, второе и десерт по одной цене.", en: "On weekday lunchtimes look for the 'menú del día': starter, main and dessert at one price."}]
+    ],
+    eat: {
+      local: [
+        ["La Boqueria", {kk: "Базардағы тапас-барлар мен жеміс шырындары", ru: "Тапас-бары и фреши на рынке", en: "Tapas counters and fresh juices at the market"}, "€"],
+        ["Cervecería Catalana", {kk: "Танымал тапас-бар, Эшампле; кезек болады", ru: "Популярный тапас-бар в Эшампле; бывает очередь", en: "Popular tapas bar in the Eixample; expect a queue"}, "€€"],
+        ["Granja M. Viader", {kk: "Ескі кафе: ыстық шоколад пен чуррос", ru: "Старое кафе: горячий шоколад и чуррос", en: "Old-school café: hot chocolate and churros"}, "€"],
+        ["Can Solé", {kk: "Барселонетадағы тарихи паэлья мейрамханасы", ru: "Исторический ресторан паэльи в Барселонете", en: "Historic paella restaurant in Barceloneta"}, "€€€"]
+      ],
+      vegan: [
+        ["Mad Mad Vegan", {kk: "Вегандық бургерлер мен тако, Aribau көшесі", ru: "Веганские бургеры и тако, улица Aribau", en: "Vegan burgers and tacos, Carrer d'Aribau"}, "€"],
+        ["Desoriente", {kk: "Вегандық азиялық фьюжн, Valencia көшесі", ru: "Веганский азиатский фьюжн, улица Valencia", en: "Vegan Asian fusion, Carrer de València"}, "€€"],
+        ["Vrutal", {kk: "Вегандық гурме-бургерлер, Diputació көшесі", ru: "Веганские гурме-бургеры, улица Diputació", en: "Vegan gourmet burgers, Carrer de la Diputació"}, "€€"],
+        ["Asante", {kk: "Вегандық бранч-кафе", ru: "Веганское бранч-кафе", en: "Vegan brunch café"}, "€"]
+      ],
+      halal: [
+        ["Bismillah Raval Kebabish", {kk: "Пәкістан асханасы, халал сертификаты, Раваль", ru: "Пакистанская кухня, сертифицированный халяль, Раваль", en: "Pakistani, certified halal, El Raval"}, "€"],
+        ["Alhalal Asian Restaurant", {kk: "Пәкістан асханасы, толық халал, Раваль", ru: "Пакистанская кухня, полностью халяль, Раваль", en: "Pakistani, fully halal, El Raval"}, "€"],
+        ["Restaurante Himalaya", {kk: "Үнді-пәкістан асханасы, толық халал, Rambla del Raval", ru: "Индийско-пакистанская кухня, полностью халяль, Rambla del Raval", en: "Indian-Pakistani, fully halal, Rambla del Raval"}, "€"],
+        ["Rajah", {kk: "Тандыр тағамдары, «халал» белгісі бар — сертификатын сұраңыз", ru: "Тандури, вывеска «халяль» — уточняйте сертификат", en: "Tandoori, halal sign shown — ask about certification"}, "€"]
+      ]
+    },
+    eatSources: ["https://www.happycow.net/best-vegan-restaurants/barcelona-spain", "https://www.zabihah.com/restaurants/cacdc32a-7767-11ef-95ae-6045bdeb9f57/bismillah-raval-kebabish-barcelona-catalunya", "https://www.zabihah.com/restaurants/ca036336-7767-11ef-95ae-6045bdeb9f57/alhalal-asian-barcelona-catalunya", "https://www.zabihah.com/restaurants/cb59be1d-7767-11ef-95ae-6045bdeb9f57/restaurante-himalaya-barcelona-catalunya"]
   }
 };
 
@@ -3428,7 +3920,43 @@ const PHOTOS = {
   "Mercato Centrale (Florence)": {file: "Mercato centrale di san lorenzo 01.jpg", p: "commons/d/d3", w: 3756, h: 2026, author: "Sailko", license: "CC BY 3.0"},
   "Oltrarno": {file: "Palazzo Pitti nel tardo pomeriggio.jpg", p: "commons/6/6a", w: 3479, h: 2319, author: "Almaak", license: "CC BY-SA 3.0"},
   "Pisa": {file: "Italy - Pisa.jpg", p: "commons/d/d3", w: 5221, h: 3357, author: "Arne Müseler", license: "CC BY-SA 3.0 de"},
-  "Siena": {file: "Siena Cattedrale nuova Vista su la Piazza del Campo 2.jpg", p: "commons/2/20", w: 5181, h: 3469, author: "Zairon", license: "CC BY 4.0"}
+  "Siena": {file: "Siena Cattedrale nuova Vista su la Piazza del Campo 2.jpg", p: "commons/2/20", w: 5181, h: 3469, author: "Zairon", license: "CC BY 4.0"},
+  // Мюнхен — главное фото статьи Wikipedia (или замена, если там карта/план), данные Commons API 2026-11-24
+  "Munich": {file: "Frauenkirche and Neues Rathaus Munich March 2013.JPG", p: "commons/3/3b", w: 4995, h: 3330, author: "Martin Falbisoner", license: "CC BY-SA 3.0"},
+  "Marienplatz": {file: "Rathaus and Marienplatz from Peterskirche - August 2006.jpg", p: "commons/7/73", w: 2089, h: 1800, author: "Diliff", license: "CC BY-SA 3.0"},
+  "Frauenkirche, Munich": {file: "Frauenkirche Munich - View from Peterskirche Tower2.jpg", p: "commons/d/da", w: 3952, h: 2464, author: "Diliff", license: "CC BY 2.5"},
+  "Munich Residenz": {file: "Antiquarium Residenz Munich.jpg", p: "commons/1/1d", w: 4584, h: 3104, author: "Jebulon", license: "CC0"},
+  "Nymphenburg Palace": {file: "Image-Schloss Nymphenburg Munich CC edit3.jpg", p: "commons/0/0b", w: 4921, h: 1796, author: "Richard Bartz; derivative work: Crassic", license: "CC BY-SA 2.5"},
+  "Englischer Garten": {file: "Aerial image of Englischer Garten in Munich (view from the southwest).jpg", p: "commons/b/bc", w: 5400, h: 3600, author: "Carsten Steger", license: "CC BY-SA 4.0"},
+  "Deutsches Museum": {file: "Deutsches Museum Portrait 4.jpg", p: "commons/1/14", w: 5100, h: 2627, author: "Burkhard Mücke", license: "CC BY-SA 4.0"},
+  "Viktualienmarkt": {file: "Viktualienmarkt München mit Maibaum 2022-11-12.jpg", p: "commons/8/89", w: 5472, h: 3648, author: "Strubbl", license: "CC BY-SA 4.0"},
+  "Alte Pinakothek": {file: "Alte Pinakothek 2009.jpg", p: "commons/0/0d", w: 3069, h: 1896, author: "Andreas Praefcke", license: "CC BY 3.0"},
+  "BMW Museum": {file: "Musée BMW 004.jpg", p: "commons/b/bd", w: 2048, h: 1536, author: "Arnaud 25", license: "CC BY-SA 4.0"},
+  "Olympiapark, Munich": {file: "München - Olympische Bauten.jpg", p: "commons/d/d1", w: 7296, h: 3782, author: "Wladyslaw Sojka", license: "FAL"},
+  "Asam Church, Munich": {file: "St. Nepomuk retusche.jpg", p: "commons/4/4e", w: 3750, h: 3008, author: "Wikiolo, derivative work Lämpel", license: "CC BY-SA 4.0"},
+  "Allianz Arena": {file: "Allianz Arena 2008-02-09.jpg", p: "commons/e/e9", w: 3840, h: 2160, author: "Michael", license: "CC BY-SA 4.0"},
+  "Odeonsplatz": {file: "Odeonsplatz2, München.jpg", p: "commons/2/27", w: 1536, h: 1024, author: "Gryffindor", license: "Public domain"},
+  "Neuschwanstein Castle": {file: "Schloss Neuschwanstein (45 mm).jpg", p: "commons/e/ef", w: 7904, h: 6016, author: "AuHaidhausen", license: "CC BY 4.0"},
+  "Salzburg": {file: "Salzburg (48489551981).jpg", p: "commons/9/91", w: 4410, h: 2940, author: "Jorge Franganillo", license: "CC BY 2.0"},
+  "Dachau concentration camp": {file: "\"Never Again\" memorial at Dachau by Wzwz.jpg", p: "commons/0/04", w: 4608, h: 3456, author: "Wzwz", license: "CC0"},
+  // Барселона — данные Commons API 2026-11-24
+  "Barcelona": {file: "Evening light over Barcelona.jpg", p: "commons/a/a6", w: 5995, h: 2799, author: "M McBey", license: "CC BY 2.0"},
+  "Sagrada Família": {file: "SF maig 2 cropped.jpg", p: "commons/e/ef", w: 1227, h: 1786, author: "Canaan", license: "CC BY-SA 4.0"},
+  "Park Güell": {file: "Parc guell - panoramio.jpg", p: "commons/3/33", w: 2048, h: 1536, author: "essetefano", license: "CC BY 3.0"},
+  "Casa Batlló": {file: "Casa Batllo Overview Barcelona Spain cut.jpg", p: "commons/b/bf", w: 2244, h: 2765, author: "ChristianSchd", license: "CC BY-SA 3.0"},
+  "Casa Milà": {file: "Casa Milà, general view.jpg", p: "commons/d/de", w: 4299, h: 3348, author: "Thomas Ledl", license: "CC BY-SA 4.0"},
+  "Gothic Quarter, Barcelona": {file: "Pont del Bisbe.jpg", p: "commons/6/68", w: 3456, h: 4600, author: "Daniel Kraft", license: "CC BY-SA 3.0"},
+  "Barcelona Cathedral": {file: "Barcelona Cathedral Saint Eulalia.jpg", p: "commons/6/63", w: 3335, h: 5002, author: "Fernando", license: "CC BY-SA 4.0"},
+  "La Rambla, Barcelona": {file: "15-10-27-Vista des de l'estàtua de Colom a Barcelona-WMA 2791.jpg", p: "commons/f/f2", w: 4016, h: 6016, author: "Ralf Roletschek", license: "GFDL 1.2"},
+  "La Boqueria": {file: "Barcelona - Mercat de Sant Josep (la Boqueria) - Entrance.jpg", p: "commons/9/96", w: 8254, h: 4661, author: "Didier Descouens", license: "CC BY-SA 4.0"},
+  "Museu Picasso": {file: "Museu Picasso- Devorar París- June 2011- Carrer Montcada-4.jpg", p: "commons/1/1b", w: 1936, h: 2592, author: "Kippelboy", license: "CC BY-SA 3.0"},
+  "Palau de la Música Catalana": {file: "22 11 01 Palau DSCF2611 52502512616 cc1e7db845 k.jpg", p: "commons/2/27", w: 2048, h: 1372, author: "Ralf Roletschek", license: "GFDL 1.2"},
+  "La Barceloneta, Barcelona": {file: "Promenade and beach, Platja de la Barceloneta, Barcelona, 2015.jpg", p: "commons/6/6f", w: 5919, h: 3935, author: "DimiTalen", license: "CC0"},
+  "Montjuïc": {file: "Fale - Spain - Barcelona - 8.jpg", p: "commons/d/d7", w: 2048, h: 1536, author: "Fabio Alessandro Locati", license: "CC BY-SA 3.0"},
+  "Camp Nou": {file: "Camp Nou aerial.jpg", p: "commons/a/ad", w: 2207, h: 1659, author: "Oh-Barcelona.com", license: "CC BY 2.0"},
+  "Turó de la Rovira": {file: "Turó Rovira.jpg", p: "commons/5/5f", w: 2048, h: 1536, author: "Canaan", license: "CC BY-SA 3.0"},
+  "Montserrat (mountain)": {file: "Abbey of Montserrat 02.jpg", p: "commons/d/d5", w: 3377, h: 2330, author: "Bernard Gagnon", license: "CC BY-SA 3.0"},
+  "Girona": {file: "Girona des de l aire edited.jpg", p: "commons/c/cd", w: 2500, h: 1666, author: "Patronat de Turisme Costa Brava Pirineu de Girona", license: "CC BY-SA 3.0"}
 };
 
 /* 7. РАЗГОВОРНИК: [категория, фраза, произношение кириллицей (ударение — ЗАГЛАВНЫМИ), перевод] */
@@ -3782,6 +4310,28 @@ const PHRASES = {
       ["sos", "Nechte mě být!", "нЕхте мне бит", {"kk": "Мені мазаламаңыз!", "ru": "Оставьте меня в покое!", "en": "Leave me alone!"}],
       ["sos", "Zavolejte policii!", "зАволейте пОлицийи", {"kk": "Полиция шақырыңыз!", "ru": "Вызовите полицию!", "en": "Call the police!"}]
     ]
+  },
+  es: {
+    name: V("Испан", "Испанский", "Spanish"),
+    tl: "es",
+    list: [
+      ["greet", "¡Hola!", "Ола", {"kk": "Сәлем!", "ru": "Привет!", "en": "Hello!"}],
+      ["greet", "¡Muchas gracias!", "мУчас грАсиас", {"kk": "Көп рахмет!", "ru": "Большое спасибо!", "en": "Thank you very much!"}],
+      ["greet", "Perdón", "пэрдОн", {"kk": "Кешіріңіз", "ru": "Извините", "en": "Excuse me"}],
+      ["greet", "No, gracias", "нО, грАсиас", {"kk": "Жоқ, рахмет", "ru": "Нет, спасибо", "en": "No, thank you"}],
+      ["greet", "¿Habla inglés?", "Абла инглЭс", {"kk": "Ағылшынша сөйлейсіз бе?", "ru": "Вы говорите по-английски?", "en": "Do you speak English?"}],
+      ["trans", "¿Dónde está el metro?", "дОндэ эстА эль мЭтро", {"kk": "Метро қайда?", "ru": "Где метро?", "en": "Where is the metro?"}],
+      ["trans", "Un billete, por favor", "ун бийЕтэ, пор фавОр", {"kk": "Бір билет беріңізші", "ru": "Один билет, пожалуйста", "en": "One ticket, please"}],
+      ["trans", "¿Dónde está el baño?", "дОндэ эстА эль бАньо", {"kk": "Дәретхана қайда?", "ru": "Где туалет?", "en": "Where is the toilet?"}],
+      ["shop", "¿Cuánto cuesta?", "куАнто куЭста", {"kk": "Бұл қанша тұрады?", "ru": "Сколько это стоит?", "en": "How much is it?"}],
+      ["shop", "¿Puedo pagar con tarjeta?", "пуЭдо пагАр кон тархЭта", {"kk": "Картамен төлеуге бола ма?", "ru": "Можно оплатить картой?", "en": "Can I pay by card?"}],
+      ["food", "La cuenta, por favor", "ла куЭнта, пор фавОр", {"kk": "Есепшотты беріңізші", "ru": "Счёт, пожалуйста", "en": "The bill, please"}],
+      ["food", "Agua del grifo, por favor", "Агуа дэль грИфо, пор фавОр", {"kk": "Кран суын беріңізші", "ru": "Воду из-под крана, пожалуйста", "en": "Tap water, please"}],
+      ["sos", "¡Ayuda!", "айЮда", {"kk": "Көмектесіңдер!", "ru": "Помогите!", "en": "Help!"}],
+      ["sos", "¿Dónde está la farmacia?", "дОндэ эстА ла фармАсия", {"kk": "Дәріхана қайда?", "ru": "Где аптека?", "en": "Where is the pharmacy?"}],
+      ["sos", "¡Déjeme en paz!", "дЭхэмэ эн пас", {"kk": "Мені мазаламаңыз!", "ru": "Оставьте меня в покое!", "en": "Leave me alone!"}],
+      ["sos", "¡Llame a la policía!", "йАмэ а ла полисИа", {"kk": "Полиция шақырыңыз!", "ru": "Вызовите полицию!", "en": "Call the police!"}]
+    ]
   }
 };
 
@@ -3874,7 +4424,20 @@ const EMBASSIES = [
   {country: "Switzerland", flag: "🇨🇭", name: V("Швейцариядағы ҚР елшілігі (Берн)", "Посольство Казахстана в Швейцарии (Берн)", "Embassy of Kazakhstan in Switzerland (Bern)"),
     covers: V("Лугано", "Лугано", "Lugano"), address: "Tavelweg 2, 3074 Muri bei Bern",
     phones: [["main", "+41 31 310 14 70"], ["emergency", "+41 79 435 80 97"]],
-    src: "https://www.gov.kz/mfa-bern"}
+    src: "https://www.gov.kz/mfa-bern"},
+  // Германия и Испания — сверено по gov.kz 2026-11-24. Генконсульство во Франкфурте Баварию не обслуживает (по его странице), поэтому для Мюнхена — Берлин.
+  {country: "Germany", flag: "🇩🇪", name: V("Германиядағы ҚР елшілігі (Берлин)", "Посольство Казахстана в Германии (Берлин)", "Embassy of Kazakhstan in Germany (Berlin)"),
+    covers: V("Мюнхен", "Мюнхен", "Munich"), address: "Nordendstraße 14-17, 13156 Berlin",
+    phones: [["main", "+49 30 47007111"], ["consular", "+49 30 47007160"]],
+    email: "konsulberlin@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-berlin/contacts"},
+  {country: "Spain", flag: "🇪🇸", name: V("Испаниядағы ҚР елшілігі (Мадрид)", "Посольство Казахстана в Испании (Мадрид)", "Embassy of Kazakhstan in Spain (Madrid)"),
+    covers: V("Барселона", "Барселона", "Barcelona"), address: "Calle Sotillo 10, 28043 Madrid", addressNote: "consular",
+    phones: [["main", "+34 91 721 62 90"], ["consular", "+34 91 721 62 94"], ["emergency", "+34 695 425 938"]],
+    email: "consulmadrid@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-madrid/contacts"},
+  {country: "Spain", flag: "🇪🇸", name: V("ҚР-ның Барселонадағы консулдығы", "Консульство Казахстана в Барселоне", "Consulate of Kazakhstan in Barcelona"),
+    covers: V("Барселона", "Барселона", "Barcelona"), address: "Passeig de Gràcia 49, 2º-1a, 08007 Barcelona",
+    phones: [["main", "+34 93 142 42 25"]],
+    email: "barcelona@mfa.kz", src: "https://www.gov.kz/memleket/entities/mfa-madrid/contacts"}
 ];
 
 /* 12. НАМАЗ: мечети и молельные комнаты по городам. Сверено по открытым источникам 2026-11.
@@ -3937,6 +4500,22 @@ const PRAYER = {
     {type: "airport", name: "Prague Airport (PRG)", addr: "Václav Havel Airport Prague", level: "ok",
       note: V("Бақылаудан кейін: Терминал 1 — Runway Restaurant жанында, Терминал 2 — D пирсі. Тәулік бойы, кілемшелер бар", "После досмотра: Терминал 1 — у Runway Restaurant, Терминал 2 — пирс D. Круглосуточно, есть коврики", "Airside: Terminal 1 near the Runway Restaurant, Terminal 2 at Pier D. Open 24/7, prayer rugs provided"),
       src: "https://www.prg.aero/en/prayer-room"}
+  ],
+  munich: [
+    {type: "mosque", name: "Islamisches Zentrum München", addr: "Wallnerstraße 1-5, 80939 München", level: "ok",
+      note: V("Қаланың солтүстігі (Freimann ауданы). Жұма намазы: араб тілінде 12:30, неміс тілінде 13:30 (қысқы уақыт)", "Север города (район Фрайманн). Пятничная молитва: на арабском в 12:30, на немецком в 13:30 (зимнее время)", "North of the city (Freimann). Friday prayer: Arabic at 12:30, German at 13:30 (winter time)"),
+      src: "https://www.islamisches-zentrum-muenchen.de/"},
+    {type: "airport", name: "Munich Airport (MUC)", addr: "Munich Airport Terminal 1", level: "ok",
+      note: V("Терминал 1, C модулі: бақылауға дейін 05-қабатта мұсылмандарға арналған намаз орны, дәрет алатын жер 03-қабатта. Бақылаудан кейін Т1 пирсінде және Т2-де «Намаз бен тыныштық бөлмесі» бар", "Терминал 1, модуль C: до досмотра на уровне 05 — место для намаза, омовение на уровне 03. После досмотра — «Комната молитвы и тишины» на пирсе T1 и в T2", "Terminal 1, Module C: a Muslim prayer area landside on level 05, ablutions on level 03. Airside, a 'Room for Prayer and Silence' at the T1 Pier and in T2"),
+      src: "https://www.munich-airport.com/muslim-prayer-areas-888388"}
+  ],
+  barcelona: [
+    {type: "mosque", name: "Mesquita Tariq ibn Ziyad", addr: "Carrer de Sant Rafael 10, 08001 Barcelona", level: "check",
+      note: V("Раваль ауданы, Рамбладан бірнеше минут. Қаладағы ең көне әрі ең үлкен мешіттердің бірі. Мекенжайы анықтамалықтар бойынша — уақытын тексеріңіз", "Район Раваль, в нескольких минутах от Рамблы. Одна из старейших и крупнейших мечетей города. Адрес — по справочникам, часы уточните", "El Raval, a few minutes from La Rambla. One of the city's oldest and largest mosques. Address from directories — check the times"),
+      src: "https://www.zabihah.com/mosques/1335ded7-776a-11ef-95ae-6045bdeb9f57/masjid-tarek-ibn-ziyad-barcelona-catalunya"},
+    {type: "airport", name: "Barcelona-El Prat (BCN)", addr: "Barcelona El Prat Airport Terminal 1", level: "check",
+      note: V("Терминал 1, бақылауға дейін: барлық дінге арналған намаз бөлмесі капелла жанында деп жазылған. Ресми бетін таппадық — ақпарат үстелінен сұраңыз", "Терминал 1, до досмотра: межконфессиональная молельная комната рядом с часовней, по описаниям. Официальной страницы мы не нашли — спросите на стойке информации", "Terminal 1, landside: a multi-faith prayer room reportedly next to the chapel. We found no official page — ask at the information desk"),
+      src: "https://www.halaltrip.com/mosque-details/8938/multi-faith-prayer-room-t-1-barcelona-airport-bcn/"}
   ]
 };
 
@@ -4016,7 +4595,21 @@ const CLOSURES = {
   "LAC Lugano Arte e Cultura": {wd: [1], src: "https://www.masilugano.ch/en/",
     note: V("MASI мұражайы жабық", "закрыт музей MASI", "the MASI museum is closed")},
   "Monte San Salvatore": {season: ["03-13", "11-08"], src: "https://www.montesansalvatore.ch/en/timetable-and-fares",
-    note: V("маусым күндері жыл сайын сәл өзгереді", "даты сезона каждый год немного меняются", "season dates shift slightly every year")}
+    note: V("маусым күндері жыл сайын сәл өзгереді", "даты сезона каждый год немного меняются", "season dates shift slightly every year")},
+  // Мюнхен и поездки (официальные сайты, 2026-11-24)
+  "Deutsches Museum": {dates: ["01-01", "05-01", "12-25"], easter: [-2], src: "https://deutsches-museum.de/en/museum-island/visit/admission-and-tickets"},
+  "Alte Pinakothek": {wd: [1], src: "https://www.pinakothek.de/en/alte-pinakothek"},
+  "BMW Museum": {wd: [1], src: "https://www.bmw-welt.com/en/locations/museum.html"},
+  "Viktualienmarkt": {wd: [0], src: "https://www.muenchen.de/en/sights/viktualienmarkt"},
+  "Munich Residenz": {level: "check", dates: ["01-01", "12-24", "12-25", "12-31"], easter: [-47], src: "https://www.muenchen.de/sehenswuerdigkeiten/residenz"},
+  "Neuschwanstein Castle": {dates: ["01-01", "12-24", "12-25", "12-31"], src: "https://www.hohenschwangau.de/en/tours-tickets/opening-times"},
+  "Dachau concentration camp": {dates: ["12-24"], src: "https://www.kz-gedenkstaette-dachau.de/en/visit/opening-hours/"},
+  // Барселона (официальные сайты, 2026-11-24)
+  "Museu Picasso": {wd: [1], dates: ["01-01", "05-01", "06-24", "12-25"], src: "https://museupicassobcn.cat/en/plan-your-visit/buy-tickets-and-opening-hours"},
+  "La Boqueria": {wd: [0], src: "https://ajuntament.barcelona.cat/memoriademocratica/en/detail/mercat-boqueria-sant-josep_92086009447",
+    note: V("мерекелерде де жабық болуы мүмкін", "в праздники тоже может быть закрыто", "may also be closed on public holidays")},
+  "Casa Milà": {dates: ["12-25"], src: "https://www.lapedrera.com/en/practical-information/"},
+  "Camp Nou": {dates: ["01-01", "12-25"], src: "https://www.fcbarcelona.com/en/tickets/camp-nou-experience/timetable"}
 };
 
 /* Государственные праздники (в Лугано — праздники кантона Тичино). Ключ — country.en города.
@@ -4052,13 +4645,24 @@ const HOLIDAYS = {
   Switzerland: {src: "https://m3.ti.ch/CAN/RLeggi/public/index.php/raccolta-leggi/pdfatto/atto/568",
     fixed: {"01-01": HD.ny, "01-06": HD.epi, "03-19": HD.joseph, "05-01": HD.lab, "06-29": HD.pp, "08-01": V("Швейцарияның ұлттық күні", "Национальный день Швейцарии", "Swiss National Day"),
       "08-15": HD.ass, "11-01": HD.saints, "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
-    easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}}
+    easter: {1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}},
+  // Германия — праздники Баварии (Мюнхен). Успение (15.08) в Баварии — только в общинах с католическим большинством, Мюнхен в их числе.
+  Germany: {src: "https://www.stmi.bayern.de/suv/bayern/feiertage/",
+    fixed: {"01-01": HD.ny, "01-06": HD.epi, "05-01": HD.lab, "08-15": HD.ass, "10-03": V("Германияның бірігу күні", "День германского единства", "German Unity Day"), "11-01": HD.saints, "12-25": HD.xmas, "12-26": V("Рождествоның екінші күні", "Второй день Рождества", "Second day of Christmas")},
+    easter: {"-2": HD.gf, 1: HD.eMon, 39: HD.asc, 50: HD.whit, 60: HD.corp}},
+  // Испания — общенациональные праздники + праздники Каталонии (Барселона).
+  Spain: {src: "https://ajuntament.barcelona.cat/calendarifestius/en",
+    fixed: {"01-01": HD.ny, "01-06": HD.epi, "05-01": HD.lab, "06-24": V("Сан-Жуан (Иоанн Креститель күні)", "Сан-Жуан (День Иоанна Крестителя)", "Sant Joan (St John's Day)"), "08-15": HD.ass,
+      "09-11": V("Каталонияның ұлттық күні (Диада)", "Национальный день Каталонии (Диада)", "National Day of Catalonia (La Diada)"), "10-12": V("Испанияның ұлттық мерекесі", "Национальный праздник Испании", "Spain's National Day"),
+      "11-01": HD.saints, "12-06": V("Конституция күні", "День Конституции", "Constitution Day"), "12-08": HD.imm, "12-25": HD.xmas, "12-26": HD.steph},
+    easter: {"-2": HD.gf, 1: HD.eMon}}
 };
 // праздники одного города (покровитель города)
 const LOCAL_HOLIDAYS = {
   rome: {"06-29": V("Әулие Петр мен Павел күні — Рим мерекесі", "День святых Петра и Павла — праздник Рима", "Saints Peter and Paul — Rome's holiday")},
   milan: {"12-07": V("Әулие Амвросий күні — Милан мерекесі", "День святого Амвросия — праздник Милана", "St Ambrose Day — Milan's holiday")},
-  florence: {"06-24": V("Әулие Иоанн Креститель күні — Флоренция мерекесі", "День святого Иоанна Крестителя — праздник Флоренции", "St John the Baptist — Florence's holiday")}
+  florence: {"06-24": V("Әулие Иоанн Креститель күні — Флоренция мерекесі", "День святого Иоанна Крестителя — праздник Флоренции", "St John the Baptist — Florence's holiday")},
+  barcelona: {"09-24": V("Ла Мерсе — Барселона мерекесі", "Ла Мерсе — праздник Барселоны", "La Mercè — Barcelona's holiday")}
 };
 
 /* События и особенности городов на определённые даты.
@@ -4098,7 +4702,22 @@ const CITY_DATES = {
   ],
   rome: [{months: [8], icon: "🏖️", text: V("Тамыз: кейбір шағын дүкендер, барлар мен мейрамханалар демалысқа жабылады, әсіресе айдың ортасында", "Август: часть небольших магазинов, баров и ресторанов закрыта на отпуск, особенно в середине месяца", "August: some small shops, bars and restaurants close for holidays, especially mid-month")}],
   paris: [{dates: ["07-14"], icon: "🎆", text: V("Таңертең Елисей алаңдарында әскери шеру (орталық жабық), кешке Эйфель мұнарасында салют", "Утром военный парад на Елисейских Полях (центр перекрыт), вечером салют у Эйфелевой башни", "Military parade on the Champs-Élysées in the morning (centre closed), fireworks at the Eiffel Tower in the evening")}],
-  lugano: [{wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық", "Воскресенье: большинство магазинов закрыто", "Sunday: most shops are closed")}]
+  lugano: [{wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық", "Воскресенье: большинство магазинов закрыто", "Sunday: most shops are closed")}],
+  munich: [
+    {wd: [0], icon: "🛒", text: V("Жексенбі: дүкендер жабық, азық-түлікті Hauptbahnhof вокзалындағы дүкендерден алуға болады", "Воскресенье: магазины закрыты, продукты можно купить в магазинах на главном вокзале", "Sunday: shops are closed; groceries are sold at the Hauptbahnhof station shops")},
+    {months: [9, 10], icon: "🎡", src: "https://www.muenchen.de/int/en/events/oktoberfest.html",
+      known: {2026: "09-19,09-20,09-21,09-22,09-23,09-24,09-25,09-26,09-27,09-28,09-29,09-30,10-01,10-02,10-03,10-04"},
+      text: V("Октоберфест: қонақүйлер бірнеше есе қымбаттайды, Терезиенвизе маңы мен метро адамға толы — тұрғын үйді ертерек брондаңыз", "Октоберфест: отели дорожают в разы, у Терезиенвизе и в метро толпы — бронируйте жильё заранее", "Oktoberfest: hotel prices soar and the Theresienwiese area and metro are packed — book early"),
+      maybe: V("Қыркүйектің екінші жартысы мен қазанның басында Октоберфест өтеді. Осы жылдың күндері — muenchen.de сайтында", "Во второй половине сентября и начале октября проходит Октоберфест. Даты на этот год — на muenchen.de", "Oktoberfest runs from the second half of September into early October. This year's dates are on muenchen.de")},
+    {range: ["11-23", "12-24"], icon: "🎄", text: V("Рождестволық жәрмеңке (Мариенплац және басқалары). Күндері жыл сайын сәл өзгереді", "Рождественские ярмарки (Мариенплац и другие). Даты каждый год немного меняются", "Christmas markets (Marienplatz and others). Dates shift slightly every year")}
+  ],
+  barcelona: [
+    {wd: [0], icon: "🛒", text: V("Жексенбі: дүкендердің көбі жабық (туристік аймақтардан басқа), Бокерия базары жабық", "Воскресенье: большинство магазинов закрыто (кроме туристических зон), рынок Бокерия закрыт", "Sunday: most shops are closed (except in tourist areas); La Boqueria is closed")},
+    {dates: ["06-23"], icon: "🎆", text: V("Сан-Жуан түні: түні бойы отшашу мен алау, жағажайлар адамға толы әрі шулы", "Ночь Сан-Жуан: всю ночь петарды и костры, пляжи переполнены и шумные", "Sant Joan night: fireworks and bonfires all night; the beaches are packed and loud")},
+    {dates: ["09-11"], icon: "🚩", text: V("Диада — Каталонияның ұлттық күні: орталықта шерулер, кейбір көшелер жабылады", "Диада — Национальный день Каталонии: в центре шествия, часть улиц перекрыта", "La Diada, Catalonia's National Day: marches in the centre, some streets closed")},
+    {dates: ["09-24"], icon: "🎉", text: V("Ла Мерсе — қала мерекесі: концерттер, «адам мұнаралары» (кастельс), отшашу. Мереке бірнеше күнге созылады", "Ла Мерсе — праздник города: концерты, «живые башни» (кастельс), фейерверки. Праздник длится несколько дней", "La Mercè, the city festival: concerts, human towers (castells) and fireworks over several days")},
+    {easterRange: [50, 50], icon: "🛒", text: V("Segona Pasqua — Барселонаның жергілікті мерекесі: дүкендер мен мекемелердің көбі жабық", "Segona Pasqua — местный праздник Барселоны: большинство магазинов и учреждений закрыто", "Segona Pasqua, a Barcelona local holiday: most shops and offices are closed"), src: "https://ajuntament.barcelona.cat/calendarifestius/en"}
+  ]
 };
 </script>
 <script>
@@ -4468,7 +5087,10 @@ const MAPQ = {
   "Navigli (Milan)": "Naviglio Grande, Milan", "Bosco Verticale": "Bosco Verticale, Milan", "Venetian Ghetto": "Campo del Ghetto Nuovo, Venice",
   "Lake Como": "Lungolago di Como", "Como–Brunate funicular": "Funicolare Como-Brunate", "Monte Brè": "Funicolare Monte Brè, Lugano",
   "Oltrarno": "Piazza Santo Spirito, Florence", "Mercato Centrale (Florence)": "Mercato Centrale, Florence", "Medici Chapels": "Cappelle Medicee, Florence",
-  "Bellagio, Lake Como": "Bellagio, Italy", "Varenna, Lake Como": "Varenna, Italy", "Santa Maria delle Grazie": "Santa Maria delle Grazie, Milan"
+  "Bellagio, Lake Como": "Bellagio, Italy", "Varenna, Lake Como": "Varenna, Italy", "Santa Maria delle Grazie": "Santa Maria delle Grazie, Milan",
+  "Munich Residenz": "Residenz München", "Dachau concentration camp": "KZ-Gedenkstätte Dachau", "Olympiapark, Munich": "Olympiapark München",
+  "Gothic Quarter, Barcelona": "Barri Gòtic, Barcelona", "Turó de la Rovira": "Bunkers del Carmel, Barcelona", "La Barceloneta, Barcelona": "Platja de la Barceloneta",
+  "Montserrat (mountain)": "Monestir de Montserrat", "Camp Nou": "Spotify Camp Nou, Barcelona"
 };
 
 /* ---------- Состояние ---------- */
@@ -4657,7 +5279,7 @@ function optimizeRoute(ids, startId, endId) {
   if (!ids.length) return null;
   if (!ids.includes(startId)) startId = ids[0];
   if (endId && (!ids.includes(endId) || endId === startId)) endId = null;
-  const r = ids.length <= 10 ? solveExact(ids, startId, endId) : solveHeuristic(ids, startId, endId);
+  const r = ids.length <= 12 ? solveExact(ids, startId, endId) : solveHeuristic(ids, startId, endId); // Held-Karp: 12 городов ≈ 250 тыс. шагов, мгновенно
   const legs = []; for (let i = 1; i < r.order.length; i++) legs.push({from: r.order[i - 1], to: r.order[i], ...leg(r.order[i - 1], r.order[i])});
   const hours = pathHours(r.order), userHours = pathHours(ids);
   const end = r.order[r.order.length - 1];

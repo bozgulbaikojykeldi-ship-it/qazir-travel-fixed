@@ -80,7 +80,7 @@ check("Весь 2027 год (365 стартов): закрытых мест в �
 const bp = await ev(() => {
   QZ.S.style = "classic";
   const bad = [];
-  for (let i = 0; i < 28; i++) for (const id of ["budapest", "prague"]) QZ.planCity(id, 3, new Date(2027, 2, 1 + i)).days.forEach((d) => (d.spots || []).forEach((s) => { const c = QZ.closureOn(s.w, d.date); if (c && c.level === "closed") bad.push(id + ":" + s.w + "@" + d.date.toDateString()); }));
+  for (let i = 0; i < 28; i++) for (const id of ["budapest", "prague", "munich", "barcelona"]) QZ.planCity(id, 3, new Date(2027, 2, 1 + i)).days.forEach((d) => (d.spots || []).forEach((s) => { const c = QZ.closureOn(s.w, d.date); if (c && c.level === "closed") bad.push(id + ":" + s.w + "@" + d.date.toDateString()); }));
   const D = (s) => new Date(s + "T00:00:00"), h = (id, s) => { const x = QZ.holidayOn(id, D(s)); return x ? x.ru : null; };
   return {bad, aug20: h("budapest", "2027-08-20"), gfPrague: h("prague", "2027-03-26"), nov17: h("prague", "2026-11-17"), sat: QZ.closureOn("Josefov", D("2026-11-21")) && QZ.closureOn("Josefov", D("2026-11-21")).level};
 });
