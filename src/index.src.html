@@ -788,7 +788,7 @@ const TRAVEL = {
   "barcelona|budapest": {h: 5.25, mode: "flight", p: [29, 150], via: V("BCN → BUD ~2 сағ 45 мин", "BCN → BUD ~2 ч 45 мин", "BCN → BUD ~2 h 45 min")},
   // Амстердам: уақыт — оценка «от двери до двери», цены не сверены → p: null («цена не уточнена»)
   "amsterdam|vienna":   {h: 3.5,  mode: "flight", p: null, via: V("AMS → VIE, оценка", "AMS → VIE, оценка", "AMS → VIE, estimate")},
-  "amsterdam|paris":    {h: 4.0,  mode: "train", p: null, via: V("Eurostar Амстердам → Париж, оценка", "Eurostar Амстердам → Париж, оценка", "Eurostar Amsterdam → Paris, estimate")},
+  "amsterdam|paris":    {h: 4.0,  mode: "train", p: null, via: V("Eurostar Амстердам → Париж ~3 сағ 20 мин (eurostar.com)", "Eurostar Амстердам → Париж ~3 ч 20 мин (eurostar.com)", "Eurostar Amsterdam → Paris ~3 h 20 min (eurostar.com)")},
   "amsterdam|rome":     {h: 4.5,  mode: "flight", p: null, via: V("AMS → FCO, оценка", "AMS → FCO, оценка", "AMS → FCO, estimate")},
   "amsterdam|milan":    {h: 4.0,  mode: "flight", p: null, via: V("AMS → MXP/LIN, оценка", "AMS → MXP/LIN, оценка", "AMS → MXP/LIN, estimate")},
   "amsterdam|venice":   {h: 4.5,  mode: "flight", p: null, via: V("AMS → VCE, оценка", "AMS → VCE, оценка", "AMS → VCE, estimate")},
@@ -3867,9 +3867,9 @@ const CITIES = {
     center: [52.3676, 4.9041],
     airport: "AMS",
     photoKey: "Amsterdam",
-    history: {kk: "Амстердам XIII ғасырда Амстел өзені жағасындағы балықшылар қонысы ретінде пайда болды. Атауы, дәстүр бойынша, 1275 жылғы бөгеттен (dam) шыққан деп саналады. XVII ғасырда қала сауда империясының орталығына айналды, және қазіргі канал жүйесі сол кезде салынды.", ru: "Амстердам вырос в XIII веке как рыбацкое поселение на реке Амстел. По традиции название идёт от плотины (dam) 1275 года. В XVII веке город стал центром торговой империи, и тогда же построили нынешнюю систему каналов.", en: "Amsterdam grew from a 13th-century fishing settlement on the Amstel river. Its name traditionally comes from a dam built around 1275. In the 17th century it became the centre of a trading empire, and the present canal system was built then."},
+    history: {kk: "Амстердам Амстел өзенінің бойында пайда болған қала. XVII ғасырда қала сауда империясының орталығына айналды, сол кезде оның каналдар сақинасы салынды — бүгінгі ЮНЕСКО аймағы.", ru: "Амстердам — город на реке Амстел. В XVII веке он стал центром торговой империи, и тогда же построили кольцо каналов — сегодня это объект ЮНЕСКО.", en: "Amsterdam is a city on the Amstel river. In the 17th century it became the centre of a trading empire, and the canal ring was built then — today it is a UNESCO site."},
     fact: {kk: "Каналдар сақинасы (Grachtengordel) 2010 жылы ЮНЕСКО-ның дүниежүзілік мұра тізіміне енді.", ru: "Кольцо каналов (Grachtengordel) внесено в список всемирного наследия ЮНЕСКО в 2010 году.", en: "The Canal Ring (Grachtengordel) was added to the UNESCO World Heritage List in 2010."},
-    historySource: "https://whc.unesco.org/en/list/1329",
+    historySource: "https://whc.unesco.org/en/list/1349",
     stay: [[90, 140], [150, 220], [250, 380], [420, 650], [700, 1100]],
     food: [[25, 40], [40, 70], [70, 110], [110, 160], [160, 250]],
     day: [8, 10],
@@ -3905,17 +3905,17 @@ const CITIES = {
         tag: "c",
         ll: [52.3700, 4.8911],
         note: {kk: "Тегін. Қайықпен экскурсия — ақылы", ru: "Бесплатно. Экскурсия на лодке — платная", en: "Free. Boat tours are paid"},
-        source: "https://whc.unesco.org/en/list/1329"
+        source: "https://whc.unesco.org/en/list/1349"
       },
       {
         w: "Royal Palace Amsterdam",
         n: {kk: "Корольдік сарай (Dam алаңы)", ru: "Королевский дворец (площадь Дам)", en: "Royal Palace (Dam Square)"},
         h: 1,
-        p: "paid",
+        p: 13.5,
         tag: "c",
         ll: [52.3731, 4.8919],
-        note: {kk: "Ішкі залдар — ақылы. Ғимарат 1648–1655 жылдары қала үйі ретінде салынған", ru: "Внутренние залы платные. Здание строилось в 1648–1655 годах как городская ратуша", en: "Interior rooms are paid. The building was constructed in 1648–1655 as the town hall"},
-        source: "https://www.paleisamsterdam.nl/en"
+        note: {kk: "Сайттағы мәлімет бойынша ~13,50 € (үшінші тарап мәлімет, сайтта тексеріңіз). Ашық күндерде 10:00–18:00", ru: "По сторонним данным ~13,50 € (проверьте на сайте). В дни работы открыт 10:00–18:00", en: "Around €13.50 per third-party guides (check the site). Open 10:00–18:00 on open days"},
+        source: "https://www.paleisamsterdam.nl/en/visit"
       },
       {
         w: "Begijnhof",
@@ -3924,8 +3924,8 @@ const CITIES = {
         p: 0,
         tag: "c",
         ll: [52.3681, 4.8934],
-        note: {kk: "Тегін. Ішінде тыныштық сақтау сұралады", ru: "Бесплатно. Просят соблюдать тишину", en: "Free. Quiet is requested inside"},
-        source: "https://www.amsterdam.info/begijnhof/"
+        note: {kk: "Тегін (кейде қалауы бойынша садақа). Бұл — тұрғындар тұратын аула, тыныштық сақтаңыз", ru: "Бесплатно (можно пожертвовать). Это двор, где живут люди, соблюдайте тишину", en: "Free (donations welcome). It is a courtyard where people live; keep quiet"},
+        source: "https://www.begijnhofamsterdam.nl"
       },
       {
         w: "Vondelpark",
@@ -3935,17 +3935,17 @@ const CITIES = {
         tag: "m",
         ll: [52.3580, 4.8686],
         note: {kk: "Тегін. Велосипед жолдары мен кафелер көп", ru: "Бесплатно. Много велодорожек и кафе", en: "Free. Plenty of bike paths and cafés"},
-        source: "https://www.amsterdam.info/vondelpark/"
+        source: "https://www.iamsterdam.com/en"
       },
       {
         w: "NEMO Science Museum",
         n: {kk: "NEMO ғылым мұражайы", ru: "Музей науки NEMO", en: "NEMO Science Museum"},
         h: 2.5,
-        p: "paid",
+        p: 21.5,
         tag: "m",
         ll: [52.3741, 4.9129],
-        note: {kk: "Интерактивті мұражай, көбіне балаларға. Билетті алдын ала онлайн алған жөн", ru: "Интерактивный музей, в основном для детей. Лучше купить билеты онлайн заранее", en: "Interactive museum, mostly for children. Better to buy tickets online in advance"},
-        source: "https://www.e-nemo.nl/en"
+        note: {kk: "Интерактивті мұражай, көбіне балаларға. 4 жастан — €21,50. Уақыт слотымен онлайн алыңыз", ru: "Интерактивный музей, в основном для детей. От 4 лет — €21,50. Билеты онлайн на время входа", en: "Interactive museum, mostly for children. Ages 4+ €21.50. Buy online for a timed entry"},
+        source: "https://www.nemosciencemuseum.nl/en/visit/tickets"
       },
       {
         w: "EYE Filmmuseum",
@@ -3954,7 +3954,7 @@ const CITIES = {
         p: "paid",
         tag: "m",
         ll: [52.3840, 4.9010],
-        note: {kk: "Вокзалдан IJ өзені арқылы паромға мінсеңіз болады (паром тегін)", ru: "Добраться можно от вокзала паромом через залив IJ (паром бесплатный)", en: "Reach it from Centraal by the ferry across the IJ (the ferry is free)"},
+        note: {kk: "Вокзал қарсысында. F3 паромы IJ арқылы тегін (жаяу және велосипедпен)", ru: "Напротив вокзала. Паром F3 через залив IJ бесплатный (пешком и на велосипеде)", en: "Opposite Centraal. The F3 ferry across the IJ is free (on foot and by bike)"},
         source: "https://www.eyefilm.nl/en"
       }
     ],
@@ -3965,7 +3965,7 @@ const CITIES = {
       },
       {
         w: "Zaanse Schans",
-        n: {kk: "Заансе Сханс: дәстүрлі ағаш диірмендер (поезбен және автобуспен ~30 мин)", ru: "Заансе Сханс: традиционные деревянные мельницы (~30 мин на поезде и автобусе)", en: "Zaanse Schans: traditional wooden windmills (~30 min by train and bus)"}
+        n: {kk: "Заансе Сханс: дәстүрлі ағаш диірмендер (поезбен ~20 мин + станциядан 10–15 мин жаяу)", ru: "Заансе Сханс: традиционные деревянные мельницы (~20 мин на поезде + 10–15 мин пешком от станции)", en: "Zaanse Schans: traditional wooden windmills (~20 min by train + 10–15 min walk from the station)"}
       }
     ],
     hacks: [

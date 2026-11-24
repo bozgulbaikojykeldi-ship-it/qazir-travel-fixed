@@ -2,7 +2,7 @@
    Страница: сначала сеть (чтобы сразу видеть обновления), без сети — сохранённая копия.
    Фото, иконки, шрифты: из кэша, а если их нет — из сети с сохранением.
    VERSION меняет build.sh при каждой сборке: так телефоны получают новую версию. */
-const VERSION = "qz-2a735efc46";
+const VERSION = "qz-3c4b7e0e9d";
 const MEDIA = "qz-media";
 const CORE = ["index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
