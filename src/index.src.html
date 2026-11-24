@@ -420,6 +420,19 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .pr-line a { color: var(--sky-deep); text-decoration: none; }
 .pr-line.pr-mat { background: var(--soft); border-radius: 12px; padding: 8px 10px; }
 .pr-chips { margin-bottom: 10px; }
+/* погода и где жить */
+.wx-head, .wx-row { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 6px; align-items: center; font-size: 13.5px; }
+.wx-head { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 0 8px 4px; }
+.wx-row { padding: 6px 8px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+.wx-row:nth-child(odd) { background: var(--soft); }
+.wx-row.on { background: var(--sun); color: #06243F; }
+.wx-row.on .muted { color: #06243F; opacity: .8; }
+.wx-trip { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
+.wx-trip:last-of-type { border-bottom: 0; }
+.wx-trip > span:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.stay { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+.stay:last-of-type { border-bottom: 0; }
+.stay b { display: block; margin-bottom: 2px; }
 .sos-tip { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
 /* тёмная тема: тёмно-синие плашки (заголовок, итог, конвертер) отделяем от фона мягким градиентом и тонкой рамкой */
 :root[data-theme="dark"] .hero, :root[data-theme="dark"] .total { background: linear-gradient(135deg, #133D6B 0%, #0B2545 72%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
@@ -578,6 +591,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
         <div class="card v-result" id="visaCard"></div>
         <div class="card" id="routeCard"></div>
         <div class="card" id="datesCard"></div>
+        <div class="card" id="weatherCard"></div>
         <div class="card total" id="total"></div>
         <div class="card"><div class="h3" data-t="perDay"></div><div id="split"></div></div>
         <div class="card" id="shareCard"></div>
@@ -619,6 +633,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
       <p class="muted" style="margin:0 0 6px;font-size:13px" id="chCount"></p>
       <div id="checks"></div>
     </div>
+    <div class="card hidden" id="chWx"></div>
   </div>
 
   <div id="view-prayer" class="hidden"></div>
@@ -695,7 +710,7 @@ const TRAVEL = {
   "rome|como":     {h: 4.5,  mode: "train", p: [30, 85],  via: V("Frecciarossa Миланға + Trenord Комоға", "Frecciarossa до Милана + Trenord до Комо", "Frecciarossa to Milan + Trenord to Como")},
   "rome|lugano":   {h: 5.0,  mode: "train", p: [40, 105],  via: V("Frecciarossa Миланға + EuroCity Луганоға", "Frecciarossa до Милана + EuroCity до Лугано", "Frecciarossa to Milan + EuroCity to Lugano")},
   "paris|milan":   {h: 4.0,  mode: "flight", p: [30, 110], via: V("CDG/ORY → MXP/LIN ~1 сағ 30 мин", "CDG/ORY → MXP/LIN ~1 ч 30 мин", "CDG/ORY → MXP/LIN ~1 h 30 min"), alt: {h: 7.0, mode: "train", p: [35, 90], via: V("TGV / Frecciarossa, тікелей пойыз", "TGV / Frecciarossa, прямой поезд", "TGV / Frecciarossa, direct train")}},
-  "paris|venice":  {h: 4.25, mode: "flight", p: null, via: V("CDG/ORY → VCE ~1 сағ 40 мин", "CDG/ORY → VCE ~1 ч 40 мин", "CDG/ORY → VCE ~1 h 40 min")},
+  "paris|venice":  {h: 4.25, mode: "flight", p: [46, 120], via: V("CDG/ORY → VCE ~1 сағ 40 мин", "CDG/ORY → VCE ~1 ч 40 мин", "CDG/ORY → VCE ~1 h 40 min")},
   "paris|como":    {h: 5.25, mode: "mixed", p: [35, 115],  via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
   "paris|lugano":  {h: 5.75, mode: "mixed", p: [45, 125],  via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
   "milan|venice":  {h: 2.5,  mode: "train", p: [21, 45],  via: V("Frecciarossa / Italo ~2 сағ 25 мин", "Frecciarossa / Italo ~2 ч 25 мин", "Frecciarossa / Italo ~2 h 25 min")},
@@ -715,7 +730,7 @@ const TRAVEL = {
   "budapest|como": {h: 5.5, mode: "mixed", p: [25, 95], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
   "budapest|lugano": {h: 6.0, mode: "mixed", p: [35, 115], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
   "prague|rome": {h: 4.75, mode: "flight", p: [35, 110], via: V("PRG → FCO/CIA ~1 сағ 55 мин", "PRG → FCO/CIA ~1 ч 55 мин", "PRG → FCO/CIA ~1 h 55 min")},
-  "prague|paris": {h: 4.75, mode: "flight", p: null, via: V("PRG → CDG/BVA ~1 сағ 50 мин", "PRG → CDG/BVA ~1 ч 50 мин", "PRG → CDG/BVA ~1 h 50 min")},
+  "prague|paris": {h: 4.75, mode: "flight", p: [40, 120], via: V("PRG → CDG/BVA ~1 сағ 50 мин", "PRG → CDG/BVA ~1 ч 50 мин", "PRG → CDG/BVA ~1 h 50 min")},
   "prague|milan": {h: 4.5, mode: "flight", p: [23, 90], via: V("PRG → BGY/MXP ~1 сағ 25 мин", "PRG → BGY/MXP ~1 ч 25 мин", "PRG → BGY/MXP ~1 h 25 min")},
   "prague|venice": {h: 4.5, mode: "flight", p: [27, 90], via: V("PRG → TSF/VCE ~1 сағ 20 мин", "PRG → TSF/VCE ~1 ч 20 мин", "PRG → TSF/VCE ~1 h 20 min")},
   "prague|como": {h: 5.75, mode: "mixed", p: [28, 95], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
@@ -724,37 +739,39 @@ const TRAVEL = {
   // Флоренция–Комо/Лугано — сумма частей через Милан. Где цену не нашли — null (не выдумываем).
   "florence|rome": {h: 1.75, mode: "train", p: [11, 40], via: V("Frecciarossa / Italo ~1 сағ 30 мин, SMN → Termini", "Frecciarossa / Italo ~1 ч 30 мин, SMN → Termini", "Frecciarossa / Italo ~1 h 30 min, SMN → Termini")},
   "florence|milan": {h: 2.25, mode: "train", p: [13, 45], via: V("Frecciarossa / Italo ~1 сағ 55 мин, SMN → Centrale", "Frecciarossa / Italo ~1 ч 55 мин, SMN → Centrale", "Frecciarossa / Italo ~1 h 55 min, SMN → Centrale")},
-  "florence|venice": {h: 2.5, mode: "train", p: null, via: V("Frecciarossa / Italo ~2 сағ 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 ч 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 h 10 min, SMN → Santa Lucia")},
+  "florence|venice": {h: 2.5, mode: "train", p: [19, 50], via: V("Frecciarossa / Italo ~2 сағ 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 ч 10 мин, SMN → Santa Lucia", "Frecciarossa / Italo ~2 h 10 min, SMN → Santa Lucia")},
   "florence|como": {h: 3.25, mode: "train", p: [18, 51], via: V("Frecciarossa Миланға + Trenord Комоға", "Frecciarossa до Милана + Trenord до Комо", "Frecciarossa to Milan + Trenord to Como")},
   "florence|lugano": {h: 3.75, mode: "train", p: [28, 70], via: V("Frecciarossa Миланға + EuroCity Луганоға", "Frecciarossa до Милана + EuroCity до Лугано", "Frecciarossa to Milan + EuroCity to Lugano")},
-  "florence|vienna": {h: 4.5, mode: "flight", p: null, via: V("FLR → VIE ~1 сағ 30 мин (Austrian) — кестені тексеріңіз", "FLR → VIE ~1 ч 30 мин (Austrian) — проверьте расписание", "FLR → VIE ~1 h 30 min (Austrian) — check the schedule")},
+  "florence|vienna": {h: 4.5, mode: "flight", p: [60, 150], via: V("FLR → VIE ~1 сағ 30 мин (Austrian) — кестені тексеріңіз", "FLR → VIE ~1 ч 30 мин (Austrian) — проверьте расписание", "FLR → VIE ~1 h 30 min (Austrian) — check the schedule")},
   "florence|paris": {h: 4.75, mode: "flight", p: [30, 130], via: V("FLR/PSA → CDG/ORY ~1 сағ 50 мин", "FLR/PSA → CDG/ORY ~1 ч 50 мин", "FLR/PSA → CDG/ORY ~1 h 50 min")},
-  "florence|budapest": {h: 5.5, mode: "flight", p: null, via: V("Тікелей рейс расталмады — Пиза (PSA) немесе Болонья (BLQ) арқылы", "Прямой рейс не подтверждён — через Пизу (PSA) или Болонью (BLQ)", "No confirmed direct flight — via Pisa (PSA) or Bologna (BLQ)")},
+  "florence|budapest": {h: 5.5, mode: "mixed", p: [20, 100], via: V("Пизаға пойыз ~1 сағ (билеті бөлек) + PSA → BUD Ryanair ~1 сағ 40 мин; бағасы — тек ұшақ", "Поезд до Пизы ~1 ч (билет отдельно) + PSA → BUD Ryanair ~1 ч 40 мин; цена — только перелёт", "Train to Pisa ~1 h (separate ticket) + PSA → BUD Ryanair ~1 h 40 min; price is the flight only")},
   "florence|prague": {h: 4.75, mode: "flight", p: [63, 130], via: V("FLR/PSA → PRG ~1 сағ 40 мин (Smartwings, Volotea — кестені тексеріңіз)", "FLR/PSA → PRG ~1 ч 40 мин (Smartwings, Volotea — проверьте расписание)", "FLR/PSA → PRG ~1 h 40 min (Smartwings, Volotea — check the schedule)")},
   // Мюнхен (ноябрь 2026): поезда ÖBB/DB/ČD, «от» — агрегаторы и сайты перевозчиков (railpassguide, seat61, Bahnpedia, Google Flights);
   // «типично» — оценка. Где цену не нашли — null (не выдумываем).
   "munich|vienna": {h: 4.0, mode: "train", p: [19, 60], via: V("ÖBB Railjet, тікелей пойыз ~4 сағ, München Hbf → Wien Hbf", "ÖBB Railjet, прямой поезд ~4 ч, München Hbf → Wien Hbf", "ÖBB Railjet direct ~4 h, München Hbf → Wien Hbf")},
   "munich|prague": {h: 5.75, mode: "train", p: [16, 45], via: V("EuroCity, тікелей пойыз ~5 сағ 40 мин, München Hbf → Praha hl.n.", "EuroCity, прямой поезд ~5 ч 40 мин, München Hbf → Praha hl.n.", "EuroCity direct ~5 h 40 min, München Hbf → Praha hl.n.")},
-  "munich|budapest": {h: 7.0, mode: "train", p: null, via: V("ÖBB Railjet ~6 сағ 45 мин (Вена арқылы)", "ÖBB Railjet ~6 ч 45 мин (через Вену)", "ÖBB Railjet ~6 h 45 min (via Vienna)")},
+  "munich|budapest": {h: 7.0, mode: "train", p: [30, 80], via: V("ÖBB Railjet ~6 сағ 45 мин (Вена арқылы)", "ÖBB Railjet ~6 ч 45 мин (через Вену)", "ÖBB Railjet ~6 h 45 min (via Vienna)")},
   "munich|venice": {h: 6.75, mode: "train", p: [25, 90], via: V("ÖBB EuroCity ~6,5–7 сағ, Бреннер асуы арқылы", "ÖBB EuroCity ~6,5–7 ч, через перевал Бреннер", "ÖBB EuroCity ~6.5–7 h over the Brenner Pass")},
-  "munich|milan": {h: 4.0, mode: "flight", p: null, via: V("MUC → MXP/LIN ~1 сағ 10 мин", "MUC → MXP/LIN ~1 ч 10 мин", "MUC → MXP/LIN ~1 h 10 min")},
-  "munich|como": {h: 5.5, mode: "mixed", p: null, via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
-  "munich|lugano": {h: 6.0, mode: "mixed", p: null, via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
+  "munich|milan": {h: 4.0, mode: "flight", p: [57, 140], via: V("MUC → MXP/LIN ~1 сағ 10 мин", "MUC → MXP/LIN ~1 ч 10 мин", "MUC → MXP/LIN ~1 h 10 min")},
+  "munich|como": {h: 5.5, mode: "mixed", p: [62, 146], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  "munich|lugano": {h: 6.0, mode: "mixed", p: [72, 165], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")},
   "munich|rome": {h: 4.5, mode: "flight", p: [50, 150], via: V("MUC → FCO ~1 сағ 30 мин (easyJet, ITA, Lufthansa)", "MUC → FCO ~1 ч 30 мин (easyJet, ITA, Lufthansa)", "MUC → FCO ~1 h 30 min (easyJet, ITA, Lufthansa)")},
-  "munich|paris": {h: 4.5, mode: "flight", p: null, via: V("MUC → CDG ~1 сағ 30 мин", "MUC → CDG ~1 ч 30 мин", "MUC → CDG ~1 h 30 min")},
-  "munich|florence": {h: 4.0, mode: "flight", p: null, via: V("MUC → FLR ~1 сағ 15 мин (Lufthansa) — кестені тексеріңіз", "MUC → FLR ~1 ч 15 мин (Lufthansa) — проверьте расписание", "MUC → FLR ~1 h 15 min (Lufthansa) — check the schedule")},
-  "munich|barcelona": {h: 5.0, mode: "flight", p: null, via: V("MUC → BCN ~2 сағ", "MUC → BCN ~2 ч", "MUC → BCN ~2 h")},
+  "munich|paris": {h: 4.5, mode: "flight", p: [70, 160], via: V("MUC → CDG ~1 сағ 30 мин", "MUC → CDG ~1 ч 30 мин", "MUC → CDG ~1 h 30 min")},
+  "munich|florence": {h: 4.0, mode: "flight", p: [95, 250], via: V("MUC → FLR ~1 сағ 15 мин (Lufthansa) — кестені тексеріңіз", "MUC → FLR ~1 ч 15 мин (Lufthansa) — проверьте расписание", "MUC → FLR ~1 h 15 min (Lufthansa) — check the schedule")},
+  "munich|barcelona": {h: 5.0, mode: "flight", p: [50, 150], via: V("MUC → BCN ~2 сағ", "MUC → BCN ~2 ч", "MUC → BCN ~2 h")},
   // Барселона (ноябрь 2026): все направления — перелёты (Vueling, Ryanair и др.), «от» — сайты авиакомпаний и Google Flights/Kayak; «типично» — оценка.
-  "barcelona|paris": {h: 4.75, mode: "flight", p: null, via: V("BCN → ORY/CDG ~1 сағ 50 мин", "BCN → ORY/CDG ~1 ч 50 мин", "BCN → ORY/CDG ~1 h 50 min"), alt: {h: 6.75, mode: "train", p: [39, 110], via: V("TGV INOUI, тікелей пойыз ~6 сағ 40 мин (күніне 1–2 рейс)", "TGV INOUI, прямой поезд ~6 ч 40 мин (1–2 рейса в день)", "TGV INOUI direct ~6 h 40 min (1–2 a day)")}},
+  "barcelona|paris": {h: 4.75, mode: "flight", p: [36, 120], via: V("BCN → ORY/CDG ~1 сағ 50 мин", "BCN → ORY/CDG ~1 ч 50 мин", "BCN → ORY/CDG ~1 h 50 min"), alt: {h: 6.75, mode: "train", p: [39, 110], via: V("TGV INOUI, тікелей пойыз ~6 сағ 40 мин (күніне 1–2 рейс)", "TGV INOUI, прямой поезд ~6 ч 40 мин (1–2 рейса в день)", "TGV INOUI direct ~6 h 40 min (1–2 a day)")}},
   "barcelona|rome": {h: 4.75, mode: "flight", p: [20, 150], via: V("BCN → FCO ~1 сағ 50 мин (Vueling, Ryanair)", "BCN → FCO ~1 ч 50 мин (Vueling, Ryanair)", "BCN → FCO ~1 h 50 min (Vueling, Ryanair)")},
   "barcelona|milan": {h: 4.5, mode: "flight", p: [16, 110], via: V("BCN → MXP/LIN/BGY ~1 сағ 40 мин (Vueling, Ryanair)", "BCN → MXP/LIN/BGY ~1 ч 40 мин (Vueling, Ryanair)", "BCN → MXP/LIN/BGY ~1 h 40 min (Vueling, Ryanair)")},
   "barcelona|venice": {h: 4.5, mode: "flight", p: [14, 100], via: V("BCN → VCE/TSF ~1 сағ 50 мин (Vueling, Ryanair)", "BCN → VCE/TSF ~1 ч 50 мин (Vueling, Ryanair)", "BCN → VCE/TSF ~1 h 50 min (Vueling, Ryanair)")},
   "barcelona|vienna": {h: 5.0, mode: "flight", p: [30, 180], via: V("BCN → VIE ~2 сағ 30 мин (Vueling, Austrian)", "BCN → VIE ~2 ч 30 мин (Vueling, Austrian)", "BCN → VIE ~2 h 30 min (Vueling, Austrian)")},
-  "barcelona|prague": {h: 5.0, mode: "flight", p: null, via: V("BCN → PRG ~2 сағ 30 мин", "BCN → PRG ~2 ч 30 мин", "BCN → PRG ~2 h 30 min")},
-  "barcelona|budapest": {h: 5.25, mode: "flight", p: null, via: V("BCN → BUD ~2 сағ 45 мин", "BCN → BUD ~2 ч 45 мин", "BCN → BUD ~2 h 45 min")},
-  "barcelona|florence": {h: 4.75, mode: "flight", p: null, via: V("BCN → FLR немесе Пиза (PSA) ~1 сағ 40 мин — кестені тексеріңіз", "BCN → FLR или Пиза (PSA) ~1 ч 40 мин — проверьте расписание", "BCN → FLR or Pisa (PSA) ~1 h 40 min — check the schedule")},
-  "barcelona|como": {h: 5.5, mode: "mixed", p: null, via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
-  "barcelona|lugano": {h: 6.0, mode: "mixed", p: null, via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")}
+  "barcelona|prague": {h: 5.0, mode: "flight", p: [31, 130], via: V("BCN → PRG ~2 сағ 30 мин", "BCN → PRG ~2 ч 30 мин", "BCN → PRG ~2 h 30 min")},
+  "barcelona|budapest": {h: 5.25, mode: "flight", p: [29, 150], via: V("BCN → BUD ~2 сағ 45 мин", "BCN → BUD ~2 ч 45 мин", "BCN → BUD ~2 h 45 min")},
+  "barcelona|florence": {h: 4.75, mode: "flight", p: [22, 120], via: V("BCN → FLR немесе Пиза (PSA) ~1 сағ 40 мин — кестені тексеріңіз", "BCN → FLR или Пиза (PSA) ~1 ч 40 мин — проверьте расписание", "BCN → FLR or Pisa (PSA) ~1 h 40 min — check the schedule")},
+  "barcelona|como": {h: 5.5, mode: "mixed", p: [21, 116], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
+  // 2026-11-24: дозаполнены цены, которых не было (Google Flights, Kayak, Momondo, Skyscanner, Ryanair, Bahnpedia; «от» — найденный минимум,
+  // долларовые цены пересчитаны ~1,1 $ = 1 €). Комо/Лугано — сумма частей через Милан. Флоренция–Будапешт — только перелёт из Пизы.
+  "barcelona|lugano": {h: 6.0, mode: "mixed", p: [31, 135], via: V("Миланға ұшу + Луганоға пойыз/автобус", "перелёт в Милан + поезд/автобус до Лугано", "fly to Milan + train/bus to Lugano")}
 };
 
 /* 4. ОБРАТНЫЙ ВЫЛЕТ В КАЗАХСТАН.
@@ -4773,6 +4790,80 @@ const CITY_DATES = {
     {easterRange: [50, 50], icon: "🛒", text: V("Segona Pasqua — Барселонаның жергілікті мерекесі: дүкендер мен мекемелердің көбі жабық", "Segona Pasqua — местный праздник Барселоны: большинство магазинов и учреждений закрыто", "Segona Pasqua, a Barcelona local holiday: most shops and offices are closed"), src: "https://ajuntament.barcelona.cat/calendarifestius/en"}
   ]
 };
+
+/* 13. КЛИМАТ: средняя дневная (hi) и ночная (lo) температура °C и число дней с осадками (days) по месяцам январь…декабрь.
+   Из таблиц Weather box английской Википедии (нормы 1991–2020 там, где указаны; таблицы ссылаются на метеослужбы), 2026-11-24.
+   days — дни с осадками ≥1 мм у большинства станций; в Мюнхене (DWD) число выше — вероятно, порог 0,1 мм. Прага — дней нет в таблице.
+   st — метеостанция. По этим данным приложение показывает погоду на даты поездки и советует, что взять с собой. */
+const CLIMATE_CHECKED = "2026-11";
+const CLIMATE = {
+  vienna: {hi: [4, 7, 11, 17, 21, 26, 27, 27, 22, 15, 10, 5], lo: [0, 1, 4, 9, 12, 16, 18, 18, 14, 9, 5, 1], days: [8, 6, 8, 6, 9, 9, 9, 8, 7, 7, 7, 8], st: "Wien Innere Stadt", src: "https://en.wikipedia.org/wiki/Vienna#Climate"},
+  rome: {hi: [13, 14, 17, 20, 25, 30, 33, 33, 28, 23, 17, 13], lo: [3, 3, 6, 8, 13, 17, 19, 20, 16, 12, 8, 4], days: [8, 7, 7, 7, 6, 3, 2, 2, 6, 7, 9, 9], st: "Roma Urbe", src: "https://en.wikipedia.org/wiki/Rome#Climate"},
+  paris: {hi: [8, 9, 13, 17, 20, 23, 26, 26, 22, 17, 11, 8], lo: [3, 3, 6, 8, 11, 14, 16, 16, 13, 10, 6, 4], days: [10, 9, 10, 9, 9, 8, 7, 8, 8, 10, 10, 11], st: "Paris Montsouris", src: "https://en.wikipedia.org/wiki/Paris#Climate"},
+  milan: {hi: [7, 10, 16, 19, 24, 28, 31, 30, 26, 19, 12, 7], lo: [0, 1, 4, 8, 13, 17, 19, 19, 15, 10, 5, 1], days: [5, 5, 5, 7, 8, 7, 5, 6, 5, 7, 8, 6], st: "Milano Linate", src: "https://en.wikipedia.org/wiki/Milan#Climate"},
+  venice: {hi: [8, 9, 13, 17, 22, 26, 29, 28, 24, 19, 13, 8], lo: [0, 1, 5, 9, 14, 17, 19, 19, 15, 11, 6, 1], days: [6, 5, 6, 8, 8, 9, 6, 6, 6, 7, 6, 6], st: "Venezia", src: "https://en.wikipedia.org/wiki/Venice#Climate"},
+  florence: {hi: [11, 13, 16, 20, 24, 29, 32, 32, 27, 22, 16, 11], lo: [2, 3, 5, 8, 12, 16, 18, 19, 15, 11, 6, 3], days: [8, 7, 7, 9, 8, 5, 3, 4, 6, 9, 10, 10], st: "Firenze Peretola", src: "https://en.wikipedia.org/wiki/Florence#Climate"},
+  como: {hi: [6, 8, 13, 17, 23, 27, 30, 29, 23, 19, 12, 9], lo: [-2, -1, 4, 7, 12, 16, 19, 19, 13, 9, 4, 2], days: [9, 8, 10, 12, 13, 11, 8, 9, 8, 10, 11, 9], st: "Como", src: "https://en.wikipedia.org/wiki/Como#Climate"},
+  lugano: {hi: [7, 9, 14, 17, 21, 25, 27, 27, 22, 17, 12, 8], lo: [1, 2, 5, 9, 12, 16, 18, 18, 14, 10, 6, 2], days: [5, 5, 6, 10, 12, 10, 8, 10, 9, 9, 9, 6], st: "Lugano", src: "https://en.wikipedia.org/wiki/Lugano#Climate"},
+  budapest: {hi: [3, 6, 11, 18, 23, 26, 28, 28, 23, 16, 9, 4], lo: [-2, -1, 2, 7, 12, 15, 17, 17, 12, 7, 3, -1], days: [6, 6, 6, 6, 8, 7, 8, 5, 6, 6, 7, 7], st: "Budapest Pestszentlőrinc", src: "https://en.wikipedia.org/wiki/Budapest#Climate"},
+  prague: {hi: [4, 6, 10, 16, 21, 24, 27, 26, 20, 14, 9, 5], lo: [0, 0, 3, 7, 11, 15, 17, 16, 12, 8, 4, 1], days: null, st: "Praha Klementinum", src: "https://en.wikipedia.org/wiki/Prague#Climate"},
+  munich: {hi: [4, 6, 10, 15, 19, 23, 25, 25, 20, 15, 8, 5], lo: [-2, -1, 2, 5, 9, 13, 15, 15, 10, 7, 2, -1], days: [15, 14, 16, 14, 16, 17, 16, 15, 14, 14, 15, 17], st: "München Dreimühlenviertel", src: "https://en.wikipedia.org/wiki/Munich#Climate"},
+  barcelona: {hi: [14, 15, 16, 19, 22, 26, 28, 29, 26, 22, 18, 15], lo: [6, 6, 8, 10, 14, 18, 21, 21, 18, 14, 9, 6], days: [4, 3, 4, 6, 5, 3, 2, 4, 6, 6, 5, 4], st: "Barcelona El Prat", src: "https://en.wikipedia.org/wiki/Barcelona#Climate"}
+};
+
+/* 14. ГДЕ ЖИТЬ: 2–3 района на город — где удобно остановиться и почему. Это ориентир (расположение, транспорт, атмосфера),
+   а не рейтинг отелей; конкретный отель клиент проверяет по отзывам. warn — где осторожнее вечером. */
+const STAY = {
+  vienna: {areas: [
+    ["Innere Stadt (1)", V("Тарихи орталық: Стефан соборы мен Хофбургке жаяу. Ең қымбат, бірақ жолға уақыт кетпейді.", "Исторический центр: пешком до собора Святого Стефана и Хофбурга. Дороже всего, зато не тратите время на дорогу.", "The historic centre: walk to St Stephen's and the Hofburg. Priciest, but no time lost commuting.")],
+    ["Neubau / Mariahilf (6–7)", V("MuseumsQuartier мен Mariahilfer Straße жанында; кафелер көп, орталыққа жаяу немесе метромен 5–10 мин. Бағасы орташа.", "Рядом с MuseumsQuartier и Mariahilfer Straße; много кафе, до центра пешком или 5–10 мин на метро. Цены средние.", "By the MuseumsQuartier and Mariahilfer Straße; lots of cafés, 5–10 min to the centre on foot or by metro. Mid-range prices.")],
+    ["Hauptbahnhof (10)", V("Басты вокзал маңы: әуежай пойызы мен Будапешт/Прага пойыздарына ыңғайлы, қонақүйлер жаңа әрі арзанырақ; орталыққа U1 метросымен ~10 мин.", "У главного вокзала: удобно к аэропорту и поездам в Будапешт/Прагу, отели новее и дешевле; до центра на U1 ~10 мин.", "By the main station: handy for the airport train and trains to Budapest/Prague; newer, cheaper hotels; ~10 min to the centre on U1.")]]},
+  rome: {areas: [
+    ["Centro Storico", V("Пантеон мен Навона алаңы маңы: бәріне жаяу жетесіз. Кешке шулы, бағасы жоғары.", "Район Пантеона и площади Навона: всё пешком. Вечером шумно, цены высокие.", "Around the Pantheon and Piazza Navona: everything on foot. Noisy at night and pricey.")],
+    ["Monti", V("Колизейге жаяу ~10 мин; тар көшелер мен тратториялар, Cavour метросы жанында.", "До Колизея ~10 мин пешком; узкие улочки и траттории, рядом метро Cavour.", "~10 min walk to the Colosseum; narrow lanes and trattorias, near Cavour metro.")],
+    ["Prati", V("Ватиканға жақын, тыныш әрі таза аудан; A метросы (Ottaviano, Lepanto).", "Рядом с Ватиканом, тихий и аккуратный район; метро A (Ottaviano, Lepanto).", "Close to the Vatican, calm and tidy; metro A (Ottaviano, Lepanto).")]],
+    warn: V("Termini вокзалының дәл маңы арзан әрі әуежай пойызына ыңғайлы, бірақ кешке көңілсіз — сақ болыңыз.", "Прямо у вокзала Термини дёшево и удобно к поезду в аэропорт, но вечером неуютно — будьте внимательны.", "Right by Termini station is cheap and handy for the airport train, but unpleasant at night — stay alert.")},
+  paris: {areas: [
+    ["Le Marais (3–4)", V("Орталық: Нотр-Дам мен Луврға жаяу, кафелер мен дүкендер көп. Бағасы жоғары.", "Центр: пешком до Нотр-Дама и Лувра, много кафе и магазинов. Дорого.", "Central: walk to Notre-Dame and the Louvre, full of cafés and shops. Pricey.")],
+    ["Quartier Latin / Saint-Germain (5–6)", V("Классикалық Париж: Сорбонна, Люксембург бағы. Saint-Michel бекетінен RER B пойызы CDG әуежайына тікелей барады.", "Классический Париж: Сорбонна, Люксембургский сад. От станции Saint-Michel поезд RER B идёт прямо в аэропорт CDG.", "Classic Paris: the Sorbonne, Luxembourg Gardens. RER B from Saint-Michel runs straight to CDG airport.")],
+    ["Bastille / Gare de Lyon (11–12)", V("Бағасы төменірек; метроның 1 және 14 желілері орталыққа тез жеткізеді.", "Цены ниже; линии метро 1 и 14 быстро довозят до центра.", "Lower prices; metro lines 1 and 14 get you to the centre fast.")]],
+    warn: V("Gare du Nord пен Barbès маңы кешке көңілсіз; Монмартрда сөмкеңізге сақ болыңыз.", "У Gare du Nord и Barbès вечером неуютно; на Монмартре следите за сумкой.", "Around Gare du Nord and Barbès is unpleasant at night; watch your bag in Montmartre.")},
+  milan: {areas: [
+    ["Duomo / Centro", V("Дуомо мен галерея жанында: бәрі жаяу, ең қымбат.", "У Дуомо и галереи: всё пешком, дороже всего.", "By the Duomo and the Galleria: all on foot, the priciest.")],
+    ["Brera", V("Әдемі ескі аудан, кешке тыныш; орталыққа жаяу.", "Красивый старый район, вечером спокойно; до центра пешком.", "A pretty old quarter, quiet at night; walk to the centre.")],
+    ["Milano Centrale", V("Әуежай автобустары мен Комо/Венеция пойыздары осы жерден; M2/M3 метросы. Кешке вокзал алды көңілсіз.", "Отсюда автобусы в аэропорты и поезда в Комо/Венецию; метро M2/M3. Вечером у вокзала неуютно.", "Airport buses and trains to Como/Venice leave from here; metro M2/M3. The station forecourt is unpleasant at night.")]]},
+  venice: {areas: [
+    ["San Marco / Castello", V("Тарихи қаланың ішінде: кешке туристер кеткен соң ерекше тыныш. Қымбат, ал жүкпен көпірлер көп.", "Внутри исторического города: вечером, когда туристы уезжают, особенно тихо. Дорого, и с чемоданом много мостов.", "Inside the historic city: magical after the day-trippers leave. Pricey, and many bridges with luggage.")],
+    ["Cannaregio", V("Santa Lucia вокзалына жақын, жергілікті тұрғындар ауданы; бағасы орташа.", "Рядом с вокзалом Santa Lucia, район местных жителей; цены средние.", "Near Santa Lucia station, a residential area; mid-range prices.")],
+    ["Mestre", V("Материктегі қала: әлдеқайда арзан, Венецияға пойызбен ~10 мин. Бірақ кешкі Венецияны көрмейсіз.", "Город на материке: заметно дешевле, до Венеции ~10 мин на поезде. Но вечернюю Венецию не увидите.", "On the mainland: much cheaper, ~10 min to Venice by train — but you miss Venice in the evening.")]]},
+  florence: {areas: [
+    ["Centro Storico (Duomo)", V("Дуомо маңы: барлық негізгі орынға жаяу.", "Район Дуомо: до всех главных мест пешком.", "Around the Duomo: walk to every main sight.")],
+    ["Santa Maria Novella", V("Вокзал маңы: Пиза мен Римге пойызға, T2 трамвайымен әуежайға ыңғайлы; орталыққа жаяу ~10 мин.", "У вокзала: удобно к поездам в Пизу и Рим и на трамвае T2 в аэропорт; до центра ~10 мин пешком.", "By the station: handy for trains to Pisa and Rome and tram T2 to the airport; ~10 min walk to the centre.")],
+    ["Oltrarno", V("Арноның арғы беті: шеберханалар, кешкі тыныш алаңдар, Питти сарайына жақын.", "За Арно: мастерские, тихие вечерние площади, рядом дворец Питти.", "Across the Arno: workshops, calm evening squares, near the Pitti Palace.")]]},
+  como: {areas: [
+    ["Città murata", V("Қамал қабырғасы ішіндегі ескі қала: көл жағалауы мен Брунате фуникулеріне жаяу.", "Старый город в крепостных стенах: пешком до набережной и фуникулёра в Брунате.", "The walled old town: walk to the lakefront and the Brunate funicular.")],
+    ["Como San Giovanni", V("Вокзал маңы: Милан мен Луганоға пойызға ыңғайлы, ескі қалаға жаяу ~10 мин.", "У вокзала: удобно к поездам в Милан и Лугано, до старого города ~10 мин пешком.", "By the station: handy for trains to Milan and Lugano; ~10 min walk to the old town.")]]},
+  lugano: {areas: [
+    ["Centro", V("Piazza della Riforma мен көл жағалауы: кемелер мен дүкендерге жаяу.", "Piazza della Riforma и набережная: пешком до корабликов и магазинов.", "Piazza della Riforma and the lakefront: walk to the boats and shops.")],
+    ["Stazione", V("Вокзал төбеде: пойыздарға ыңғайлы, орталыққа фуникулермен ~2 мин.", "Вокзал наверху: удобно к поездам, до центра ~2 мин на фуникулёре.", "The station is up the hill: handy for trains, ~2 min to the centre by funicular.")]]},
+  budapest: {areas: [
+    ["V. kerület (Belváros-Lipótváros)", V("Парламент, Базилика және Дунай жағалауы: ең ыңғайлы аудан.", "Парламент, Базилика и набережная Дуная: самый удобный район.", "Parliament, the Basilica and the Danube embankment: the most convenient district.")],
+    ["VII. kerület (Erzsébetváros)", V("Еврей кварталы мен «руин-барлар»: жастарға қызықты, бірақ түнде шулы.", "Еврейский квартал и «руин-бары»: интересно молодёжи, но ночью шумно.", "The Jewish Quarter and ruin bars: fun for younger travellers, but loud at night.")],
+    ["I. kerület (Várnegyed)", V("Буда қамалы ауданы: тыныш әрі әдемі, бірақ төбеде — көліксіз шаршатады.", "Район Будайской крепости: тихо и красиво, но на холме — без транспорта утомительно.", "The Castle District: calm and beautiful, but on a hill — tiring without transport.")]]},
+  prague: {areas: [
+    ["Staré Město", V("Ескі қала: бәрі жаяу, бірақ қымбат әрі туристер көп.", "Старый город: всё пешком, но дорого и много туристов.", "The Old Town: all on foot, but pricey and crowded.")],
+    ["Malá Strana", V("Карл көпірі мен Прага қамалының арасы: кешке тыныш әрі әдемі.", "Между Карловым мостом и Пражским градом: вечером тихо и красиво.", "Between Charles Bridge and the Castle: quiet and lovely in the evening.")],
+    ["Vinohrady", V("Жергілікті тұрғындар ауданы, арзанырақ; A метросымен орталыққа ~5 мин.", "Район местных жителей, дешевле; до центра ~5 мин на метро A.", "A residential area, cheaper; ~5 min to the centre on metro A.")]]},
+  munich: {areas: [
+    ["Altstadt", V("Мариенплац маңы: бәрі жаяу, ең қымбат.", "Район Мариенплац: всё пешком, дороже всего.", "Around Marienplatz: all on foot, the priciest.")],
+    ["Maxvorstadt / Schwabing", V("Пинакотекалар мен Ағылшын бағына жақын университет ауданы; тыныш.", "Университетский район рядом с пинакотеками и Английским садом; спокойно.", "The university district by the Pinakotheken and the English Garden; calm.")],
+    ["Hauptbahnhof", V("Вокзал маңы: әуежай пойызы, Зальцбург пен Нойшванштайнға пойыздар осы жерден; маңында халал мейрамханалар көп (Landwehrstraße, Schillerstraße). Кешке вокзал алды көңілсіз болуы мүмкін.", "У вокзала: отсюда поезд в аэропорт, в Зальцбург и к Нойшванштайну; рядом много халяльных ресторанов (Landwehrstraße, Schillerstraße). Вечером у вокзала бывает неуютно.", "By the main station: trains to the airport, Salzburg and Neuschwanstein; many halal restaurants nearby (Landwehrstraße, Schillerstraße). The station area can feel rough at night.")]]},
+  barcelona: {areas: [
+    ["Eixample", V("Гауди үйлері мен кең көшелер; метро торабы, ыңғайлы әрі салыстырмалы түрде тыныш.", "Дома Гауди и широкие улицы; узел метро, удобно и сравнительно спокойно.", "Gaudí's houses and wide streets; a metro hub, convenient and relatively calm.")],
+    ["Barri Gòtic / El Born", V("Ескі қаланың ішінде, атмосфералы; бірақ түнде шулы және қалта ұрылары көп.", "Внутри старого города, атмосферно; но ночью шумно и много карманников.", "Inside the old town and full of atmosphere — but noisy at night, with many pickpockets.")],
+    ["Gràcia", V("Жергілікті тұрғындар ауданы, шағын алаңдар; Гуэль саябағына жақын, тынышырақ.", "Район местных жителей, маленькие площади; рядом парк Гуэль, спокойнее.", "A local neighbourhood of small squares; near Park Güell and quieter.")]],
+    warn: V("Ла Рамбла мен оның маңы түнде шулы, ұрылар көп — заттарыңызды алдыңызда ұстаңыз.", "Ла Рамбла и окрестности ночью шумные, много карманников — держите вещи перед собой.", "La Rambla and around are loud at night with many pickpockets — keep your things in front of you.")}
+};
 </script>
 <script>
 "use strict";
@@ -4903,6 +4994,17 @@ const T = {
     prTip: "Намаз уақыты мен құбыла бағыты — Mawaqit немесе Muslim Pro қосымшасында. Әуежай бөлмелері барлық дін өкілдеріне ортақ.",
     prChecked: "Ашық дереккөздер бойынша тексерілді ({d}). Мешіттердің мекенжайы мен уақыты өзгеруі мүмкін.",
     tPrayer: "Намаз", themeToLight: "Ақ режимге ауысу", themeToDark: "Қараңғы режимге ауысу",
+    wxTitle: "Ауа райы айлар бойынша", wxTripTitle: "Сапардағы ауа райы", wxDay: "Күндіз", wxNight: "Түнде", wxRainDays: "Жауынды күн",
+    wxNote: "Көпжылдық орташа көрсеткіштер, нақты болжам емес — ұшар алдында болжамды қараңыз", wxSrc: "Википедия, {st} метеостанциясы",
+    wxPack: "Не алып шығу керек", wxPackTrip: "Ауа райына қарай не алу керек",
+    wxCold: "Аяз болуы мүмкін: жылы күрте, бас киім, қолғап және жылы аяқ киім алыңыз.",
+    wxCool: "Салқын: күрте мен свитер, жабық аяқ киім алыңыз.",
+    wxWarm: "Күндіз жылы: жеңіл киім, бірақ кешке жеңіл күрте немесе свитер керек болады.",
+    wxHot: "Ыстық: бас киім, күннен қорғайтын крем, су бөтелкесі. Түскі 13–16 сағатта мұражайда немесе көлеңкеде болыңыз.",
+    wxRain: "Жаңбыр жиі жауады: жиналмалы қолшатыр немесе жеңіл жаңбырлық алыңыз.",
+    wxWalk: "Күніне 10–15 км жаяу жүресіз — киіп үйренген жайлы аяқ киім алыңыз.",
+    wxCover: "Шіркеу мен мешітке иық пен тізе жабық кіреді — жеңіл шарф немесе орамал алыңыз.",
+    stayTitle: "Қай ауданда тоқтау керек", stayNote: "Бұл — аудан бойынша бағдар. Нақты қонақүйді пікірлері мен картадағы орнына қарап таңдаңыз.",
     prHeroText: "Сапар күндеріндегі намаз уақыттары, құбыла бағыты, жоспарыңыздағы орындарға ең жақын намазхана және дәрет алуға қатысты сыпайы кеңестер.",
     prDaysTitle: "Сапар күндеріндегі намаз уақыттары", prTodayTitle: "Бүгінгі намаз уақыттары",
     prNoPlan: "Маршрут жасасаңыз, әр күнге намаз уақыты мен жақын намазхана осы жерде шығады. Әзірге — таңдалған қаланың бүгінгі уақыты:",
@@ -5041,6 +5143,17 @@ const T = {
     prTip: "Время намаза и направление киблы — в приложении Mawaqit или Muslim Pro. Комнаты в аэропортах общие для всех религий.",
     prChecked: "Сверено по открытым источникам ({d}). Адреса и часы мечетей могут меняться.",
     tPrayer: "Намаз", themeToLight: "Светлая тема", themeToDark: "Тёмная тема",
+    wxTitle: "Погода по месяцам", wxTripTitle: "Погода в поездке", wxDay: "Днём", wxNight: "Ночью", wxRainDays: "Дней с дождём",
+    wxNote: "Многолетние средние, не прогноз — перед вылетом посмотрите прогноз", wxSrc: "Википедия, метеостанция {st}",
+    wxPack: "Что взять с собой", wxPackTrip: "Что взять по погоде",
+    wxCold: "Возможны заморозки: тёплая куртка, шапка, перчатки и тёплая обувь.",
+    wxCool: "Прохладно: куртка и свитер, закрытая обувь.",
+    wxWarm: "Днём тепло: лёгкая одежда, но к вечеру пригодится лёгкая куртка или свитер.",
+    wxHot: "Жарко: головной убор, солнцезащитный крем, бутылка воды. С 13 до 16 часов лучше быть в музее или в тени.",
+    wxRain: "Дожди часто: складной зонт или лёгкий дождевик.",
+    wxWalk: "Вы будете проходить 10–15 км в день — берите удобную разношенную обувь.",
+    wxCover: "В церкви и мечети входят с закрытыми плечами и коленями — возьмите лёгкий шарф или платок.",
+    stayTitle: "Где остановиться", stayNote: "Это ориентир по районам. Конкретный отель выбирайте по отзывам и по месту на карте.",
     prHeroText: "Время намаза в дни поездки, направление киблы, ближайшее место для молитвы к местам из вашего плана и деликатные советы по омовению.",
     prDaysTitle: "Время намаза в дни поездки", prTodayTitle: "Время намаза сегодня",
     prNoPlan: "Составьте маршрут — и здесь появятся время намаза и ближайшее место для молитвы на каждый день. Пока — сегодняшнее время в выбранном городе:",
@@ -5179,6 +5292,17 @@ const T = {
     prTip: "Prayer times and qibla direction: the Mawaqit or Muslim Pro app. Airport prayer rooms are shared by all faiths.",
     prChecked: "Checked against public sources ({d}). Mosque addresses and hours may change.",
     tPrayer: "Prayer", themeToLight: "Switch to light mode", themeToDark: "Switch to dark mode",
+    wxTitle: "Weather by month", wxTripTitle: "Weather on your trip", wxDay: "Day", wxNight: "Night", wxRainDays: "Rainy days",
+    wxNote: "Long-term averages, not a forecast — check the forecast before you fly", wxSrc: "Wikipedia, {st} weather station",
+    wxPack: "What to pack", wxPackTrip: "What to pack for the weather",
+    wxCold: "Frost is possible: a warm jacket, hat, gloves and warm shoes.",
+    wxCool: "Cool: a jacket and a sweater, closed shoes.",
+    wxWarm: "Warm by day: light clothes, but bring a light jacket or sweater for the evening.",
+    wxHot: "Hot: a hat, sunscreen and a water bottle. From 1 to 4 pm stay in a museum or in the shade.",
+    wxRain: "Frequent rain: a folding umbrella or a light raincoat.",
+    wxWalk: "You'll walk 10–15 km a day — bring comfortable, broken-in shoes.",
+    wxCover: "Churches and mosques require covered shoulders and knees — bring a light scarf.",
+    stayTitle: "Where to stay", stayNote: "This is a guide to neighbourhoods. Choose the actual hotel by its reviews and location on the map.",
     prHeroText: "Prayer times for each day of your trip, the qibla direction, the nearest place to pray to your planned sights, and considerate tips for wudu.",
     prDaysTitle: "Prayer times for your trip", prTodayTitle: "Today's prayer times",
     prNoPlan: "Build a route and this tab will show prayer times and the nearest place to pray for each day. For now, today's times in the chosen city:",
@@ -5614,6 +5738,7 @@ function renderResult() {
   let html = "", dayNo = 0, tickets = 0, unpriced = 0;
   const plan = planTrip(route, per, startDate); S.plan = plan;
   $("#datesCard").innerHTML = datesCardHTML(plan);
+  $("#weatherCard").innerHTML = weatherCardHTML(plan, route);
   route.order.forEach((id, ci) => {
     const c = CITIES[id];
     plan.days.filter((x) => x.ci === ci).map((x) => x.day).forEach((day, i) => {
@@ -5653,6 +5778,46 @@ function renderResult() {
   route.order.forEach(renderEat);
   renderCredits();
 }
+/* ---------- Погода по месяцам и «что взять с собой»; где жить ---------- */
+const monthName = (m) => (S.lang === "kk" ? KK_MON[m] : new Date(2026, m, 1).toLocaleDateString(S.lang === "en" ? "en-GB" : "ru-RU", {month: "short"}).replace(".", ""));
+const deg = (v) => (v > 0 ? "+" : "") + v + "°";
+// месяцы (0–11), в которые клиент будет в городе по текущему плану
+const tripMonths = (id) => (S.plan ? [...new Set(S.plan.days.filter((x) => x.cityId === id).map((x) => x.date.getMonth()))] : []);
+function climateTableHTML(id) {
+  const w = CLIMATE[id]; if (!w) return "";
+  const hl = tripMonths(id);
+  const rows = w.hi.map((hi, m) => `<div class="wx-row${hl.includes(m) ? " on" : ""}"><span>${esc(monthName(m))}</span><b>${deg(hi)}</b><span class="muted">${deg(w.lo[m])}</span><span class="muted">${w.days ? `☔ ${w.days[m]}` : ""}</span></div>`).join("");
+  return `<div class="wx-head"><span></span><span>${t("wxDay")}</span><span>${t("wxNight")}</span><span>${w.days ? t("wxRainDays") : ""}</span></div><div class="wx-table">${rows}</div>
+    <p class="src">${t("wxNote")} · <a href="${esc(w.src)}" target="_blank" rel="noopener">${tf("wxSrc", {st: w.st})} ↗</a></p>`;
+}
+// советы по одежде: по самым холодным/жарким/дождливым месяцам поездки во всех городах
+function packTips(pairs) {
+  const W = pairs.map(([id, m]) => CLIMATE[id] && {hi: CLIMATE[id].hi[m], lo: CLIMATE[id].lo[m], d: CLIMATE[id].days ? CLIMATE[id].days[m] : 0}).filter(Boolean);
+  if (!W.length) return [];
+  const minLo = Math.min(...W.map((x) => x.lo)), minHi = Math.min(...W.map((x) => x.hi)), maxHi = Math.max(...W.map((x) => x.hi)), maxD = Math.max(...W.map((x) => x.d));
+  const out = [];
+  if (minLo <= 2) out.push(["🧤", "wxCold"]); else if (minHi <= 14) out.push(["🧥", "wxCool"]);
+  if (maxHi >= 28) out.push(["🧢", "wxHot"]); else if (maxHi >= 18 && minLo > 2) out.push(["👕", "wxWarm"]);
+  if (maxD >= 8) out.push(["☂️", "wxRain"]);
+  out.push(["👟", "wxWalk"], ["🧣", "wxCover"]);
+  return out;
+}
+const packTipsHTML = (pairs) => packTips(pairs).map(([ic, k]) => `<div class="tip"><span class="i">${ic}</span><div>${esc(t(k))}</div></div>`).join("");
+function weatherCardHTML(plan, route) {
+  const pairs = [];
+  const rows = route.order.map((id) => {
+    const ms = [...new Set(plan.days.filter((x) => x.cityId === id).map((x) => x.date.getMonth()))], w = CLIMATE[id];
+    ms.forEach((m) => pairs.push([id, m]));
+    if (!w) return "";
+    return ms.map((m) => `<div class="wx-trip"><span>${cityIcon(id)} <b>${esc(cityName(id))}</b> · ${esc(monthName(m))}</span><span><b>${deg(w.hi[m])}</b> / ${deg(w.lo[m])}${w.days ? ` · ☔ ${w.days[m]}` : ""}</span></div>`).join("");
+  }).join("");
+  return `<div class="h3">🌤️ ${t("wxTripTitle")}</div>${rows}<div class="sub" style="margin-top:12px">🧳 ${t("wxPack")}</div>${packTipsHTML(pairs)}<p class="note">${t("wxNote")}</p>`;
+}
+function stayHTML(id) {
+  const s = STAY[id]; if (!s) return "";
+  return s.areas.map(([n, tx]) => `<div class="stay"><b>📍 ${esc(n)}</b><div>${esc(L(tx))}</div></div>`).join("") +
+    (s.warn ? `<div class="warn" style="margin-top:8px">⚠️ ${esc(L(s.warn))}</div>` : "") + `<p class="note">${t("stayNote")}</p>`;
+}
 function cityGuideHTML(id, open) {
   const c = CITIES[id]; usedPhotos.add(c.photoKey);
   return `<div class="card">
@@ -5662,6 +5827,8 @@ function cityGuideHTML(id, open) {
     <details><summary>💶 ${t("pricesT")}</summary>${pricesHTML(c)}</details>
     <details><summary>🍽️ ${t("eat")}</summary><div id="eat-${id}"></div></details>
     <details><summary>🚇 ${t("trans")}</summary><p style="margin:0 0 6px">${esc(L(c.transport))}</p><p class="src"><a href="${esc(c.source)}" target="_blank" rel="noopener">${esc(hostOf(c.source))}</a></p></details>
+    ${STAY[id] ? `<details><summary>🏨 ${t("stayTitle")}</summary>${stayHTML(id)}</details>` : ""}
+    ${CLIMATE[id] ? `<details><summary>🌤️ ${t("wxTitle")}</summary>${climateTableHTML(id)}</details>` : ""}
   </div>`;
 }
 function pricesHTML(c) {
@@ -6665,6 +6832,14 @@ function renderChecks() {
   $("#chBar").style.width = (done / CHECKS.length) * 100 + "%";
   $("#chCount").textContent = tf("chDone", {a: done, b: CHECKS.length});
   $("#checks").innerHTML = CHECKS.map((c, i) => `<label class="chk"><input type="checkbox" data-chk="${i}" ${S.checks[i] ? "checked" : ""}><span>${esc(L(c))}</span></label>`).join("");
+  // «что взять по погоде» — если маршрут уже выбран
+  const wx = $("#chWx"), v = S.cities.length ? visaTrip() : null;
+  wx.classList.toggle("hidden", !v);
+  if (v) {
+    const plan = planTrip(v.route, v.per, v.start), pairs = [];
+    plan.days.forEach((x) => { if (!pairs.some(([id, m]) => id === x.cityId && m === x.date.getMonth())) pairs.push([x.cityId, x.date.getMonth()]); });
+    wx.innerHTML = `<div class="h3">🧳 ${t("wxPackTrip")}</div>${packTipsHTML(pairs)}<p class="note">${t("wxNote")}</p>`;
+  }
 }
 function renderBar() {
   $("#bar").classList.toggle("hidden", S.view !== "plan" && S.view !== "visa");
