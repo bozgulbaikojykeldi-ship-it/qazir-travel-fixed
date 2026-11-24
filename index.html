@@ -370,7 +370,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .sos { padding: 0; overflow: hidden; }
 .sos-112 { display: flex; gap: 14px; align-items: center; background: var(--coral); color: #06243F; padding: 14px 16px; text-decoration: none; font-size: 13.5px; line-height: 1.4; }
 .sos-112 > b { font: 800 36px 'Montserrat', sans-serif; flex: 0 0 auto; }
-.emb { border-top: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 6px; }
+.emb, .pr-city { border-top: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 6px; }
 .emb:first-of-type { border-top: 0; padding-top: 2px; }
 .emb-h { display: flex; gap: 8px; align-items: flex-start; font-size: 14.5px; line-height: 1.35; }
 .emb-h b { flex: 1; }
@@ -381,7 +381,7 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .emb-ph b { white-space: nowrap; color: var(--sky-deep); font-size: 13.5px; }
 .emb-ph.em { background: var(--bad-bg); color: var(--bad-ink); }
 .emb-ph.em b { color: var(--bad-ink); }
-.emb .small a { color: var(--muted); }
+.emb .small a, .pr-city .small a { color: var(--muted); }
 .emb-h .rtag { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: var(--ok-bg); color: var(--ok-ink); white-space: nowrap; }
 .pr-item { background: var(--soft); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
 .pr-item .emb-addr .small { font-weight: 400; color: var(--muted); }
@@ -5529,7 +5529,7 @@ function prayerCard() {
       <div class="small">${esc(L(p.note))}</div>
       <div class="small">${p.level === "check" ? `⚠️ ${t("prCheck")} · ` : ""}<a href="${esc(p.src)}" target="_blank" rel="noopener" data-ext>${t("prSrc")}: ${esc(new URL(p.src).hostname.replace(/^www\./, ""))} ↗</a></div>
     </div>`;
-  const block = (id) => `<div class="emb"><div class="emb-h"><span>${cityIcon(id)}</span><b>${esc(cityName(id))}</b>${onRoute.includes(id) ? `<span class="rtag">✓ ${t("sosForTrip")}</span>` : ""}</div>
+  const block = (id) => `<div class="pr-city"><div class="emb-h"><span>${cityIcon(id)}</span><b>${esc(cityName(id))}</b>${onRoute.includes(id) ? `<span class="rtag">✓ ${t("sosForTrip")}</span>` : ""}</div>
     ${(PRAYER[id] || []).length ? PRAYER[id].map(item).join("") : `<div class="small muted">${t("prNone")}</div>`}</div>`;
   const body = onRoute.length ? onRoute.map(block).join("") + `<details class="pr-more"><summary>${t("prOther")}</summary>${rest.map(block).join("")}</details>`
     : rest.map(block).join("");
