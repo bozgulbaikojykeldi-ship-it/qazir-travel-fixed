@@ -43,6 +43,15 @@ await page.$$eval("#view-visa details", (ds) => ds.forEach((d) => { d.open = tru
   console.log(`KK visa: suspicious Russian lines: ${sus.length}`);
   sus.slice(0, 12).forEach((l) => console.log("    ", l.slice(0, 130)));
 }
+// ---- KK: вкладка «Намаз»
+await page.click('[data-view="prayer"]'); await page.waitForTimeout(300);
+await page.$$eval("#view-prayer details", (ds) => ds.forEach((d) => { d.open = true; }));
+{
+  const txt = await visibleText("#view-prayer");
+  const sus = [...new Set(txt.split("\n").map((l) => l.trim()).filter((l) => /[а-яё]/i.test(l) && !KK.test(l) && RU.test(l)))];
+  console.log(`KK prayer: suspicious Russian lines: ${sus.length}`);
+  sus.slice(0, 12).forEach((l) => console.log("    ", l.slice(0, 130)));
+}
 await page.click('[data-view="plan"]'); await page.click("#go"); await page.waitForTimeout(300);
 
 // ---- EN: кириллица в видимом тексте
@@ -67,6 +76,10 @@ await page.$$eval("#view-visa details", (ds) => ds.forEach((d) => { d.open = tru
 await scanEn("visa", "#view-visa");
 await page.click('[data-view="plan"]'); await page.waitForTimeout(200);
 await scanEn("planner", "#view-plan");
+await page.click('[data-view="prayer"]'); await page.waitForTimeout(300);
+await page.$$eval("#view-prayer details", (ds) => ds.forEach((d) => { d.open = true; }));
+await scanEn("prayer", "#view-prayer");
+await page.click('[data-view="plan"]'); await page.waitForTimeout(200);
 
 // ---- RU: шаблоны и undefined
 await page.click('[data-lang="ru"]'); await page.waitForTimeout(200);

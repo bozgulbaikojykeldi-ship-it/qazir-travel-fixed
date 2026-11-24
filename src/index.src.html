@@ -387,6 +387,19 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .pr-item .emb-addr .small { font-weight: 400; color: var(--muted); }
 .pr-more { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 2px; }
 .pr-more summary { cursor: pointer; font-weight: 800; font-size: 14px; color: var(--sky-deep); min-height: 32px; }
+.pr-day { border-top: 1px solid var(--line); padding: 12px 0; }
+.pr-day-h { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; margin-bottom: 8px; }
+.pr-day-h span { color: var(--muted); font-weight: 700; white-space: nowrap; }
+.pt-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.pt { background: var(--soft); border-radius: 10px; padding: 6px 2px; text-align: center; min-width: 0; }
+.pt small { display: block; font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pt b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.pt.pt-sun { background: transparent; border: 1px dashed var(--line); }
+.pt.pt-sun b { color: var(--muted); font-weight: 600; }
+.pr-line { font-size: 13.5px; line-height: 1.45; margin-top: 8px; }
+.pr-line a { color: var(--sky-deep); text-decoration: none; }
+.pr-line.pr-mat { background: var(--soft); border-radius: 12px; padding: 8px 10px; }
+.pr-chips { margin-bottom: 10px; }
 .sos-tip { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
 /* тёмная тема: выбранная вкладка голубая, иначе тёмно-синий сливается с фоном */
 @media (prefers-color-scheme: dark) {
@@ -570,6 +583,8 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
       <div id="checks"></div>
     </div>
   </div>
+
+  <div id="view-prayer" class="hidden"></div>
 </main>
 
 <div class="bar" id="bar"><div class="wrap"><button class="cta" id="go"></button><a class="cta cta-wa hidden" id="barWa" href="#" target="_blank" rel="noopener" data-ext></a></div></div>
@@ -4445,12 +4460,14 @@ const EMBASSIES = [
    level: "ok" — подтверждено официальным или туристическим сайтом; "check" — источники старые
           или расходятся, в приложении пишем «уточните перед визитом».
    addr — адрес для карты (Google Maps ищет по нему); note — где именно и что важно.
+   ll — координаты мечети (OpenStreetMap Nominatim, 2026-11-24; Рим и Флоренция — по улице/площади, точность ~300 м;
+        мечеть в Сеграте OSM ставит на Via Fratelli Cervi). По ll вкладка «Намаз» ищет мечеть ближе всего к местам дня.
    Города без записи (Комо, Лугано) — проверенных данных нет, приложение так и пишет.
    Не добавлять места без источника: другой ИИ уже придумывал адреса. */
 const PRAYER_CHECKED = "2026-11";
 const PRAYER = {
   vienna: [
-    {type: "mosque", name: "Islamisches Zentrum Wien", addr: "Am Bruckhaufen 3, 1210 Wien", level: "ok",
+    {type: "mosque", name: "Islamisches Zentrum Wien", addr: "Am Bruckhaufen 3, 1210 Wien", level: "ok", ll: [48.2451, 16.3979],
       note: V("Аустриядағы ең үлкен мешіт, Дунай жағасында (Floridsdorf ауданы). Туристерге ашық уақыты шектеулі — сайттан қараңыз", "Крупнейшая мечеть Австрии, у Дуная (район Флоридсдорф). Для туристов открыта в ограниченные часы — смотрите сайт", "Austria's largest mosque, by the Danube (Floridsdorf). Visiting hours for tourists are limited — check the website"),
       src: "https://www.wien.info/en/islamic-center-133010"},
     {type: "airport", name: "Vienna Airport (VIE)", addr: "Vienna International Airport Terminal 3", level: "ok",
@@ -4458,7 +4475,7 @@ const PRAYER = {
       src: "https://viennaairport.com/en/passengers/airport/prayer_room_1"}
   ],
   rome: [
-    {type: "mosque", name: "Grande Moschea di Roma", addr: "Viale della Moschea 85, 00197 Roma", level: "ok",
+    {type: "mosque", name: "Grande Moschea di Roma", addr: "Viale della Moschea 85, 00197 Roma", level: "ok", ll: [41.9344, 12.4956],
       note: V("Еуропадағы ең үлкен мешіттердің бірі. Жұма күні тек намаз үшін; экскурсияға алдын ала жазылу керек", "Одна из крупнейших мечетей Европы. По пятницам — только для молитвы; экскурсии по предварительной записи", "One of Europe's largest mosques. Fridays are for prayer only; tours by prior arrangement"),
       src: "https://turismoroma.it/en/places/mosque"},
     {type: "airport", name: "Fiumicino Airport (FCO)", addr: "Rome Fiumicino Airport Terminal 1", level: "ok",
@@ -4466,7 +4483,7 @@ const PRAYER = {
       src: "https://www.adr.it/web/aeroporti-di-roma-en/pax-fco-airport-services"}
   ],
   paris: [
-    {type: "mosque", name: "Grande Mosquée de Paris", addr: "2 bis Place du Puits-de-l'Ermite, 75005 Paris", level: "ok",
+    {type: "mosque", name: "Grande Mosquée de Paris", addr: "2 bis Place du Puits-de-l'Ermite, 75005 Paris", level: "ok", ll: [48.8421, 2.3551],
       note: V("Тарихи мешіт, метро Place Monge (7-желі). Туристік кіру ақылы, жұма күні туристерге жабық", "Историческая мечеть, метро Place Monge (линия 7). Вход для туристов платный, по пятницам для туристов закрыто", "Historic mosque, metro Place Monge (line 7). Paid entry for visitors; closed to visitors on Fridays"),
       src: "https://www.grandemosqueedeparis.fr"},
     {type: "airport", name: "Charles de Gaulle (CDG)", addr: "Paris Charles de Gaulle Airport", level: "check",
@@ -4474,7 +4491,7 @@ const PRAYER = {
       src: "https://www.parisaeroport.fr/en"}
   ],
   milan: [
-    {type: "mosque", name: "Moschea al-Rahman (Centro Islamico di Milano e Lombardia)", addr: "Via Cassanese 3, Segrate", level: "check",
+    {type: "mosque", name: "Moschea al-Rahman (Centro Islamico di Milano e Lombardia)", addr: "Via Cassanese 3, Segrate", level: "check", ll: [45.4905, 9.261],
       note: V("Миланның шетінде, Сеграте шекарасында. Milano Lambrate вокзалынан автобуспен. Дереккөздер ескі — уақытын тексеріңіз", "На окраине Милана, на границе с Сеграте. От вокзала Milano Lambrate на автобусе. Источники старые — уточните часы", "On the edge of Milan, by Segrate. Bus from Milano Lambrate station. Sources are old — check the times"),
       src: "https://en.wikipedia.org/wiki/Mosque_of_Segrate"}
   ],
@@ -4484,17 +4501,17 @@ const PRAYER = {
       src: "https://www.veneziaairport.it/en/info-and-assistance/faq.html"}
   ],
   florence: [
-    {type: "mosque", name: "Comunità Islamica di Firenze", addr: "Piazza dei Ciompi, Firenze", level: "check",
+    {type: "mosque", name: "Comunità Islamica di Firenze", addr: "Piazza dei Ciompi, Firenze", level: "check", ll: [43.7711, 11.2648],
       note: V("2024 жылдың сәуірінен бастап Чомпи алаңындағы бұрынғы банк ғимаратында. Орталықта, Санта-Кроче жанында", "С апреля 2024 года — в бывшем здании банка на площади Чомпи. В центре, рядом с Санта-Кроче", "Since April 2024 in a former bank building on Piazza dei Ciompi. Central, near Santa Croce"),
       src: "https://www.lanazione.it/firenze/cronaca/firenze-la-moschea-nellex-banca-in-piazza-dei-ciompi-02d3189c"}
   ],
   budapest: [
-    {type: "mosque", name: "Al-Huda mecset", addr: "Dobozi utca 1, 1086 Budapest", level: "check",
+    {type: "mosque", name: "Al-Huda mecset", addr: "Dobozi utca 1, 1086 Budapest", level: "check", ll: [47.4931, 19.0853],
       note: V("Метро M4, II. János Pál pápa tér аялдамасы. Мекенжайы дереккөздерде әртүрлі (Teleki tér маңы)", "Метро M4, станция II. János Pál pápa tér. Адрес в источниках расходится (район площади Телеки)", "Metro M4, II. János Pál pápa tér. Sources differ on the exact address (Teleki tér area)"),
       src: "https://mawaqit.net/en/m/huda-budapest"}
   ],
   prague: [
-    {type: "mosque", name: "Islámské centrum Praha", addr: "Blatská 1491, Praha 9 - Kyje", level: "check",
+    {type: "mosque", name: "Islámské centrum Praha", addr: "Blatská 1491, Praha 9 - Kyje", level: "check", ll: [50.1089, 14.5685],
       note: V("Прагадағы негізгі мешіт, қала шетінде (Praha 9). Дереккөздер ескі — барар алдында тексеріңіз", "Главная мечеть Праги, на окраине (Прага 9). Источники старые — проверьте перед визитом", "Prague's main mosque, on the outskirts (Prague 9). Sources are old — check before you go"),
       src: "https://en.wikipedia.org/wiki/Islam_in_the_Czech_Republic"},
     {type: "airport", name: "Prague Airport (PRG)", addr: "Václav Havel Airport Prague", level: "ok",
@@ -4502,7 +4519,7 @@ const PRAYER = {
       src: "https://www.prg.aero/en/prayer-room"}
   ],
   munich: [
-    {type: "mosque", name: "Islamisches Zentrum München", addr: "Wallnerstraße 1-5, 80939 München", level: "ok",
+    {type: "mosque", name: "Islamisches Zentrum München", addr: "Wallnerstraße 1-5, 80939 München", level: "ok", ll: [48.2104, 11.6341],
       note: V("Қаланың солтүстігі (Freimann ауданы). Жұма намазы: араб тілінде 12:30, неміс тілінде 13:30 (қысқы уақыт)", "Север города (район Фрайманн). Пятничная молитва: на арабском в 12:30, на немецком в 13:30 (зимнее время)", "North of the city (Freimann). Friday prayer: Arabic at 12:30, German at 13:30 (winter time)"),
       src: "https://www.islamisches-zentrum-muenchen.de/"},
     {type: "airport", name: "Munich Airport (MUC)", addr: "Munich Airport Terminal 1", level: "ok",
@@ -4510,7 +4527,7 @@ const PRAYER = {
       src: "https://www.munich-airport.com/muslim-prayer-areas-888388"}
   ],
   barcelona: [
-    {type: "mosque", name: "Mesquita Tariq ibn Ziyad", addr: "Carrer de Sant Rafael 10, 08001 Barcelona", level: "check",
+    {type: "mosque", name: "Mesquita Tariq ibn Ziyad", addr: "Carrer de Sant Rafael 10, 08001 Barcelona", level: "check", ll: [41.3795, 2.1702],
       note: V("Раваль ауданы, Рамбладан бірнеше минут. Қаладағы ең көне әрі ең үлкен мешіттердің бірі. Мекенжайы анықтамалықтар бойынша — уақытын тексеріңіз", "Район Раваль, в нескольких минутах от Рамблы. Одна из старейших и крупнейших мечетей города. Адрес — по справочникам, часы уточните", "El Raval, a few minutes from La Rambla. One of the city's oldest and largest mosques. Address from directories — check the times"),
       src: "https://www.zabihah.com/mosques/1335ded7-776a-11ef-95ae-6045bdeb9f57/masjid-tarek-ibn-ziyad-barcelona-catalunya"},
     {type: "airport", name: "Barcelona-El Prat (BCN)", addr: "Barcelona El Prat Airport Terminal 1", level: "check",
@@ -4848,6 +4865,34 @@ const T = {
     prNone: "Тексерілген дерек таппадық. Жақын үлкен қаланың мешітін немесе әуежайдағы бөлмені қолданыңыз.",
     prTip: "Намаз уақыты мен құбыла бағыты — Mawaqit немесе Muslim Pro қосымшасында. Әуежай бөлмелері барлық дін өкілдеріне ортақ.",
     prChecked: "Ашық дереккөздер бойынша тексерілді ({d}). Мешіттердің мекенжайы мен уақыты өзгеруі мүмкін.",
+    tPrayer: "Намаз",
+    prHeroText: "Сапар күндеріндегі намаз уақыттары, құбыла бағыты, жоспарыңыздағы орындарға ең жақын намазхана және дәрет алуға қатысты сыпайы кеңестер.",
+    prDaysTitle: "Сапар күндеріндегі намаз уақыттары", prTodayTitle: "Бүгінгі намаз уақыттары",
+    prNoPlan: "Маршрут жасасаңыз, әр күнге намаз уақыты мен жақын намазхана осы жерде шығады. Әзірге — таңдалған қаланың бүгінгі уақыты:",
+    prNames: ["Таң", "Күн шығуы", "Бесін", "Екінді", "Ақшам", "Құптан"],
+    prDay: "{n}-күн", prQibla: "Құбыла {deg}° — {dir}",
+    prDirs: ["солтүстік", "солтүстік-шығыс", "шығыс", "оңтүстік-шығыс", "оңтүстік", "оңтүстік-батыс", "батыс", "солтүстік-батыс"],
+    prWalk: "«{spot}» орнынан ~{km} км, жаяу ~{min} мин", prTransit: "«{spot}» орнынан ~{km} км — қоғамдық көлікпен барыңыз",
+    prMat: "Бүгінгі орындардың жанында тексерілген мешіт жоқ. Жиналмалы жол жайнамазын алып жүріңіз: намазды қонақүйде, саябақтың тыныш бұрышында немесе әуежайдағы бөлмеде оқуға болады.",
+    prMatShort: "Уақыт тығыз болса — жол жайнамазы көмектеседі.", prFarMosque: "Ең жақын тексерілген мешіт: {name}, ~{km} км.",
+    prFriday: "Жұма күні: жұма намазы бесін уақытында мешітте оқылады.", prFridayNone: "Жұма күні: бұл қалада тексерілген мешіт таппадық — жақын қаланың мешітін қараңыз.",
+    prArrive: "Ұшып келгенде: әуежайда намаз бөлмесі бар", prDepart: "Ұшар алдында: әуежайда намаз бөлмесі бар",
+    prOnRoad: "Бүгін жолда ~{h}: бесін немесе екінді жолда кіруі мүмкін. Дәретті алдын ала алыңыз, құбыла бағытын қосымшадан немесе бортсеріктен сұраңыз.",
+    prMethod: "Уақыт есептелген: таң — 18°, құптан — 17° (Мұсылман әлемі лигасы), екінді — Ханафи мазһабы бойынша. Жергілікті мешіттің кестесінен бірнеше минутқа өзгеше болуы мүмкін — Mawaqit қосымшасынан салыстырыңыз.",
+    prHighLat: "Жазғы ақ түндерде бұл ендікте таң мен құптан уақыты жуық ережемен есептелді.",
+    prTravelTitle: "Сапардағы намаз",
+    prTravel: ["Жолаушы 15 күннен аз тұратын жерде төрт рәкағатты парыз намаздарды (бесін, екінді, құптан) екі рәкағат етіп оқиды; таң мен ақшам өзгермейді.",
+      "Бір жерде 15 күн не одан көп тұруды ниет етсеңіз, намазды толық оқисыз.",
+      "Ұшақта не пойызда намаз уақыты кірсе, құбыла бағытын бортсеріктен немесе қосымшадан біліңіз. Өз жағдайыңыз бойынша сұрақ болса, ҚМДБ-ның «Сұрақ-жауап» бөліміне жазыңыз."],
+    prTravelSrc: "ҚМДБ: жолаушы намазы",
+    prWuduTitle: "Дәрет алу: сыпайы кеңестер",
+    prWudu: ["Қонақүйден шығар алдында дәрет алып шығыңыз — дәрет бұзылмаса, бірнеше намазға жетеді.",
+      "Шағын бөтелкеге су құйып алыңыз: Еуропадағы қоғамдық дәретханаларда әдетте гигиеналық шүмек болмайды.",
+      "Ең ыңғайлы жерлер — мешіттер, ірі вокзалдар мен сауда орталықтарындағы дәретханалар (кейде ақылы) және мұражайлар. Ішінде раковинасы бар бір адамдық бөлме болса, сол ыңғайлы.",
+      "Аяқты раковинаға көтермеңіз — жергілікті тұрғындарға ерсі көрінеді. Аяқты кабинада бөтелкедегі сумен жуған ыңғайлы.",
+      "Соңынан раковина мен еденді қағаз сүлгімен құрғатып кетіңіз — келесі адамға құрмет.",
+      "Көшеде, вокзалда немесе мұражай залында намаз оқуға кейде тыйым салынады (әсіресе Францияда). Жолды бөгемей, тыныш жерді таңдаңыз; күзетші сұраса, сыпайы түрде басқа жерге ауысыңыз."],
+    prWuduPlaces: "Дәрет алатын тексерілген жерлер: төмендегі тізімдегі мешіттерде әдетте дәрет алатын орын бар; Мюнхен әуежайында — 1-терминал, 03-қабат.",
     share: {trip: "🧳 Менің Еуропа маршрутым: {route}\n📅 {days} күн{travel}\n💡 {fact}", travel: " · {mode} жолда ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["қала"]}
   },
   ru: {
@@ -4958,6 +5003,34 @@ const T = {
     prNone: "Проверенных данных не нашли. Используйте мечеть ближайшего крупного города или комнату в аэропорту.",
     prTip: "Время намаза и направление киблы — в приложении Mawaqit или Muslim Pro. Комнаты в аэропортах общие для всех религий.",
     prChecked: "Сверено по открытым источникам ({d}). Адреса и часы мечетей могут меняться.",
+    tPrayer: "Намаз",
+    prHeroText: "Время намаза в дни поездки, направление киблы, ближайшее место для молитвы к местам из вашего плана и деликатные советы по омовению.",
+    prDaysTitle: "Время намаза в дни поездки", prTodayTitle: "Время намаза сегодня",
+    prNoPlan: "Составьте маршрут — и здесь появятся время намаза и ближайшее место для молитвы на каждый день. Пока — сегодняшнее время в выбранном городе:",
+    prNames: ["Фаджр", "Восход", "Зухр", "Аср", "Магриб", "Иша"],
+    prDay: "День {n}", prQibla: "Кибла {deg}° — {dir}",
+    prDirs: ["север", "северо-восток", "восток", "юго-восток", "юг", "юго-запад", "запад", "северо-запад"],
+    prWalk: "~{km} км от «{spot}», пешком ~{min} мин", prTransit: "~{km} км от «{spot}» — лучше на транспорте",
+    prMat: "Рядом с местами этого дня проверенной мечети нет. Возьмите складной дорожный коврик: помолиться можно в отеле, в тихом уголке парка или в молельной комнате аэропорта.",
+    prMatShort: "Если времени мало — выручит дорожный коврик.", prFarMosque: "Ближайшая проверенная мечеть: {name}, ~{km} км.",
+    prFriday: "Пятница: джума-намаз совершается в мечети во время зухра.", prFridayNone: "Пятница: проверенной мечети в этом городе мы не нашли — посмотрите мечеть ближайшего города.",
+    prArrive: "По прилёте: в аэропорту есть молельная комната", prDepart: "Перед вылетом: в аэропорту есть молельная комната",
+    prOnRoad: "Сегодня в дороге ~{h}: зухр или аср могут застать в пути. Сделайте омовение заранее, направление киблы узнайте в приложении или у бортпроводника.",
+    prMethod: "Время рассчитано: фаджр — 18°, иша — 17° (Всемирная исламская лига), аср — по ханафитскому мазхабу. От расписания местной мечети может отличаться на несколько минут — сверяйтесь в приложении Mawaqit.",
+    prHighLat: "Летом на этой широте время фаджра и иши рассчитано по приближённому правилу.",
+    prTravelTitle: "Намаз в путешествии",
+    prTravel: ["Путник, который пробудет на месте меньше 15 дней, читает четырёхракаатные фарды (зухр, аср, иша) по два ракаата; фаджр и магриб не меняются.",
+      "Если вы намерены пробыть в одном месте 15 дней и больше, намаз читается полностью.",
+      "Если время намаза застало в самолёте или поезде, направление киблы узнайте у бортпроводника или в приложении. Вопросы о своей ситуации задайте в разделе «Вопрос-ответ» Духовного управления мусульман Казахстана."],
+    prTravelSrc: "ДУМК: намаз путника",
+    prWuduTitle: "Омовение: деликатные советы",
+    prWudu: ["Сделайте омовение в отеле перед выходом — если оно не нарушено, его хватит на несколько намазов.",
+      "Носите с собой небольшую бутылку воды: в общественных туалетах Европы обычно нет гигиенического душа.",
+      "Удобнее всего — мечети, туалеты крупных вокзалов и торговых центров (иногда платные) и музеи. Лучше всего — одноместная кабинка со своей раковиной.",
+      "Не поднимайте ноги в раковину — местным это кажется неуместным. Ноги удобнее омыть в кабинке водой из бутылки.",
+      "После себя вытрите раковину и пол бумажным полотенцем — это уважение к следующему человеку.",
+      "Молиться на улице, на вокзале или в залах музеев иногда запрещено (особенно во Франции). Не перекрывайте проход, выбирайте тихое место; если охрана попросит — вежливо перейдите в другое место."],
+    prWuduPlaces: "Проверенные места для омовения: в мечетях из списка ниже обычно есть место для омовения; в аэропорту Мюнхена — терминал 1, уровень 03.",
     share: {trip: "🧳 Мой маршрут по Европе: {route}\n📅 {days} дн.{travel}\n💡 {fact}", travel: " · {mode} в дороге ~{h}", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["город", "города", "городов"]}
   },
   en: {
@@ -5068,6 +5141,34 @@ const T = {
     prNone: "We found no verified data. Use a mosque in the nearest big city or an airport prayer room.",
     prTip: "Prayer times and qibla direction: the Mawaqit or Muslim Pro app. Airport prayer rooms are shared by all faiths.",
     prChecked: "Checked against public sources ({d}). Mosque addresses and hours may change.",
+    tPrayer: "Prayer",
+    prHeroText: "Prayer times for each day of your trip, the qibla direction, the nearest place to pray to your planned sights, and considerate tips for wudu.",
+    prDaysTitle: "Prayer times for your trip", prTodayTitle: "Today's prayer times",
+    prNoPlan: "Build a route and this tab will show prayer times and the nearest place to pray for each day. For now, today's times in the chosen city:",
+    prNames: ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
+    prDay: "Day {n}", prQibla: "Qibla {deg}° — {dir}",
+    prDirs: ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"],
+    prWalk: "~{km} km from {spot}, ~{min} min on foot", prTransit: "~{km} km from {spot} — take public transport",
+    prMat: "There is no verified mosque near today's sights. Carry a folding travel prayer mat: you can pray at the hotel, in a quiet corner of a park or in an airport prayer room.",
+    prMatShort: "Short on time? A travel prayer mat helps.", prFarMosque: "Nearest verified mosque: {name}, ~{km} km.",
+    prFriday: "Friday: Jumu'ah is prayed at the mosque at Dhuhr time.", prFridayNone: "Friday: we found no verified mosque in this city — check the nearest city's mosque.",
+    prArrive: "On arrival: the airport has a prayer room", prDepart: "Before your flight: the airport has a prayer room",
+    prOnRoad: "On the road today for ~{h}: Dhuhr or Asr may fall during the journey. Make wudu beforehand and check the qibla in an app or with the cabin crew.",
+    prMethod: "Times are calculated: Fajr 18°, Isha 17° (Muslim World League), Asr by the Hanafi school. They may differ by a few minutes from the local mosque's timetable — compare with the Mawaqit app.",
+    prHighLat: "In summer at this latitude, Fajr and Isha are estimated with a high-latitude rule.",
+    prTravelTitle: "Prayer while travelling",
+    prTravel: ["A traveller staying less than 15 days in a place prays the four-rak'ah obligatory prayers (Dhuhr, Asr, Isha) as two rak'ahs; Fajr and Maghrib stay the same.",
+      "If you intend to stay in one place for 15 days or more, you pray in full.",
+      "If prayer time comes on a plane or train, ask the cabin crew or use an app for the qibla. For questions about your own situation, write to the Q&A section of the Spiritual Administration of Muslims of Kazakhstan."],
+    prTravelSrc: "SAMK: the traveller's prayer",
+    prWuduTitle: "Wudu: considerate tips",
+    prWudu: ["Make wudu at the hotel before heading out — if it isn't broken, it lasts for several prayers.",
+      "Carry a small bottle of water: public toilets in Europe usually have no bidet shower.",
+      "The easiest places are mosques, toilets at big stations and shopping centres (sometimes paid) and museums. A single-occupancy room with its own sink is best.",
+      "Don't lift your feet into the sink — locals find it inappropriate. It's easier to wash your feet in the cubicle with water from the bottle.",
+      "Afterwards, dry the sink and floor with a paper towel — a courtesy to the next person.",
+      "Praying in the street, at a station or in a museum gallery is sometimes not allowed (especially in France). Don't block the way, choose a quiet spot, and if security asks, politely move elsewhere."],
+    prWuduPlaces: "Verified places for wudu: the mosques listed below usually have ablution facilities; Munich Airport — Terminal 1, level 03.",
     share: {trip: "🧳 My Europe route: {route}\n📅 {days} days{travel}\n💡 {fact}", travel: " · {mode} ~{h} on the road", place: "📍 {place}, {city}\n{tagline}\n💡 {fact}", cityWord: ["city", "cities"]}
   }
 };
@@ -5355,7 +5456,7 @@ function renderTexts() {
   document.querySelectorAll(".langs button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
 }
 function renderTabs() {
-  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["trip", "tTrip"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"]].map(([v, k]) =>
+  $("#tabs").innerHTML = [["plan", "tPlan"], ["visa", "tVisa"], ["trip", "tTrip"], ["guide", "tGuide"], ["phrases", "tPhrases"], ["check", "tCheck"], ["prayer", "tPrayer"]].map(([v, k]) =>
     `<button role="tab" aria-selected="${S.view === v || (v === "plan" && S.view === "result")}" data-view="${v}">${t(k)}</button>`).join("");
 }
 function renderPlanner() {
@@ -6143,6 +6244,103 @@ function cols2(cells) {
   return `<div class="cols">${[0, 1].map((side) => `<div class="col">${cells.map(([html, sd], i) => sd === side ? `<div class="cell" style="order:${i}">${html}</div>` : "").join("")}</div>`).join("")}</div>`;
 }
 // Намаз: сначала города маршрута клиента, остальные — под «Другие города». Данные — PRAYER в блоке данных.
+/* ---------- Вкладка «Намаз»: время намаза, кибла, ближайшая мечеть к местам дня ----------
+   Время считается в телефоне, без интернета (формулы PrayTimes.org): фаджр 18°, иша 17° (Всемирная исламская лига),
+   аср по ханафитскому мазхабу (тень = 2 длины предмета), восход/закат 0,833°. Летом на широте ~48–50° солнце не опускается
+   на 17–18° — тогда фаджр и иша по правилу «доля ночи» (угол/60 × ночь), как в PrayTimes (AngleBased). */
+const PR_KAABA = [21.4225, 39.8262];
+const PR_TZ = {Austria: "Europe/Vienna", Italy: "Europe/Rome", France: "Europe/Paris", Switzerland: "Europe/Zurich", Hungary: "Europe/Budapest",
+  Czechia: "Europe/Prague", Germany: "Europe/Berlin", Spain: "Europe/Madrid"};
+const PR_WALK_KM = 1.5;   // до 1,5 км — «пешком» (~20 мин); дальше — на транспорте
+const PR_FAR_KM = 8;      // дальше 8 км мечеть «далеко»: советуем коврик, мечеть показываем для джумы
+const prRad = (x) => (x * Math.PI) / 180, prDeg = (x) => (x * 180) / Math.PI, prFix = (h) => ((h % 24) + 24) % 24;
+function prSun(jd) {
+  const D = jd - 2451545, g = prRad((357.529 + 0.98560028 * D) % 360), q = (280.459 + 0.98564736 * D) % 360;
+  const lon = prRad(q + 1.915 * Math.sin(g) + 0.02 * Math.sin(2 * g)), e = prRad(23.439 - 0.00000036 * D);
+  const ra = prFix(prDeg(Math.atan2(Math.cos(e) * Math.sin(lon), Math.cos(lon))) / 15);
+  return {decl: Math.asin(Math.sin(e) * Math.sin(lon)), eqt: q / 15 - ra};
+}
+// date — календарный день (как в плане); возвращает моменты (мс, UTC) и флаг «правило высоких широт»
+function prayerTimes(lat, lng, date) {
+  const y = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate();
+  let Y = y, M = m; if (M <= 2) { Y -= 1; M += 12; }
+  const A = Math.floor(Y / 100), jd = Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + 2 - A + Math.floor(A / 4) - 1524.5 - lng / 360;
+  const phi = prRad(lat);
+  const mid = (t) => prFix(12 - prSun(jd + t / 24).eqt);
+  const at = (angle, t, ccw) => {
+    const s = prSun(jd + t / 24), x = (-Math.sin(prRad(angle)) - Math.sin(s.decl) * Math.sin(phi)) / (Math.cos(s.decl) * Math.cos(phi));
+    const v = prDeg(Math.acos(x)) / 15; return mid(t) + (ccw ? -v : v); // NaN, если солнце не опускается на этот угол
+  };
+  const asr = (t) => { const s = prSun(jd + t / 24); return at(-prDeg(Math.atan(1 / (2 + Math.tan(Math.abs(phi - s.decl))))), t); };
+  const T = {fajr: at(18, 5, true), sunrise: at(0.833, 6, true), dhuhr: mid(12), asr: asr(13), maghrib: at(0.833, 18), isha: at(17, 18)};
+  const night = 24 - (T.maghrib - T.sunrise);
+  let adj = false;
+  if (isNaN(T.fajr) || T.sunrise - T.fajr > (18 / 60) * night) { T.fajr = T.sunrise - (18 / 60) * night; adj = true; }
+  if (isNaN(T.isha) || T.isha - T.maghrib > (17 / 60) * night) { T.isha = T.maghrib + (17 / 60) * night; adj = true; }
+  const base = Date.UTC(y, m - 1, d), out = {adj};
+  for (const k of ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"]) out[k] = Math.round((base + (T[k] - lng / 15) * 3600e3) / 6e4) * 6e4;
+  return out;
+}
+const prClock = (ms, tz) => new Intl.DateTimeFormat("en-GB", {timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23"}).format(ms);
+function qiblaDeg(lat, lng) {
+  const p1 = prRad(lat), p2 = prRad(PR_KAABA[0]), dl = prRad(PR_KAABA[1] - lng);
+  return (prDeg(Math.atan2(Math.sin(dl), Math.cos(p1) * Math.tan(p2) - Math.sin(p1) * Math.cos(dl))) + 360) % 360;
+}
+const qiblaText = (id) => { const [la, ln] = CITIES[id].center, q = Math.round(qiblaDeg(la, ln)); return tf("prQibla", {deg: q, dir: t("prDirs")[Math.round(q / 45) % 8]}); };
+function prTimesHTML(id, date) {
+  const [la, ln] = CITIES[id].center, tz = PR_TZ[CITIES[id].country.en] || "Europe/Paris", p = prayerTimes(la, ln, date);
+  const cells = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"].map((k, i) => `<div class="pt${k === "sunrise" ? " pt-sun" : ""}"><small>${t("prNames")[i]}</small><b>${prClock(p[k], tz)}</b></div>`).join("");
+  return `<div class="pt-grid">${cells}</div>${p.adj ? `<p class="note" style="margin-top:4px">🌙 ${t("prHighLat")}</p>` : ""}`;
+}
+// мечеть ближе всего к местам дня (по прямой): {p, s, km} или null
+function prayerNear(cityId, day) {
+  const spots = (day.spots || []).filter((s) => s.ll), mosques = (PRAYER[cityId] || []).filter((p) => p.type === "mosque" && p.ll);
+  let best = null;
+  mosques.forEach((p) => spots.forEach((s) => { const d = km(s.ll, p.ll); if (!best || d < best.km) best = {p, s, km: d}; }));
+  return best;
+}
+const prKm = (k) => num(Math.round(k * 10) / 10);
+const prMapLink = (p) => `<a href="${esc(mapsSearch(p.name + ", " + p.addr))}" target="_blank" rel="noopener" data-ext>🕌 <b>${esc(p.name)}</b></a>`;
+function prDayNotes(cityId, day, date, extra) {
+  const out = [], near = prayerNear(cityId, day), anyMosque = (PRAYER[cityId] || []).find((p) => p.type === "mosque");
+  if (extra.road) out.push(`<div class="pr-line">🚆 ${esc(tf("prOnRoad", {h: fmtHours(extra.road)}))}</div>`);
+  if (extra.airport) out.push(`<div class="pr-line">✈️ ${esc(t(extra.airportKey))} — <b>${esc(extra.airport.name)}</b><br><span class="small">${esc(L(extra.airport.note))}</span></div>`);
+  if (near && near.km <= PR_WALK_KM) {
+    out.push(`<div class="pr-line">${prMapLink(near.p)}<br><span class="small">🚶 ${esc(tf("prWalk", {spot: L(near.s.n), km: prKm(near.km), min: Math.max(5, Math.round((near.km * 15.6) / 5) * 5)}))}</span></div>`);
+  } else if (near && near.km <= PR_FAR_KM) {
+    out.push(`<div class="pr-line">${prMapLink(near.p)}<br><span class="small">🚇 ${esc(tf("prTransit", {spot: L(near.s.n), km: prKm(near.km)}))}</span><br><span class="small">🧎 ${esc(t("prMatShort"))}</span></div>`);
+  } else {
+    out.push(`<div class="pr-line pr-mat">🧎 ${esc(t("prMat"))}${near ? `<br><span class="small">${esc(tf("prFarMosque", {name: near.p.name, km: prKm(near.km)}))}</span>` : ""}</div>`);
+  }
+  if (date.getDay() === 5) out.push(`<div class="pr-line">🕌 ${esc(t(anyMosque ? "prFriday" : "prFridayNone"))}${anyMosque && !(near && near.km <= PR_FAR_KM) ? ` ${prMapLink(anyMosque)}` : ""}</div>`);
+  return out.join("");
+}
+function renderPrayer() {
+  const hero = `<div class="hero"><h1>🕌 ${t("tPrayer")}</h1><p>${t("prHeroText")}</p></div>`;
+  const cells = [];
+  if (S.cities.length) {
+    const v = visaTrip(), plan = planTrip(v.route, v.per, v.start), lastCi = v.route.order.length - 1;
+    const days = plan.days.map(({cityId, ci, i, date, day}, n) => {
+      const arrive = n === 0, depart = n === plan.days.length - 1, air = (PRAYER[cityId] || []).find((p) => p.type === "airport");
+      const extra = {road: ci > 0 && i === 0 ? v.route.legs[ci - 1].h : 0,
+        airport: (arrive || (depart && ci === lastCi)) && air ? air : null, airportKey: arrive ? "prArrive" : "prDepart"};
+      return `<div class="pr-day"><div class="pr-day-h"><b>${esc(tf("prDay", {n: n + 1}))} · ${esc(fmtDate(date))}</b><span>${cityIcon(cityId)} ${esc(cityName(cityId))}</span></div>
+        ${prTimesHTML(cityId, date)}<div class="small muted" style="margin:6px 0 2px">🧭 ${esc(qiblaText(cityId))}</div>${prDayNotes(cityId, day, date, extra)}</div>`;
+    }).join("");
+    cells.push([`<div class="card"><div class="h3">🕰️ ${t("prDaysTitle")}</div>${days}<p class="note">${t("prMethod")}</p></div>`, 0]);
+  } else {
+    const id = S.prCity && CITIES[S.prCity] ? S.prCity : Object.keys(CITIES)[0], today = parseISO(todayISO());
+    const chips = Object.keys(CITIES).map((c) => `<button aria-pressed="${c === id}" data-pr-city="${c}">${cityIcon(c)} ${esc(cityName(c))}</button>`).join("");
+    cells.push([`<div class="card"><div class="h3">🕰️ ${t("prTodayTitle")}</div><p class="muted" style="margin:0 0 10px;font-size:14px">${t("prNoPlan")}</p>
+      <div class="st-chips pr-chips">${chips}</div><div class="pr-day"><div class="pr-day-h"><b>${esc(fmtDate(today))}</b><span>${cityIcon(id)} ${esc(cityName(id))}</span></div>
+      ${prTimesHTML(id, today)}<div class="small muted" style="margin-top:6px">🧭 ${esc(qiblaText(id))}</div></div><p class="note">${t("prMethod")}</p></div>`, 0]);
+  }
+  cells.push([`<div class="card"><div class="h3">🧳 ${t("prTravelTitle")}</div>${t("prTravel").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
+    <p class="note"><a href="https://www.muftyat.kz/kk/qa/namaz/2022-08-01/40134-zholaushy-adam-namazdy-kalai-okidy/" target="_blank" rel="noopener" data-ext>${t("prTravelSrc")} ↗</a></p></div>`, 1]);
+  cells.push([`<div class="card"><div class="h3">💧 ${t("prWuduTitle")}</div>${t("prWudu").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}<p class="note">${t("prWuduPlaces")}</p></div>`, 1]);
+  cells.push([prayerCard(), 1]);
+  $("#view-prayer").innerHTML = hero + cols2(cells);
+}
 function prayerCard() {
   const onRoute = S.cities.length ? currentRoute().order : [];
   const rest = Object.keys(CITIES).filter((id) => !onRoute.includes(id));
@@ -6176,7 +6374,6 @@ function renderTrip() {
       ${e.phones.map(([k, num, ext]) => `<a class="emb-ph${k === "emergency" ? " em" : ""}" href="${telHref(num)}"><span>${t("sosPhone")[k]}</span><b>📞 ${esc(num)}${ext ? ` (${t("sosExt")} ${ext})` : ""}</b></a>`).join("")}
       <div class="small">${e.email ? `<a href="mailto:${esc(e.email)}">✉️ ${esc(e.email)}</a> · ` : ""}<a href="${esc(e.src)}" target="_blank" rel="noopener" data-ext>gov.kz ↗</a></div>
     </div>`).join("")}<p class="note">${tf("sosChecked", {d: EMBASSIES_CHECKED})}</p></div>`, 1]);
-  cells.push([prayerCard(), 1]);
   cells.push([`<div class="card"><div class="h3">🛂 ${t("sosPassTitle")}</div><ol class="v-steps">${t("sosPassSteps").map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>`, 0]);
   cells.push([`<div class="card"><div class="h3">💡 ${t("sosTipsTitle")}</div>${t("sosTips").map((x) => `<p class="sos-tip">${esc(x)}</p>`).join("")}
     <a class="btn btn-wa" style="width:100%;margin-top:4px" href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener" data-ext>${t("sosWrite")}</a></div>`, 0]);
@@ -6418,7 +6615,7 @@ function renderBar() {
 }
 function render() {
   renderTexts(); renderTabs();
-  ["plan", "result", "visa", "trip", "guide", "phrases", "check"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
+  ["plan", "result", "visa", "trip", "guide", "phrases", "check", "prayer"].forEach((v) => $("#view-" + v).classList.toggle("hidden", S.view !== v));
   if (S.view === "plan") renderPlanner();
   if (S.view === "visa") renderVisa();
   if (S.view === "trip") renderTrip();
@@ -6426,6 +6623,7 @@ function render() {
   if (S.view === "guide") renderGuide();
   if (S.view === "phrases") renderPhrases();
   if (S.view === "check") renderChecks();
+  if (S.view === "prayer") renderPrayer();
   renderBar();
 }
 let audio = null;
@@ -6472,6 +6670,7 @@ document.addEventListener("click", (e) => {
   else if (b.dataset.end) { if (b.dataset.end === "auto") S.autoEnd = true; else { S.autoEnd = false; S.endCity = b.dataset.end; } }
   else if (b.dataset.days) { const chosen = +b.dataset.days; if (chosen < S.cities.length) return; S.days = chosen; }
   else if (b.dataset.ph) { S.phLang = b.dataset.ph; render(); return; }
+  else if (b.dataset.prCity) { S.prCity = b.dataset.prCity; render(); return; }
   else if (b.dataset.eat) { const [id, k] = b.dataset.eat.split(":"); S.eatTab[id] = k; renderEat(id); return; }
   else if (b.dataset.say) { const p = PHRASES[S.phLang]; speak(p.list[+b.dataset.say][1], p.tl, b); return; }
   else if (b.id === "go") { S.view = "result"; haptic(); render(); window.scrollTo(0, 0); return; }
@@ -6511,7 +6710,7 @@ async function loadRate() {
 
 // для тестов и отладки (console): window.QZ.optimizeRoute(["vienna","rome"], "vienna", null)
 window.QZ = {optimizeRoute, allocateDays, pathHours, S, render, visaTrip, visaMessage, itineraryText, makeItineraryPdf, photoSlug, openStoryStudio, stBlob,
-  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip};
+  easterDate, closureOn, holidayOn, dayNotes, planCity, planTrip, cvOutHTML, renderTrip, prayerTimes, qiblaDeg, prayerNear, renderPrayer};
 if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
 // офлайн-режим и установка на телефон: только на https-хостинге (на file:// не работает)
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
