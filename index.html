@@ -388,6 +388,10 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
 .spot-flag a, .dl a { color: inherit; }
 .day-flag { font-size: 12.5px; font-weight: 700; line-height: 1.4; padding: 7px 10px; border-radius: 10px; margin: 0 0 6px; background: var(--soft); }
 .day-flag.holiday { background: var(--warn-bg); color: var(--warn-ink); }
+.ord { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 4px 6px 4px 4px; font-size: 13px; }
+.ord button { border: 0; background: var(--soft); border-radius: 999px; min-width: 32px; min-height: 32px; font-weight: 800; }
+.ord button:disabled { opacity: .35; }
+.plan-ctrl { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
 /* в поездке: перевод цены и SOS */
 .cv .field input { height: 56px; font-size: 24px; font-weight: 800; }
 .cv-curs, .cv-quick { margin: 10px 0; }
@@ -578,9 +582,16 @@ textarea.st-input { resize: vertical; min-height: 104px; line-height: 1.45; }
     <section class="step"><h2><span class="num">3</span><span data-t="s2"></span></h2><div class="grid g3" id="cities"></div>
       <p class="muted" style="font-size:13px;margin:8px 0 0" data-t="s2hint"></p></section>
     <section class="step" id="stepRoute"><h2><span class="num">4</span><span data-t="sRoute"></span></h2>
-      <div class="sub" data-t="startCity"></div><div class="chips" id="startChips"></div>
-      <div class="sub" data-t="endCity"></div><div class="chips" id="endChips"></div>
-      <p class="muted" style="font-size:13px;margin:4px 0 0" data-t="routeHint"></p>
+      <div class="chips" id="routeMode"></div>
+      <div id="autoRoute">
+        <div class="sub" data-t="startCity"></div><div class="chips" id="startChips"></div>
+        <div class="sub" data-t="endCity"></div><div class="chips" id="endChips"></div>
+        <p class="muted" style="font-size:13px;margin:4px 0 0" data-t="routeHint"></p>
+      </div>
+      <div id="manualRoute" class="hidden">
+        <div class="chips" id="manualOrder"></div>
+        <p class="muted" style="font-size:13px;margin:4px 0 0" data-t="manualHint"></p>
+      </div>
     </section>
     <section class="step" id="stepDates"><h2><span class="num">5</span><span data-t="s3"></span></h2>
       <div class="grid g2">
@@ -775,6 +786,19 @@ const TRAVEL = {
   "barcelona|vienna": {h: 5.0, mode: "flight", p: [30, 180], via: V("BCN → VIE ~2 сағ 30 мин (Vueling, Austrian)", "BCN → VIE ~2 ч 30 мин (Vueling, Austrian)", "BCN → VIE ~2 h 30 min (Vueling, Austrian)")},
   "barcelona|prague": {h: 5.0, mode: "flight", p: [31, 130], via: V("BCN → PRG ~2 сағ 30 мин", "BCN → PRG ~2 ч 30 мин", "BCN → PRG ~2 h 30 min")},
   "barcelona|budapest": {h: 5.25, mode: "flight", p: [29, 150], via: V("BCN → BUD ~2 сағ 45 мин", "BCN → BUD ~2 ч 45 мин", "BCN → BUD ~2 h 45 min")},
+  // Амстердам: уақыт — оценка «от двери до двери», цены не сверены → p: null («цена не уточнена»)
+  "amsterdam|vienna":   {h: 3.5,  mode: "flight", p: null, via: V("AMS → VIE, оценка", "AMS → VIE, оценка", "AMS → VIE, estimate")},
+  "amsterdam|paris":    {h: 4.0,  mode: "train", p: null, via: V("Eurostar Амстердам → Париж, оценка", "Eurostar Амстердам → Париж, оценка", "Eurostar Amsterdam → Paris, estimate")},
+  "amsterdam|rome":     {h: 4.5,  mode: "flight", p: null, via: V("AMS → FCO, оценка", "AMS → FCO, оценка", "AMS → FCO, estimate")},
+  "amsterdam|milan":    {h: 4.0,  mode: "flight", p: null, via: V("AMS → MXP/LIN, оценка", "AMS → MXP/LIN, оценка", "AMS → MXP/LIN, estimate")},
+  "amsterdam|venice":   {h: 4.5,  mode: "flight", p: null, via: V("AMS → VCE, оценка", "AMS → VCE, оценка", "AMS → VCE, estimate")},
+  "amsterdam|florence": {h: 6.0,  mode: "mixed", p: null, via: V("Миланға/Римге ұшу + Флоренцияға пойыз, оценка", "Перелёт в Милан/Рим + поезд до Флоренции, оценка", "Fly to Milan/Rome + train to Florence, estimate")},
+  "amsterdam|como":     {h: 5.5,  mode: "mixed", p: null, via: V("Миланға ұшу + Комоға пойыз, оценка", "Перелёт в Милан + поезд до Комо, оценка", "Fly to Milan + train to Como, estimate")},
+  "amsterdam|lugano":   {h: 6.0,  mode: "mixed", p: null, via: V("Миланға ұшу + Луганоға пойыз/автобус, оценка", "Перелёт в Милан + поезд/автобус до Лугано, оценка", "Fly to Milan + train/bus to Lugano, estimate")},
+  "amsterdam|budapest": {h: 4.5,  mode: "flight", p: null, via: V("AMS → BUD, оценка", "AMS → BUD, оценка", "AMS → BUD, estimate")},
+  "amsterdam|prague":   {h: 4.0,  mode: "flight", p: null, via: V("AMS → PRG, оценка", "AMS → PRG, оценка", "AMS → PRG, estimate")},
+  "amsterdam|munich":   {h: 4.5,  mode: "flight", p: null, via: V("AMS → MUC, оценка", "AMS → MUC, оценка", "AMS → MUC, estimate")},
+  "amsterdam|barcelona": {h: 5.0, mode: "flight", p: null, via: V("AMS → BCN, оценка", "AMS → BCN, оценка", "AMS → BCN, estimate")},
   "barcelona|florence": {h: 4.75, mode: "flight", p: [22, 120], via: V("BCN → FLR немесе Пиза (PSA) ~1 сағ 40 мин — кестені тексеріңіз", "BCN → FLR или Пиза (PSA) ~1 ч 40 мин — проверьте расписание", "BCN → FLR or Pisa (PSA) ~1 h 40 min — check the schedule")},
   "barcelona|como": {h: 5.5, mode: "mixed", p: [21, 116], via: V("Миланға ұшу + Комоға пойыз", "перелёт в Милан + поезд до Комо", "fly to Milan + train to Como")},
   // 2026-11-24: дозаполнены цены, которых не было (Google Flights, Kayak, Momondo, Skyscanner, Ryanair, Bahnpedia; «от» — найденный минимум,
@@ -803,6 +827,7 @@ const RETURN_FLIGHTS = {
     florence: {airport: "FLR", toAirportMin: 25, returnHours: 12, via: ["FRA", "AMS"],        direct: false, note: V("Әуежайға T2 трамвайы ~20 мин. Рейс аз болса — Пиза (PSA) немесе Римге/Миланға пойыз", "До аэропорта трамвай T2 ~20 мин. Если рейсов мало — Пиза (PSA) или поезд в Рим/Милан", "Tram T2 to the airport ~20 min. If flights are scarce — Pisa (PSA) or a train to Rome/Milan")},
     como:   {airport: "MXP", toAirportMin: 75, returnHours: 13,   via: ["IST", "FRA"],        direct: false, note: V("Мальпенсаға пойыз/автобуспен ~1 сағ 15 мин", "до Мальпенсы ~1 ч 15 мин поездом/автобусом", "~1 h 15 min to Malpensa by train/bus")},
     lugano: {airport: "MXP", toAirportMin: 80, returnHours: 13.5, via: ["IST", "FRA"],        direct: false, note: V("Лугано → Мальпенса автобусы ~1 сағ 15 мин; немесе Цюрихке пойыз ~2 сағ", "автобус Лугано → Мальпенса ~1 ч 15 мин; или поезд в Цюрих ~2 ч", "bus Lugano → Malpensa ~1 h 15 min; or train to Zürich ~2 h")},
+    amsterdam: {airport: "AMS", toAirportMin: 30, returnHours: 12, via: ["FRA", "IST", "WAW"], direct: false, note: V("Тікелей рейс расталмады (оценка) — Air Astana немесе SCAT кестесін тексеріңіз", "Прямой рейс не проверен (оценка) — проверьте расписание Air Astana и SCAT", "No direct flight verified (estimate) — check the Air Astana and SCAT schedules")},
     budapest: {airport: "BUD", toAirportMin: 40, returnHours: 11, via: ["IST", "FRA", "WAW"], direct: false, note: V("Тікелей рейс 2026 жылы расталмады — Wizz Air мен Air Astana кестесін тексеріңіз", "Прямой рейс в 2026 году не подтверждён — проверьте расписание Wizz Air и Air Astana", "No direct flight confirmed for 2026 — check the Wizz Air and Air Astana schedules")},
     prague: {airport: "PRG", toAirportMin: 35, returnHours: 8.5, via: ["IST", "FRA", "WAW"], direct: true, note: V("SCAT, Прага → Астана, аптасына 2–4 рет (маусымға байланысты)", "SCAT, Прага → Астана, 2–4 раза в неделю (зависит от сезона)", "SCAT, Prague → Astana, 2–4 times a week (seasonal)")},
     munich: {airport: "MUC", toAirportMin: 45, returnHours: 11, via: ["IST", "FRA"], direct: false, note: V("Әуежайға S1/S8 ~40 мин (5-аймаққа дейін билет). Қазақстанға тікелей рейс жоқ — Стамбұл немесе Франкфурт арқылы", "До аэропорта S1/S8 ~40 мин (билет до зоны 5). Прямых рейсов в Казахстан нет — через Стамбул или Франкфурт", "S1/S8 to the airport ~40 min (ticket to zone 5). No direct flights to Kazakhstan — via Istanbul or Frankfurt")},
@@ -3830,6 +3855,131 @@ const CITIES = {
       ]
     },
     eatSources: ["https://www.happycow.net/best-vegan-restaurants/barcelona-spain", "https://www.zabihah.com/restaurants/cacdc32a-7767-11ef-95ae-6045bdeb9f57/bismillah-raval-kebabish-barcelona-catalunya", "https://www.zabihah.com/restaurants/ca036336-7767-11ef-95ae-6045bdeb9f57/alhalal-asian-barcelona-catalunya", "https://www.zabihah.com/restaurants/cb59be1d-7767-11ef-95ae-6045bdeb9f57/restaurante-himalaya-barcelona-catalunya"]
+  },
+  amsterdam: {
+    icon: "🚲",
+    flag: "🇳🇱",
+    country: {kk: "Нидерланды", ru: "Нидерланды", en: "Netherlands"},
+    lang: "nl",
+    currency: "EUR",
+    weight: 1.6,
+    name: {kk: "Амстердам", ru: "Амстердам", en: "Amsterdam"},
+    center: [52.3676, 4.9041],
+    airport: "AMS",
+    photoKey: "Amsterdam",
+    history: {kk: "Амстердам XIII ғасырда Амстел өзені жағасындағы балықшылар қонысы ретінде пайда болды. Атауы, дәстүр бойынша, 1275 жылғы бөгеттен (dam) шыққан деп саналады. XVII ғасырда қала сауда империясының орталығына айналды, және қазіргі канал жүйесі сол кезде салынды.", ru: "Амстердам вырос в XIII веке как рыбацкое поселение на реке Амстел. По традиции название идёт от плотины (dam) 1275 года. В XVII веке город стал центром торговой империи, и тогда же построили нынешнюю систему каналов.", en: "Amsterdam grew from a 13th-century fishing settlement on the Amstel river. Its name traditionally comes from a dam built around 1275. In the 17th century it became the centre of a trading empire, and the present canal system was built then."},
+    fact: {kk: "Каналдар сақинасы (Grachtengordel) 2010 жылы ЮНЕСКО-ның дүниежүзілік мұра тізіміне енді.", ru: "Кольцо каналов (Grachtengordel) внесено в список всемирного наследия ЮНЕСКО в 2010 году.", en: "The Canal Ring (Grachtengordel) was added to the UNESCO World Heritage List in 2010."},
+    historySource: "https://whc.unesco.org/en/list/1329",
+    stay: [[90, 140], [150, 220], [250, 380], [420, 650], [700, 1100]],
+    food: [[25, 40], [40, 70], [70, 110], [110, 160], [160, 250]],
+    day: [8, 10],
+    activity: [[0, 20], [20, 50], [50, 100], [100, 180], [180, 300]],
+    transport: {kk: "GVB трамвайлары, автобустары мен метросы бір билетпен жүреді. Баға мен билет түрлерін gvb.nl сайтынан тексеріңіз. Амстердамда велосипед — ең жылдам көлік.", ru: "Трамваи, автобусы и метро GVB работают по одному билету. Цены и виды билетов проверьте на gvb.nl. В Амстердаме велосипед часто самый быстрый способ передвижения.", en: "GVB trams, buses and the metro use one ticket system. Check prices and ticket types on gvb.nl. In Amsterdam the bicycle is often the fastest way around."},
+    source: "https://www.gvb.nl/en",
+    spots: [
+      {
+        w: "Anne Frank House",
+        n: {kk: "Анна Франк үйі", ru: "Дом Анны Франк", en: "Anne Frank House"},
+        h: 1.5,
+        p: 16.5,
+        tag: "c",
+        ll: [52.3752, 4.8840],
+        note: {kk: "Билет тек annefrank.org сайтынан, кіру уақыты бойынша. 16,50 € — үшінші тарап мәліметі, сайтта тексеріңіз", ru: "Билеты только на annefrank.org, с временем входа. 16,50 € — по сторонним данным, уточните на сайте", en: "Tickets only from annefrank.org, with a timed entry. €16.50 from third-party guides; check the official site"},
+        source: "https://www.annefrank.org/ticketsales"
+      },
+      {
+        w: "Rijksmuseum",
+        n: {kk: "Рейксмюзеум", ru: "Рейксмюзеум", en: "Rijksmuseum"},
+        h: 3,
+        p: "paid",
+        tag: "c",
+        ll: [52.3600, 4.8852],
+        note: {kk: "Бағасы сайттарда әртүрлі — rijksmuseum.nl-дан тексеріңіз. Кіру уақыт слотымен", ru: "Цены в источниках расходятся: проверьте на rijksmuseum.nl. Вход по временному слоту", en: "Prices differ between sources: check rijksmuseum.nl. Entry by timed slot"},
+        source: "https://www.rijksmuseum.nl/en/general-information/opening-hours-and-prices"
+      },
+      {
+        w: "Canal Ring (Grachtengordel)",
+        n: {kk: "Каналдар сақинасымен серуен", ru: "Прогулка по кольцу каналов", en: "Walk along the Canal Ring"},
+        h: 2,
+        p: 0,
+        tag: "c",
+        ll: [52.3700, 4.8911],
+        note: {kk: "Тегін. Қайықпен экскурсия — ақылы", ru: "Бесплатно. Экскурсия на лодке — платная", en: "Free. Boat tours are paid"},
+        source: "https://whc.unesco.org/en/list/1329"
+      },
+      {
+        w: "Royal Palace Amsterdam",
+        n: {kk: "Корольдік сарай (Dam алаңы)", ru: "Королевский дворец (площадь Дам)", en: "Royal Palace (Dam Square)"},
+        h: 1,
+        p: "paid",
+        tag: "c",
+        ll: [52.3731, 4.8919],
+        note: {kk: "Ішкі залдар — ақылы. Ғимарат 1648–1655 жылдары қала үйі ретінде салынған", ru: "Внутренние залы платные. Здание строилось в 1648–1655 годах как городская ратуша", en: "Interior rooms are paid. The building was constructed in 1648–1655 as the town hall"},
+        source: "https://www.paleisamsterdam.nl/en"
+      },
+      {
+        w: "Begijnhof",
+        n: {kk: "Бегинаж", ru: "Бегинаж", en: "Begijnhof"},
+        h: 1,
+        p: 0,
+        tag: "c",
+        ll: [52.3681, 4.8934],
+        note: {kk: "Тегін. Ішінде тыныштық сақтау сұралады", ru: "Бесплатно. Просят соблюдать тишину", en: "Free. Quiet is requested inside"},
+        source: "https://www.amsterdam.info/begijnhof/"
+      },
+      {
+        w: "Vondelpark",
+        n: {kk: "Вондел саябағы", ru: "Вондельпарк", en: "Vondelpark"},
+        h: 1.5,
+        p: 0,
+        tag: "m",
+        ll: [52.3580, 4.8686],
+        note: {kk: "Тегін. Велосипед жолдары мен кафелер көп", ru: "Бесплатно. Много велодорожек и кафе", en: "Free. Plenty of bike paths and cafés"},
+        source: "https://www.amsterdam.info/vondelpark/"
+      },
+      {
+        w: "NEMO Science Museum",
+        n: {kk: "NEMO ғылым мұражайы", ru: "Музей науки NEMO", en: "NEMO Science Museum"},
+        h: 2.5,
+        p: "paid",
+        tag: "m",
+        ll: [52.3741, 4.9129],
+        note: {kk: "Интерактивті мұражай, көбіне балаларға. Билетті алдын ала онлайн алған жөн", ru: "Интерактивный музей, в основном для детей. Лучше купить билеты онлайн заранее", en: "Interactive museum, mostly for children. Better to buy tickets online in advance"},
+        source: "https://www.e-nemo.nl/en"
+      },
+      {
+        w: "EYE Filmmuseum",
+        n: {kk: "EYE кино мұражайы", ru: "Музей кино EYE", en: "EYE Filmmuseum"},
+        h: 1.5,
+        p: "paid",
+        tag: "m",
+        ll: [52.3840, 4.9010],
+        note: {kk: "Вокзалдан IJ өзені арқылы паромға мінсеңіз болады (паром тегін)", ru: "Добраться можно от вокзала паромом через залив IJ (паром бесплатный)", en: "Reach it from Centraal by the ferry across the IJ (the ferry is free)"},
+        source: "https://www.eyefilm.nl/en"
+      }
+    ],
+    trips: [
+      {
+        w: "Haarlem",
+        n: {kk: "Харлем: тарихи орталық пен Grote Markt (поезбен ~15 мин)", ru: "Харлем: исторический центр и Grote Markt (~15 мин на поезде)", en: "Haarlem: the historic centre and Grote Markt (~15 min by train)"}
+      },
+      {
+        w: "Zaanse Schans",
+        n: {kk: "Заансе Сханс: дәстүрлі ағаш диірмендер (поезбен және автобуспен ~30 мин)", ru: "Заансе Сханс: традиционные деревянные мельницы (~30 мин на поезде и автобусе)", en: "Zaanse Schans: traditional wooden windmills (~30 min by train and bus)"}
+      }
+    ],
+    hacks: [
+      ["💧", {kk: "Құбыр суы ішуге жарамды. Бөтелке алып жүрсеңіз болады.", ru: "Воду из-под крана можно пить. Можно взять бутылку с собой.", en: "Tap water is safe to drink. You can bring a bottle."}],
+      ["🚲", {kk: "Велосипед жолына және трамвай рельсіне назар аударыңыз: велосипедшілердің басымдығы бар.", ru: "Смотрите под ноги на велодорожках и трамвайных рельсах: у велосипедистов приоритет.", en: "Watch out for bike lanes and tram tracks: cyclists have priority."}],
+      ["🎫", {kk: "Анна Франк үйі мен Рейксмюзеумға уақыт слотымен кіреді. Алдын ала брондаңыз, әсіресе жазда.", ru: "В Дом Анны Франк и Рейксмюзеум входят по времени. Бронируйте заранее, особенно летом.", en: "The Anne Frank House and the Rijksmuseum use timed entry. Book ahead, especially in summer."}]
+    ],
+    eat: {local: [], vegan: [], halal: []},
+    eatNotes: {
+      local: {kk: "Проверенный тізім әлі құрастырылмаған — Google Maps-тен іздеңіз", ru: "Проверенный список ещё не составлен — ищите на Google Maps", en: "A verified list is not ready yet — search on Google Maps"},
+      vegan: {kk: "Проверенный тізім әлі құрастырылмаған — Google Maps-тен іздеңіз", ru: "Проверенный список ещё не составлен — ищите на Google Maps", en: "A verified list is not ready yet — search on Google Maps"},
+      halal: {kk: "Проверенный тізім әлі құрастырылмаған — Google Maps-тен іздеңіз", ru: "Проверенный список ещё не составлен — ищите на Google Maps", en: "A verified list is not ready yet — search on Google Maps"}
+    },
+    eatSources: []
   }
 };
 
@@ -4478,6 +4628,10 @@ const VISA = {
    phones: [тип, номер, добавочный] — тип: main (посольство) | consular (консульский отдел) | emergency (только экстренно). */
 const EMBASSIES_CHECKED = "2026-11";
 const EMBASSIES = [
+  {country: "Netherlands", flag: "🇳🇱", name: V("Нидерланддағы ҚР елшілігі (Гаага)", "Посольство Казахстана в Нидерландах (Гаага)", "Embassy of Kazakhstan in the Netherlands (The Hague)"),
+    covers: V("Амстердам", "Амстердам", "Amsterdam"), address: "Badhuisweg 91, 2587 CE The Hague",
+    phones: [["main", "+31 70 363 47 57"]],
+    src: "https://www.gov.kz/memleket/entities/mfa-hague"},
   {country: "Hungary", flag: "🇭🇺", name: V("Венгриядағы ҚР елшілігі (Будапешт)", "Посольство Казахстана в Венгрии (Будапешт)", "Embassy of Kazakhstan in Hungary (Budapest)"),
     covers: V("Будапешт", "Будапешт", "Budapest"), address: "Kapi utca 59, 1025 Budapest",
     phones: [["main", "+36 1 275 1301"]],
@@ -4900,6 +5054,9 @@ const T = {
     s1: "Бюджет түрі", sStyle: "Не көргің келеді?", s2: "Қалалар",
     s2hint: "Бірнеше қала таңда. Реті маңызды емес: маршрутты біз есептейміз.",
     sRoute: "Старт және финиш", startCity: "Сапар басталатын қала", endCity: "Сапар аяқталатын қала",
+    modeAuto: "⚡ Авто (ең жылдам)", modeManual: "✋ Өз ретім", manualHint: "Қалалардың ретін ◀ ▶ батырмаларымен өзгертіңіз. Жол уақыты мен бағасы соған қарай қайта есептеледі.",
+    pastShow: "⏪ Өткен күндер жасырылған: {n} · көрсету", pastHide: "Өткен күндерді жасыру", visitDone: "✓ Барып қойдым", visitUndo: "↺ Қайтару",
+    visitedShow: "✓ Барып қойғандар: {n} · көрсету", visitedHide: "Барып қойғандарды жасыру", dayDone: "Бұл күннің барлық орны барып қойылған.",
     autoEnd: "✨ Ең қолайлы финишті автоматты таңдау", routeHint: "Авто-финиш Алматы/Астанаға қайтар ұшақтың ыңғайлылығын ескереді.",
     s3: "Күндер мен адамдар", start: "Басталу күні", people: "Адам саны",
     go: "Жоспарды көру", pick: "Бюджет, стиль және қала таңда", back: "← Өзгерту",
@@ -5061,6 +5218,9 @@ const T = {
     s1: "Тип бюджета", sStyle: "Что хочешь увидеть?", s2: "Города",
     s2hint: "Выбери несколько городов. Порядок не важен: маршрут посчитаем мы.",
     sRoute: "Старт и финиш", startCity: "Город, с которого начинаешь", endCity: "Город, в котором заканчиваешь",
+    modeAuto: "⚡ Авто (быстрее всего)", modeManual: "✋ Мой порядок", manualHint: "Меняйте порядок городов кнопками ◀ ▶. Время в пути и цена пересчитаются.",
+    pastShow: "⏪ Прошедших дней скрыто: {n} · показать", pastHide: "Скрыть прошедшие дни", visitDone: "✓ Уже был(а)", visitUndo: "↺ Вернуть",
+    visitedShow: "✓ Уже посещено: {n} · показать", visitedHide: "Скрыть посещённые", dayDone: "Все места этого дня уже посещены.",
     autoEnd: "✨ Выбрать лучший конечный город автоматически", routeHint: "Авто-финиш учитывает, откуда удобнее улететь обратно в Алматы/Астану.",
     s3: "Даты и люди", start: "Дата начала", people: "Сколько человек",
     go: "Посмотреть план", pick: "Выбери бюджет, стиль и город", back: "← Изменить",
@@ -5222,6 +5382,9 @@ const T = {
     s1: "Budget type", sStyle: "What do you want to see?", s2: "Cities",
     s2hint: "Pick several cities. Order does not matter: we compute the route.",
     sRoute: "Start and finish", startCity: "City where you start", endCity: "City where you finish",
+    modeAuto: "⚡ Auto (fastest)", modeManual: "✋ My order", manualHint: "Change the city order with ◀ ▶. Travel time and cost are recalculated.",
+    pastShow: "⏪ Past days hidden: {n} · show", pastHide: "Hide past days", visitDone: "✓ Already been", visitUndo: "↺ Undo",
+    visitedShow: "✓ Visited: {n} · show", visitedHide: "Hide visited places", dayDone: "All places for this day are already visited.",
     autoEnd: "✨ Pick the best final city automatically", routeHint: "Auto-finish considers where it is easiest to fly back to Almaty/Astana.",
     s3: "Dates and people", start: "Start date", people: "People",
     go: "See my plan", pick: "Pick a budget, a style and a city", back: "← Change",
@@ -5407,7 +5570,8 @@ const store = {
 const tg = window.Telegram && window.Telegram.WebApp;
 const tgLang = tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code;
 function guessLang() { const l = (tgLang || navigator.language || "kk").slice(0, 2); return l === "ru" ? "ru" : l === "en" ? "en" : "kk"; }
-const todayISO = () => new Date().toISOString().slice(0, 10);
+// локальная дата YYYY-MM-DD (toISOString даёт UTC: в Алматы до 05:00 это «вчера»)
+const todayISO = () => { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, "0")}-${String(n.getDate()).padStart(2, "0")}`; };
 const saved = store.get("plan", {});
 const S = {
   lang: store.get("lang", null) || guessLang(),
@@ -5421,13 +5585,16 @@ const S = {
   days: DAY_OPTIONS.includes(saved.days) ? saved.days : 7,
   people: saved.people || 1,
   start: saved.start && saved.start > todayISO() ? saved.start : new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10),
+  manual: saved.manual === true,                                   // true = города в порядке, который выбрал человек (◀ ▶)
+  visited: store.get("visited", {}),                               // «уже были»: ключ "город|место" → true
+  showPast: false, showVisited: false,                             // прошедшие дни и посещённые места скрыты, пока не открыть
   phLang: "de", eatTab: {}, checks: store.get("checks", {}),
   rate: null, route: null, guideCity: "all", guideQuery: "",
   st: null, // открытый редактор сторис
   passport: {issued: "", expires: ""}, vdocs: store.get("vdocs", {}), vname: "", // вкладка «Виза»; даты паспорта не сохраняются
   cv: {cur: ["EUR", "CHF", "HUF", "CZK", "USD", "KZT"].includes(store.get("cvCur", "EUR")) ? store.get("cvCur", "EUR") : "EUR", amount: "25"} // перевод цены в тенге
 };
-const savePlan = () => store.set("plan", {tier: S.tier, style: S.style, cities: S.cities, startCity: S.startCity, endCity: S.endCity, autoEnd: S.autoEnd, days: S.days, people: S.people, start: S.start});
+const savePlan = () => store.set("plan", {tier: S.tier, style: S.style, cities: S.cities, startCity: S.startCity, endCity: S.endCity, autoEnd: S.autoEnd, days: S.days, people: S.people, start: S.start, manual: S.manual});
 function nextAvailableDays(required) { return DAY_OPTIONS.find((d) => d >= required) || DAY_OPTIONS[DAY_OPTIONS.length - 1]; }
 if (S.cities.length > S.days) { S.days = nextAvailableDays(S.cities.length); savePlan(); }
 
@@ -5581,11 +5748,13 @@ function solveHeuristic(ids, startId, endId) {
   }
   return {order, exact: false};
 }
-function optimizeRoute(ids, startId, endId) {
+function optimizeRoute(ids, startId, endId, fixed) {
   if (!ids.length) return null;
   if (!ids.includes(startId)) startId = ids[0];
   if (endId && (!ids.includes(endId) || endId === startId)) endId = null;
-  const r = ids.length <= 12 ? solveExact(ids, startId, endId) : solveHeuristic(ids, startId, endId); // Held-Karp: 12 городов ≈ 250 тыс. шагов, мгновенно
+  // fixed: человек сам расставил города — порядок не меняем, считаем только время и цену
+  const r = fixed ? {order: ids.slice(), exact: true}
+    : ids.length <= 12 ? solveExact(ids, startId, endId) : solveHeuristic(ids, startId, endId); // Held-Karp: 12 городов ≈ 250 тыс. шагов, мгновенно
   const legs = []; for (let i = 1; i < r.order.length; i++) legs.push({from: r.order[i - 1], to: r.order[i], ...leg(r.order[i - 1], r.order[i])});
   const hours = pathHours(r.order), userHours = pathHours(ids);
   const end = r.order[r.order.length - 1];
@@ -5607,6 +5776,7 @@ function allocateDays(order, total) {
   return days;
 }
 function currentRoute() {
+  if (S.manual && S.cities.length >= 2) return optimizeRoute(S.cities.slice(), S.cities[0], null, true);
   const startId = S.startCity && S.cities.includes(S.startCity) ? S.startCity : S.cities[0];
   const endId = S.autoEnd ? null : (S.endCity && S.cities.includes(S.endCity) && S.endCity !== startId ? S.endCity : null);
   return optimizeRoute(S.cities.slice(), startId, endId);
@@ -5702,6 +5872,13 @@ function renderPlanner() {
   const multi = S.cities.length >= 2;
   $("#stepRoute").classList.toggle("hidden", !multi);
   if (multi) {
+    $("#routeMode").innerHTML = `<button aria-pressed="${!S.manual}" data-route-mode="auto">${t("modeAuto")}</button><button aria-pressed="${S.manual}" data-route-mode="manual">${t("modeManual")}</button>`;
+    $("#autoRoute").classList.toggle("hidden", S.manual);
+    $("#manualRoute").classList.toggle("hidden", !S.manual);
+    // свой порядок: стрелки ◀ ▶ двигают город; порядок выбора по кнопкам города — тот же список
+    $("#manualOrder").innerHTML = S.cities.map((id, i) => `<span class="ord"><button data-move="${id}:-1" ${i === 0 ? "disabled" : ""} aria-label="◀">◀</button><b>${i + 1}. ${cityIcon(id)} ${esc(cityName(id))}</b><button data-move="${id}:1" ${i === S.cities.length - 1 ? "disabled" : ""} aria-label="▶">▶</button></span>`).join("");
+  }
+  if (multi && !S.manual) {
     const startId = S.startCity && S.cities.includes(S.startCity) ? S.startCity : S.cities[0];
     $("#startChips").innerHTML = S.cities.map((id) => `<button aria-pressed="${id === startId}" data-start="${id}">${cityLabel(id)}</button>`).join("");
     const endId = !S.autoEnd && S.endCity && S.cities.includes(S.endCity) && S.endCity !== startId ? S.endCity : null;
@@ -5742,6 +5919,7 @@ function spotRow(s, cityId, date) {
     <div class="spot-quick-bar">
       ${hasStory ? `<button class="pill-btn accent" data-open-place="${esc(s.storyId)}">📖 ${t("readHistory")}</button><button class="pill-btn" data-open-story="${esc(s.storyId)}">📲 ${t("storyBtn")}</button>` : ""}
       <a class="pill-btn" href="${mapUrl}" target="_blank" rel="noopener">📍 ${t("openMap")}</a>
+      ${cityId ? `<button class="pill-btn${S.visited[cityId + "|" + s.w] ? " accent" : ""}" data-visit="${esc(cityId + "|" + s.w)}">${S.visited[cityId + "|" + s.w] ? t("visitUndo") : t("visitDone")}</button>` : ""}
     </div>
   </div>`;
 }
@@ -5785,15 +5963,16 @@ function renderResult() {
   const {parts, tot, travel} = calc(route, per);
   const r = rate(), d = S.days;
   const startDate = new Date(S.start + "T00:00:00");
-  let html = "", dayNo = 0, tickets = 0, unpriced = 0;
+  let html = "", dayNo = 0, tickets = 0, unpriced = 0, pastCount = 0, visitedCount = 0;
   const plan = planTrip(route, per, startDate); S.plan = plan;
   $("#datesCard").innerHTML = datesCardHTML(plan);
   $("#weatherCard").innerHTML = weatherCardHTML(plan, route);
   route.order.forEach((id, ci) => {
     const c = CITIES[id];
     plan.days.filter((x) => x.ci === ci).map((x) => x.day).forEach((day, i) => {
-      const dDate = day.date, date = fmtDate(dDate);
-      const head = `<div class="dayhead"><b>${S.lang === "kk" ? `${dayNo + 1}-${t("day")}` : `${t("day")} ${dayNo + 1}`} · ${c.icon} ${esc(L(c.name))}</b><span>${date}</span></div>`;
+      const dDate = day.date, date = fmtDate(dDate), past = isPastDay(dDate);
+      if (past) pastCount++;
+      const head =`<div class="dayhead"><b>${S.lang === "kk" ? `${dayNo + 1}-${t("day")}` : `${t("day")} ${dayNo + 1}`} · ${c.icon} ${esc(L(c.name))}</b><span>${date}</span></div>`;
       let body = dayNotesHTML(dayNotes(id, dDate));
       if (i === 0 && ci > 0) {
         const l = route.legs[ci - 1], prev = route.order[ci - 1];
@@ -5802,16 +5981,21 @@ function renderResult() {
       }
       if (day.spots) {
         day.spots.forEach((s) => { if (typeof s.p === "number") tickets += toEur(s.p, c.currency); else if (Array.isArray(s.p)) tickets += toEur(s.p[1], c.currency); else if (s.p === "paid") unpriced++; });
-        body += day.spots.map((s) => spotRow(s, id, dDate)).join("");
-        if (day.spots.length > 1) body += `<a class="route" href="${routeUrl(id, day.spots)}" target="_blank" rel="noopener">🗺️ ${t("route")}</a>`;
+        // посещённые места скрываем (как и прошедшие дни); бюджет выше считается по всем местам
+        const shown = day.spots.filter((s) => S.showVisited || !S.visited[id + "|" + s.w]);
+        visitedCount += day.spots.filter((s) => S.visited[id + "|" + s.w]).length;
+        body += shown.map((s) => spotRow(s, id, dDate)).join("");
+        if (day.spots.length && !shown.length) body += `<p class="muted" style="margin:6px 0 0">${t("dayDone")}</p>`;
+        if (shown.length > 1) body += `<a class="route" href="${routeUrl(id, shown)}" target="_blank" rel="noopener">🗺️ ${t("route")}</a>`;
       } else if (day.trip) {
         body += `<div class="small" style="margin:2px 0 0">${t("tripDay")}</div>` + spotRow({w: day.trip.w, n: day.trip.n}, id, dDate);
       } else body += `<p class="muted" style="margin:6px 0 0">${t("freeDay")}</p>`;
-      html += `<div class="card">${head}${body}</div>`;
+      if (!past || S.showPast) html += `<div class="card">${head}${body}</div>`;
       dayNo++;
     });
   });
-  $("#plan").innerHTML = html;
+  const ctrl = pastCount || visitedCount ? `<div class="plan-ctrl">${pastCount ? `<button class="pill-btn" data-past-toggle>${S.showPast ? t("pastHide") : tf("pastShow", {n: pastCount})}</button>` : ""}${visitedCount ? `<button class="pill-btn" data-visited-toggle>${S.showVisited ? t("visitedHide") : tf("visitedShow", {n: visitedCount})}</button>` : ""}</div>` : "";
+  $("#plan").innerHTML = ctrl + html;
   const row = `<div class="row"><span>${money(tot[0] * r.KZT, tot[1] * r.KZT, "₸")}</span><span>${money(tot[0] * r.USD, tot[1] * r.USD, "$", true)}</span></div>`;
   const all = S.people > 1 ? `<div class="row"><span>${S.people} × = ${money(tot[0] * S.people, tot[1] * S.people, "€")} ${t("forAll")}</span></div>` : "";
   $("#total").innerHTML = `<div class="lbl">${t("totalLbl")} · ${d} ${t("days")}</div><div class="big">${money(tot[0], tot[1], "€")}</div>${row}${all}
@@ -6533,7 +6717,7 @@ function cols2(cells) {
    на 17–18° — тогда фаджр и иша по правилу «доля ночи» (угол/60 × ночь), как в PrayTimes (AngleBased). */
 const PR_KAABA = [21.4225, 39.8262];
 const PR_TZ = {Austria: "Europe/Vienna", Italy: "Europe/Rome", France: "Europe/Paris", Switzerland: "Europe/Zurich", Hungary: "Europe/Budapest",
-  Czechia: "Europe/Prague", Germany: "Europe/Berlin", Spain: "Europe/Madrid"};
+  Czechia: "Europe/Prague", Germany: "Europe/Berlin", Spain: "Europe/Madrid", Netherlands: "Europe/Amsterdam"};
 const PR_WALK_KM = 1.5;   // до 1,5 км — «пешком» (~20 мин); дальше — на транспорте
 const PR_FAR_KM = 8;      // дальше 8 км мечеть «далеко»: советуем коврик, мечеть показываем для джумы
 const prRad = (x) => (x * Math.PI) / 180, prDeg = (x) => (x * 180) / Math.PI, prFix = (h) => ((h % 24) + 24) % 24;
@@ -6669,6 +6853,10 @@ function renderTrip() {
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const addMonths = (d, n) => { const x = new Date(d), day = x.getDate(); x.setDate(1); x.setMonth(x.getMonth() + n); x.setDate(Math.min(day, new Date(x.getFullYear(), x.getMonth() + 1, 0).getDate())); return x; };
 const dayStart = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+// прошедший ли день плана (d — полночь дня в локальном времени).
+// Правило: день считается прошедшим, когда наступил следующий календарный день по местному времени.
+// Сегодняшний день остаётся видимым весь день — вдруг ещё что-то успеете.
+function isPastDay(d) { return d < dayStart(new Date()); }
 const parseISO = (s) => (s ? new Date(s + "T00:00:00") : null);
 const fmtD = (d) => `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${d.getFullYear()}`;
 const waUrl = (text) => `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -6754,26 +6942,29 @@ function visaResultHTML() {
    Код идёт после «#», поэтому не уходит на сервер. Коды городов НЕ менять: старые ссылки перестанут открываться.
    Новый город → новый код здесь (tests/share_test.mjs проверит, что код есть у каждого города). */
 const TRIP_CODE = {vienna: "vi", rome: "ro", paris: "pa", milan: "mi", venice: "ve", florence: "fl", como: "co", lugano: "lu",
-  budapest: "bu", prague: "pr", munich: "mu", barcelona: "ba"};
+  budapest: "bu", prague: "pr", munich: "mu", barcelona: "ba", amsterdam: "am"};
 const TRIP_STYLE = {classic: "c", modern: "m", mix: "x"};
 const codeCity = (cc) => Object.keys(TRIP_CODE).find((id) => TRIP_CODE[id] === cc && CITIES[id]);
 const defaultStart = () => new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10);
 function tripCode() {
   if (S.tier === null || !TRIP_STYLE[S.style] || !S.cities.length || S.cities.some((id) => !TRIP_CODE[id])) return "";
   const p = [S.tier + TRIP_STYLE[S.style], S.cities.map((id) => TRIP_CODE[id]).join(""), "d" + S.days, "p" + S.people, S.start.replace(/-/g, "")];
-  if (S.startCity && S.startCity !== S.cities[0] && S.cities.includes(S.startCity)) p.push("s" + TRIP_CODE[S.startCity]);
-  if (!S.autoEnd && S.endCity && S.cities.includes(S.endCity)) p.push("e" + TRIP_CODE[S.endCity]);
+  if (S.manual && S.cities.length >= 2) p.push("o"); // свой порядок: старт — первый город, финиш — последний
+  else {
+    if (S.startCity && S.startCity !== S.cities[0] && S.cities.includes(S.startCity)) p.push("s" + TRIP_CODE[S.startCity]);
+    if (!S.autoEnd && S.endCity && S.cities.includes(S.endCity)) p.push("e" + TRIP_CODE[S.endCity]);
+  }
   return p.join("-");
 }
 // код → поля плана или null; всё, что не узнали, отбрасываем (чужой город, неверная дата, лишние дни)
 function parseTripCode(code) {
-  const m = /^(\d)([cmx])-((?:[a-z]{2})+)-d(\d{1,2})-p(\d{1,2})-(\d{8})((?:-[se][a-z]{2})*)$/.exec(String(code || "").trim().toLowerCase());
+  const m = /^(\d)([cmx])-((?:[a-z]{2})+)-d(\d{1,2})-p(\d{1,2})-(\d{8})((?:-[se][a-z]{2}|-o)*)$/.exec(String(code || "").trim().toLowerCase());
   if (!m || +m[1] >= TIER_EMOJI.length) return null;
   const cities = [...new Set(m[3].match(/../g).map(codeCity).filter(Boolean))];
   if (!cities.length) return null;
   const days = +m[4], iso = `${m[6].slice(0, 4)}-${m[6].slice(4, 6)}-${m[6].slice(6)}`, dt = parseISO(iso);
   const realDate = !isNaN(dt) && fmtD(dt) === iso.split("-").reverse().join(".");
-  const out = {tier: +m[1], style: Object.keys(TRIP_STYLE).find((k) => TRIP_STYLE[k] === m[2]), cities, startCity: null, endCity: null, autoEnd: true,
+  const out = {tier: +m[1], style: Object.keys(TRIP_STYLE).find((k) => TRIP_STYLE[k] === m[2]), cities, startCity: null, endCity: null, autoEnd: true, manual: m[7].split("-").includes("o"),
     days: DAY_OPTIONS.includes(days) && days >= cities.length ? days : nextAvailableDays(cities.length),
     people: Math.min(10, Math.max(1, +m[5])), start: realDate && iso > todayISO() ? iso : defaultStart()}; // прошедшая дата → через 30 дней, как при первом запуске
   (m[7].match(/-[se][a-z]{2}/g) || []).forEach((x) => {
@@ -7339,6 +7530,15 @@ document.addEventListener("click", (e) => {
     if (i >= 0) { S.cities.splice(i, 1); if (S.startCity === id) S.startCity = null; if (S.endCity === id) S.endCity = null; }
     else { S.cities.push(id); if (S.days < S.cities.length) S.days = nextAvailableDays(S.cities.length); }
   }
+  else if (b.dataset.routeMode) { S.manual = b.dataset.routeMode === "manual"; }
+  else if (b.dataset.move) {
+    const [id, dir] = b.dataset.move.split(":"), i = S.cities.indexOf(id), j = i + Number(dir);
+    if (i < 0 || j < 0 || j >= S.cities.length) return;
+    [S.cities[i], S.cities[j]] = [S.cities[j], S.cities[i]];
+  }
+  else if (b.dataset.visit) { if (S.visited[b.dataset.visit]) delete S.visited[b.dataset.visit]; else S.visited[b.dataset.visit] = true; store.set("visited", S.visited); }
+  else if (b.dataset.pastToggle !== undefined) { S.showPast = !S.showPast; }
+  else if (b.dataset.visitedToggle !== undefined) { S.showVisited = !S.showVisited; }
   else if (b.dataset.start) { S.startCity = b.dataset.start; if (S.endCity === S.startCity) S.endCity = null; }
   else if (b.dataset.end) { if (b.dataset.end === "auto") S.autoEnd = true; else { S.autoEnd = false; S.endCity = b.dataset.end; } }
   else if (b.dataset.days) { const chosen = +b.dataset.days; if (chosen < S.cities.length) return; S.days = chosen; }
